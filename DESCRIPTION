@@ -1,0 +1,32 @@
+Package: spIBDerverse
+Title: spIBDverse functions and shiny apps
+Version: 0.0.0.9000
+Authors@R: 
+    c(
+    person(
+      given = "Jono", 
+      family = "Tuke", 
+      email = "simon.tuke@adelaide.edu.au", 
+      role = c("aut", "cre"),
+      comment = c(ORCID = "0000-0002-1688-8951")
+    ), 
+    person(
+      given = "Adam B.", 
+      family = "Rohrlach",
+      email = "adam.rohrlach@adelaide.edu.au", 
+      role = "aut",
+      comment = c(ORCID = "0000-0002-4204-5018")
+    ), 
+    person(
+      given = "Wolfgang", 
+      family = "Haak",
+      email = "wolfgang_haak@eva.mpg.de", 
+      role = "aut",
+      comment = c(ORCID = "0000-0003-2475-2007")
+    )
+    )
+Description: A variety of functions and shiny apps to help researchers deal with IDB derived networks.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.3
