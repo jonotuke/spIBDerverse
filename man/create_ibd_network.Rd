@@ -13,9 +13,9 @@ create_ibd_network(
 )
 }
 \arguments{
-\item{ibd_file}{CSV file with IBD data}
+\item{ibd_file}{TSV file with IBD data}
 
-\item{meta_file}{CSV with node metadata}
+\item{meta_file}{TSV with node metadata}
 
 \item{ibd_co}{vector of cutoffs for defining an edge}
 

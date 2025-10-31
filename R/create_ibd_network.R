@@ -6,8 +6,8 @@ utils::globalVariables(
 )
 #' create_ibd_network
 #'
-#' @param ibd_file CSV file with IBD data
-#' @param meta_file CSV with node metadata
+#' @param ibd_file TSV file with IBD data
+#' @param meta_file TSV with node metadata
 #' @param ibd_co vector of cutoffs for defining an edge
 #' @param frac_co cutoff for quality control
 #' @param only_connected boolean to remove unconnected nodes

@@ -1,0 +1,17 @@
+---
+title: "Fitting ERGMs in R"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Fitting ERGMs in R}
+  %\VignetteEngine{quarto::html}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+

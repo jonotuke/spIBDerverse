@@ -3,3 +3,7 @@
 ^LICENSE\.md$
 ^\.github$
 ^README\.Rmd$
+spIBDerverse.code-workspace
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
