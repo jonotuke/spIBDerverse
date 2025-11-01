@@ -9,3 +9,4 @@ spIBDerverse.code-workspace
 ^pkgdown$
 ^doc$
 ^Meta$
+^data-raw$

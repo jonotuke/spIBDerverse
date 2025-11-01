@@ -34,11 +34,18 @@ URL: https://github.com/jonotuke/spIBDerverse, https://jonotuke.github.io/spIBDe
 BugReports: https://github.com/jonotuke/spIBDerverse/issues
 Imports: 
     dplyr,
+    ggnetwork,
+    ggplot2,
+    harrypotter,
     igraph,
     janitor,
-    readr
+    readr,
+    stringr
 Suggests: 
     knitr,
     rmarkdown,
     quarto
 VignetteBuilder: quarto, knitr
+Depends: 
+    R (>= 4.1.0)
+LazyData: true
