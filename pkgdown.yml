@@ -3,7 +3,12 @@ pkgdown: 2.1.3
 pkgdown_sha: ~
 articles:
   A-fitting-ergms: A-fitting-ergms.html
-last_built: 2025-10-31T02:54Z
+  B-ergm-model: B-ergm-model.html
+  C-clifford-hamersley-theorem: C-clifford-hamersley-theorem.html
+  D-properties-of-social-networks: D-properties-of-social-networks.html
+  E-ergm-coef-estimates: E-ergm-coef-estimates.html
+  F-ergm-sim: F-ergm-sim.html
+last_built: 2025-11-01T02:13Z
 urls:
   reference: https://jonotuke.github.io/spIBDerverse/reference
   article: https://jonotuke.github.io/spIBDerverse/articles
