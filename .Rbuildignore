@@ -7,3 +7,5 @@ spIBDerverse.code-workspace
 ^_pkgdown\.yml$
 ^docs$
 ^pkgdown$
+^doc$
+^Meta$

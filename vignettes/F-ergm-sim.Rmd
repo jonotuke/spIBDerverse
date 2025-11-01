@@ -1,0 +1,19 @@
+---
+title: "How does ERGM simulate networks"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{How does ERGM simulate networks}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(spIBDerverse)
+```
