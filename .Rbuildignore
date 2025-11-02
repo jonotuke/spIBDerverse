@@ -10,3 +10,4 @@ spIBDerverse.code-workspace
 ^doc$
 ^Meta$
 ^data-raw$
+vignettes/.quarto

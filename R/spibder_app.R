@@ -1,5 +1,7 @@
+utils::globalVariables(
+  c("example_network")
+)
 spibder_app <- function() {
-  # Get vertex names from example network
   meta <- igraph::vertex_attr_names(example_network)
 
   ui <- shiny::fluidPage(
@@ -11,24 +13,7 @@ spibder_app <- function() {
           networkplotInput("networkplot", meta),
           shiny::hr(),
           shiny::h4("Network statistics"),
-          shiny::selectInput(
-            "network_stat_id",
-            label = "Choose network statistic",
-            choices = c(
-              "Degree centrality" = "degree",
-              "Eigenvalue centrality" = "eigen"
-            )
-          ),
-          shiny::checkboxInput(
-            "add_shape",
-            "Stratify on shape",
-            value = TRUE
-          ),
-          shiny::checkboxInput(
-            "add_fill",
-            "Stratify on fill",
-            value = TRUE
-          ),
+          networksummaryInput("networksummary", meta),
           shiny::hr()
         )
       ),
@@ -38,7 +23,7 @@ spibder_app <- function() {
           shiny::tabPanel(
             title = "Network plot",
             networkplotOutput("networkplot"),
-            shiny::tableOutput("network_stats")
+            networksummaryOutput("networksummary")
           )
         )
       )
@@ -50,6 +35,11 @@ spibder_app <- function() {
     networkplotServer(
       "networkplot",
       gg_net()
+    )
+    # TABS ----
+    networksummaryServer(
+      "networksummary",
+      network()
     )
     # DATA ----
     ## Network ----

@@ -19,6 +19,10 @@ plot_ggnet(
 \arguments{
 \item{ggnet_obj}{ggnetwork dataframe}
 
+\item{fill_col}{vertex attribute for node fill}
+
+\item{shape_col}{vertex attribute for node shape}
+
 \item{node_size}{node size}
 
 \item{text_size}{label size}
@@ -30,10 +34,6 @@ plot_ggnet(
 \item{label_exc}{regular expression to exclude labels}
 
 \item{connected}{boolean to include isolated nodes}
-
-\item{fill}{vertex attribute for node fill}
-
-\item{shape}{vertex attribute for node shape}
 }
 \value{
 ggnetwork plot

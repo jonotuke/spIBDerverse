@@ -1,5 +1,5 @@
 ## code to prepare `example_network` dataset goes here
-pacman::p_load(conflicted, tidyverse, ergm)
+pacman::p_load(conflicted, tidyverse, ergm, igraph)
 # Simulate null network
 basic_network <- network(40, directed = FALSE, density = 0)
 
@@ -33,6 +33,7 @@ E(example_network)$wij <- runif(ecount(example_network), 0.1, 1)
 
 # Clean up attributes
 example_network <- delete_vertex_attr(example_network, "vertex.names")
+example_network <- delete_vertex_attr(example_network, "na")
 example_network <- delete_edge_attr(example_network, "na")
 example_network
 usethis::use_data(example_network, overwrite = TRUE)

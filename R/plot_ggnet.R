@@ -14,8 +14,8 @@ utils::globalVariables(
 #' plot ggnet
 #'
 #' @param ggnet_obj ggnetwork dataframe
-#' @param fill vertex attribute for node fill
-#' @param shape vertex attribute for node shape
+#' @param fill_col vertex attribute for node fill
+#' @param shape_col vertex attribute for node shape
 #' @param node_size node size
 #' @param text_size label size
 #' @param labels add labels

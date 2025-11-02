@@ -2,25 +2,21 @@ networkplotInput <- function(id, meta) {
   shiny::tagList(
     shiny::numericInput(
       shiny::NS(id, "seed"),
-      "Set seed",
+      label = "Set seed",
       value = 1000
     ),
-    shiny::h4("Shape variable"),
     shiny::selectInput(
       inputId = shiny::NS(id, "shape_id"),
-      label = NULL,
+      label = "Shape variable",
       choices = c("", meta),
       selected = ""
     ),
-    shiny::hr(),
-    shiny::h4("Fill variable"),
     shiny::selectInput(
       shiny::NS(id, "fill_id"),
-      label = NULL,
+      label = "Fill variable",
       choices = c("", meta),
       selected = ""
     ),
-    shiny::hr(),
     shiny::checkboxInput(
       shiny::NS(id, "connected"),
       "Only show connected nodes",
@@ -58,18 +54,18 @@ networkplotInput <- function(id, meta) {
 
 networkplotOutput <- function(id) {
   shiny::plotOutput(
-    NS(id, "plot"),
+    shiny::NS(id, "plot"),
     height = "800px"
   )
 }
 
 networkplotServer <- function(id, df) {
-  moduleServer(id, function(input, output, session) {
+  shiny::moduleServer(id, function(input, output, session) {
     output$plot <- shiny::renderPlot({
       plot_ggnet(
         df,
-        shape = input$shape_id,
-        fill = input$fill_id,
+        shape_col = input$shape_id,
+        fill_col = input$fill_id,
         node_size = input$node_size,
         labels = input$add_label,
         text_size = input$label_size,
@@ -80,8 +76,8 @@ networkplotServer <- function(id, df) {
     })
   })
 }
-networkplotApp <- function() {
-  meta <- igraph::vertex_attr_names(example_network)
+networkplotApp <- function(network) {
+  meta <- igraph::vertex_attr_names(network)
   ui <- shiny::fluidPage(
     networkplotInput("networkplot", meta),
     networkplotOutput("networkplot")
@@ -89,9 +85,9 @@ networkplotApp <- function() {
   server <- function(input, output, session) {
     networkplotServer(
       "networkplot",
-      ggnetwork::ggnetwork(example_network)
+      ggnetwork::ggnetwork(network)
     )
   }
   shiny::shinyApp(ui, server)
 }
-# networkplotApp()
+# networkplotApp(example_network)
