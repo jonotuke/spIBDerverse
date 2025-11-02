@@ -6,8 +6,8 @@
 \usage{
 plot_ggnet(
   ggnet_obj,
-  fill = "none",
-  shape = "none",
+  fill_col = "",
+  shape_col = "",
   node_size = 4,
   text_size = 4,
   labels = FALSE,
@@ -18,10 +18,6 @@ plot_ggnet(
 }
 \arguments{
 \item{ggnet_obj}{ggnetwork dataframe}
-
-\item{fill}{vertex attribute for node fill}
-
-\item{shape}{vertex attribute for node shape}
 
 \item{node_size}{node size}
 
@@ -34,6 +30,10 @@ plot_ggnet(
 \item{label_exc}{regular expression to exclude labels}
 
 \item{connected}{boolean to include isolated nodes}
+
+\item{fill}{vertex attribute for node fill}
+
+\item{shape}{vertex attribute for node shape}
 }
 \value{
 ggnetwork plot

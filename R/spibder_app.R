@@ -8,55 +8,7 @@ spibder_app <- function() {
       shiny::sidebarPanel(
         shiny::conditionalPanel(
           condition = "input.tabs == 'Network plot'",
-          shiny::numericInput("seed", "Set seed", value = 1000),
-          shiny::h4("Shape variable"),
-          shiny::selectInput(
-            inputId = "shape_id",
-            label = NULL,
-            choices = c("", meta),
-            selected = ""
-          ),
-          shiny::hr(),
-          shiny::h4("Fill variable"),
-          shiny::selectInput(
-            "fill_id",
-            label = NULL,
-            choices = c("", meta),
-            selected = ""
-          ),
-          shiny::hr(),
-          shiny::checkboxInput(
-            "connected",
-            "Only show connected nodes",
-            value = TRUE
-          ),
-          shiny::sliderInput(
-            "node_size",
-            "Node size",
-            min = 1,
-            max = 20,
-            value = 4
-          ),
-          shiny::sliderInput(
-            "label_size",
-            "Label size",
-            min = 1,
-            max = 20,
-            value = 4
-          ),
-          shiny::checkboxInput(
-            "add_label",
-            "Add labels",
-            value = FALSE
-          ),
-          shiny::textInput(
-            "label_inc",
-            "Labels to include"
-          ),
-          shiny::textInput(
-            "label_exc",
-            "Labels to exclude"
-          ),
+          networkplotInput("networkplot", meta),
           shiny::hr(),
           shiny::h4("Network statistics"),
           shiny::selectInput(
@@ -85,7 +37,7 @@ spibder_app <- function() {
           id = "tabs",
           shiny::tabPanel(
             title = "Network plot",
-            shiny::plotOutput("network_plot", height = "800px"),
+            networkplotOutput("networkplot"),
             shiny::tableOutput("network_stats")
           )
         )
@@ -95,20 +47,10 @@ spibder_app <- function() {
   server <- function(input, output, session) {
     # PLOTS ----
     ## Network plot ----
-    output$network_plot <- shiny::renderPlot({
-      plot_ggnet(
-        gg_net(),
-        shape = input$shape_id,
-        fill = input$fill_id,
-        node_size = input$node_size,
-        labels = input$add_label,
-        text_size = input$label_size,
-        label_inc = input$label_inc,
-        label_exc = input$label_exc,
-        connected = input$connected
-      )
-    })
-
+    networkplotServer(
+      "networkplot",
+      gg_net()
+    )
     # DATA ----
     ## Network ----
     network <- shiny::reactive({
