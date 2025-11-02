@@ -68,6 +68,14 @@
 <dd><p>ggnetwork dataframe</p></dd>
 
 
+<dt id="arg-fill-col">fill_col<a class="anchor" aria-label="anchor" href="#arg-fill-col"></a></dt>
+<dd><p>vertex attribute for node fill</p></dd>
+
+
+<dt id="arg-shape-col">shape_col<a class="anchor" aria-label="anchor" href="#arg-shape-col"></a></dt>
+<dd><p>vertex attribute for node shape</p></dd>
+
+
 <dt id="arg-node-size">node_size<a class="anchor" aria-label="anchor" href="#arg-node-size"></a></dt>
 <dd><p>node size</p></dd>
 
@@ -91,14 +99,6 @@
 <dt id="arg-connected">connected<a class="anchor" aria-label="anchor" href="#arg-connected"></a></dt>
 <dd><p>boolean to include isolated nodes</p></dd>
 
-
-<dt id="arg-fill">fill<a class="anchor" aria-label="anchor" href="#arg-fill"></a></dt>
-<dd><p>vertex attribute for node fill</p></dd>
-
-
-<dt id="arg-shape">shape<a class="anchor" aria-label="anchor" href="#arg-shape"></a></dt>
-<dd><p>vertex attribute for node shape</p></dd>
-
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -109,7 +109,7 @@
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">example_ggnet</span> <span class="op">&lt;-</span> <span class="fu">ggnetwork</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ggnetwork/man/ggnetwork.html" class="external-link">ggnetwork</a></span><span class="op">(</span><span class="va">example_network</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">plot_ggnet</span><span class="op">(</span><span class="va">example_ggnet</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 189 rows containing missing values or values outside the scale range</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 167 rows containing missing values or values outside the scale range</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> (`geom_text()`).</span>
 <span class="r-plt img"><img src="plot_ggnet-1.png" alt="" width="700" height="433"></span>
 </code></pre></div>
