@@ -31,8 +31,8 @@ utils::globalVariables(
 #' plot_ggnet(example_ggnet)
 plot_ggnet <- function(
   ggnet_obj,
-  fill = "none",
-  shape = "none",
+  fill_col = "",
+  shape_col = "",
   node_size = 4,
   text_size = 4,
   labels = FALSE,
@@ -40,19 +40,11 @@ plot_ggnet <- function(
   label_exc = "",
   connected = TRUE
 ) {
-  ggnet_obj <- ggnet_obj |>
-    dplyr::mutate(
-      fill_col = "default",
-      shape_col = "default"
-    )
-  if (fill != "none") {
-    ggnet_obj <- ggnet_obj |>
-      dplyr::mutate(fill_col = .data[[fill]])
-  }
-  if (shape != "none") {
-    ggnet_obj <- ggnet_obj |>
-      dplyr::mutate(shape_col = .data[[shape]])
-  }
+  ggplot2::update_geom_defaults(
+    "point",
+    list(shape = 21, fill = "white")
+  )
+  # Clean labels
   if (label_inc != "") {
     ggnet_obj <- ggnet_obj |>
       dplyr::mutate(
@@ -66,15 +58,21 @@ plot_ggnet <- function(
     ggnet_obj <- ggnet_obj |>
       dplyr::mutate(
         name = dplyr::case_when(
-          str_detect(name, label_exc) ~ NA,
+          stringr::str_detect(name, label_exc) ~ NA,
           TRUE ~ name
         )
       )
+  }
+  if (!labels) {
+    ggnet_obj$name <- NA
   }
   if (connected) {
     ggnet_obj <- ggnet_obj |>
       dplyr::filter(degree >= 1)
   }
+  # Set up fill and shape columns
+  fill_col <- rlang::sym(fill_col)
+  shape_col <- rlang::sym(shape_col)
   p <- ggnet_obj |>
     ggplot2::ggplot(
       ggplot2::aes(
@@ -86,48 +84,30 @@ plot_ggnet <- function(
       )
     ) +
     ggnetwork::theme_blank() +
-    ggnetwork::geom_edges(show.legend = FALSE) +
-    ggplot2::scale_linewidth_continuous(range = c(0.5, 2)) +
+    ggnetwork::geom_edges(
+      show.legend = FALSE
+    ) +
+    ggplot2::scale_linewidth_continuous(
+      range = c(0.5, 2)
+    ) +
     ggplot2::scale_shape_manual(
       values = rep(21:25, 1e4)
     ) +
     ggnetwork::geom_nodes(
       ggplot2::aes(
-        fill = fill_col,
-        shape = shape_col
+        fill = {{ fill_col }},
+        shape = {{ shape_col }}
       ),
       size = node_size
     ) +
-    harrypotter::scale_fill_hp_d("Ravenclaw") +
-    ggplot2::labs(
-      fill = fill,
-      shape = shape
+    ggnetwork::geom_nodetext(
+      ggplot2::aes(label = name),
+      size = text_size
     ) +
-    ggplot2::guides(
-      fill = ggplot2::guide_legend(override.aes = list(shape = 21))
+    ggplot2::scale_fill_manual(
+      values = harrypotter::hp(3, house = "Ravenclaw")
     ) +
     ggplot2::coord_equal()
-  if (fill == "none") {
-    p <- p +
-      ggplot2::guides(
-        fill = "none"
-      ) +
-      ggplot2::scale_fill_manual(values = "white")
-  }
-  if (shape == "none") {
-    p <- p +
-      ggplot2::guides(
-        shape = "none"
-      ) +
-      ggplot2::scale_shape_manual(values = 21)
-  }
-  if (labels) {
-    p <- p +
-      ggnetwork::geom_nodetext(
-        ggplot2::aes(label = name),
-        size = text_size
-      )
-  }
   p
 }
 # pacman::p_load(tidyverse, ggnetwork, igraph)
@@ -137,6 +117,7 @@ plot_ggnet <- function(
 #   plot_ggnet(
 #     labels = TRUE,
 #     fill = "site",
+#     shape = "genetic_sex",
 #     node_size = 10
 #   ) |>
 #   print()
