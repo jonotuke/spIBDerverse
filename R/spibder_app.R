@@ -11,10 +11,11 @@ spibder_app <- function() {
         shiny::conditionalPanel(
           condition = "input.tabs == 'Network plot'",
           networkplotInput("networkplot", meta),
-          shiny::hr(),
-          shiny::h4("Network statistics"),
-          networksummaryInput("networksummary", meta),
-          shiny::hr()
+          networksummaryInput("networksummary", meta)
+        ),
+        shiny::conditionalPanel(
+          condition = "input.tabs == 'Geography plot'",
+          leafletInput("leaflet", meta)
         )
       ),
       shiny::mainPanel(
@@ -24,6 +25,10 @@ spibder_app <- function() {
             title = "Network plot",
             networkplotOutput("networkplot"),
             networksummaryOutput("networksummary")
+          ),
+          shiny::tabPanel(
+            title = "Geography plot",
+            leafletOutput("leaflet")
           )
         )
       )
@@ -35,6 +40,11 @@ spibder_app <- function() {
     networkplotServer(
       "networkplot",
       gg_net()
+    )
+    ## Leaflet plot ----
+    leafletServer(
+      "leaflet",
+      network()
     )
     # TABS ----
     networksummaryServer(

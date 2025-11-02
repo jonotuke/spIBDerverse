@@ -31,6 +31,24 @@ V(example_network)$degree <- degree(example_network)
 # Add wij
 E(example_network)$wij <- runif(ecount(example_network), 0.1, 1)
 
+# Add lat and long
+V(example_network)$lat <- case_when(
+  V(example_network)$site == "A" ~ -34.91870870371196,
+  V(example_network)$site == "B" ~ -34.922395551091626,
+  V(example_network)$site == "C" ~ -34.809412383495506
+)
+V(example_network)$long <- case_when(
+  V(example_network)$site == "A" ~ 138.60537266638642,
+  V(example_network)$site == "B" ~ 138.59124348782686,
+  V(example_network)$site == "C" ~ 138.62080456810344
+)
+
+err <- 0.005
+V(example_network)$lat <- V(example_network)$lat +
+  runif(vcount(example_network), min = -err, max = err)
+V(example_network)$long <- V(example_network)$long +
+  runif(vcount(example_network), min = -err, max = err)
+
 # Clean up attributes
 example_network <- delete_vertex_attr(example_network, "vertex.names")
 example_network <- delete_vertex_attr(example_network, "na")

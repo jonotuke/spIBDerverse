@@ -39,8 +39,11 @@ Imports:
     harrypotter,
     igraph,
     janitor,
+    leaflet,
+    purrr,
     readr,
     rlang,
+    sf,
     shiny,
     stringr
 Suggests: 
