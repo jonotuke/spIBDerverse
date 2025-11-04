@@ -11,9 +11,12 @@
 <url><loc>https://jonotuke.github.io/spIBDerverse/articles/index.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/authors.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/index.html</loc></url>
+<url><loc>https://jonotuke.github.io/spIBDerverse/reference/convert_pred_ergmterm.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/create_ibd_network.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/example_network.html</loc></url>
+<url><loc>https://jonotuke.github.io/spIBDerverse/reference/get_all_models.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/get_connected_graph.html</loc></url>
+<url><loc>https://jonotuke.github.io/spIBDerverse/reference/get_ergms.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/get_network_measures.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/index.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/plot_ggnet.html</loc></url>
