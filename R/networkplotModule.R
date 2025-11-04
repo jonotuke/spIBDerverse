@@ -27,7 +27,7 @@ networkplotInput <- function(id, meta) {
       "Node size",
       min = 1,
       max = 20,
-      value = 4
+      value = 10
     ),
     shiny::sliderInput(
       shiny::NS(id, "label_size"),
@@ -59,11 +59,15 @@ networkplotOutput <- function(id) {
   )
 }
 
-networkplotServer <- function(id, df) {
+networkplotServer <- function(id, network) {
   shiny::moduleServer(id, function(input, output, session) {
+    ggnet <- shiny::reactive({
+      set.seed(input$seed)
+      ggnetwork::ggnetwork(network)
+    })
     output$plot <- shiny::renderPlot({
       plot_ggnet(
-        df,
+        ggnet(),
         shape_col = input$shape_id,
         fill_col = input$fill_id,
         node_size = input$node_size,
@@ -85,9 +89,9 @@ networkplotApp <- function(network) {
   server <- function(input, output, session) {
     networkplotServer(
       "networkplot",
-      ggnetwork::ggnetwork(network)
+      network
     )
   }
   shiny::shinyApp(ui, server)
 }
-# networkplotApp(example_network)
+# networkplotApp(example_network) |> print()

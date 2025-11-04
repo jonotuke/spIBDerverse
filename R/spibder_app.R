@@ -16,6 +16,10 @@ spibder_app <- function() {
         shiny::conditionalPanel(
           condition = "input.tabs == 'Geography plot'",
           leafletInput("leaflet", meta)
+        ),
+        shiny::conditionalPanel(
+          condition = "input.tabs == 'ERGM models'",
+          ergmInput("ergm", meta)
         )
       ),
       shiny::mainPanel(
@@ -29,37 +33,28 @@ spibder_app <- function() {
           shiny::tabPanel(
             title = "Geography plot",
             leafletOutput("leaflet")
+          ),
+          shiny::tabPanel(
+            title = "ERGM models",
+            ergmOutput("ergm")
           )
         )
       )
     )
   )
   server <- function(input, output, session) {
-    # PLOTS ----
     ## Network plot ----
-    networkplotServer(
-      "networkplot",
-      gg_net()
-    )
+    networkplotServer("networkplot", network())
     ## Leaflet plot ----
-    leafletServer(
-      "leaflet",
-      network()
-    )
-    # TABS ----
-    networksummaryServer(
-      "networksummary",
-      network()
-    )
+    leafletServer("leaflet", network())
+    # Network measures ----
+    networksummaryServer("networksummary", network())
+    # ERGMs ----
+    ergmServer("ergm", network())
     # DATA ----
     ## Network ----
     network <- shiny::reactive({
       example_network
-    })
-    ## ggnet ----
-    gg_net <- shiny::reactive({
-      set.seed(input$seed)
-      ggnetwork::ggnetwork(network())
     })
   }
   shiny::shinyApp(ui, server)
