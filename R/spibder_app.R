@@ -18,6 +18,10 @@ spibder_app <- function() {
           leafletInput("leaflet", meta)
         ),
         shiny::conditionalPanel(
+          condition = "input.tabs == 'Ringbauer matrix'",
+          ringbauerInput("ringbauer", meta)
+        ),
+        shiny::conditionalPanel(
           condition = "input.tabs == 'ERGM models'",
           ergmInput("ergm", meta)
         )
@@ -35,6 +39,10 @@ spibder_app <- function() {
             leafletOutput("leaflet")
           ),
           shiny::tabPanel(
+            title = "Ringbauer matrix",
+            ringbauerOutput("ringbauer")
+          ),
+          shiny::tabPanel(
             title = "ERGM models",
             ergmOutput("ergm")
           )
@@ -49,6 +57,8 @@ spibder_app <- function() {
     leafletServer("leaflet", network())
     # Network measures ----
     networksummaryServer("networksummary", network())
+    # Ringbauer matrix ----
+    ringbauerServer("ringbauer", network())
     # ERGMs ----
     ergmServer("ergm", network())
     # DATA ----

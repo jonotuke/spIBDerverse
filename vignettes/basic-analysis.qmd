@@ -1,8 +1,8 @@
 ---
-title: "Fitting ERGMs in R"
+title: "A basic ERGM analysis of example network"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Fitting ERGMs in R}
+  %\VignetteIndexEntry{A basic ERGM analysis of example network}
   %\VignetteEngine{quarto::html}
   %\VignetteEncoding{UTF-8}
 ---
@@ -14,4 +14,6 @@ knitr::opts_chunk$set(
 )
 ```
 
-
+```{r setup}
+library(spIBDerverse)
+```

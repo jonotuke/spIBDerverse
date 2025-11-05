@@ -34,8 +34,10 @@ URL: https://github.com/jonotuke/spIBDerverse, https://jonotuke.github.io/spIBDe
 BugReports: https://github.com/jonotuke/spIBDerverse/issues
 Imports: 
     broom,
+    colourvalues,
     dplyr,
     ergm,
+    farver,
     forcats,
     ggnetwork,
     ggplot2,
@@ -49,9 +51,12 @@ Imports:
     rlang,
     sf,
     shiny,
+    stats,
     stringr,
+    tibble,
     tidyr,
-    tidytext
+    tidytext,
+    viridis
 Suggests: 
     knitr,
     rmarkdown,
