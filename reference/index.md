@@ -1,0 +1,38 @@
+# Package index
+
+## All functions
+
+- [`convert_pred_ergmterm()`](https://jonotuke.github.io/spIBDerverse/reference/convert_pred_ergmterm.md)
+  : convert_pred_terms
+- [`convert_ringbauer_measures()`](https://jonotuke.github.io/spIBDerverse/reference/convert_ringbauer_measures.md)
+  : Convert ringbauer measures
+- [`create_ibd_network()`](https://jonotuke.github.io/spIBDerverse/reference/create_ibd_network.md)
+  : create_ibd_network
+- [`example_network`](https://jonotuke.github.io/spIBDerverse/reference/example_network.md)
+  : example network
+- [`example_network_2`](https://jonotuke.github.io/spIBDerverse/reference/example_network_2.md)
+  : example network 2
+- [`get_all_models()`](https://jonotuke.github.io/spIBDerverse/reference/get_all_models.md)
+  : get_all_models
+- [`get_connected_graph()`](https://jonotuke.github.io/spIBDerverse/reference/get_connected_graph.md)
+  : get_connected_graph
+- [`get_ergm_bic()`](https://jonotuke.github.io/spIBDerverse/reference/get_ergm_bic.md)
+  : Tabulate the ergm AIC and BIC
+- [`get_ergm_fc()`](https://jonotuke.github.io/spIBDerverse/reference/get_ergm_fc.md)
+  : Convert ergm coefficients to fold changes
+- [`get_ergms()`](https://jonotuke.github.io/spIBDerverse/reference/get_ergms.md)
+  : get_ergms
+- [`get_network_measures()`](https://jonotuke.github.io/spIBDerverse/reference/get_network_measures.md)
+  : get_network_measures
+- [`get_ringbauer_measures()`](https://jonotuke.github.io/spIBDerverse/reference/get_ringbauer_measures.md)
+  : Get ringbauer measures
+- [`plot_ergm_bic()`](https://jonotuke.github.io/spIBDerverse/reference/plot_ergm_bic.md)
+  : plot_ergm_bic
+- [`plot_ergm_coef()`](https://jonotuke.github.io/spIBDerverse/reference/plot_ergm_coef.md)
+  : Plot ergm coefficients
+- [`plot_ggnet()`](https://jonotuke.github.io/spIBDerverse/reference/plot_ggnet.md)
+  : plot ggnet
+- [`plot_leaflet()`](https://jonotuke.github.io/spIBDerverse/reference/plot_leaflet.md)
+  : plot leaflet
+- [`plot_ringbauer()`](https://jonotuke.github.io/spIBDerverse/reference/plot_ringbauer.md)
+  : Plot Ringbauer
