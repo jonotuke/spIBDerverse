@@ -1,8 +1,11 @@
 utils::globalVariables(
   c("example_network")
 )
-spibder_app <- function() {
-  meta <- igraph::vertex_attr_names(example_network)
+spibder_app <- function(input_network = NULL) {
+  if (is.null(input_network)) {
+    input_network <- example_network
+  }
+  meta <- igraph::vertex_attr_names(input_network)
 
   ui <- shiny::fluidPage(
     shiny::titlePanel("shiny spIBDer"),
@@ -64,7 +67,7 @@ spibder_app <- function() {
     # DATA ----
     ## Network ----
     network <- shiny::reactive({
-      example_network
+      input_network
     })
   }
   shiny::shinyApp(ui, server)

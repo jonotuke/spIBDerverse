@@ -60,7 +60,8 @@ Imports:
 Suggests: 
     knitr,
     rmarkdown,
-    quarto
+    quarto, 
+    fs
 VignetteBuilder: quarto, knitr
 Depends: 
     R (>= 4.1.0)

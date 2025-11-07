@@ -4,13 +4,7 @@
 \alias{create_ibd_network}
 \title{create_ibd_network}
 \usage{
-create_ibd_network(
-  ibd_file,
-  meta_file = NULL,
-  ibd_co,
-  frac_co = 0.49,
-  only_connected = TRUE
-)
+create_ibd_network(ibd_file, meta_file, ibd_co, frac_co = 0.49)
 }
 \arguments{
 \item{ibd_file}{TSV file with IBD data}
@@ -19,13 +13,28 @@ create_ibd_network(
 
 \item{ibd_co}{vector of cutoffs for defining an edge}
 
-\item{frac_co}{cutoff for quality control}
-
-\item{only_connected}{boolean to remove unconnected nodes}
+\item{frac_co}{cutoff for quality control - default is 0.49}
 }
 \value{
 IBD network
 }
 \description{
 create_ibd_network
+}
+\examples{
+ibd_file <- fs::path_package(
+  "extdata",
+  "example-ibd-data.tsv",
+  package = "spIBDerverse"
+)
+meta_file <- fs::path_package(
+  "extdata",
+  "example-meta-data.tsv",
+  package = "spIBDerverse"
+)
+create_ibd_network(
+  ibd_file,
+  meta_file,
+  ibd_co = c(0, 2, 1, 0)
+)
 }
