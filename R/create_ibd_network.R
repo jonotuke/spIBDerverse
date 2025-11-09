@@ -42,20 +42,27 @@ create_ibd_network <- function(
   # NODES
   node_df <- readr::read_tsv(meta_file, show_col_types = FALSE)
   # Get frac_gp
-  frac_gp_df <- node_df |> dplyr::select(iid, frac_gp)
-  ibd <- ibd |>
-    dplyr::left_join(
-      frac_gp_df,
-      by = c("iid1" = "iid")
-    ) |>
-    dplyr::rename(frac_gp1 = frac_gp) |>
-    dplyr::relocate(frac_gp1, .after = iid2) |>
-    dplyr::left_join(
-      frac_gp_df,
-      by = c("iid2" = "iid")
-    ) |>
-    dplyr::rename(frac_gp2 = frac_gp) |>
-    dplyr::relocate(frac_gp2, .after = frac_gp1)
+  if (
+    !all(
+      "frac_gp1" %in% colnames(ibd),
+      "frac_gp2" %in% colnames(ibd)
+    )
+  ) {
+    frac_gp_df <- node_df |> dplyr::select(iid, frac_gp)
+    ibd <- ibd |>
+      dplyr::left_join(
+        frac_gp_df,
+        by = c("iid1" = "iid")
+      ) |>
+      dplyr::rename(frac_gp1 = frac_gp) |>
+      dplyr::relocate(frac_gp1, .after = iid2) |>
+      dplyr::left_join(
+        frac_gp_df,
+        by = c("iid2" = "iid")
+      ) |>
+      dplyr::rename(frac_gp2 = frac_gp) |>
+      dplyr::relocate(frac_gp2, .after = frac_gp1)
+  }
   # So we select edges eij based on cutoffs for n_ibd 8, 12, 16, 20
   # While the weight of edge is sum_ibd_8
   edge_df <- ibd |>

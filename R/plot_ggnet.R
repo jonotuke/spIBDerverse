@@ -104,9 +104,10 @@ plot_ggnet <- function(
       ggplot2::aes(label = name),
       size = text_size
     ) +
-    ggplot2::scale_fill_manual(
-      values = harrypotter::hp(3, house = "Ravenclaw")
-    ) +
+    harrypotter::scale_fill_hp_d("Ravenclaw") +
+    # ggplot2::scale_fill_manual(
+    #   values = harrypotter::hp(3, house = "Ravenclaw")
+    # ) +
     ggplot2::coord_equal()
   p
 }

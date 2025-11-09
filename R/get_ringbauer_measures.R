@@ -17,7 +17,7 @@ utils::globalVariables(
 get_ringbauer_measures <- function(g, grp) {
   node_df <- igraph::as_data_frame(g, "vertices") |>
     tibble::as_tibble() |>
-    dplyr::select(name, grp = {{ grp }})
+    dplyr::select(name, grp = dplyr::all_of(grp))
   grps <- unique(node_df$grp)
   edge_df <- igraph::as_data_frame(g) |>
     dplyr::as_tibble() |>
@@ -64,5 +64,5 @@ get_ringbauer_measures <- function(g, grp) {
     )
 }
 # pacman::p_load(conflicted, tidyverse, targets, ergm)
-# get_ringbauer_matrix(example_network, "site") |>
+# get_ringbauer_measures(example_network, "site") |>
 #   print(n = Inf)

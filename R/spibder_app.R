@@ -1,6 +1,12 @@
 utils::globalVariables(
   c("example_network")
 )
+#' spIBDerverse shiny app
+#'
+#' @param input_network an igraph network object for the IBD data
+#'
+#' @return nothing
+#' @export
 spibder_app <- function(input_network = NULL) {
   if (is.null(input_network)) {
     input_network <- example_network
