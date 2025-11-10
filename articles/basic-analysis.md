@@ -1,9 +1,5 @@
 # A basic ERGM analysis of example network
 
-``` r
-library(spIBDerverse)
-```
-
 ## Data
 
 The fundemental object for the `spIBDerverse` package is the IBD
@@ -55,7 +51,7 @@ meta_file <- fs::path_package(
 We convert these to an IBD network with
 
 ``` r
-ibd_network <- create_ibd_network(
+ibd_network <- spIBDerverse::create_ibd_network(
   ibd_file,
   meta_file,
   ibd_co = c(0, 2, 1, 0),
@@ -65,34 +61,16 @@ ibd_network <- create_ibd_network(
 
 ``` r
 ibd_network
-#> IGRAPH 62a04a9 UN-- 328 2025 -- 
+#> IGRAPH aab6c2d UN-- 328 2025 -- 
 #> + attr: name (v/c), frac_gp (v/n), frac_missing (v/n), frac_het (v/n),
 #> | n_cov_snp (v/n), Archaeological_ID (v/c), Master_ID (v/c), Projects
 #> | (v/c), Locality (v/c), Province (v/c), Country (v/c), Latitude (v/n),
 #> | Longitude (v/n), date (v/c), date_type (v/c), imputation_type (v/c),
 #> | degree (v/n), wij (e/n)
-#> + edges from 62a04a9 (vertex names):
+#> + edges from aab6c2d (vertex names):
 #>  [1] KUP007--KUP023 RKC013--RKC029 RKC031--RKF238 RKF195--RKF196 RKC020--RKF142
 #>  [6] KFJ018--KFJ017 RKF182--RKF148 RKF142--RKF002 RKF162--RKF118 RKC011--RKC029
 #> [11] RKF052--RKF172 KFJ021--KFJ010 KFJ012--KFJ009 RKF143--RKF034 RKF237--RKF136
 #> [16] KFJ022--KFJ009 RKF026--RKF027 RKF142--RKF140 RKF254--RKF256 RKF160--RKF047
-#> + ... omitted several edges
-```
-
-## Example networks
-
-``` r
-example_network
-#> IGRAPH b145b76 UN-- 40 111 -- 
-#> + attr: genetic_sex (v/c), site (v/c), name (v/n), degree (v/n), lat
-#> | (v/n), long (v/n), wij (e/n)
-#> + edges from b145b76 (vertex names):
-#>  [1]  1--27  2-- 5  2-- 7  2--11  2--12  2--23  2--34  3-- 4  3-- 5  3-- 7
-#> [11]  3--10  3--13  3--16  3--19  3--21  3--30  3--33  3--35  4-- 8  4--10
-#> [21]  4--30  4--33  5--28  5--33  5--35  6--27  6--30  7--10  7--22  7--29
-#> [31]  7--32  7--38  8--20  8--26  8--27  8--31  8--33  8--35  9--12  9--15
-#> [41]  9--22  9--27 10--22 10--24 10--29 11--19 11--31 12--19 12--22 12--23
-#> [51] 13--17 13--28 13--30 13--35 13--39 13--40 14--18 14--35 14--37 15--26
-#> [61] 15--27 15--36 15--37 16--31 16--34 17--18 17--21 17--28 17--30 17--35
 #> + ... omitted several edges
 ```
