@@ -24,6 +24,8 @@
   : get_ergms
 - [`get_network_measures()`](https://jonotuke.github.io/spIBDerverse/reference/get_network_measures.md)
   : get_network_measures
+- [`get_network_summary()`](https://jonotuke.github.io/spIBDerverse/reference/get_network_summary.md)
+  : Get network summary
 - [`get_ringbauer_measures()`](https://jonotuke.github.io/spIBDerverse/reference/get_ringbauer_measures.md)
   : Get ringbauer measures
 - [`plot_ergm_bic()`](https://jonotuke.github.io/spIBDerverse/reference/plot_ergm_bic.md)
@@ -36,3 +38,5 @@
   : plot leaflet
 - [`plot_ringbauer()`](https://jonotuke.github.io/spIBDerverse/reference/plot_ringbauer.md)
   : Plot Ringbauer
+- [`spibder_app()`](https://jonotuke.github.io/spIBDerverse/reference/spibder_app.md)
+  : spIBDerverse shiny app

@@ -15,10 +15,7 @@ pak::pak("jonotuke/spIBDerverse")
 
 ## Example
 
-``` r
-vignette("basic-analysis")
-#> Warning: vignette 'basic-analysis' not found
-```
+[`vignette("basic-analysis")`](https://jonotuke.github.io/spIBDerverse/articles/basic-analysis.md)
 
 This is a basic example which shows you how to solve a common problem:
 

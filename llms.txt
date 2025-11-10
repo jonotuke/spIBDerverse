@@ -15,10 +15,7 @@ pak::pak("jonotuke/spIBDerverse")
 
 ## Example
 
-``` r
-vignette("basic-analysis")
-#> Warning: vignette 'basic-analysis' not found
-```
+[`vignette("basic-analysis")`](https://jonotuke.github.io/spIBDerverse/articles/basic-analysis.md)
 
 This is a basic example which shows you how to solve a common problem:
 
@@ -53,6 +50,8 @@ library(spIBDerverse)
   : get_ergms
 - [`get_network_measures()`](https://jonotuke.github.io/spIBDerverse/reference/get_network_measures.md)
   : get_network_measures
+- [`get_network_summary()`](https://jonotuke.github.io/spIBDerverse/reference/get_network_summary.md)
+  : Get network summary
 - [`get_ringbauer_measures()`](https://jonotuke.github.io/spIBDerverse/reference/get_ringbauer_measures.md)
   : Get ringbauer measures
 - [`plot_ergm_bic()`](https://jonotuke.github.io/spIBDerverse/reference/plot_ergm_bic.md)
@@ -65,6 +64,8 @@ library(spIBDerverse)
   : plot leaflet
 - [`plot_ringbauer()`](https://jonotuke.github.io/spIBDerverse/reference/plot_ringbauer.md)
   : Plot Ringbauer
+- [`spibder_app()`](https://jonotuke.github.io/spIBDerverse/reference/spibder_app.md)
+  : spIBDerverse shiny app
 
 # Articles
 
