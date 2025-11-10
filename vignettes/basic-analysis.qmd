@@ -14,10 +14,6 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r}
-library(spIBDerverse)
-```
-
 # Data
 The fundemental object for the `spIBDerverse` package is the IBD network. You are create this using two `TSV` files. 
 
@@ -66,7 +62,7 @@ We convert these to an IBD network with
 
 
 ```{r}
-ibd_network <- create_ibd_network(
+ibd_network <- spIBDerverse::create_ibd_network(
   ibd_file,
   meta_file,
   ibd_co = c(0, 2, 1, 0),
@@ -79,7 +75,3 @@ ibd_network <- create_ibd_network(
 ibd_network
 ```
 
-# Example networks
-```{r}
-example_network
-```
