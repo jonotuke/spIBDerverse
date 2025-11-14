@@ -22,11 +22,13 @@ get_network_summary <- function(g) {
   tibble::tibble(
     measure = c(
       "Number of nodes",
+      "Number of edges",
       "Number of unconnected nodes",
       stringr::str_glue("Number of nodes missing: {colnames(missing)}")
     ),
     value = c(
       igraph::vcount(g),
+      igraph::ecount(g),
       sum(node_df$degree == 0),
       as.numeric(missing |> dplyr::slice(1))
     )

@@ -35,6 +35,9 @@ ringbauerOutput <- function(id) {
       shiny::NS(id, "plot"),
       height = "800px"
     ),
+    shiny::plotOutput(
+      shiny::NS(id, "homophily_plot")
+    )
   )
 }
 ringbauerServer <- function(id, df) {
@@ -55,6 +58,10 @@ ringbauerServer <- function(id, df) {
           label_size = input$font_size,
           label_margin = input$margin
         )
+    })
+    output$homophily_plot <- shiny::renderPlot({
+      RM() |>
+        plot_homophily()
     })
   })
 }

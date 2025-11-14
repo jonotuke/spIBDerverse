@@ -39,6 +39,9 @@ networksummaryApp <- function(network) {
   )
   server <- function(input, output, session) {
     networksummaryServer("networksummary", network)
+    all_inputs <- shiny::reactive({
+      shiny::reactiveValuesToList(input)
+    })
   }
   shiny::shinyApp(ui, server)
 }

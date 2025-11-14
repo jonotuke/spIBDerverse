@@ -33,7 +33,8 @@ spibder_app <- function(input_network = NULL) {
         shiny::conditionalPanel(
           condition = "input.tabs == 'ERGM models'",
           ergmInput("ergm", meta)
-        )
+        ),
+        shiny::downloadButton("bookmark", "Download snapshot")
       ),
       shiny::mainPanel(
         shiny::tabsetPanel(
@@ -54,6 +55,10 @@ spibder_app <- function(input_network = NULL) {
           shiny::tabPanel(
             title = "ERGM models",
             ergmOutput("ergm")
+          ),
+          shiny::tabPanel(
+            title = "Debugging",
+            shiny::verbatimTextOutput(outputId = "debug")
           )
         )
       )
@@ -74,6 +79,22 @@ spibder_app <- function(input_network = NULL) {
     ## Network ----
     network <- shiny::reactive({
       input_network
+    })
+    # EXPORT <----
+    snapshot <- shiny::reactive({
+      shiny::reactiveValuesToList(input)
+    })
+    output$bookmark <- shiny::downloadHandler(
+      filename = function() {
+        paste0(lubridate::today(), ".rds")
+      },
+      content = function(file) {
+        readr::write_rds(snapshot(), file)
+      }
+    )
+    # DEBUG ----
+    output$debug <- shiny::renderPrint({
+      print(snapshot())
     })
   }
   shiny::shinyApp(ui, server)

@@ -115,7 +115,7 @@ plot_ringbauer <- function(RM, label_margin = 2, label_size = 3) {
     at = seq(1.5, 15.5, by = 1),
     labels = round(breaks, 2)
   )
-  return(RM)
+  invisible(RM)
 }
 # get_ringbauer_measures(example_network, "site") |>
 #   convert_ringbauer_measures() |>

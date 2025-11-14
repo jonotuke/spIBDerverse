@@ -84,13 +84,21 @@ networkplotApp <- function(network) {
   meta <- igraph::vertex_attr_names(network)
   ui <- shiny::fluidPage(
     networkplotInput("networkplot", meta),
-    networkplotOutput("networkplot")
+    # networkplotOutput("networkplot"),
+    shiny::verbatimTextOutput(outputId = "debug")
   )
   server <- function(input, output, session) {
     networkplotServer(
       "networkplot",
       network
     )
+    output$debug <- shiny::renderPrint({
+      bob <- shiny::reactiveValuesToList(input)
+      print(bob)
+      print(bob[["networkplot-shape_id"]])
+      # cat(as.character(bob), "\n")
+      # print(str(shiny::reactiveValuesToList(input)))
+    })
   }
   shiny::shinyApp(ui, server)
 }
