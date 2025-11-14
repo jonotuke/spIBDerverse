@@ -1,5 +1,9 @@
 # A basic ERGM analysis of example network
 
+``` r
+library(spIBDerverse)
+```
+
 ## Data
 
 The fundemental object for the `spIBDerverse` package is the IBD
@@ -51,7 +55,7 @@ meta_file <- fs::path_package(
 We convert these to an IBD network with
 
 ``` r
-ibd_network <- spIBDerverse::create_ibd_network(
+ibd_network <- create_ibd_network(
   ibd_file,
   meta_file,
   ibd_co = c(0, 2, 1, 0),
@@ -61,13 +65,13 @@ ibd_network <- spIBDerverse::create_ibd_network(
 
 ``` r
 ibd_network
-#> IGRAPH aab6c2d UN-- 328 2025 -- 
+#> IGRAPH b1f4a8d UN-- 328 2025 -- 
 #> + attr: name (v/c), frac_gp (v/n), frac_missing (v/n), frac_het (v/n),
 #> | n_cov_snp (v/n), Archaeological_ID (v/c), Master_ID (v/c), Projects
 #> | (v/c), Locality (v/c), Province (v/c), Country (v/c), Latitude (v/n),
 #> | Longitude (v/n), date (v/c), date_type (v/c), imputation_type (v/c),
 #> | degree (v/n), wij (e/n)
-#> + edges from aab6c2d (vertex names):
+#> + edges from b1f4a8d (vertex names):
 #>  [1] KUP007--KUP023 RKC013--RKC029 RKC031--RKF238 RKF195--RKF196 RKC020--RKF142
 #>  [6] KFJ018--KFJ017 RKF182--RKF148 RKF142--RKF002 RKF162--RKF118 RKC011--RKC029
 #> [11] RKF052--RKF172 KFJ021--KFJ010 KFJ012--KFJ009 RKF143--RKF034 RKF237--RKF136

@@ -67,7 +67,11 @@
 
 
 
-    <section class="section level2"><h2 id="data">Data<a class="anchor" aria-label="anchor" href="#data"></a>
+    <div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jonotuke/spIBDerverse" class="external-link">spIBDerverse</a></span><span class="op">)</span></span></code></pre></div>
+</div>
+<section class="section level2"><h2 id="data">Data<a class="anchor" aria-label="anchor" href="#data"></a>
 </h2>
 <p>The fundemental object for the <code>spIBDerverse</code> package is the IBD network. You are create this using two <code>TSV</code> files.</p>
 <section class="level2"><h3 id="ibd-dataset-edge-info">IBD dataset (edge info)<a class="anchor" aria-label="anchor" href="#ibd-dataset-edge-info"></a>
@@ -96,7 +100,7 @@
 </h3>
 <p>There are example files within the <code>spIBDerverse</code> package that can be used as an example. These can be obtained with</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ibd_file</span> <span class="op">&lt;-</span> <span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path_package.html" class="external-link">path_package</a></span><span class="op">(</span></span>
 <span>  <span class="st">"extdata"</span>,</span>
 <span>  <span class="st">"example-ibd-data.tsv"</span>,</span>
@@ -110,8 +114,8 @@
 </div>
 <p>We convert these to an IBD network with</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">ibd_network</span> <span class="op">&lt;-</span> <span class="fu">spIBDerverse</span><span class="fu">::</span><span class="fu"><a href="../reference/create_ibd_network.html">create_ibd_network</a></span><span class="op">(</span></span>
+<div class="sourceCode cell-code" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ibd_network</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/create_ibd_network.html">create_ibd_network</a></span><span class="op">(</span></span>
 <span>  <span class="va">ibd_file</span>,</span>
 <span>  <span class="va">meta_file</span>,</span>
 <span>  ibd_co <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">2</span>, <span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span>,</span>
@@ -119,15 +123,15 @@
 <span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ibd_network</span></span>
-<span><span class="co">#&gt; IGRAPH aab6c2d UN-- 328 2025 -- </span></span>
+<span><span class="co">#&gt; IGRAPH b1f4a8d UN-- 328 2025 -- </span></span>
 <span><span class="co">#&gt; + attr: name (v/c), frac_gp (v/n), frac_missing (v/n), frac_het (v/n),</span></span>
 <span><span class="co">#&gt; | n_cov_snp (v/n), Archaeological_ID (v/c), Master_ID (v/c), Projects</span></span>
 <span><span class="co">#&gt; | (v/c), Locality (v/c), Province (v/c), Country (v/c), Latitude (v/n),</span></span>
 <span><span class="co">#&gt; | Longitude (v/n), date (v/c), date_type (v/c), imputation_type (v/c),</span></span>
 <span><span class="co">#&gt; | degree (v/n), wij (e/n)</span></span>
-<span><span class="co">#&gt; + edges from aab6c2d (vertex names):</span></span>
+<span><span class="co">#&gt; + edges from b1f4a8d (vertex names):</span></span>
 <span><span class="co">#&gt;  [1] KUP007--KUP023 RKC013--RKC029 RKC031--RKF238 RKF195--RKF196 RKC020--RKF142</span></span>
 <span><span class="co">#&gt;  [6] KFJ018--KFJ017 RKF182--RKF148 RKF142--RKF002 RKF162--RKF118 RKC011--RKC029</span></span>
 <span><span class="co">#&gt; [11] RKF052--RKF172 KFJ021--KFJ010 KFJ012--KFJ009 RKF143--RKF034 RKF237--RKF136</span></span>

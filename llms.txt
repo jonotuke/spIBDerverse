@@ -60,10 +60,14 @@ library(spIBDerverse)
   : Plot ergm coefficients
 - [`plot_ggnet()`](https://jonotuke.github.io/spIBDerverse/reference/plot_ggnet.md)
   : plot ggnet
+- [`plot_homophily()`](https://jonotuke.github.io/spIBDerverse/reference/plot_homophily.md)
+  : Plot homophily
 - [`plot_leaflet()`](https://jonotuke.github.io/spIBDerverse/reference/plot_leaflet.md)
   : plot leaflet
 - [`plot_ringbauer()`](https://jonotuke.github.io/spIBDerverse/reference/plot_ringbauer.md)
   : Plot Ringbauer
+- [`plot_single_ergm_coef()`](https://jonotuke.github.io/spIBDerverse/reference/plot_single_ergm_coef.md)
+  : Plot single ergm coefficients
 - [`spibder_app()`](https://jonotuke.github.io/spIBDerverse/reference/spibder_app.md)
   : spIBDerverse shiny app
 
