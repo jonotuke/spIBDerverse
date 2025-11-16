@@ -2,6 +2,8 @@
 
 ## All functions
 
+- [`clean_network()`](https://jonotuke.github.io/spIBDerverse/reference/clean_network.md)
+  : Clean network
 - [`convert_pred_ergmterm()`](https://jonotuke.github.io/spIBDerverse/reference/convert_pred_ergmterm.md)
   : convert_pred_terms
 - [`convert_ringbauer_measures()`](https://jonotuke.github.io/spIBDerverse/reference/convert_ringbauer_measures.md)
@@ -11,6 +13,8 @@
 - [`example_network`](https://jonotuke.github.io/spIBDerverse/reference/example_network.md)
   : example network
 - [`example_network_2`](https://jonotuke.github.io/spIBDerverse/reference/example_network_2.md)
+  : example network 2
+- [`example_network_3`](https://jonotuke.github.io/spIBDerverse/reference/example_network_3.md)
   : example network 2
 - [`get_all_models()`](https://jonotuke.github.io/spIBDerverse/reference/get_all_models.md)
   : get_all_models
