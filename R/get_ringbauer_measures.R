@@ -18,6 +18,7 @@ get_ringbauer_measures <- function(g, grp) {
   node_df <- igraph::as_data_frame(g, "vertices") |>
     tibble::as_tibble() |>
     dplyr::select(name, grp = dplyr::all_of(grp))
+  node_df <- node_df |> dplyr::filter(!is.na(grp))
   grps <- unique(node_df$grp)
   edge_df <- igraph::as_data_frame(g) |>
     dplyr::as_tibble() |>

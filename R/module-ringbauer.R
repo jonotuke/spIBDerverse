@@ -9,10 +9,10 @@ ringbauerInput <- function(id, meta) {
     shiny::sliderInput(
       shiny::NS(id, "font_size"),
       label = "Font size",
-      min = 3,
+      min = 1,
       max = 10,
       step = 1,
-      value = 3
+      value = 1
     ),
     shiny::sliderInput(
       shiny::NS(id, "margin"),
