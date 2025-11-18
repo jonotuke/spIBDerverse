@@ -32,12 +32,6 @@
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="nav-item"><a class="nav-link" href="reference/index.html">Reference</a></li>
-<li class="nav-item dropdown">
-  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="articles/basic-analysis.html">A basic ERGM analysis of example network</a></li>
-  </ul>
-</li>
       </ul>
 <ul class="navbar-nav">
 <li class="nav-item"><form class="form-inline" role="search">
@@ -68,13 +62,80 @@
 <div class="section level2">
 <h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h2>
-<p><code><a href="articles/basic-analysis.html">vignette("basic-analysis")</a></code></p>
-<p>This is a basic example which shows you how to solve a common problem:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jonotuke/spIBDerverse" class="external-link">spIBDerverse</a></span><span class="op">)</span></span>
-<span><span class="co">## basic example code</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jonotuke/spIBDerverse" class="external-link">spIBDerverse</a></span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
+<div class="section level1">
+<h1 id="data">Data<a class="anchor" aria-label="anchor" href="#data"></a>
+</h1>
+<p>The fundemental object for the <code>spIBDerverse</code> package is the IBD network. You are create this using two <code>TSV</code> files.</p>
+<div class="section level2">
+<h2 id="ibd-dataset-edge-info">IBD dataset (edge info)<a class="anchor" aria-label="anchor" href="#ibd-dataset-edge-info"></a>
+</h2>
+<p>The first file is the IBD file. It should have the following headers.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co">#&gt; -  iid1 </span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="co">#&gt; -  iid2 </span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="co">#&gt; -  max_IBD </span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="co">#&gt; -  sum_IBD&gt;8 </span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co">#&gt; -  n_IBD&gt;8 </span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="co">#&gt; -  sum_IBD&gt;12 </span></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="co">#&gt; -  n_IBD&gt;12 </span></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="co">#&gt; -  sum_IBD&gt;16 </span></span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="co">#&gt; -  n_IBD&gt;16 </span></span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a><span class="co">#&gt; -  sum_IBD&gt;20 </span></span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a><span class="co">#&gt; -  n_IBD&gt;20</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="meta-dataset-node-info">Meta dataset (node info)<a class="anchor" aria-label="anchor" href="#meta-dataset-node-info"></a>
+</h2>
+<p>The next file needed is the meta file. This can contain any meta-data about the samples, but needs two columns:</p>
+<ol style="list-style-type: decimal">
+<li>
+<code>iid</code> this has the sample IDs and must have an entry for each of the IDs mentioned in the <code>iid1</code> and <code>iid2</code> column of the IBD file.</li>
+<li>A <code>frac_gp</code> column.</li>
+</ol>
+</div>
+<div class="section level2">
+<h2 id="creating-the-ibd-network">Creating the IBD network.<a class="anchor" aria-label="anchor" href="#creating-the-ibd-network"></a>
+</h2>
+<p>There are example files within the <code>spIBDerverse</code> package that can be used as an example. These can be obtained with</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ibd_file</span> <span class="op">&lt;-</span> <span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path_package.html" class="external-link">path_package</a></span><span class="op">(</span></span>
+<span>  <span class="st">"extdata"</span>,</span>
+<span>  <span class="st">"example-ibd-data.tsv"</span>,</span>
+<span>  package <span class="op">=</span> <span class="st">"spIBDerverse"</span></span>
+<span><span class="op">)</span></span>
+<span><span class="va">meta_file</span> <span class="op">&lt;-</span> <span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path_package.html" class="external-link">path_package</a></span><span class="op">(</span></span>
+<span>  <span class="st">"extdata"</span>,</span>
+<span>  <span class="st">"example-meta-data.tsv"</span>,</span>
+<span>  package <span class="op">=</span> <span class="st">"spIBDerverse"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p>We convert these to an IBD network with</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ibd_network</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/create_ibd_network.html">create_ibd_network</a></span><span class="op">(</span></span>
+<span>  <span class="va">ibd_file</span>,</span>
+<span>  <span class="va">meta_file</span>,</span>
+<span>  ibd_co <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">2</span>, <span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span>,</span>
+<span>  frac_co <span class="op">=</span> <span class="fl">0.49</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ibd_network</span></span>
+<span><span class="co">#&gt; IGRAPH f14b87b UN-- 328 2025 -- </span></span>
+<span><span class="co">#&gt; + attr: name (v/c), frac_gp (v/n), frac_missing (v/n), frac_het (v/n),</span></span>
+<span><span class="co">#&gt; | n_cov_snp (v/n), Archaeological_ID (v/c), Master_ID (v/c), Projects</span></span>
+<span><span class="co">#&gt; | (v/c), Locality (v/c), Province (v/c), Country (v/c), Latitude (v/n),</span></span>
+<span><span class="co">#&gt; | Longitude (v/n), date (v/c), date_type (v/c), imputation_type (v/c),</span></span>
+<span><span class="co">#&gt; | degree (v/n), wij (e/n)</span></span>
+<span><span class="co">#&gt; + edges from f14b87b (vertex names):</span></span>
+<span><span class="co">#&gt;  [1] KUP007--KUP023 RKC013--RKC029 RKC031--RKF238 RKF195--RKF196 RKC020--RKF142</span></span>
+<span><span class="co">#&gt;  [6] KFJ018--KFJ017 RKF182--RKF148 RKF142--RKF002 RKF162--RKF118 RKC011--RKC029</span></span>
+<span><span class="co">#&gt; [11] RKF052--RKF172 KFJ021--KFJ010 KFJ012--KFJ009 RKF143--RKF034 RKF237--RKF136</span></span>
+<span><span class="co">#&gt; [16] KFJ022--KFJ009 RKF026--RKF027 RKF142--RKF140 RKF254--RKF256 RKF160--RKF047</span></span>
+<span><span class="co">#&gt; + ... omitted several edges</span></span></code></pre></div>
+</div>
+</div>
+
   </main><aside class="col-md-3"><div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">

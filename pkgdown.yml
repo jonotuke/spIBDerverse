@@ -1,9 +1,8 @@
 pandoc: 3.1.11
 pkgdown: 2.2.0
 pkgdown_sha: ~
-articles:
-  basic-analysis: basic-analysis.html
-last_built: 2025-11-16T23:37Z
+articles: {}
+last_built: 2025-11-18T08:44Z
 urls:
   reference: https://jonotuke.github.io/spIBDerverse/reference
   article: https://jonotuke.github.io/spIBDerverse/articles
