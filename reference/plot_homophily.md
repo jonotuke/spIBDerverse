@@ -5,7 +5,7 @@ Plot homophily
 ## Usage
 
 ``` r
-plot_homophily(RM)
+plot_homophily(RM, p = NULL)
 ```
 
 ## Arguments
@@ -13,6 +13,10 @@ plot_homophily(RM)
 - RM:
 
   Ringbauer tibble
+
+- p:
+
+  nework density
 
 ## Value
 
