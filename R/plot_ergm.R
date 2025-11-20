@@ -83,7 +83,7 @@ plot_ergm_coef <- function(
     ggplot2::facet_wrap(
       ~Model,
       scales = "free_y",
-      space = "free_y",
+      # space = "free_y",
       ncol = 1
     ) +
     tidytext::scale_y_reordered() +

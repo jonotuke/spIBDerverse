@@ -4,10 +4,12 @@
 \alias{plot_homophily}
 \title{Plot homophily}
 \usage{
-plot_homophily(RM)
+plot_homophily(RM, p = NULL)
 }
 \arguments{
 \item{RM}{Ringbauer tibble}
+
+\item{p}{nework density}
 }
 \value{
 Plot of homophily density
