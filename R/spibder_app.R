@@ -18,6 +18,10 @@ spibder_app <- function(input_network = NULL) {
     shiny::sidebarLayout(
       shiny::sidebarPanel(
         shiny::conditionalPanel(
+          condition = "input.tabs == 'Upload IBD'",
+          ibdInput("ibd")
+        ),
+        shiny::conditionalPanel(
           condition = "input.tabs == 'Network plot'",
           networkplotInput("networkplot", meta),
           networksummaryInput("networksummary", meta)
@@ -39,6 +43,10 @@ spibder_app <- function(input_network = NULL) {
       shiny::mainPanel(
         shiny::tabsetPanel(
           id = "tabs",
+          shiny::tabPanel(
+            title = "Upload IBD",
+            ibdOutput("ibd")
+          ),
           shiny::tabPanel(
             title = "Network plot",
             networkplotOutput("networkplot"),
@@ -66,20 +74,22 @@ spibder_app <- function(input_network = NULL) {
   )
   server <- function(input, output, session) {
     ## Network plot ----
-    networkplotServer("networkplot", network())
+    networkplotServer("networkplot", network)
     ## Leaflet plot ----
-    leafletServer("leaflet", network())
+    leafletServer("leaflet", network)
     # Network measures ----
-    networksummaryServer("networksummary", network())
+    networksummaryServer("networksummary", network)
     # Ringbauer matrix ----
-    ringbauerServer("ringbauer", network())
+    ringbauerServer("ringbauer", network)
     # ERGMs ----
-    ergmServer("ergm", network())
+    ergmServer("ergm", network)
+    # IBD ----
+    network <- ibdServer("ibd", input_network)
     # DATA ----
     ## Network ----
-    network <- shiny::reactive({
-      input_network
-    })
+    # network <- shiny::reactive({
+    #   input_network
+    # })
     # EXPORT <----
     snapshot <- shiny::reactive({
       shiny::reactiveValuesToList(input)
@@ -94,7 +104,7 @@ spibder_app <- function(input_network = NULL) {
     )
     # DEBUG ----
     output$debug <- shiny::renderPrint({
-      print(snapshot())
+      print(network())
     })
   }
   shiny::shinyApp(ui, server)

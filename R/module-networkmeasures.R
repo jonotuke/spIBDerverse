@@ -24,20 +24,28 @@ networksummaryServer <- function(id, network) {
   shiny::moduleServer(id, function(input, output, session) {
     output$tab <- shiny::renderTable({
       get_network_measures(
-        network,
+        network(),
         measure = input$measure,
         var = input$strata
       )
     })
+    shiny::observeEvent(network(), {
+      shiny::updateCheckboxGroupInput(
+        session,
+        "strata",
+        choices = igraph::vertex_attr_names(network())
+      )
+    })
   })
 }
-networksummaryApp <- function(network) {
-  vars <- igraph::vertex_attr_names(network)
+networksummaryApp <- function(network_input) {
+  vars <- igraph::vertex_attr_names(network_input)
   ui <- shiny::fluidPage(
     networksummaryInput("networksummary", vars),
     networksummaryOutput("networksummary")
   )
   server <- function(input, output, session) {
+    network <- shiny::reactive(network_input)
     networksummaryServer("networksummary", network)
     all_inputs <- shiny::reactive({
       shiny::reactiveValuesToList(input)

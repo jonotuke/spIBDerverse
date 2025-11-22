@@ -41,7 +41,7 @@ leafletServer <- function(id, df) {
     output$map <- leaflet::renderLeaflet({
       if (input$lat != "none" & input$lon != "none") {
         plot_leaflet(
-          df,
+          df(),
           input$lat,
           input$lon,
           input$leaflet_col,
@@ -49,15 +49,37 @@ leafletServer <- function(id, df) {
         )
       }
     })
+    shiny::observeEvent(df(), {
+      shiny::updateSelectInput(
+        session,
+        "lat",
+        choices = c("none", igraph::vertex_attr_names(df()))
+      )
+    })
+    shiny::observeEvent(df(), {
+      shiny::updateSelectInput(
+        session,
+        "lon",
+        choices = c("none", igraph::vertex_attr_names(df()))
+      )
+    })
+    shiny::observeEvent(df(), {
+      shiny::updateSelectInput(
+        session,
+        "leaflet_col",
+        choices = c("none", igraph::vertex_attr_names(df()))
+      )
+    })
   })
 }
-leafletApp <- function(network) {
-  meta <- igraph::vertex_attr_names(network)
+leafletApp <- function(network_input) {
+  meta <- igraph::vertex_attr_names(network_input)
   ui <- shiny::fluidPage(
     leafletInput("leaflet", meta),
     leafletOutput("leaflet")
   )
   server <- function(input, output, session) {
+    network <- shiny::reactive(network_input)
     leafletServer(
       "leaflet",
       network

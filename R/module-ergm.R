@@ -38,7 +38,7 @@ ergmOutput <- function(id) {
 }
 ergmServer <- function(id, df) {
   shiny::moduleServer(id, function(input, output, session) {
-    ergm <- shiny::reactive(get_ergms(df, input$preds))
+    ergm <- shiny::reactive(get_ergms(df(), input$preds))
     output$ergm_aic_plot <- shiny::renderPlot(
       plot_ergm_bic(ergm())
     )
@@ -52,15 +52,23 @@ ergmServer <- function(id, df) {
         trim = input$ergm_trim
       )
     })
+    shiny::observeEvent(df(), {
+      shiny::updateCheckboxGroupInput(
+        session,
+        "preds",
+        choices = igraph::vertex_attr_names(df())
+      )
+    })
   })
 }
-ergmApp <- function(network) {
-  meta <- igraph::vertex_attr_names(network)
+ergmApp <- function(network_input) {
+  meta <- igraph::vertex_attr_names(network_input)
   ui <- shiny::fluidPage(
     ergmInput("ergm", meta),
     ergmOutput("ergm")
   )
   server <- function(input, output, session) {
+    network <- shiny::reactive(network_input)
     ergmServer("ergm", network)
   }
   shiny::shinyApp(ui, server)

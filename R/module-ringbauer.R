@@ -45,7 +45,7 @@ ringbauerServer <- function(id, df) {
     RM <- shiny::reactive({
       shiny::req(input$grp != "none")
       get_ringbauer_measures(
-        df,
+        df(),
         input$grp
       )
     })
@@ -63,15 +63,23 @@ ringbauerServer <- function(id, df) {
       RM() |>
         plot_homophily()
     })
+    shiny::observeEvent(df(), {
+      shiny::updateSelectInput(
+        session,
+        "grp",
+        choices = c("none", igraph::vertex_attr_names(df()))
+      )
+    })
   })
 }
-ringbauerApp <- function(network) {
-  meta <- igraph::vertex_attr_names(network)
+ringbauerApp <- function(network_input) {
+  meta <- igraph::vertex_attr_names(network_input)
   ui <- shiny::fluidPage(
     ringbauerInput("ringbauer", meta),
     ringbauerOutput("ringbauer")
   )
   server <- function(input, output, session) {
+    network <- shiny::reactive(network_input)
     ringbauerServer("ringbauer", network)
   }
   shiny::shinyApp(ui, server)

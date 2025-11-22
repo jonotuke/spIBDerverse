@@ -63,7 +63,7 @@ networkplotServer <- function(id, network) {
   shiny::moduleServer(id, function(input, output, session) {
     ggnet <- shiny::reactive({
       set.seed(input$seed)
-      ggnetwork::ggnetwork(network)
+      ggnetwork::ggnetwork(network())
     })
     output$plot <- shiny::renderPlot({
       plot_ggnet(
@@ -78,26 +78,39 @@ networkplotServer <- function(id, network) {
         connected = input$connected
       )
     })
+    shiny::observeEvent(network(), {
+      shiny::updateSelectInput(
+        session,
+        "shape_id",
+        choices = c("", igraph::vertex_attr_names(network()))
+      )
+    })
+    shiny::observeEvent(network(), {
+      shiny::updateSelectInput(
+        session,
+        "fill_id",
+        choices = c("", igraph::vertex_attr_names(network()))
+      )
+    })
   })
 }
-networkplotApp <- function(network) {
-  meta <- igraph::vertex_attr_names(network)
+networkplotApp <- function(network_input) {
+  meta <- igraph::vertex_attr_names(network_input)
   ui <- shiny::fluidPage(
     networkplotInput("networkplot", meta),
-    # networkplotOutput("networkplot"),
+    networkplotOutput("networkplot"),
     shiny::verbatimTextOutput(outputId = "debug")
   )
   server <- function(input, output, session) {
+    network <- shiny::reactive(
+      network_input
+    )
     networkplotServer(
       "networkplot",
       network
     )
     output$debug <- shiny::renderPrint({
-      bob <- shiny::reactiveValuesToList(input)
-      print(bob)
-      print(bob[["networkplot-shape_id"]])
-      # cat(as.character(bob), "\n")
-      # print(str(shiny::reactiveValuesToList(input)))
+      print(network())
     })
   }
   shiny::shinyApp(ui, server)
