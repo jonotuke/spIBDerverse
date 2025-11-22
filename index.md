@@ -82,13 +82,13 @@ ibd_network <- create_ibd_network(
 
 ``` r
 ibd_network
-#> IGRAPH fe38c68 UN-- 328 2025 -- 
+#> IGRAPH ab5b191 UN-- 328 2025 -- 
 #> + attr: name (v/c), frac_gp (v/n), frac_missing (v/n), frac_het (v/n),
 #> | n_cov_snp (v/n), Archaeological_ID (v/c), Master_ID (v/c), Projects
 #> | (v/c), Locality (v/c), Province (v/c), Country (v/c), Latitude (v/n),
 #> | Longitude (v/n), date (v/c), date_type (v/c), imputation_type (v/c),
 #> | degree (v/n), wij (e/n)
-#> + edges from fe38c68 (vertex names):
+#> + edges from ab5b191 (vertex names):
 #>  [1] KUP007--KUP023 RKC013--RKC029 RKC031--RKF238 RKF195--RKF196 RKC020--RKF142
 #>  [6] KFJ018--KFJ017 RKF182--RKF148 RKF142--RKF002 RKF162--RKF118 RKC011--RKC029
 #> [11] RKF052--RKF172 KFJ021--KFJ010 KFJ012--KFJ009 RKF143--RKF034 RKF237--RKF136

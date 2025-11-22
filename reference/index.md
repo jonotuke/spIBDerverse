@@ -8,6 +8,8 @@
   : convert_pred_terms
 - [`convert_ringbauer_measures()`](https://jonotuke.github.io/spIBDerverse/reference/convert_ringbauer_measures.md)
   : Convert ringbauer measures
+- [`copy_files()`](https://jonotuke.github.io/spIBDerverse/reference/copy_files.md)
+  : Copy files
 - [`create_ibd_network()`](https://jonotuke.github.io/spIBDerverse/reference/create_ibd_network.md)
   : create_ibd_network
 - [`example_network`](https://jonotuke.github.io/spIBDerverse/reference/example_network.md)
