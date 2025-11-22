@@ -26,10 +26,10 @@ cleaned IBD igraph obj
 
 ``` r
 clean_network(example_network_3, "site")
-#> IGRAPH 44622fe UN-- 37 96 -- 
+#> IGRAPH 5bb54fd UN-- 37 96 -- 
 #> + attr: genetic_sex (v/c), site (v/c), name (v/n), degree (v/n), lat
 #> | (v/n), long (v/n), wij (e/n)
-#> + edges from 44622fe (vertex names):
+#> + edges from 5bb54fd (vertex names):
 #>  [1]  1--27  2-- 5  2-- 7  2--11  2--23  2--34  3-- 4  3-- 5  3-- 7  3--10
 #> [11]  3--16  3--19  3--21  3--30  3--33  3--35  4-- 8  4--10  4--30  4--33
 #> [21]  5--28  5--33  5--35  6--27  6--30  7--10  7--22  7--29  7--32  7--38

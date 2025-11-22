@@ -30,6 +30,8 @@
   : get_network_measures
 - [`get_network_summary()`](https://jonotuke.github.io/spIBDerverse/reference/get_network_summary.md)
   : Get network summary
+- [`get_node_info()`](https://jonotuke.github.io/spIBDerverse/reference/get_node_info.md)
+  : Get network node information
 - [`get_ringbauer_measures()`](https://jonotuke.github.io/spIBDerverse/reference/get_ringbauer_measures.md)
   : Get ringbauer measures
 - [`plot_ergm_bic()`](https://jonotuke.github.io/spIBDerverse/reference/plot_ergm_bic.md)
