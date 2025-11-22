@@ -3,6 +3,7 @@
 export(clean_network)
 export(convert_pred_ergmterm)
 export(convert_ringbauer_measures)
+export(copy_files)
 export(create_ibd_network)
 export(get_all_models)
 export(get_connected_graph)

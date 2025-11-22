@@ -4,14 +4,14 @@ utils::globalVariables(
 #' Plot homophily
 #'
 #' @param RM Ringbauer tibble
-#' @param p nework density
+#' @param g IBD network
 #'
 #' @return Plot of homophily density
 #' @export
 #'
 #' @examples
 #' get_ringbauer_measures(example_network, "site") |> plot_homophily()
-plot_homophily <- function(RM, p = NULL) {
+plot_homophily <- function(RM, g = NULL) {
   RM <- RM |>
     dplyr::filter(!is.nan(density))
   RM <- RM |>
@@ -22,7 +22,8 @@ plot_homophily <- function(RM, p = NULL) {
       name = stringr::str_glue("{grp1}-{grp2}")
     ) |>
     dplyr::mutate(name = forcats::fct_reorder(name, density))
-  if (!is.null(p)) {
+  if (!is.null(g)) {
+    p <- igraph::edge_density(g)
     RM$pv <- 1
     for (i in 1:nrow(RM)) {
       RM$pv[i] <- stats::prop.test(
@@ -43,7 +44,7 @@ plot_homophily <- function(RM, p = NULL) {
         )
       )
   }
-  RM |>
+  p <- RM |>
     ggplot2::ggplot(
       ggplot2::aes(name, density, fill = type)
     ) +
@@ -54,8 +55,26 @@ plot_homophily <- function(RM, p = NULL) {
     ) +
     harrypotter::scale_fill_hp_d("Ravenclaw") +
     ggplot2::labs(y = "Connectivity", x = "Edge", fill = NULL)
+  if (!is.null(g)) {
+    E <- igraph::ecount(g)
+    N <- igraph::vcount(g)
+    stats <- stats::prop.test(x = E, n = choose(N, 2)) |> broom::tidy()
+    p <- p +
+      ggplot2::geom_hline(
+        yintercept = stats$estimate
+      ) +
+      ggplot2::geom_hline(
+        yintercept = stats$conf.low,
+        linetype = "dashed"
+      ) +
+      ggplot2::geom_hline(
+        yintercept = stats$conf.high,
+        linetype = "dashed"
+      )
+  }
+  p
 }
 # pacman::p_load(conflicted, tidyverse, targets, ggrepel, igraph)
 # get_ringbauer_measures(example_network, "site") |>
-#   plot_homophily(p = edge_density(example_network)) |>
+#   plot_homophily(example_network) |>
 #   print()

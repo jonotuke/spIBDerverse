@@ -36,6 +36,7 @@ Imports:
     broom,
     colourvalues,
     dplyr,
+    DT,
     ergm,
     farver,
     forcats,

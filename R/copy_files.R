@@ -1,3 +1,13 @@
+#' Copy files
+#'
+#' Small internal function for me that puts example IBD
+#' files and meta files into a folder to test
+#' spIBDer_app
+#'
+#' @param folder folder to place files
+#'
+#' @return copies files
+#' @export
 copy_files <- function(folder) {
   fs::path_package(
     "extdata",
@@ -20,6 +30,5 @@ copy_files <- function(folder) {
 }
 # pacman::p_load(conflicted, tidyverse, targets)
 # copy_files("~/Desktop/") |> print()
-
 # readr::read_tsv("~/Desktop/example_ibd.tsv")
 # readr::read_tsv("~/Desktop/example_meta.tsv")
