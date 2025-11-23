@@ -3,7 +3,7 @@ pkgdown: 2.2.0
 pkgdown_sha: ~
 articles:
   homophily-measures: homophily-measures.html
-last_built: 2025-11-22T06:39Z
+last_built: 2025-11-23T05:02Z
 urls:
   reference: https://jonotuke.github.io/spIBDerverse/reference
   article: https://jonotuke.github.io/spIBDerverse/articles
