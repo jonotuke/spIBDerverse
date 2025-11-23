@@ -53,9 +53,15 @@ networkplotInput <- function(id, meta) {
 }
 
 networkplotOutput <- function(id) {
-  shiny::plotOutput(
-    shiny::NS(id, "plot"),
-    height = "800px"
+  shiny::tagList(
+    shiny::plotOutput(
+      shiny::NS(id, "plot"),
+      height = "800px"
+    ),
+    shiny::downloadButton(
+      shiny::NS(id, "down"),
+      "Download plot"
+    )
   )
 }
 
@@ -66,6 +72,9 @@ networkplotServer <- function(id, network) {
       ggnetwork::ggnetwork(network())
     })
     output$plot <- shiny::renderPlot({
+      p()
+    })
+    p <- shiny::reactive({
       plot_ggnet(
         ggnet(),
         shape_col = input$shape_id,
@@ -92,6 +101,19 @@ networkplotServer <- function(id, network) {
         choices = c("", igraph::vertex_attr_names(network()))
       )
     })
+    output$down <- shiny::downloadHandler(
+      filename = function() {
+        paste0(lubridate::today(), "-network.pdf")
+      },
+      content = function(file) {
+        ggplot2::ggsave(
+          file,
+          p(),
+          width = 10,
+          height = 10
+        )
+      }
+    )
   })
 }
 networkplotApp <- function(network_input) {

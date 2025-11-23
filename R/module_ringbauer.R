@@ -35,8 +35,16 @@ ringbauerOutput <- function(id) {
       shiny::NS(id, "plot"),
       height = "800px"
     ),
+    shiny::downloadButton(
+      shiny::NS(id, "down_ringbauer"),
+      "Download plot"
+    ),
     shiny::plotOutput(
       shiny::NS(id, "homophily_plot")
+    ),
+    shiny::downloadButton(
+      shiny::NS(id, "down_homophily"),
+      "Download plot"
     )
   )
 }
@@ -60,6 +68,9 @@ ringbauerServer <- function(id, df) {
         )
     })
     output$homophily_plot <- shiny::renderPlot({
+      homophily_p()
+    })
+    homophily_p <- shiny::reactive({
       RM() |>
         plot_homophily()
     })
@@ -70,6 +81,36 @@ ringbauerServer <- function(id, df) {
         choices = c("none", igraph::vertex_attr_names(df()))
       )
     })
+    output$down_homophily <- shiny::downloadHandler(
+      filename = function() {
+        paste0(lubridate::today(), "-homophily.pdf")
+      },
+      content = function(file) {
+        ggplot2::ggsave(
+          file,
+          homophily_p(),
+          width = 10,
+          height = 10
+        )
+      }
+    )
+    output$down_ringbauer <- shiny::downloadHandler(
+      filename = function() {
+        paste0(lubridate::today(), "-ringbauer.pdf")
+      },
+      content = function(file) {
+        pdf(file, width = 10, height = 10)
+        RM() |>
+          convert_ringbauer_measures(
+            abbr = input$abbr
+          ) |>
+          plot_ringbauer(
+            label_size = input$font_size,
+            label_margin = input$margin
+          )
+        dev.off()
+      }
+    )
   })
 }
 ringbauerApp <- function(network_input) {
