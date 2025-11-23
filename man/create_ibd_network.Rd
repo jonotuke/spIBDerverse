@@ -4,7 +4,7 @@
 \alias{create_ibd_network}
 \title{create_ibd_network}
 \usage{
-create_ibd_network(ibd_file, meta_file, ibd_co, frac_co = 0.49)
+create_ibd_network(ibd_file, meta_file, ibd_co, frac_co = 0.7)
 }
 \arguments{
 \item{ibd_file}{TSV file with IBD data}

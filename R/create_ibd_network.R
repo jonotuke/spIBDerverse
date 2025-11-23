@@ -33,7 +33,7 @@ create_ibd_network <- function(
   ibd_file,
   meta_file,
   ibd_co,
-  frac_co = 0.49
+  frac_co = 0.7
 ) {
   # EDGES
   ibd <- ibd_file |>
@@ -66,7 +66,10 @@ create_ibd_network <- function(
   # So we select edges eij based on cutoffs for n_ibd 8, 12, 16, 20
   # While the weight of edge is sum_ibd_8
   edge_df <- ibd |>
-    dplyr::filter((frac_gp1 * frac_gp2) >= frac_co) |>
+    dplyr::filter(
+      frac_gp1 >= frac_co,
+      frac_gp2 >= frac_co
+    ) |>
     dplyr::mutate(
       eij = as.numeric(
         ((n_ibd_8 >= ibd_co[1]) &
