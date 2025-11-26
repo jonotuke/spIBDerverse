@@ -62,8 +62,9 @@ Imports:
 Suggests: 
     knitr,
     rmarkdown,
-    quarto, 
-    fs
+    quarto,
+    fs,
+    grDevices
 VignetteBuilder: quarto, knitr
 Depends: 
     R (>= 4.1.0)

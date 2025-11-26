@@ -27,30 +27,44 @@ ergmOutput <- function(id) {
     shiny::plotOutput(
       shiny::NS(id, "ergm_aic_plot")
     ),
+    shiny::downloadButton(
+      shiny::NS(id, "bic_down"),
+      "Download plot"
+    ),
     shiny::tableOutput(
       shiny::NS(id, "ergm_aic_tab")
     ),
     shiny::h4("ERGMs coefficients"),
     shiny::plotOutput(
       shiny::NS(id, "ergm_coef_plot")
-    )
+    ),
+    shiny::downloadButton(
+      shiny::NS(id, "coef_down"),
+      "Download plot"
+    ),
   )
 }
 ergmServer <- function(id, df) {
   shiny::moduleServer(id, function(input, output, session) {
     ergm <- shiny::reactive(get_ergms(df(), input$preds))
-    output$ergm_aic_plot <- shiny::renderPlot(
-      plot_ergm_bic(ergm())
-    )
     output$ergm_aic_tab <- shiny::renderTable({
       get_ergm_bic(ergm())
     })
-    output$ergm_coef_plot <- shiny::renderPlot({
+    bic_plot <- shiny::reactive({
+      plot_ergm_bic(ergm())
+    })
+    output$ergm_aic_plot <- shiny::renderPlot({
+      bic_plot()
+    })
+    coef_plot <- shiny::reactive({
       plot_ergm_coef(
         ergm(),
         type = input$ergm_coef,
         trim = input$ergm_trim
       )
+    })
+    output$ergm_coef_plot <- shiny::renderPlot({
+      coef_plot()
     })
     shiny::observeEvent(df(), {
       shiny::updateCheckboxGroupInput(
@@ -59,6 +73,32 @@ ergmServer <- function(id, df) {
         choices = igraph::vertex_attr_names(df())
       )
     })
+    output$bic_down <- shiny::downloadHandler(
+      filename = function() {
+        paste0(lubridate::today(), "-ergm-bic.pdf")
+      },
+      content = function(file) {
+        ggplot2::ggsave(
+          file,
+          bic_plot(),
+          width = 10,
+          height = 10
+        )
+      }
+    )
+    output$coef_down <- shiny::downloadHandler(
+      filename = function() {
+        paste0(lubridate::today(), "-ergm-coef.pdf")
+      },
+      content = function(file) {
+        ggplot2::ggsave(
+          file,
+          coef_plot(),
+          width = 10,
+          height = 10
+        )
+      }
+    )
   })
 }
 ergmApp <- function(network_input) {

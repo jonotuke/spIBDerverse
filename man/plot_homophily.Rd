@@ -4,12 +4,14 @@
 \alias{plot_homophily}
 \title{Plot homophily}
 \usage{
-plot_homophily(RM, g = NULL)
+plot_homophily(RM, show_sign = FALSE, filter_sign = FALSE)
 }
 \arguments{
 \item{RM}{Ringbauer tibble}
 
-\item{g}{IBD network}
+\item{show_sign}{boolean on whether to colour by significance}
+
+\item{filter_sign}{boolean to show only significant edges}
 }
 \value{
 Plot of homophily density

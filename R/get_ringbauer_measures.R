@@ -58,11 +58,32 @@ get_ringbauer_measures <- function(g, grp) {
       )
     }
   }
-  edge_count |>
+  edge_count <- edge_count |>
     dplyr::mutate(
       density = n_edges / n_possible_edges,
       label = stringr::str_glue("{n_edges}/{n_possible_edges}")
     )
+  p <- igraph::edge_density(g)
+  edge_count$pv <- 1
+  for (i in 1:nrow(edge_count)) {
+    edge_count$pv[i] <-
+      tryCatch(
+        stats::prop.test(
+          x = edge_count$n_edges[i],
+          n = edge_count$n_possible_edges[i],
+          p = p
+        )$p.value,
+        error = function(e) {
+          return(NA)
+        }
+      )
+  }
+  edge_count <- edge_count |>
+    dplyr::mutate(
+      adj_pv = stats::p.adjust(pv, method = "fdr")
+    )
+
+  edge_count
 }
 # pacman::p_load(conflicted, tidyverse, targets, ergm)
 # get_ringbauer_measures(example_network, "site") |>

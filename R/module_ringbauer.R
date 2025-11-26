@@ -99,7 +99,7 @@ ringbauerServer <- function(id, df) {
         paste0(lubridate::today(), "-ringbauer.pdf")
       },
       content = function(file) {
-        pdf(file, width = 10, height = 10)
+        grDevices::pdf(file, width = 10, height = 10)
         RM() |>
           convert_ringbauer_measures(
             abbr = input$abbr
@@ -108,7 +108,7 @@ ringbauerServer <- function(id, df) {
             label_size = input$font_size,
             label_margin = input$margin
           )
-        dev.off()
+        grDevices::dev.off()
       }
     )
   })

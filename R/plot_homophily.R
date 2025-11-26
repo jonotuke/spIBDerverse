@@ -4,14 +4,15 @@ utils::globalVariables(
 #' Plot homophily
 #'
 #' @param RM Ringbauer tibble
-#' @param g IBD network
+#' @param show_sign boolean on whether to colour by significance
+#' @param filter_sign boolean to show only significant edges
 #'
 #' @return Plot of homophily density
 #' @export
 #'
 #' @examples
 #' get_ringbauer_measures(example_network, "site") |> plot_homophily()
-plot_homophily <- function(RM, g = NULL) {
+plot_homophily <- function(RM, show_sign = FALSE, filter_sign = FALSE) {
   RM <- RM |>
     dplyr::filter(!is.nan(density))
   RM <- RM |>
@@ -22,20 +23,8 @@ plot_homophily <- function(RM, g = NULL) {
       name = stringr::str_glue("{grp1}-{grp2}")
     ) |>
     dplyr::mutate(name = forcats::fct_reorder(name, density))
-  if (!is.null(g)) {
-    p <- igraph::edge_density(g)
-    RM$pv <- 1
-    for (i in 1:nrow(RM)) {
-      RM$pv[i] <- stats::prop.test(
-        x = RM$n_edges[i],
-        n = RM$n_possible_edges[i],
-        p = p
-      )$p.value
-    }
+  if (show_sign) {
     RM <- RM |>
-      dplyr::mutate(
-        adj_pv = stats::p.adjust(pv, method = "fdr")
-      ) |>
       dplyr::mutate(
         type = ifelse(
           adj_pv <= 0.05,
@@ -43,6 +32,9 @@ plot_homophily <- function(RM, g = NULL) {
           "not significant"
         )
       )
+  }
+  if (filter_sign) {
+    RM <- RM |> dplyr::filter(adj_pv <= 0.05)
   }
   p <- RM |>
     ggplot2::ggplot(
@@ -55,23 +47,6 @@ plot_homophily <- function(RM, g = NULL) {
     ) +
     harrypotter::scale_fill_hp_d("Ravenclaw") +
     ggplot2::labs(y = "Connectivity", x = "Edge", fill = NULL)
-  if (!is.null(g)) {
-    E <- igraph::ecount(g)
-    N <- igraph::vcount(g)
-    stats <- stats::prop.test(x = E, n = choose(N, 2)) |> broom::tidy()
-    p <- p +
-      ggplot2::geom_hline(
-        yintercept = stats$estimate
-      ) +
-      ggplot2::geom_hline(
-        yintercept = stats$conf.low,
-        linetype = "dashed"
-      ) +
-      ggplot2::geom_hline(
-        yintercept = stats$conf.high,
-        linetype = "dashed"
-      )
-  }
   p
 }
 # pacman::p_load(conflicted, tidyverse, targets, ggrepel, igraph)
