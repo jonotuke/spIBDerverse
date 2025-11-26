@@ -5,7 +5,7 @@ Plot homophily
 ## Usage
 
 ``` r
-plot_homophily(RM, g = NULL)
+plot_homophily(RM, show_sign = FALSE, filter_sign = FALSE)
 ```
 
 ## Arguments
@@ -14,9 +14,13 @@ plot_homophily(RM, g = NULL)
 
   Ringbauer tibble
 
-- g:
+- show_sign:
 
-  IBD network
+  boolean on whether to colour by significance
+
+- filter_sign:
+
+  boolean to show only significant edges
 
 ## Value
 
