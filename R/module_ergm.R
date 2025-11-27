@@ -31,12 +31,13 @@ ergmOutput <- function(id) {
       shiny::NS(id, "bic_down"),
       "Download plot"
     ),
-    shiny::tableOutput(
+    DT::dataTableOutput(
       shiny::NS(id, "ergm_aic_tab")
     ),
     shiny::h4("ERGMs coefficients"),
     shiny::plotOutput(
-      shiny::NS(id, "ergm_coef_plot")
+      shiny::NS(id, "ergm_coef_plot"),
+      height = "800px"
     ),
     shiny::downloadButton(
       shiny::NS(id, "coef_down"),
@@ -47,8 +48,14 @@ ergmOutput <- function(id) {
 ergmServer <- function(id, df) {
   shiny::moduleServer(id, function(input, output, session) {
     ergm <- shiny::reactive(get_ergms(df(), input$preds))
-    output$ergm_aic_tab <- shiny::renderTable({
-      get_ergm_bic(ergm())
+    output$ergm_aic_tab <- DT::renderDataTable({
+      DT::datatable(
+        get_ergm_bic(ergm())
+      ) |>
+        DT::formatRound(
+          columns = c('AIC', 'BIC'),
+          digits = 2
+        )
     })
     bic_plot <- shiny::reactive({
       plot_ergm_bic(ergm())
