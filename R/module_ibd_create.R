@@ -12,6 +12,14 @@ ibdInput <- function(id) {
       shiny::NS(id, "cutoffs"),
       label = "Please enter cutoffs with commas between",
       value = "0,2,1,0"
+    ),
+    shiny::textInput(
+      shiny::NS(id, "node_inc"),
+      "Node names to include"
+    ),
+    shiny::textInput(
+      shiny::NS(id, "node_exc"),
+      "Node names to exclude"
     )
   )
 }
@@ -49,7 +57,7 @@ ibdServer <- function(id, network) {
       )
     })
     ## full network ----
-    network <- shiny::reactive({
+    full_network <- shiny::reactive({
       tryCatch(
         {
           file_network()
@@ -61,6 +69,13 @@ ibdServer <- function(id, network) {
           )
           example_network
         }
+      )
+    })
+    network <- shiny::reactive({
+      filter_network(
+        full_network(),
+        node_inc = input$node_inc,
+        node_exc = input$node_exc
       )
     })
     shiny::reactive(network())
