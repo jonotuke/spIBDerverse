@@ -116,6 +116,8 @@ ibd_network
   : example network 2
 - [`example_network_3`](https://jonotuke.github.io/spIBDerverse/reference/example_network_3.md)
   : example network 2
+- [`filter_network()`](https://jonotuke.github.io/spIBDerverse/reference/filter_network.md)
+  : Filter network
 - [`get_all_models()`](https://jonotuke.github.io/spIBDerverse/reference/get_all_models.md)
   : get_all_models
 - [`get_connected_graph()`](https://jonotuke.github.io/spIBDerverse/reference/get_connected_graph.md)
