@@ -33,7 +33,7 @@ ibdOutput <- function(id) {
     )
   )
 }
-ibdServer <- function(id, network) {
+ibdServer <- function(id, input_network) {
   shiny::moduleServer(id, function(input, output, session) {
     output$cutoffs <- shiny::renderPrint({
       print(cutoffs())
@@ -67,7 +67,7 @@ ibdServer <- function(id, network) {
             "Using example network",
             type = "warning"
           )
-          example_network
+          input_network
         }
       )
     })
@@ -81,14 +81,14 @@ ibdServer <- function(id, network) {
     shiny::reactive(network())
   })
 }
-ibdcreateApp <- function(network) {
+ibdcreateApp <- function(input_network) {
   ui <- shiny::fluidPage(
     ibdInput("ibd"),
     ibdOutput("ibd"),
     shiny::verbatimTextOutput("network_txt")
   )
   server <- function(input, output, session) {
-    network <- ibdServer("ibd", network)
+    network <- ibdServer("ibd", input_network)
     output$network_txt <- shiny::renderPrint(network())
   }
   shiny::shinyApp(ui, server)

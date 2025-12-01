@@ -17,10 +17,11 @@ networkplotInput <- function(id, meta) {
       choices = c("", meta),
       selected = ""
     ),
-    shiny::checkboxInput(
-      shiny::NS(id, "connected"),
-      "Only show connected nodes",
-      value = TRUE
+    shiny::radioButtons(
+      shiny::NS(id, "solo_nodes"),
+      label = "Isolated nodes",
+      choices = c("Show", "Grey out", "Hide"),
+      selected = "Show"
     ),
     shiny::sliderInput(
       shiny::NS(id, "node_size"),
@@ -91,7 +92,7 @@ networkplotServer <- function(id, network) {
         text_size = input$label_size,
         label_inc = input$label_inc,
         label_exc = input$label_exc,
-        connected = input$connected
+        connected = input$solo_nodes
       )
     })
     shiny::observeEvent(network(), {
@@ -147,8 +148,9 @@ networkplotApp <- function(network_input) {
     )
     output$debug <- shiny::renderPrint({
       print(network())
+      shiny::reactiveValuesToList(input)$`networkplot-solo_nodes`
     })
   }
   shiny::shinyApp(ui, server)
 }
-# networkplotApp(example_network) |> print()
+# networkplotApp(example_network_2) |> print()

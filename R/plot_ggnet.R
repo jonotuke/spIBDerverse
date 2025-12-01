@@ -22,7 +22,7 @@ utils::globalVariables(
 #' @param label_col vertex attribute to use for labels
 #' @param label_inc regular expression to include labels
 #' @param label_exc regular expression to exclude labels
-#' @param connected boolean to include isolated nodes
+#' @param connected choice for how to deal with isolated nodes
 #'
 #' @return ggnetwork plot
 #' @export
@@ -40,7 +40,7 @@ plot_ggnet <- function(
   label_col = "",
   label_inc = "",
   label_exc = "",
-  connected = TRUE
+  connected = "Show"
 ) {
   ggplot2::update_geom_defaults(
     "point",
@@ -76,10 +76,15 @@ plot_ggnet <- function(
   if (!labels) {
     ggnet_obj$name <- NA
   }
-  if (connected) {
+  alpha <- 1
+  if (connected == "Hide") {
     ggnet_obj <- ggnet_obj |>
       dplyr::filter(degree >= 1)
+  } else if (connected == "Grey out") {
+    alpha <- ifelse(ggnet_obj$degree >= 1, 1, 0.1)
+    # print(table(alpha))
   }
+
   # Set up fill and shape columns
   fill_col <- rlang::sym(fill_col)
   shape_col <- rlang::sym(shape_col)
@@ -106,9 +111,10 @@ plot_ggnet <- function(
     ggnetwork::geom_nodes(
       ggplot2::aes(
         fill = {{ fill_col }},
-        shape = {{ shape_col }}
+        shape = {{ shape_col }},
       ),
-      size = node_size
+      size = node_size,
+      alpha = alpha
     ) +
     ggnetwork::geom_nodetext(
       ggplot2::aes(label = name),
@@ -119,14 +125,12 @@ plot_ggnet <- function(
   p
 }
 # pacman::p_load(tidyverse, ggnetwork, igraph)
-# example_network
-# example_network |>
+# example_network_2 |>
 #   ggnetwork() |>
 #   plot_ggnet(
-#     labels = TRUE,
-#     shape = "genetic_sex",
-#     fill_col = "site",
-#     # label_col = "lat",
-#     node_size = 10
+#     labels = FALSE,
+#     node_size = 2,
+#     connected = "Grey out",
+#     fill_col = "Province"
 #   ) |>
 #   print()
