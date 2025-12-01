@@ -27,6 +27,10 @@ spibder_app <- function(input_network = NULL) {
           networksummaryInput("networksummary", meta)
         ),
         shiny::conditionalPanel(
+          condition = "input.tabs == 'Centrality measures'",
+          centralInput("central")
+        ),
+        shiny::conditionalPanel(
           condition = "input.tabs == 'Geography plot'",
           leafletInput("leaflet", meta)
         ),
@@ -53,6 +57,10 @@ spibder_app <- function(input_network = NULL) {
             networksummaryOutput("networksummary")
           ),
           shiny::tabPanel(
+            title = "Centrality measures",
+            centralOutput("central")
+          ),
+          shiny::tabPanel(
             title = "Geography plot",
             leafletOutput("leaflet")
           ),
@@ -75,6 +83,8 @@ spibder_app <- function(input_network = NULL) {
   server <- function(input, output, session) {
     ## Network plot ----
     networkplotServer("networkplot", network)
+    ## Centrality measures
+    centralServer("central", network)
     ## Leaflet plot ----
     leafletServer("leaflet", network)
     # Network measures ----

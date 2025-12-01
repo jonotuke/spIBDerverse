@@ -1,56 +1,48 @@
 centralInput <- function(id, meta) {
   shiny::tagList(
-    shiny::checkboxGroupInput(
-      shiny::NS(id, "names"),
-      "Select Node names",
-      choices = meta
+    shiny::sliderInput(
+      shiny::NS(id, "places"),
+      label = "Choose decimal places for table",
+      min = 0,
+      max = 10,
+      step = 1,
+      value = 2
     )
   )
 }
-ergmOutput <- function(id) {
+centralOutput <- function(id) {
   shiny::tagList(
-    shiny::h4("ERGMs BIC"),
-    shiny::plotOutput(
-      shiny::NS(id, "ergm_aic_plot")
-    ),
-    shiny::downloadButton(
-      shiny::NS(id, "bic_down"),
-      "Download plot"
-    ),
     DT::dataTableOutput(
-      shiny::NS(id, "ergm_aic_tab")
-    ),
-    shiny::h4("ERGMs coefficients"),
-    shiny::plotOutput(
-      shiny::NS(id, "ergm_coef_plot"),
-      height = "800px"
-    ),
-    shiny::downloadButton(
-      shiny::NS(id, "coef_down"),
-      "Download plot"
-    ),
+      shiny::NS(id, "tab")
+    )
   )
 }
-centralServer <- function(id, df) {
+centralServer <- function(id, network) {
   shiny::moduleServer(id, function(input, output, session) {
-    shiny::observeEvent(df(), {
-      shiny::updateCheckboxGroupInput(
-        session,
-        "names",
-        choices = igraph::vertex_attr_names(df())
-      )
+    output$tab <- DT::renderDataTable({
+      DT::datatable({
+        get_centrality_measures(network())
+      }) |>
+        DT::formatRound(
+          c(
+            "closeness",
+            "betweenness",
+            "eigen_centrality"
+          ),
+          input$places
+        )
     })
   })
 }
 centralApp <- function(network_input) {
   meta <- igraph::vertex_attr_names(network_input)
   ui <- shiny::fluidPage(
-    centralInput("central", meta),
-    ergmOutput("ergm")
+    centralInput("central"),
+    centralOutput("central")
   )
   server <- function(input, output, session) {
     network <- shiny::reactive(network_input)
-    ergmServer("central", network)
+    centralServer("central", network)
   }
   shiny::shinyApp(ui, server)
 }
