@@ -15,7 +15,7 @@ plot_ggnet(
   label_col = "",
   label_inc = "",
   label_exc = "",
-  connected = TRUE
+  connected = "Show"
 )
 ```
 
@@ -59,7 +59,7 @@ plot_ggnet(
 
 - connected:
 
-  boolean to include isolated nodes
+  choice for how to deal with isolated nodes
 
 ## Value
 
