@@ -19,6 +19,7 @@ utils::globalVariables(
 #' @param node_size node size
 #' @param text_size label size
 #' @param labels add labels
+#' @param label_col vertex attribute to use for labels
 #' @param label_inc regular expression to include labels
 #' @param label_exc regular expression to exclude labels
 #' @param connected boolean to include isolated nodes
@@ -36,6 +37,7 @@ plot_ggnet <- function(
   node_size = 4,
   text_size = 4,
   labels = FALSE,
+  label_col = "",
   label_inc = "",
   label_exc = "",
   connected = TRUE
@@ -44,6 +46,14 @@ plot_ggnet <- function(
     "point",
     list(shape = 21, fill = "white")
   )
+  if (label_col != "") {
+    label_col <- rlang::sym(label_col)
+    ggnet_obj <-
+      ggnet_obj |>
+      dplyr::mutate(
+        name = {{ label_col }}
+      )
+  }
   # Clean labels
   if (label_inc != "") {
     ggnet_obj <- ggnet_obj |>
@@ -105,9 +115,6 @@ plot_ggnet <- function(
       size = text_size
     ) +
     harrypotter::scale_fill_hp_d("Ravenclaw") +
-    # ggplot2::scale_fill_manual(
-    #   values = harrypotter::hp(3, house = "Ravenclaw")
-    # ) +
     ggplot2::coord_equal()
   p
 }
@@ -117,8 +124,9 @@ plot_ggnet <- function(
 #   ggnetwork() |>
 #   plot_ggnet(
 #     labels = TRUE,
-#     fill = "site",
 #     shape = "genetic_sex",
+#     fill_col = "site",
+#     # label_col = "lat",
 #     node_size = 10
 #   ) |>
 #   print()

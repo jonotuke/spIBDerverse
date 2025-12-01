@@ -31,9 +31,14 @@ leafletInput <- function(id, meta) {
   )
 }
 leafletOutput <- function(id) {
-  leaflet::leafletOutput(
-    shiny::NS(id, "map"),
-    height = "800px"
+  shiny::tagList(
+    # shiny::verbatimTextOutput(
+    #   shiny::NS(id, "debug")
+    # ),
+    leaflet::leafletOutput(
+      shiny::NS(id, "map"),
+      height = "800px"
+    )
   )
 }
 leafletServer <- function(id, df) {
@@ -67,8 +72,14 @@ leafletServer <- function(id, df) {
       shiny::updateSelectInput(
         session,
         "leaflet_col",
-        choices = c("none", igraph::vertex_attr_names(df()))
+        choices = c(
+          "none",
+          igraph::vertex_attr_names(df())
+        )
       )
+    })
+    output$debug <- shiny::renderPrint({
+      print(input$map_bounds)
     })
   })
 }

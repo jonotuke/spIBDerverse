@@ -11,6 +11,7 @@ plot_ggnet(
   node_size = 4,
   text_size = 4,
   labels = FALSE,
+  label_col = "",
   label_inc = "",
   label_exc = "",
   connected = TRUE
@@ -28,6 +29,8 @@ plot_ggnet(
 \item{text_size}{label size}
 
 \item{labels}{add labels}
+
+\item{label_col}{vertex attribute to use for labels}
 
 \item{label_inc}{regular expression to include labels}
 

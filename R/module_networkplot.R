@@ -41,6 +41,12 @@ networkplotInput <- function(id, meta) {
       "Add labels",
       value = FALSE
     ),
+    shiny::selectInput(
+      inputId = shiny::NS(id, "label_id"),
+      label = "Label variable",
+      choices = c("", meta),
+      selected = ""
+    ),
     shiny::textInput(
       shiny::NS(id, "label_inc"),
       "Labels to include"
@@ -81,6 +87,7 @@ networkplotServer <- function(id, network) {
         fill_col = input$fill_id,
         node_size = input$node_size,
         labels = input$add_label,
+        label_col = input$label_id,
         text_size = input$label_size,
         label_inc = input$label_inc,
         label_exc = input$label_exc,
@@ -98,6 +105,13 @@ networkplotServer <- function(id, network) {
       shiny::updateSelectInput(
         session,
         "fill_id",
+        choices = c("", igraph::vertex_attr_names(network()))
+      )
+    })
+    shiny::observeEvent(network(), {
+      shiny::updateSelectInput(
+        session,
+        "label_id",
         choices = c("", igraph::vertex_attr_names(network()))
       )
     })
