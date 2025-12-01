@@ -14,6 +14,10 @@ centralOutput <- function(id) {
   shiny::tagList(
     DT::dataTableOutput(
       shiny::NS(id, "tab")
+    ),
+    shiny::downloadButton(
+      shiny::NS(id, "down"),
+      "Download table"
     )
   )
 }
@@ -32,6 +36,17 @@ centralServer <- function(id, network) {
           input$places
         )
     })
+    output$down <- shiny::downloadHandler(
+      filename = function() {
+        paste0(lubridate::today(), "-centrality.tsv")
+      },
+      content = function(file) {
+        readr::write_tsv(
+          get_centrality_measures(network()),
+          file
+        )
+      }
+    )
   })
 }
 centralApp <- function(network_input) {

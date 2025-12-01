@@ -1,6 +1,6 @@
 get_centrality_measures <- function(g) {
   igraph::as_data_frame(g, what = "vertices") |>
-    as_tibble() |>
+    tibble::as_tibble() |>
     dplyr::select(
       name,
       degree
