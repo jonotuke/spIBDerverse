@@ -12,6 +12,7 @@ plot_ggnet(
   node_size = 4,
   text_size = 4,
   labels = FALSE,
+  label_col = "",
   label_inc = "",
   label_exc = "",
   connected = TRUE
@@ -43,6 +44,10 @@ plot_ggnet(
 - labels:
 
   add labels
+
+- label_col:
+
+  vertex attribute to use for labels
 
 - label_inc:
 
