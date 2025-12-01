@@ -2,13 +2,13 @@ leafletInput <- function(id, meta) {
   shiny::tagList(
     shiny::selectInput(
       shiny::NS(id, "lat"),
-      label = "Choose lat column",
+      label = "Choose latitude column",
       choices = c("none", meta),
       selected = "none"
     ),
     shiny::selectInput(
       shiny::NS(id, "lon"),
-      label = "Choose long column",
+      label = "Choose longitude column",
       choices = c("none", meta),
       selected = "none"
     ),

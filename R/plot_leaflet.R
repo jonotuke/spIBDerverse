@@ -119,5 +119,7 @@ plot_leaflet <- function(
 }
 # pacman::p_load(conflicted, tidyverse, targets, leaflet, sp, igraph)
 # example_network
-# plot_leaflet(example_network, "lat", "long", col = "genetic_sex") |>
-#   print()
+# m <- plot_leaflet(example_network, "lat", "long", col = "genetic_sex")
+# pacman::p_load(mapview, webshot)
+# webshot::install_phantomjs()
+# mapshot(m, file = "~/Desktop/leaflet.pdf")
