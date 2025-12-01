@@ -14,7 +14,7 @@ plot_ggnet(
   label_col = "",
   label_inc = "",
   label_exc = "",
-  connected = TRUE
+  connected = "Show"
 )
 }
 \arguments{
@@ -36,7 +36,7 @@ plot_ggnet(
 
 \item{label_exc}{regular expression to exclude labels}
 
-\item{connected}{boolean to include isolated nodes}
+\item{connected}{choice for how to deal with isolated nodes}
 }
 \value{
 ggnetwork plot
