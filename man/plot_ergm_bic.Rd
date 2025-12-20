@@ -4,22 +4,28 @@
 \alias{plot_ergm_bic}
 \title{plot_ergm_bic}
 \usage{
-plot_ergm_bic(ergms, type = 1)
+plot_ergm_bic(ergms, text_size = 10, text_angle = 90, abbr = FALSE)
 
-plot_ergm_bic(ergms, type = 1)
+plot_ergm_bic(ergms, text_size = 10, text_angle = 90, abbr = FALSE)
 }
 \arguments{
-\item{ergms}{list of ergms fitted to IBD net}
+\item{ergms}{a list of ergms}
 
-\item{type}{which plot to show}
+\item{text_size}{size of x axis text}
+
+\item{text_angle}{angle of x-axis text}
+
+\item{abbr}{boolean to clean up names}
 }
 \value{
 ggplot of BIC for each ergm
 
-plot of fits
+plot
 }
 \description{
 For each ergm model plots the BIC
+
+Final version is based on BR's version
 }
 \examples{
 ergms <- get_ergms(
@@ -27,7 +33,7 @@ ergms <- get_ergms(
   preds = c("site", "genetic_sex")
 )
 ergms |> plot_ergm_bic()
-example_network |>
-get_ergms(c("site", "genetic_sex")) |>
-plot_ergm_bic()
+ergms <- example_network |>
+  get_ergms(c("site", "genetic_sex"))
+plot_ergm_bic(ergms) |> print()
 }

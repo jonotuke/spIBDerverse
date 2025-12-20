@@ -14,6 +14,25 @@ ergmInput <- function(id, meta) {
       ),
       selected = "theta",
     ),
+    shiny::sliderInput(
+      shiny::NS(id, "text_size"),
+      label = "Text size",
+      min = 5,
+      max = 20,
+      value = 8
+    ),
+    shiny::sliderInput(
+      shiny::NS(id, "text_angle"),
+      label = "Text angle",
+      min = 0,
+      max = 90,
+      value = 90,
+      step = 15
+    ),
+    shiny::checkboxInput(
+      shiny::NS(id, "abbr"),
+      label = "Abbreviate models"
+    ),
     shiny::checkboxInput(
       shiny::NS(id, "ergm_trim"),
       label = "Trim coefficients",
@@ -47,10 +66,14 @@ ergmOutput <- function(id) {
 }
 ergmServer <- function(id, df) {
   shiny::moduleServer(id, function(input, output, session) {
-    ergm <- shiny::reactive(get_ergms(df(), input$preds))
+    ergm <- shiny::reactive(
+      get_ergms(df(), input$preds)
+    )
     output$ergm_aic_tab <- DT::renderDataTable({
       DT::datatable(
-        get_ergm_bic(ergm())
+        get_ergm_bic(
+          ergm()
+        )
       ) |>
         DT::formatRound(
           columns = c('AIC', 'BIC'),
@@ -58,7 +81,12 @@ ergmServer <- function(id, df) {
         )
     })
     bic_plot <- shiny::reactive({
-      plot_ergm_bic(ergm())
+      plot_ergm_bic(
+        ergm(),
+        text_size = input$text_size,
+        text_angle = input$text_angle,
+        abbr = input$abbr
+      )
     })
     output$ergm_aic_plot <- shiny::renderPlot({
       bic_plot()

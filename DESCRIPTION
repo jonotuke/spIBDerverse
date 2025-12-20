@@ -64,8 +64,10 @@ Suggests:
     rmarkdown,
     quarto,
     fs,
-    grDevices
+    grDevices,
+    testthat (>= 3.0.0)
 VignetteBuilder: quarto, knitr
 Depends: 
     R (>= 4.1.0)
 LazyData: true
+Config/testthat/edition: 3
