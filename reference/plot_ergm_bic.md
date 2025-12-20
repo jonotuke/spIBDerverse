@@ -2,29 +2,39 @@
 
 For each ergm model plots the BIC
 
+Final version is based on BR's version
+
 ## Usage
 
 ``` r
-plot_ergm_bic(ergms, type = 1)
+plot_ergm_bic(ergms, text_size = 10, text_angle = 90, abbr = FALSE)
 
-plot_ergm_bic(ergms, type = 1)
+plot_ergm_bic(ergms, text_size = 10, text_angle = 90, abbr = FALSE)
 ```
 
 ## Arguments
 
 - ergms:
 
-  list of ergms fitted to IBD net
+  a list of ergms
 
-- type:
+- text_size:
 
-  which plot to show
+  size of x axis text
+
+- text_angle:
+
+  angle of x-axis text
+
+- abbr:
+
+  boolean to clean up names
 
 ## Value
 
 ggplot of BIC for each ergm
 
-plot of fits
+plot
 
 ## Examples
 
@@ -63,9 +73,8 @@ ergms <- get_ergms(
 #> 
 ergms |> plot_ergm_bic()
 
-example_network |>
-get_ergms(c("site", "genetic_sex")) |>
-plot_ergm_bic()
+ergms <- example_network |>
+  get_ergms(c("site", "genetic_sex"))
 #> Starting maximum pseudolikelihood estimation (MPLE):
 #> Obtaining the responsible dyads.
 #> Evaluating the predictor and response matrix.
@@ -94,4 +103,5 @@ plot_ergm_bic()
 #> Finished MPLE.
 #> Evaluating log-likelihood at the estimate. 
 #> 
+plot_ergm_bic(ergms) |> print()
 ```

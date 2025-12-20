@@ -2,6 +2,8 @@
 
 ## All functions
 
+- [`clean_models()`](https://jonotuke.github.io/spIBDerverse/reference/clean_models.md)
+  : clean model names
 - [`clean_network()`](https://jonotuke.github.io/spIBDerverse/reference/clean_network.md)
   : Clean network
 - [`convert_pred_ergmterm()`](https://jonotuke.github.io/spIBDerverse/reference/convert_pred_ergmterm.md)
