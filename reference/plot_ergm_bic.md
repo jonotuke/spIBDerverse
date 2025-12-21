@@ -7,9 +7,23 @@ Final version is based on BR's version
 ## Usage
 
 ``` r
-plot_ergm_bic(ergms, text_size = 10, text_angle = 90, abbr = FALSE)
+plot_ergm_bic(
+  ergms,
+  text_size = 10,
+  text_angle = 90,
+  abbr = FALSE,
+  measure = "BIC",
+  top_5 = FALSE
+)
 
-plot_ergm_bic(ergms, text_size = 10, text_angle = 90, abbr = FALSE)
+plot_ergm_bic(
+  ergms,
+  text_size = 10,
+  text_angle = 90,
+  abbr = FALSE,
+  measure = "BIC",
+  top_5 = FALSE
+)
 ```
 
 ## Arguments
@@ -29,6 +43,14 @@ plot_ergm_bic(ergms, text_size = 10, text_angle = 90, abbr = FALSE)
 - abbr:
 
   boolean to clean up names
+
+- measure:
+
+  decide if AIC or BIC.
+
+- top_5:
+
+  boolean to show just top 5 models
 
 ## Value
 
