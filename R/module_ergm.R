@@ -14,6 +14,19 @@ ergmInput <- function(id, meta) {
       ),
       selected = "theta",
     ),
+    shiny::radioButtons(
+      shiny::NS(id, "measure"),
+      label = "Measure",
+      choices = c(
+        "AIC",
+        "BIC"
+      ),
+      selected = "BIC"
+    ),
+    shiny::checkboxInput(
+      shiny::NS(id, "top_5"),
+      label = "Show just top 5"
+    ),
     shiny::sliderInput(
       shiny::NS(id, "text_size"),
       label = "Text size",
@@ -85,7 +98,9 @@ ergmServer <- function(id, df) {
         ergm(),
         text_size = input$text_size,
         text_angle = input$text_angle,
-        abbr = input$abbr
+        abbr = input$abbr,
+        measure = input$measure,
+        top_5 = input$top_5
       )
     })
     output$ergm_aic_plot <- shiny::renderPlot({
@@ -148,4 +163,4 @@ ergmApp <- function(network_input) {
   }
   shiny::shinyApp(ui, server)
 }
-# ergmApp(example_network) |> print()
+ergmApp(example_network) |> print()

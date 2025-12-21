@@ -4,9 +4,23 @@
 \alias{plot_ergm_bic}
 \title{plot_ergm_bic}
 \usage{
-plot_ergm_bic(ergms, text_size = 10, text_angle = 90, abbr = FALSE)
+plot_ergm_bic(
+  ergms,
+  text_size = 10,
+  text_angle = 90,
+  abbr = FALSE,
+  measure = "BIC",
+  top_5 = FALSE
+)
 
-plot_ergm_bic(ergms, text_size = 10, text_angle = 90, abbr = FALSE)
+plot_ergm_bic(
+  ergms,
+  text_size = 10,
+  text_angle = 90,
+  abbr = FALSE,
+  measure = "BIC",
+  top_5 = FALSE
+)
 }
 \arguments{
 \item{ergms}{a list of ergms}
@@ -16,6 +30,10 @@ plot_ergm_bic(ergms, text_size = 10, text_angle = 90, abbr = FALSE)
 \item{text_angle}{angle of x-axis text}
 
 \item{abbr}{boolean to clean up names}
+
+\item{measure}{decide if AIC or BIC.}
+
+\item{top_5}{boolean to show just top 5 models}
 }
 \value{
 ggplot of BIC for each ergm
