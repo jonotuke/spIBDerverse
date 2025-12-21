@@ -55,7 +55,8 @@ networkplotInput <- function(id, meta) {
     shiny::textInput(
       shiny::NS(id, "label_exc"),
       "Labels to exclude"
-    )
+    ),
+    fig_params_input(id)
   )
 }
 
@@ -69,10 +70,16 @@ networkplotOutput <- function(id) {
       shiny::NS(id, "down"),
       "Download plot"
     )
+    # shiny::verbatimTextOutput(
+    #   shiny::NS(id, "debug")
+    # )
   )
 }
 
-networkplotServer <- function(id, network) {
+networkplotServer <- function(
+  id,
+  network
+) {
   shiny::moduleServer(id, function(input, output, session) {
     ggnet <- shiny::reactive({
       set.seed(input$seed)
@@ -118,17 +125,21 @@ networkplotServer <- function(id, network) {
     })
     output$down <- shiny::downloadHandler(
       filename = function() {
-        paste0(lubridate::today(), "-network.pdf")
+        name_file(input$fig_ext, "network")
       },
       content = function(file) {
         ggplot2::ggsave(
           file,
           p(),
-          width = 10,
-          height = 10
+          width = input$fig_width,
+          height = input$fig_height
         )
       }
     )
+    # output$debug <- shiny::renderPrint({
+    #   print("Hello world")
+    #   print(network())
+    # })
   })
 }
 networkplotApp <- function(network_input) {
@@ -146,11 +157,16 @@ networkplotApp <- function(network_input) {
       "networkplot",
       network
     )
-    output$debug <- shiny::renderPrint({
-      print(network())
-      shiny::reactiveValuesToList(input)$`networkplot-solo_nodes`
-    })
   }
   shiny::shinyApp(ui, server)
 }
+name_file <- function(fig_ext, type) {
+  ext <- dplyr::case_when(
+    fig_ext == "PDF" ~ '.pdf',
+    fig_ext == "PNG" ~ '.png',
+    fig_ext == "JPEG" ~ '.jpeg'
+  )
+  paste0(lubridate::today(), "-", type, ext)
+}
 # networkplotApp(example_network_2) |> print()
+# name_file("PNG", "network")

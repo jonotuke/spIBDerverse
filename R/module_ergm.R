@@ -163,4 +163,4 @@ ergmApp <- function(network_input) {
   }
   shiny::shinyApp(ui, server)
 }
-ergmApp(example_network) |> print()
+# ergmApp(example_network) |> print()

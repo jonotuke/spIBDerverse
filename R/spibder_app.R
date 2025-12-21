@@ -82,7 +82,10 @@ spibder_app <- function(input_network = NULL) {
   )
   server <- function(input, output, session) {
     ## Network plot ----
-    networkplotServer("networkplot", network)
+    networkplotServer(
+      "networkplot",
+      network
+    )
     ## Centrality measures
     centralServer("central", network)
     ## Leaflet plot ----
