@@ -14,6 +14,8 @@
   : Copy files
 - [`create_ibd_network()`](https://jonotuke.github.io/spIBDerverse/reference/create_ibd_network.md)
   : create_ibd_network
+- [`default_image`](https://jonotuke.github.io/spIBDerverse/reference/default_image.md)
+  : default image
 - [`example_network`](https://jonotuke.github.io/spIBDerverse/reference/example_network.md)
   : example network
 - [`example_network_2`](https://jonotuke.github.io/spIBDerverse/reference/example_network_2.md)
@@ -24,6 +26,8 @@
   : Filter network
 - [`get_all_models()`](https://jonotuke.github.io/spIBDerverse/reference/get_all_models.md)
   : get_all_models
+- [`get_centrality_measures()`](https://jonotuke.github.io/spIBDerverse/reference/get_centrality_measures.md)
+  : Get centrality measures
 - [`get_connected_graph()`](https://jonotuke.github.io/spIBDerverse/reference/get_connected_graph.md)
   : get_connected_graph
 - [`get_ergm_bic()`](https://jonotuke.github.io/spIBDerverse/reference/get_ergm_bic.md)
@@ -32,8 +36,6 @@
   : Convert ergm coefficients to fold changes
 - [`get_ergms()`](https://jonotuke.github.io/spIBDerverse/reference/get_ergms.md)
   : get_ergms
-- [`get_network_measures()`](https://jonotuke.github.io/spIBDerverse/reference/get_network_measures.md)
-  : get_network_measures
 - [`get_network_summary()`](https://jonotuke.github.io/spIBDerverse/reference/get_network_summary.md)
   : Get network summary
 - [`get_node_info()`](https://jonotuke.github.io/spIBDerverse/reference/get_node_info.md)
