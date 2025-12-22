@@ -55,8 +55,7 @@ networkplotInput <- function(id, meta) {
     shiny::textInput(
       shiny::NS(id, "label_exc"),
       "Labels to exclude"
-    ),
-    fig_params_input(id)
+    )
   )
 }
 
@@ -66,20 +65,14 @@ networkplotOutput <- function(id) {
       shiny::NS(id, "plot"),
       height = "800px"
     ),
-    shiny::downloadButton(
-      shiny::NS(id, "down"),
-      "Download plot"
+    shiny::actionButton(
+      shiny::NS(id, "save"),
+      "Set as export plot"
     )
-    # shiny::verbatimTextOutput(
-    #   shiny::NS(id, "debug")
-    # )
   )
 }
 
-networkplotServer <- function(
-  id,
-  network
-) {
+networkplotServer <- function(id, network, store) {
   shiny::moduleServer(id, function(input, output, session) {
     ggnet <- shiny::reactive({
       set.seed(input$seed)
@@ -106,48 +99,57 @@ networkplotServer <- function(
       shiny::updateSelectInput(
         session,
         "shape_id",
-        choices = c("", igraph::vertex_attr_names(network()))
+        choices = c(
+          "",
+          igraph::vertex_attr_names(network())
+        )
       )
     })
     shiny::observeEvent(network(), {
       shiny::updateSelectInput(
         session,
         "fill_id",
-        choices = c("", igraph::vertex_attr_names(network()))
+        choices = c(
+          "",
+          igraph::vertex_attr_names(network())
+        )
       )
     })
     shiny::observeEvent(network(), {
       shiny::updateSelectInput(
         session,
         "label_id",
-        choices = c("", igraph::vertex_attr_names(network()))
+        choices = c(
+          "",
+          igraph::vertex_attr_names(network())
+        )
       )
     })
-    output$down <- shiny::downloadHandler(
-      filename = function() {
-        name_file(input$fig_ext, "network")
-      },
-      content = function(file) {
-        ggplot2::ggsave(
-          file,
-          p(),
-          width = input$fig_width,
-          height = input$fig_height
-        )
-      }
-    )
-    # output$debug <- shiny::renderPrint({
-    #   print("Hello world")
-    #   print(network())
-    # })
+    shiny::observeEvent(input$save, {
+      store$export <- shiny::reactive(
+        p()
+      )
+    })
   })
 }
 networkplotApp <- function(network_input) {
   meta <- igraph::vertex_attr_names(network_input)
   ui <- shiny::fluidPage(
-    networkplotInput("networkplot", meta),
-    networkplotOutput("networkplot"),
-    shiny::verbatimTextOutput(outputId = "debug")
+    shiny::tabsetPanel(
+      id = "tabs",
+      shiny::tabPanel(
+        title = "Network plot",
+        networkplotInput("networkplot", meta),
+        networkplotOutput("networkplot"),
+        shiny::verbatimTextOutput(outputId = "debug"),
+        shiny::plotOutput("test")
+      ),
+      shiny::tabPanel(
+        title = "Export tab",
+        exportplotInput("exportplot"),
+        exportplotOutput("exportplot")
+      )
+    )
   )
   server <- function(input, output, session) {
     network <- shiny::reactive(
@@ -155,18 +157,25 @@ networkplotApp <- function(network_input) {
     )
     networkplotServer(
       "networkplot",
-      network
+      network = network,
+      plots
     )
+    plots <- shiny::reactiveValues(
+      export = shiny::reactive({
+        ggplot2::mpg |>
+          ggplot2::ggplot(ggplot2::aes(displ, cty)) +
+          ggplot2::geom_point()
+      })
+    )
+    exportplotServer(
+      "exportplot",
+      "network",
+      plots$export
+    )
+    output$test <- shiny::renderPlot({
+      plots$export()
+    })
   }
   shiny::shinyApp(ui, server)
 }
-name_file <- function(fig_ext, type) {
-  ext <- dplyr::case_when(
-    fig_ext == "PDF" ~ '.pdf',
-    fig_ext == "PNG" ~ '.png',
-    fig_ext == "JPEG" ~ '.jpeg'
-  )
-  paste0(lubridate::today(), "-", type, ext)
-}
-# networkplotApp(example_network_2) |> print()
-# name_file("PNG", "network")
+# networkplotApp(example_network) |> print()

@@ -42,7 +42,14 @@ spibder_app <- function(input_network = NULL) {
           condition = "input.tabs == 'ERGM models'",
           ergmInput("ergm", meta)
         ),
-        shiny::downloadButton("bookmark", "Download snapshot")
+        shiny::conditionalPanel(
+          condition = "input.tabs == 'Export plot'",
+          exportplotInput("export")
+        ),
+        shiny::downloadButton(
+          "bookmark",
+          "Download snapshot"
+        )
       ),
       shiny::mainPanel(
         shiny::tabsetPanel(
@@ -54,7 +61,8 @@ spibder_app <- function(input_network = NULL) {
           shiny::tabPanel(
             title = "Network plot",
             networkplotOutput("networkplot"),
-            networksummaryOutput("networksummary")
+            networksummaryOutput("networksummary"),
+            shiny::plotOutput("test")
           ),
           shiny::tabPanel(
             title = "Centrality measures",
@@ -73,6 +81,10 @@ spibder_app <- function(input_network = NULL) {
             ergmOutput("ergm")
           ),
           shiny::tabPanel(
+            title = "Export plot",
+            exportplotOutput("export")
+          ),
+          shiny::tabPanel(
             title = "Debugging",
             shiny::verbatimTextOutput(outputId = "debug")
           )
@@ -82,10 +94,7 @@ spibder_app <- function(input_network = NULL) {
   )
   server <- function(input, output, session) {
     ## Network plot ----
-    networkplotServer(
-      "networkplot",
-      network
-    )
+    networkplotServer("networkplot", network, plots)
     ## Centrality measures
     centralServer("central", network)
     ## Leaflet plot ----
@@ -114,6 +123,18 @@ spibder_app <- function(input_network = NULL) {
       content = function(file) {
         readr::write_rds(snapshot(), file)
       }
+    )
+    plots <- shiny::reactiveValues(
+      export = shiny::reactive({
+        ggplot2::mpg |>
+          ggplot2::ggplot(ggplot2::aes(displ, cty)) +
+          ggplot2::geom_point()
+      })
+    )
+    exportplotServer(
+      "export",
+      "network",
+      plots
     )
     # DEBUG ----
     output$debug <- shiny::renderPrint({
