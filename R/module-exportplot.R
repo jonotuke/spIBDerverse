@@ -33,7 +33,8 @@ exportplotInput <- function(id) {
 exportplotOutput <- function(id) {
   shiny::tagList(
     shiny::plotOutput(
-      shiny::NS(id, "plot")
+      shiny::NS(id, "plot"),
+      height = "800px"
     )
   )
 }

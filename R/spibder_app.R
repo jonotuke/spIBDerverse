@@ -23,12 +23,11 @@ spibder_app <- function(input_network = NULL) {
         ),
         shiny::conditionalPanel(
           condition = "input.tabs == 'Network plot'",
-          networkplotInput("networkplot", meta),
-          networksummaryInput("networksummary", meta)
+          networkplotInput("networkplot", meta)
         ),
         shiny::conditionalPanel(
           condition = "input.tabs == 'Centrality measures'",
-          centralInput("central")
+          networkstatsInput("central", meta)
         ),
         shiny::conditionalPanel(
           condition = "input.tabs == 'Geography plot'",
@@ -60,13 +59,15 @@ spibder_app <- function(input_network = NULL) {
           ),
           shiny::tabPanel(
             title = "Network plot",
-            networkplotOutput("networkplot"),
-            networksummaryOutput("networksummary"),
-            shiny::plotOutput("test")
+            networkplotOutput("networkplot")
+          ),
+          shiny::tabPanel(
+            title = "Network summary",
+            shiny::tableOutput("summary")
           ),
           shiny::tabPanel(
             title = "Centrality measures",
-            centralOutput("central")
+            networkstatsOutput("central")
           ),
           shiny::tabPanel(
             title = "Geography plot",
@@ -95,23 +96,20 @@ spibder_app <- function(input_network = NULL) {
   server <- function(input, output, session) {
     ## Network plot ----
     networkplotServer("networkplot", network, plots)
+    ## Network summary ----
+    output$summary <- shiny::renderTable({
+      get_network_summary(network())
+    })
     ## Centrality measures
-    centralServer("central", network)
+    networkstatsServer("central", network)
     ## Leaflet plot ----
     leafletServer("leaflet", network)
-    # Network measures ----
-    networksummaryServer("networksummary", network)
     # Ringbauer matrix ----
     ringbauerServer("ringbauer", network)
     # ERGMs ----
     ergmServer("ergm", network)
     # IBD ----
     network <- ibdServer("ibd", input_network)
-    # DATA ----
-    ## Network ----
-    # network <- shiny::reactive({
-    #   input_network
-    # })
     # EXPORT <----
     snapshot <- shiny::reactive({
       shiny::reactiveValuesToList(input)
@@ -126,9 +124,7 @@ spibder_app <- function(input_network = NULL) {
     )
     plots <- shiny::reactiveValues(
       export = shiny::reactive({
-        ggplot2::mpg |>
-          ggplot2::ggplot(ggplot2::aes(displ, cty)) +
-          ggplot2::geom_point()
+        plot_default_image()
       })
     )
     exportplotServer(
