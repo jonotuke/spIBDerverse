@@ -105,9 +105,9 @@ spibder_app <- function(input_network = NULL) {
     ## Leaflet plot ----
     leafletServer("leaflet", network)
     # Ringbauer matrix ----
-    ringbauerServer("ringbauer", network)
+    ringbauerServer("ringbauer", network, plots)
     # ERGMs ----
-    ergmServer("ergm", network)
+    ergmServer("ergm", network, plots)
     # IBD ----
     network <- ibdServer("ibd", input_network)
     # EXPORT <----
@@ -127,11 +127,7 @@ spibder_app <- function(input_network = NULL) {
         plot_default_image()
       })
     )
-    exportplotServer(
-      "export",
-      "network",
-      plots
-    )
+    exportplotServer("export", "network", plots)
     # DEBUG ----
     output$debug <- shiny::renderPrint({
       print(network())

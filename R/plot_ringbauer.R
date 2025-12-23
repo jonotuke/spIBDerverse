@@ -119,5 +119,5 @@ plot_ringbauer <- function(RM, label_margin = 2, label_size = 3) {
 }
 # get_ringbauer_measures(example_network, "site") |>
 #   convert_ringbauer_measures() |>
-#   plot_ringbauer(label_margin = 10, label_size = 8) |>
-#   print()
+#   plot_ringbauer(label_margin = 10, label_size = 8)
+# p <- recordPlot()

@@ -59,9 +59,9 @@ ergmOutput <- function(id) {
     shiny::plotOutput(
       shiny::NS(id, "ergm_aic_plot")
     ),
-    shiny::downloadButton(
-      shiny::NS(id, "bic_down"),
-      "Download plot"
+    shiny::actionButton(
+      shiny::NS(id, "bic_save"),
+      "Set as export plot"
     ),
     DT::dataTableOutput(
       shiny::NS(id, "ergm_aic_tab")
@@ -71,13 +71,13 @@ ergmOutput <- function(id) {
       shiny::NS(id, "ergm_coef_plot"),
       height = "800px"
     ),
-    shiny::downloadButton(
-      shiny::NS(id, "coef_down"),
-      "Download plot"
-    ),
+    shiny::actionButton(
+      shiny::NS(id, "coef_save"),
+      "Set as export plot"
+    )
   )
 }
-ergmServer <- function(id, df) {
+ergmServer <- function(id, df, store) {
   shiny::moduleServer(id, function(input, output, session) {
     ergm <- shiny::reactive(
       get_ergms(df(), input$preds)
@@ -123,43 +123,36 @@ ergmServer <- function(id, df) {
         choices = igraph::vertex_attr_names(df())
       )
     })
-    output$bic_down <- shiny::downloadHandler(
-      filename = function() {
-        paste0(lubridate::today(), "-ergm-bic.pdf")
-      },
-      content = function(file) {
-        ggplot2::ggsave(
-          file,
-          bic_plot(),
-          width = 10,
-          height = 10
-        )
-      }
-    )
-    output$coef_down <- shiny::downloadHandler(
-      filename = function() {
-        paste0(lubridate::today(), "-ergm-coef.pdf")
-      },
-      content = function(file) {
-        ggplot2::ggsave(
-          file,
-          coef_plot(),
-          width = 10,
-          height = 10
-        )
-      }
-    )
+    shiny::observeEvent(input$bic_save, {
+      store$export <- shiny::reactive(
+        bic_plot()
+      )
+    })
+    shiny::observeEvent(input$coef_save, {
+      store$export <- shiny::reactive(
+        coef_plot()
+      )
+    })
   })
 }
 ergmApp <- function(network_input) {
   meta <- igraph::vertex_attr_names(network_input)
   ui <- shiny::fluidPage(
     ergmInput("ergm", meta),
-    ergmOutput("ergm")
+    ergmOutput("ergm"),
+    shiny::plotOutput("debug")
   )
   server <- function(input, output, session) {
     network <- shiny::reactive(network_input)
-    ergmServer("ergm", network)
+    ergmServer("ergm", network, store)
+    store <- shiny::reactiveValues(
+      export = shiny::reactive({
+        plot_default_image()
+      })
+    )
+    output$debug <- shiny::renderPlot({
+      store$export()
+    })
   }
   shiny::shinyApp(ui, server)
 }
