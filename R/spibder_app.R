@@ -12,8 +12,8 @@ spibder_app <- function(input_network = NULL) {
     input_network <- example_network
   }
   meta <- igraph::vertex_attr_names(input_network)
-
   ui <- shiny::fluidPage(
+    prompter::use_prompt(),
     shiny::titlePanel("shiny spIBDer"),
     shiny::sidebarLayout(
       shiny::sidebarPanel(
@@ -48,7 +48,8 @@ spibder_app <- function(input_network = NULL) {
         shiny::downloadButton(
           "bookmark",
           "Save analysis state"
-        )
+        ) |>
+          prompter::add_prompt(message = "This is a tool tip")
       ),
       shiny::mainPanel(
         shiny::tabsetPanel(
