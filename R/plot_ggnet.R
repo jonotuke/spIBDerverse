@@ -56,6 +56,9 @@ plot_ggnet <- function(
   }
   # Clean labels
   if (label_inc != "") {
+    label_inc <- label_inc |>
+      stringr::str_replace_all(",", "|") |>
+      stringr::str_remove_all(" ")
     ggnet_obj <- ggnet_obj |>
       dplyr::mutate(
         name = dplyr::case_when(
@@ -65,6 +68,9 @@ plot_ggnet <- function(
       )
   }
   if (label_exc != "") {
+    label_exc <- label_exc |>
+      stringr::str_replace_all(",", "|") |>
+      stringr::str_remove_all(" ")
     ggnet_obj <- ggnet_obj |>
       dplyr::mutate(
         name = dplyr::case_when(
@@ -82,7 +88,6 @@ plot_ggnet <- function(
       dplyr::filter(degree >= 1)
   } else if (connected == "Grey out") {
     alpha <- ifelse(ggnet_obj$degree >= 1, 1, 0.1)
-    # print(table(alpha))
   }
 
   # Set up fill and shape columns
@@ -125,12 +130,13 @@ plot_ggnet <- function(
   p
 }
 # pacman::p_load(tidyverse, ggnetwork, igraph)
-# example_network_2 |>
+# set.seed(2025)
+# example_network |>
 #   ggnetwork() |>
 #   plot_ggnet(
-#     labels = FALSE,
-#     node_size = 2,
-#     connected = "Grey out",
-#     fill_col = "Province"
+#     labels = TRUE,
+#     node_size = 10,
+#     text_size = 8,
+#     label_exc = "1,3, 4"
 #   ) |>
 #   print()
