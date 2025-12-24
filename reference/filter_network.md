@@ -30,10 +30,10 @@ filtered IBD network
 
 ``` r
 filter_network(example_network, node_exc = "1")
-#> IGRAPH fa6a663 UN-- 27 57 -- 
+#> IGRAPH 6b87fef UN-- 27 57 -- 
 #> + attr: genetic_sex (v/c), site (v/c), name (v/n), degree (v/n), lat
 #> | (v/n), long (v/n), wij (e/n)
-#> + edges from fa6a663 (vertex names):
+#> + edges from 6b87fef (vertex names):
 #>  [1]  2-- 5  2-- 7  2--23  2--34  3-- 4  3-- 5  3-- 7  3--30  3--33  3--35
 #> [11]  4-- 8  4--30  4--33  5--28  5--33  5--35  6--27  6--30  7--22  7--29
 #> [21]  7--32  7--38  8--20  8--26  8--27  8--33  8--35  9--22  9--27 20--27
