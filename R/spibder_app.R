@@ -47,7 +47,7 @@ spibder_app <- function(input_network = NULL) {
         ),
         shiny::downloadButton(
           "bookmark",
-          "Download snapshot"
+          "Save analysis state"
         )
       ),
       shiny::mainPanel(

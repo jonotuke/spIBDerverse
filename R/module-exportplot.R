@@ -5,7 +5,7 @@ exportplotInput <- function(id) {
   shiny::tagList(
     shiny::numericInput(
       inputId = shiny::NS(id, "fig_width"),
-      label = "Figure width",
+      label = "Figure width (in)",
       min = 6,
       max = 20,
       step = 1,
@@ -13,11 +13,19 @@ exportplotInput <- function(id) {
     ),
     shiny::numericInput(
       inputId = shiny::NS(id, "fig_height"),
-      label = "Figure height",
+      label = "Figure height (in)",
       min = 6,
       max = 20,
       step = 1,
       value = 6
+    ),
+    shiny::sliderInput(
+      shiny::NS(id, "res"),
+      label = "Figure resolution (PPI)",
+      min = 100,
+      max = 600,
+      step = 100,
+      value = 300
     ),
     shiny::radioButtons(
       inputId = shiny::NS(id, "fig_ext"),
@@ -54,12 +62,6 @@ exportplotServer <- function(id, type, store) {
   shiny::moduleServer(id, function(input, output, session) {
     output$down <- shiny::downloadHandler(
       filename = function() {
-        # ext <- dplyr::case_when(
-        #   input$fig_ext == "PDF" ~ '.pdf',
-        #   input$fig_ext == "PNG" ~ '.png',
-        #   input$fig_ext == "JPEG" ~ '.jpeg'
-        # )
-        # paste0(lubridate::today(), "-", type, ext)
         input$filename
       },
       content = function(file) {
@@ -73,16 +75,16 @@ exportplotServer <- function(id, type, store) {
           } else if (input$fig_ext == "png") {
             grDevices::png(
               file,
-              width = input$fig_width * 300,
-              height = input$fig_height * 300,
-              res = 300
+              width = input$fig_width * input$res,
+              height = input$fig_height * input$res,
+              res = input$res
             )
           } else {
             grDevices::jpeg(
               file,
-              width = input$fig_width * 300,
-              height = input$fig_height * 300,
-              res = 300
+              width = input$fig_width * input$res,
+              height = input$fig_height * input$res,
+              res = input$res
             )
           }
           store$export() |> print()
@@ -92,7 +94,8 @@ exportplotServer <- function(id, type, store) {
             file,
             store$export(),
             width = input$fig_width,
-            height = input$fig_height
+            height = input$fig_height,
+            dpi = input$res
           )
         }
       }
@@ -104,14 +107,15 @@ exportplotServer <- function(id, type, store) {
       print(class(store$export()))
     })
     shiny::observe({
-      # Get the current value of the selected radio button
       selected_value <- input$fig_ext
-
-      # Update the text input value based on the selection
       shiny::updateTextInput(
         session = session,
         inputId = "filename",
-        value = paste0(lubridate::today(), "-network.", selected_value)
+        value = paste0(
+          lubridate::today(),
+          "-network.",
+          selected_value
+        )
       )
     })
   })
