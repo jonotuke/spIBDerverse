@@ -2,6 +2,8 @@
 
 ## All functions
 
+- [`add_alpha()`](https://jonotuke.github.io/spIBDerverse/reference/add_alpha.md)
+  : Add alpha
 - [`clean_models()`](https://jonotuke.github.io/spIBDerverse/reference/clean_models.md)
   : clean model names
 - [`clean_network()`](https://jonotuke.github.io/spIBDerverse/reference/clean_network.md)
@@ -42,6 +44,10 @@
   : Get network node information
 - [`get_ringbauer_measures()`](https://jonotuke.github.io/spIBDerverse/reference/get_ringbauer_measures.md)
   : Get ringbauer measures
+- [`get_text_font()`](https://jonotuke.github.io/spIBDerverse/reference/get_text_font.md)
+  : Get text font
+- [`label_grp_duplicates()`](https://jonotuke.github.io/spIBDerverse/reference/label_grp_duplicates.md)
+  : label_grp_duplicates
 - [`plot_ergm_bic()`](https://jonotuke.github.io/spIBDerverse/reference/plot_ergm_bic.md)
   : plot_ergm_bic
 - [`plot_ergm_coef()`](https://jonotuke.github.io/spIBDerverse/reference/plot_ergm_coef.md)
@@ -56,5 +62,9 @@
   : Plot Ringbauer
 - [`plot_single_ergm_coef()`](https://jonotuke.github.io/spIBDerverse/reference/plot_single_ergm_coef.md)
   : Plot single ergm coefficients
+- [`sort_label()`](https://jonotuke.github.io/spIBDerverse/reference/sort_label.md)
+  : sort labels
 - [`spibder_app()`](https://jonotuke.github.io/spIBDerverse/reference/spibder_app.md)
   : spIBDerverse shiny app
+- [`transform_alpha()`](https://jonotuke.github.io/spIBDerverse/reference/transform_alpha.md)
+  : Transform vector to (a,b)

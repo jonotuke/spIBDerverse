@@ -59,7 +59,8 @@ plot_ggnet(
 
 - connected:
 
-  choice for how to deal with isolated nodes
+  choice for how to deal with isolated nodes with choices Hide, Show,
+  Grey out
 
 ## Value
 
