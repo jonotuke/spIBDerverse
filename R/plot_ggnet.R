@@ -22,7 +22,8 @@ utils::globalVariables(
 #' @param label_col vertex attribute to use for labels
 #' @param label_inc regular expression to include labels
 #' @param label_exc regular expression to exclude labels
-#' @param connected choice for how to deal with isolated nodes
+#' @param connected choice for how to deal with isolated nodes with choices
+#' Hide, Show, Grey out
 #'
 #' @return ggnetwork plot
 #' @export
@@ -82,6 +83,7 @@ plot_ggnet <- function(
   if (!labels) {
     ggnet_obj$name <- NA
   }
+  # Add alpha to grey out unconnected nodes
   alpha <- 1
   if (connected == "Hide") {
     ggnet_obj <- ggnet_obj |>
@@ -89,10 +91,13 @@ plot_ggnet <- function(
   } else if (connected == "Grey out") {
     alpha <- ifelse(ggnet_obj$degree >= 1, 1, 0.1)
   }
-
   # Set up fill and shape columns
   fill_col <- rlang::sym(fill_col)
   shape_col <- rlang::sym(shape_col)
+  # If .alpha is in ggnet, use this for alpha
+  if (".alpha" %in% colnames(ggnet_obj)) {
+    alpha <- transform_alpha(ggnet_obj$.alpha, a = 0.1)
+  }
   p <- ggnet_obj |>
     ggplot2::ggplot(
       ggplot2::aes(
@@ -131,12 +136,13 @@ plot_ggnet <- function(
 }
 # pacman::p_load(tidyverse, ggnetwork, igraph)
 # set.seed(2025)
-# example_network |>
+# V(example_network_2)$.alpha <- degree(example_network_2)
+# V(example_network_2)$.alpha
+
+# example_network_2 |>
 #   ggnetwork() |>
 #   plot_ggnet(
-#     labels = TRUE,
-#     node_size = 10,
-#     text_size = 8,
-#     label_exc = "1,3, 4"
+#     node_size = 5,
+#     connected = "Grey out"
 #   ) |>
 #   print()

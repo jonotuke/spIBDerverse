@@ -1,0 +1,36 @@
+---
+title: "Hammersley-Clifford theorem"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Hammersley-Clifford theorem}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+bibliography: spibderverse.bib
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(spIBDerverse)
+```
+
+This is based on @lusher2012. 
+
+# @besag1974
+This gives an alternative proof of the Hammersley-Clifford theorem and is used for spatial lattices. 
+
+# @frank1986
+This paper shows that sufficient statistics for Markov graphs are counts of triangles and stars. 
+
+# @robins2009
+This extends the types of graphs described including $p^*$ models, and hence early ERGMs
+
+
+
+
+# References

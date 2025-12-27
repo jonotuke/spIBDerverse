@@ -26,6 +26,16 @@ ringbauerInput <- function(id, meta) {
       shiny::NS(id, "abbr"),
       label = "Abbreviate labels",
       value = TRUE
+    ),
+    shiny::checkboxInput(
+      shiny::NS(id, "show_sign"),
+      "Show significance",
+      value = FALSE
+    ),
+    shiny::checkboxInput(
+      shiny::NS(id, "filter_sign"),
+      "Filter out non-significant",
+      value = FALSE
     )
   )
 }
@@ -79,7 +89,10 @@ ringbauerServer <- function(id, df, store) {
     })
     homophily_p <- shiny::reactive({
       RM() |>
-        plot_homophily()
+        plot_homophily(
+          show_sign = input$show_sign,
+          filter_sign = input$filter_sign
+        )
     })
     shiny::observeEvent(df(), {
       shiny::updateSelectInput(

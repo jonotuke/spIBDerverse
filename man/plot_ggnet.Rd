@@ -36,7 +36,8 @@ plot_ggnet(
 
 \item{label_exc}{regular expression to exclude labels}
 
-\item{connected}{choice for how to deal with isolated nodes}
+\item{connected}{choice for how to deal with isolated nodes with choices
+Hide, Show, Grey out}
 }
 \value{
 ggnetwork plot

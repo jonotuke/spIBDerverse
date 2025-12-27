@@ -17,6 +17,12 @@ networkplotInput <- function(id, meta) {
       choices = c("", meta),
       selected = ""
     ),
+    shiny::selectInput(
+      shiny::NS(id, "alpha_id"),
+      label = "Alpha variable",
+      choices = c("", "degree", "betweenness", "closeness", "eigen_centrality"),
+      selected = ""
+    ),
     shiny::radioButtons(
       shiny::NS(id, "solo_nodes"),
       label = "Isolated nodes",
@@ -68,15 +74,25 @@ networkplotOutput <- function(id) {
     shiny::actionButton(
       shiny::NS(id, "save"),
       "Set as export plot"
+    ),
+    shiny::verbatimTextOutput(
+      shiny::NS(id, "debug")
     )
   )
 }
 
 networkplotServer <- function(id, network, store) {
   shiny::moduleServer(id, function(input, output, session) {
+    plot_network <- shiny::reactive({
+      if (input$alpha_id != "") {
+        add_alpha(network(), measure = input$alpha_id)
+      } else {
+        network()
+      }
+    })
     ggnet <- shiny::reactive({
       set.seed(input$seed)
-      ggnetwork::ggnetwork(network())
+      ggnetwork::ggnetwork(plot_network())
     })
     output$plot <- shiny::renderPlot({
       p()
@@ -130,26 +146,20 @@ networkplotServer <- function(id, network, store) {
         p()
       )
     })
+    output$debug <- shiny::renderPrint({
+      print(input$fill_id)
+      print(input$alpha_id)
+      print(network())
+      print(plot_network())
+    })
   })
 }
 networkplotApp <- function(network_input) {
   meta <- igraph::vertex_attr_names(network_input)
   ui <- shiny::fluidPage(
-    shiny::tabsetPanel(
-      id = "tabs",
-      shiny::tabPanel(
-        title = "Network plot",
-        networkplotInput("networkplot", meta),
-        networkplotOutput("networkplot"),
-        shiny::verbatimTextOutput(outputId = "debug"),
-        shiny::plotOutput("test")
-      ),
-      shiny::tabPanel(
-        title = "Export tab",
-        exportplotInput("exportplot"),
-        exportplotOutput("exportplot")
-      )
-    )
+    title = "Network plot",
+    networkplotInput("networkplot", meta),
+    networkplotOutput("networkplot"),
   )
   server <- function(input, output, session) {
     network <- shiny::reactive(
@@ -162,9 +172,7 @@ networkplotApp <- function(network_input) {
     )
     plots <- shiny::reactiveValues(
       export = shiny::reactive({
-        ggplot2::mpg |>
-          ggplot2::ggplot(ggplot2::aes(displ, cty)) +
-          ggplot2::geom_point()
+        plot_default_image()
       })
     )
     exportplotServer(
@@ -172,10 +180,7 @@ networkplotApp <- function(network_input) {
       "network",
       plots$export
     )
-    output$test <- shiny::renderPlot({
-      plots$export()
-    })
   }
   shiny::shinyApp(ui, server)
 }
-# networkplotApp(example_network) |> print()
+# networkplotApp(example_network_2) |> print()
