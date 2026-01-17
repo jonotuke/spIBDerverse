@@ -7,9 +7,9 @@ Plot ergm coefficients
 ## Usage
 
 ``` r
-plot_ergm_coef(ergms, type = "theta", trim = TRUE)
+plot_ergm_coef(ergms, type = "theta", trim = TRUE, models = NULL)
 
-plot_ergm_coef(ergms, type = "theta", trim = TRUE)
+plot_ergm_coef(ergms, type = "theta", trim = TRUE, models = NULL)
 ```
 
 ## Arguments
@@ -25,6 +25,10 @@ plot_ergm_coef(ergms, type = "theta", trim = TRUE)
 - trim:
 
   remove -Inf coefficients
+
+- models:
+
+  models to show
 
 ## Value
 
@@ -69,7 +73,7 @@ ergms <- get_ergms(
 #> Evaluating log-likelihood at the estimate. 
 #> 
 ergms |> plot_ergm_coef()
-
+#> NULL
 ergms <- get_ergms(
   example_network,
   preds = c("site", "genetic_sex"),
@@ -104,4 +108,5 @@ ergms <- get_ergms(
 #> Evaluating log-likelihood at the estimate. 
 #> 
 ergms |> plot_ergm_coef()
+#> NULL
 ```
