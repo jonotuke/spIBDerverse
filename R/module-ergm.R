@@ -88,15 +88,22 @@ ergmServer <- function(id, df, store) {
       get_ergms(df(), input$preds, pred_type_vec())
     )
     output$ergm_aic_tab <- DT::renderDataTable({
-      DT::datatable(
-        get_ergm_bic(
-          ergm()
-        )
-      ) |>
+      DT::datatable(ergm_bic()) |>
         DT::formatRound(
           columns = c('AIC', 'BIC'),
           digits = 2
         )
+    })
+    ergm_bic <- shiny::reactive({
+      get_ergm_bic(
+        ergm()
+      )
+    })
+    selected_rows_data <- shiny::reactive({
+      s <- input$ergm_aic_tab_rows_selected
+      if (length(s)) {
+        ergm_bic()[s, , drop = FALSE] |> dplyr::pull(Model)
+      }
     })
     bic_plot <- shiny::reactive({
       plot_ergm_bic(
@@ -115,12 +122,14 @@ ergmServer <- function(id, df, store) {
       plot_ergm_coef(
         ergm(),
         type = input$ergm_coef,
-        trim = input$ergm_trim
+        trim = input$ergm_trim,
+        models = selected_rows_data()
       )
     })
     output$ergm_coef_plot <- shiny::renderPlot({
       coef_plot()
     })
+
     shiny::observeEvent(df(), {
       shiny::updateCheckboxGroupInput(
         session,
@@ -151,9 +160,11 @@ ergmServer <- function(id, df, store) {
       )
     })
     output$debug <- shiny::renderPrint({
+      print("Module debug")
       input$preds |> print()
       pred_type_vec()
       input$ergm_aic_tab_rows_selected |> print()
+      selected_rows_data()
     })
   })
 }
@@ -195,6 +206,7 @@ ergmApp <- function(network_input) {
       })
     )
     output$debug <- shiny::renderPrint({
+      print("App debug")
       print(network_input)
       # shiny::reactiveValuesToList(input)
     })

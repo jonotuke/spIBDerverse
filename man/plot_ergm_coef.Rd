@@ -4,9 +4,9 @@
 \alias{plot_ergm_coef}
 \title{Plot ergm coefficients}
 \usage{
-plot_ergm_coef(ergms, type = "theta", trim = TRUE)
+plot_ergm_coef(ergms, type = "theta", trim = TRUE, models = NULL)
 
-plot_ergm_coef(ergms, type = "theta", trim = TRUE)
+plot_ergm_coef(ergms, type = "theta", trim = TRUE, models = NULL)
 }
 \arguments{
 \item{ergms}{list of ergm fits}
@@ -14,6 +14,8 @@ plot_ergm_coef(ergms, type = "theta", trim = TRUE)
 \item{type}{either "theta" or "phi" - fold changes}
 
 \item{trim}{remove -Inf coefficients}
+
+\item{models}{models to show}
 }
 \value{
 plot of coefficients
