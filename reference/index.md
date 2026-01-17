@@ -48,6 +48,8 @@
   : Get text font
 - [`label_grp_duplicates()`](https://jonotuke.github.io/spIBDerverse/reference/label_grp_duplicates.md)
   : label_grp_duplicates
+- [`plot_centrality()`](https://jonotuke.github.io/spIBDerverse/reference/plot_centrality.md)
+  : plot centrality measures
 - [`plot_ergm_bic()`](https://jonotuke.github.io/spIBDerverse/reference/plot_ergm_bic.md)
   : plot_ergm_bic
 - [`plot_ergm_coef()`](https://jonotuke.github.io/spIBDerverse/reference/plot_ergm_coef.md)

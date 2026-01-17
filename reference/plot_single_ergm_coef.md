@@ -31,7 +31,8 @@ plot of coefficients
 ``` r
 ergms <- get_ergms(
   example_network,
-  preds = c("site", "genetic_sex")
+  preds = c("site", "genetic_sex"),
+  types = c("nodematch", "nodemix")
 )
 #> Starting maximum pseudolikelihood estimation (MPLE):
 #> Obtaining the responsible dyads.

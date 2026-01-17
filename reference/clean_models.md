@@ -22,7 +22,7 @@ cleaned vector
 
 ``` r
 ergms <- example_network |>
-  get_ergms(c("site", "genetic_sex")) |>
+  get_ergms(c("site", "genetic_sex"), c("nodemix", "nodematch")) |>
   purrr::map(broom::glance) |>
   purrr::list_rbind(names_to = "model")
 #> Starting maximum pseudolikelihood estimation (MPLE):
@@ -54,6 +54,8 @@ ergms <- example_network |>
 #> Evaluating log-likelihood at the estimate. 
 #> 
 clean_models(ergms$model) |> print()
-#> [1] "edges|NM(site)"                 "edges|NM(genetic_sex)"         
-#> [3] "edges|NM(site)|NM(genetic_sex)" "edges"                         
+#> [1] "edges|NM(site)"                       
+#> [2] "edges|nodematch(genetic_sex)"         
+#> [3] "edges|NM(site)|nodematch(genetic_sex)"
+#> [4] "edges"                                
 ```

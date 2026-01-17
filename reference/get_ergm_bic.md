@@ -23,7 +23,8 @@ tibble of AIC and BIC for each model
 ``` r
 ergms <- get_ergms(
   example_network,
-  preds = c("site", "genetic_sex")
+  preds = c("site", "genetic_sex"),
+  types = c("nodematch", "nodemix")
 )
 #> Starting maximum pseudolikelihood estimation (MPLE):
 #> Obtaining the responsible dyads.
@@ -55,10 +56,10 @@ ergms <- get_ergms(
 #> 
 ergms |> get_ergm_bic()
 #> # A tibble: 4 × 3
-#>   Model                                                        AIC   BIC
-#>   <chr>                                                      <dbl> <dbl>
-#> 1 network ~ edges + nodemix('site') + nodemix('genetic_sex')  467.  504.
-#> 2 network ~ edges + nodemix('site')                           537.  565.
-#> 3 network ~ edges + nodemix('genetic_sex')                    578.  592.
-#> 4 network ~ edges                                             640.  645.
+#>   Model                                                          AIC   BIC
+#>   <chr>                                                        <dbl> <dbl>
+#> 1 network ~ edges + nodematch('site') + nodemix('genetic_sex')  486.  505.
+#> 2 network ~ edges + nodematch('site')                           556.  566.
+#> 3 network ~ edges + nodemix('genetic_sex')                      578.  592.
+#> 4 network ~ edges                                               640.  645.
 ```

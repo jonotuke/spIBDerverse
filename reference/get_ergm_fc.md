@@ -25,7 +25,7 @@ tibble of fold changes
 ## Examples
 
 ``` r
-ergm <- get_ergms(example_network, preds = "site")
+ergm <- get_ergms(example_network, preds = "site", types = "nodemix")
 #> Starting maximum pseudolikelihood estimation (MPLE):
 #> Obtaining the responsible dyads.
 #> Evaluating the predictor and response matrix.

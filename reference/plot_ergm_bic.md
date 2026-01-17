@@ -63,7 +63,8 @@ plot
 ``` r
 ergms <- get_ergms(
   example_network,
-  preds = c("site", "genetic_sex")
+  preds = c("site", "genetic_sex"),
+  types = c("nodematch", "nodemix")
 )
 #> Starting maximum pseudolikelihood estimation (MPLE):
 #> Obtaining the responsible dyads.
@@ -96,7 +97,9 @@ ergms <- get_ergms(
 ergms |> plot_ergm_bic()
 
 ergms <- example_network |>
-  get_ergms(c("site", "genetic_sex"))
+  get_ergms(
+    preds = c("site", "genetic_sex"),
+    types = c("nodematch", "nodemix"))
 #> Starting maximum pseudolikelihood estimation (MPLE):
 #> Obtaining the responsible dyads.
 #> Evaluating the predictor and response matrix.

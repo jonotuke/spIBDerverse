@@ -15,14 +15,14 @@
 Source:
 [`DESCRIPTION`](https://github.com/jonotuke/spIBDerverse/blob/master/DESCRIPTION)
 
-Tuke J, Rohrlach A, Haak W (2025). *spIBDerverse: spIBDverse functions
+Tuke J, Rohrlach A, Haak W (2026). *spIBDerverse: spIBDverse functions
 and shiny apps*. R package version 0.0.0.9000,
 <https://github.com/jonotuke/spIBDerverse>.
 
     @Manual{,
       title = {spIBDerverse: spIBDverse functions and shiny apps},
       author = {Jono Tuke and Adam B. Rohrlach and Wolfgang Haak},
-      year = {2025},
+      year = {2026},
       note = {R package version 0.0.0.9000},
       url = {https://github.com/jonotuke/spIBDerverse},
     }

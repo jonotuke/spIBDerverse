@@ -5,7 +5,7 @@ convert_pred_terms
 ## Usage
 
 ``` r
-convert_pred_ergmterm(pred, g)
+convert_pred_ergmterm(pred, type)
 ```
 
 ## Arguments
@@ -14,9 +14,9 @@ convert_pred_ergmterm(pred, g)
 
   name of igraph vertex attribute
 
-- g:
+- type:
 
-  igraph object
+  ergm term type
 
 ## Value
 
@@ -25,6 +25,6 @@ ergm term for attribute based on class
 ## Examples
 
 ``` r
-convert_pred_ergmterm("site", example_network)
-#> nodemix('site')
+convert_pred_ergmterm("site", "nodecov")
+#> nodecov('site')
 ```

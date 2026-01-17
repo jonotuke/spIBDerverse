@@ -5,7 +5,7 @@ Given node attributes and a network, fits all possible ergms
 ## Usage
 
 ``` r
-get_ergms(network, preds = NULL)
+get_ergms(network, preds = NULL, types = NULL)
 ```
 
 ## Arguments
@@ -18,6 +18,10 @@ get_ergms(network, preds = NULL)
 
   vector of predictors
 
+- types:
+
+  vector of ergm term types
+
 ## Value
 
 list of ergm models
@@ -25,7 +29,7 @@ list of ergm models
 ## Examples
 
 ``` r
-get_ergms(example_network, c("site", "genetic_sex"))
+get_ergms(example_network, c("site", "genetic_sex"), c("nodematch", "nodemix"))
 #> Starting maximum pseudolikelihood estimation (MPLE):
 #> Obtaining the responsible dyads.
 #> Evaluating the predictor and response matrix.
@@ -54,16 +58,14 @@ get_ergms(example_network, c("site", "genetic_sex"))
 #> Finished MPLE.
 #> Evaluating log-likelihood at the estimate. 
 #> 
-#> $`network ~ edges + nodemix('site')`
+#> $`network ~ edges + nodematch('site')`
 #> 
 #> Call:
 #> ergm::ergm(formula = stats::as.formula(x))
 #> 
 #> Maximum Likelihood Coefficients:
-#>        edges  mix.site.A.B  mix.site.B.B  mix.site.A.C  mix.site.B.C  
-#>      -1.6227       -1.3730        0.6419       -0.8678       -1.2490  
-#> mix.site.C.C  
-#>       1.6447  
+#>          edges  nodematch.site  
+#>         -2.749           1.988  
 #> 
 #> $`network ~ edges + nodemix('genetic_sex')`
 #> 
@@ -74,18 +76,16 @@ get_ergms(example_network, c("site", "genetic_sex"))
 #>               edges  mix.genetic_sex.F.M  mix.genetic_sex.M.M  
 #>            -1.11600             -1.92852             -0.06265  
 #> 
-#> $`network ~ edges + nodemix('site') + nodemix('genetic_sex')`
+#> $`network ~ edges + nodematch('site') + nodemix('genetic_sex')`
 #> 
 #> Call:
 #> ergm::ergm(formula = stats::as.formula(x))
 #> 
 #> Maximum Likelihood Coefficients:
-#>               edges         mix.site.A.B         mix.site.B.B  
-#>             -1.0214              -1.5870               0.6982  
-#>        mix.site.A.C         mix.site.B.C         mix.site.C.C  
-#>             -0.9532              -1.3154               1.9115  
-#> mix.genetic_sex.F.M  mix.genetic_sex.M.M  
-#>             -2.0704               0.3942  
+#>               edges       nodematch.site  mix.genetic_sex.F.M  
+#>            -2.09384              2.19903             -2.15345  
+#> mix.genetic_sex.M.M  
+#>            -0.03528  
 #> 
 #> $`network ~ edges`
 #> 
