@@ -1,20 +1,25 @@
 #' convert_pred_terms
 #'
 #' @param pred name of igraph vertex attribute
-#' @param g igraph object
+#' @param type ergm term type
 #'
 #' @return ergm term for attribute based on class
 #' @export
 #'
 #' @examples
-#' convert_pred_ergmterm("site", example_network)
-convert_pred_ergmterm <- function(pred, g) {
-  type <- class(igraph::vertex_attr(g, pred))
-  if (type == "character") {
-    ergm_term <- stringr::str_glue("nodemix('{pred}')")
-  } else {
-    ergm_term <- stringr::str_glue("nodecov('{pred}')")
-  }
+#' convert_pred_ergmterm("site", "nodecov")
+convert_pred_ergmterm <- function(pred, type) {
+  ergm_term <- dplyr::case_when(
+    type == "nodecov" ~ stringr::str_glue("nodecov('{pred}')"),
+    type == "absdiff" ~ stringr::str_glue("absdiff('{pred}')"),
+    # choices = c("nodematch", "nodematch(diff)", "nodemix")
+    type == "nodematch" ~ stringr::str_glue("nodematch('{pred}')"),
+    type == "nodematch(diff)" ~ stringr::str_glue(
+      "nodematch('{pred}', diff = TRUE)"
+    ),
+    type == "nodemix" ~ stringr::str_glue("nodemix('{pred}')"),
+    TRUE ~ pred
+  )
   ergm_term
 }
 #' get_all_models
@@ -45,18 +50,19 @@ get_all_models <- function(preds, y, constant = "edges") {
 #'
 #' @param network igraph object
 #' @param preds vector of predictors
+#' @param types vector of ergm term types
 #'
 #' @return list of ergm models
 #' @export
 #'
 #' @examples
-#' get_ergms(example_network, c("site", "genetic_sex"))
-get_ergms <- function(network, preds = NULL) {
+#' get_ergms(example_network, c("site", "genetic_sex"), c("nodematch", "nodemix"))
+get_ergms <- function(network, preds = NULL, types = NULL) {
   if (is.null(preds)) {
     models <- list()
     models[["null"]] <- "network ~ edges"
   } else {
-    preds <- preds |> purrr::map_chr(\(x) convert_pred_ergmterm(x, network))
+    preds <- purrr::map2_chr(preds, types, \(x, y) convert_pred_ergmterm(x, y))
     models <- get_all_models(preds, "network")
   }
   network <- intergraph::asNetwork(network)
@@ -67,7 +73,7 @@ get_ergms <- function(network, preds = NULL) {
 # pacman::p_load(conflicted, tidyverse, targets, ergm)
 # get_ergms(
 #   example_network,
-#   preds = c("site", "genetic_sex")
+#   preds = c("site", "genetic_sex", "degree"),
+#   types = c("nodematch", "nodemix", "nodecov")
 # ) |>
 #   print()
-# get_ergms(example_network)

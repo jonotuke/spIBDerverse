@@ -17,7 +17,7 @@ theta_to_phi <- function(theta0, theta1) {
 #' @export
 #'
 #' @examples
-#' ergm <- get_ergms(example_network, preds = "site")
+#' ergm <- get_ergms(example_network, preds = "site", types = "nodemix")
 #' get_ergm_fc(ergm[[1]])
 get_ergm_fc <- function(ergm, trim = TRUE) {
   coef <- ergm |>

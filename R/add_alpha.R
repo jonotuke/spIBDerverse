@@ -16,7 +16,8 @@ add_alpha <- function(g, measure = NULL) {
   )
   igraph::V(g)$.id <- 1:igraph::vcount(g)
   if (!is.null(measure)) {
-    igraph::V(g)$.alpha <- get_centrality_measures(g, ".id") |>
+    igraph::V(g)$.alpha <-
+      get_centrality_measures(g, ".id") |>
       dplyr::pull(measure)
   } else {
     igraph::V(g)$.alpha <- 1

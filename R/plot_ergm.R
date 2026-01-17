@@ -13,7 +13,8 @@ utils::globalVariables(
 #' @examples
 #' ergms <- get_ergms(
 #'   example_network,
-#'   preds = c("site", "genetic_sex")
+#'   preds = c("site", "genetic_sex"),
+#'   types = c("nodematch", "nodemix")
 #' )
 #' ergms |> plot_ergm_bic()
 plot_ergm_bic <- function(ergms) {
@@ -52,7 +53,8 @@ plot_ergm_bic <- function(ergms) {
 #' @examples
 #' ergms <- get_ergms(
 #'   example_network,
-#'   preds = c("site", "genetic_sex")
+#'   preds = c("site", "genetic_sex"),
+#'   types = c("nodematch", "nodemix")
 #' )
 #' ergms |> plot_ergm_coef()
 plot_ergm_coef <- function(

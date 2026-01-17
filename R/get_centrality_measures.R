@@ -18,17 +18,18 @@ utils::globalVariables(
 #' @examples
 #' get_centrality_measures(example_network, c("site", "genetic_sex"))
 get_centrality_measures <- function(g, var = NULL) {
-  # if (is.null(var)) {
-  #   var <- "vertex_id"
-  # }
-  igraph::as_data_frame(g, what = "vertices") |>
+  if (is.null(var)) {
+    var <- "vertex_id"
+  }
+  df <- igraph::as_data_frame(g, what = "vertices") |>
     tibble::as_tibble() |>
-    # mutate(vertex_id = igraph::V(g)) |>
+    dplyr::mutate(vertex_id = as.character(igraph::V(g))) |>
     dplyr::mutate(
       closeness = igraph::closeness(g),
       betweenness = igraph::betweenness(g),
       eigen_centrality = igraph::eigen_centrality(g)$vector
-    ) |>
+    )
+  df |>
     dplyr::group_by(
       dplyr::across(dplyr::any_of(var))
     ) |>

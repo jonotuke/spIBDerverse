@@ -12,6 +12,17 @@ networkstatsInput <- function(id, meta) {
       max = 10,
       step = 1,
       value = 2
+    ),
+    shiny::radioButtons(
+      shiny::NS(id, "measure"),
+      "Centrality measure to plot",
+      choices = c(
+        "Degree" = "degree",
+        "Closeness" = "closeness",
+        "Betweenness" = "betweenness",
+        "Eigen centrality" = "eigen_centrality"
+      ),
+      selected = "degree"
     )
   )
 }
@@ -23,7 +34,13 @@ networkstatsOutput <- function(id) {
     shiny::downloadButton(
       shiny::NS(id, "down"),
       "Download table"
-    )
+    ),
+    shiny::plotOutput(
+      shiny::NS(id, "hist")
+    ),
+    # shiny::verbatimTextOutput(
+    #   shiny::NS(id, "debug")
+    # )
   )
 }
 networkstatsServer <- function(id, network) {
@@ -51,6 +68,16 @@ networkstatsServer <- function(id, network) {
         )
       }
     )
+    output$hist <- shiny::renderPlot({
+      plot_centrality(
+        network(),
+        measure = input$measure
+      )
+    })
+    # output$debug <- shiny::renderPrint({
+    #   print(input$strata)
+    #   print(central_df())
+    # })
   })
 }
 networkstatsApp <- function(network_input) {

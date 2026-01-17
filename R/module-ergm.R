@@ -1,10 +1,11 @@
-ergmInput <- function(id, meta) {
+ergmInput <- function(id, meta, g) {
   shiny::tagList(
     shiny::checkboxGroupInput(
       shiny::NS(id, "preds"),
       "Select Predictors",
       choices = meta
     ),
+    shiny::uiOutput(shiny::NS(id, "pred_types")),
     shiny::radioButtons(
       shiny::NS(id, "ergm_coef"),
       label = "ERGM type",
@@ -55,6 +56,10 @@ ergmInput <- function(id, meta) {
 }
 ergmOutput <- function(id) {
   shiny::tagList(
+    # shiny::h4("Debug"),
+    # shiny::verbatimTextOutput(
+    #   shiny::NS(id, "debug")
+    # ),
     shiny::h4("ERGMs BIC"),
     shiny::plotOutput(
       shiny::NS(id, "ergm_aic_plot")
@@ -80,7 +85,7 @@ ergmOutput <- function(id) {
 ergmServer <- function(id, df, store) {
   shiny::moduleServer(id, function(input, output, session) {
     ergm <- shiny::reactive(
-      get_ergms(df(), input$preds)
+      get_ergms(df(), input$preds, pred_type_vec())
     )
     output$ergm_aic_tab <- DT::renderDataTable({
       DT::datatable(
@@ -133,14 +138,53 @@ ergmServer <- function(id, df, store) {
         coef_plot()
       )
     })
+    output$pred_types <- shiny::renderUI({
+      purrr::map(
+        input$preds,
+        \(x) make_ergm_ui(x, df(), x, id)
+      )
+    })
+    pred_type_vec <- shiny::reactive({
+      purrr::map_chr(
+        input$preds,
+        \(x) input[[x]]
+      )
+    })
+    output$debug <- shiny::renderPrint({
+      input$preds |> print()
+      pred_type_vec()
+      input$ergm_aic_tab_rows_selected |> print()
+    })
   })
+}
+make_ergm_ui <- function(pred, g, label, id) {
+  if (!is.null(pred)) {
+    type <- class(igraph::vertex_attr(g, pred))
+  } else {
+    type <- "non selected"
+  }
+  if (type == "numeric") {
+    shiny::radioButtons(
+      shiny::NS(id, label),
+      label = pred,
+      choices = c("nodecov", "absdiff")
+    )
+  } else if (type == "character") {
+    shiny::radioButtons(
+      shiny::NS(id, label),
+      label = pred,
+      choices = c("nodematch", "nodematch(diff)", "nodemix")
+    )
+  } else {
+    NULL
+  }
 }
 ergmApp <- function(network_input) {
   meta <- igraph::vertex_attr_names(network_input)
   ui <- shiny::fluidPage(
-    ergmInput("ergm", meta),
+    ergmInput("ergm", meta, network_input),
     ergmOutput("ergm"),
-    shiny::plotOutput("debug")
+    shiny::verbatimTextOutput("debug")
   )
   server <- function(input, output, session) {
     network <- shiny::reactive(network_input)
@@ -150,8 +194,9 @@ ergmApp <- function(network_input) {
         plot_default_image()
       })
     )
-    output$debug <- shiny::renderPlot({
-      store$export()
+    output$debug <- shiny::renderPrint({
+      print(network_input)
+      # shiny::reactiveValuesToList(input)
     })
   }
   shiny::shinyApp(ui, server)

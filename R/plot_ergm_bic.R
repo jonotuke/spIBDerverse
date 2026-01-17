@@ -17,7 +17,9 @@ utils::globalVariables(
 #'
 #' @examples
 #' ergms <- example_network |>
-#'   get_ergms(c("site", "genetic_sex"))
+#'   get_ergms(
+#'     preds = c("site", "genetic_sex"),
+#'     types = c("nodematch", "nodemix"))
 #' plot_ergm_bic(ergms) |> print()
 plot_ergm_bic <- function(
   ergms,

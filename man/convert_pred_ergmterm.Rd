@@ -4,12 +4,12 @@
 \alias{convert_pred_ergmterm}
 \title{convert_pred_terms}
 \usage{
-convert_pred_ergmterm(pred, g)
+convert_pred_ergmterm(pred, type)
 }
 \arguments{
 \item{pred}{name of igraph vertex attribute}
 
-\item{g}{igraph object}
+\item{type}{ergm term type}
 }
 \value{
 ergm term for attribute based on class
@@ -18,5 +18,5 @@ ergm term for attribute based on class
 convert_pred_terms
 }
 \examples{
-convert_pred_ergmterm("site", example_network)
+convert_pred_ergmterm("site", "nodecov")
 }

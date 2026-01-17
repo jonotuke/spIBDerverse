@@ -4,12 +4,14 @@
 \alias{get_ergms}
 \title{get_ergms}
 \usage{
-get_ergms(network, preds = NULL)
+get_ergms(network, preds = NULL, types = NULL)
 }
 \arguments{
 \item{network}{igraph object}
 
 \item{preds}{vector of predictors}
+
+\item{types}{vector of ergm term types}
 }
 \value{
 list of ergm models
@@ -18,5 +20,5 @@ list of ergm models
 Given node attributes and a network, fits all possible ergms
 }
 \examples{
-get_ergms(example_network, c("site", "genetic_sex"))
+get_ergms(example_network, c("site", "genetic_sex"), c("nodematch", "nodemix"))
 }

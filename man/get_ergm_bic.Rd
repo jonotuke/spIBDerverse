@@ -18,7 +18,8 @@ Tabulate the ergm AIC and BIC
 \examples{
 ergms <- get_ergms(
   example_network,
-  preds = c("site", "genetic_sex")
+  preds = c("site", "genetic_sex"),
+  types = c("nodematch", "nodemix")
 )
 ergms |> get_ergm_bic()
 }

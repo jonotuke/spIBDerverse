@@ -18,6 +18,6 @@ tibble of fold changes
 The fold changes are all based on comparison to reference level
 }
 \examples{
-ergm <- get_ergms(example_network, preds = "site")
+ergm <- get_ergms(example_network, preds = "site", types = "nodemix")
 get_ergm_fc(ergm[[1]])
 }
