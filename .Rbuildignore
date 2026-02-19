@@ -11,3 +11,5 @@ spIBDerverse.code-workspace
 ^Meta$
 ^data-raw$
 vignettes/.quarto
+^dev/
+^rosm.cache/

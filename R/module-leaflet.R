@@ -32,9 +32,9 @@ leafletInput <- function(id, meta) {
 }
 leafletOutput <- function(id) {
   shiny::tagList(
-    # shiny::verbatimTextOutput(
-    #   shiny::NS(id, "debug")
-    # ),
+    shiny::verbatimTextOutput(
+      shiny::NS(id, "debug")
+    ),
     leaflet::leafletOutput(
       shiny::NS(id, "map"),
       height = "800px"
@@ -79,6 +79,7 @@ leafletServer <- function(id, df) {
       )
     })
     output$debug <- shiny::renderPrint({
+      print("Module debug")
       print(input$map_bounds)
     })
   })
