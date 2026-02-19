@@ -110,20 +110,28 @@ ibd_network
   : convert_pred_terms
 - [`convert_ringbauer_measures()`](https://jonotuke.github.io/spIBDerverse/reference/convert_ringbauer_measures.md)
   : Convert ringbauer measures
+- [`convert_sf()`](https://jonotuke.github.io/spIBDerverse/reference/convert_sf.md)
+  : Convert to SF
 - [`copy_files()`](https://jonotuke.github.io/spIBDerverse/reference/copy_files.md)
   : Copy files
 - [`create_ibd_network()`](https://jonotuke.github.io/spIBDerverse/reference/create_ibd_network.md)
   : create_ibd_network
 - [`default_image`](https://jonotuke.github.io/spIBDerverse/reference/default_image.md)
   : default image
+- [`edges_to_sf()`](https://jonotuke.github.io/spIBDerverse/reference/edges_to_sf.md)
+  : edges to sf
 - [`example_network`](https://jonotuke.github.io/spIBDerverse/reference/example_network.md)
   : example network
 - [`example_network_2`](https://jonotuke.github.io/spIBDerverse/reference/example_network_2.md)
   : example network 2
 - [`example_network_3`](https://jonotuke.github.io/spIBDerverse/reference/example_network_3.md)
   : example network 2
+- [`example_sf`](https://jonotuke.github.io/spIBDerverse/reference/example_sf.md)
+  : example sf object
 - [`filter_network()`](https://jonotuke.github.io/spIBDerverse/reference/filter_network.md)
   : Filter network
+- [`filter_sf()`](https://jonotuke.github.io/spIBDerverse/reference/filter_sf.md)
+  : Filter SF object
 - [`get_all_models()`](https://jonotuke.github.io/spIBDerverse/reference/get_all_models.md)
   : get_all_models
 - [`get_centrality_measures()`](https://jonotuke.github.io/spIBDerverse/reference/get_centrality_measures.md)
