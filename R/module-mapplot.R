@@ -65,5 +65,5 @@ mapplotApp <- function(network) {
   }
   shiny::shinyApp(ui, server)
 }
-pacman::p_load(tidyverse)
-mapplotApp(example_network) |> print()
+# pacman::p_load(tidyverse)
+# mapplotApp(example_network) |> print()
