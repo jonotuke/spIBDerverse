@@ -82,20 +82,36 @@ leafletServer <- function(id, df) {
       print("Module debug")
       print(input$map_bounds)
     })
+    list(
+      BB = shiny::reactive(input$map_bounds),
+      lat = shiny::reactive(input$lat),
+      lon = shiny::reactive(input$lon),
+      col = shiny::reactive(input$leaflet_col)
+    )
   })
 }
 leafletApp <- function(network_input) {
   meta <- igraph::vertex_attr_names(network_input)
   ui <- shiny::fluidPage(
     leafletInput("leaflet", meta),
+    shiny::verbatimTextOutput(
+      "debug"
+    ),
     leafletOutput("leaflet")
   )
   server <- function(input, output, session) {
     network <- shiny::reactive(network_input)
-    leafletServer(
+    x <- leafletServer(
       "leaflet",
       network
     )
+    output$debug <- shiny::renderPrint({
+      print("App debug")
+      print(x$BB())
+      print(x$lat())
+      print(x$lon())
+      print(x$col())
+    })
   }
   shiny::shinyApp(ui, server)
 }
