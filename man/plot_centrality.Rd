@@ -4,12 +4,14 @@
 \alias{plot_centrality}
 \title{plot centrality measures}
 \usage{
-plot_centrality(g, measure = "degree")
+plot_centrality(g, measure = "degree", facets = NULL)
 }
 \arguments{
 \item{g}{igraph obj}
 
 \item{measure}{centrality measure to plot}
+
+\item{facets}{attributes to facet plot on}
 }
 \value{
 histogram or barchart

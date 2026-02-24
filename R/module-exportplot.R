@@ -53,9 +53,6 @@ exportplotOutput <- function(id) {
     shiny::plotOutput(
       shiny::NS(id, "plot"),
       height = "800px"
-    ),
-    shiny::verbatimTextOutput(
-      shiny::NS(id, "debug")
     )
   )
 }
@@ -103,9 +100,6 @@ exportplotServer <- function(id, type, store) {
     )
     output$plot <- shiny::renderPlot({
       store$export()
-    })
-    output$debug <- shiny::renderPrint({
-      print(class(store$export()))
     })
     shiny::observe({
       selected_value <- input$fig_ext

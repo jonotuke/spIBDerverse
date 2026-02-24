@@ -71,13 +71,10 @@ networkstatsServer <- function(id, network) {
     output$hist <- shiny::renderPlot({
       plot_centrality(
         network(),
-        measure = input$measure
+        measure = input$measure,
+        facets = input$strata
       )
     })
-    # output$debug <- shiny::renderPrint({
-    #   print(input$strata)
-    #   print(central_df())
-    # })
   })
 }
 networkstatsApp <- function(network_input) {

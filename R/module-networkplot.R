@@ -74,9 +74,6 @@ networkplotOutput <- function(id) {
     shiny::actionButton(
       shiny::NS(id, "save"),
       "Set as export plot"
-    ),
-    shiny::verbatimTextOutput(
-      shiny::NS(id, "debug")
     )
   )
 }
@@ -145,12 +142,6 @@ networkplotServer <- function(id, network, store) {
       store$export <- shiny::reactive(
         p()
       )
-    })
-    output$debug <- shiny::renderPrint({
-      print(input$fill_id)
-      print(input$alpha_id)
-      print(network())
-      print(plot_network())
     })
   })
 }
