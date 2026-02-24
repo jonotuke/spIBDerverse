@@ -5,7 +5,7 @@ plot centrality measures
 ## Usage
 
 ``` r
-plot_centrality(g, measure = "degree")
+plot_centrality(g, measure = "degree", facets = NULL)
 ```
 
 ## Arguments
@@ -17,6 +17,10 @@ plot_centrality(g, measure = "degree")
 - measure:
 
   centrality measure to plot
+
+- facets:
+
+  attributes to facet plot on
 
 ## Value
 
