@@ -24,7 +24,7 @@ mapplotServer <- function(id, leaflet_params, network) {
   shiny::moduleServer(id, function(input, output, session) {
     network_sf <- shiny::reactive({
       convert_sf(
-        network,
+        network(),
         leaflet_params$lat(),
         leaflet_params$lon(),
         leaflet_params$col()
@@ -55,7 +55,7 @@ mapplotApp <- function(network_input) {
     network <- shiny::reactive({
       network_input
     })
-    mapplotServer("map", x, network())
+    mapplotServer("map", x, network)
     x <- leafletServer("leaflet", network)
   }
   shiny::shinyApp(ui, server)

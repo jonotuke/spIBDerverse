@@ -34,6 +34,10 @@ spibder_app <- function(input_network = NULL) {
           leafletInput("leaflet", meta)
         ),
         shiny::conditionalPanel(
+          condition = "input.tabs == 'Static map'",
+          mapplotInput("mapplot")
+        ),
+        shiny::conditionalPanel(
           condition = "input.tabs == 'Ringbauer matrix'",
           ringbauerInput("ringbauer", meta)
         ),
@@ -75,6 +79,10 @@ spibder_app <- function(input_network = NULL) {
             leafletOutput("leaflet")
           ),
           shiny::tabPanel(
+            title = "Static map",
+            mapplotOutput("mapplot")
+          ),
+          shiny::tabPanel(
             title = "Ringbauer matrix",
             ringbauerOutput("ringbauer")
           ),
@@ -104,7 +112,9 @@ spibder_app <- function(input_network = NULL) {
     ## Centrality measures
     networkstatsServer("central", network)
     ## Leaflet plot ----
-    leafletServer("leaflet", network)
+    leaflet_params <- leafletServer("leaflet", network)
+    ## Static map
+    mapplotServer("mapplot", leaflet_params, network)
     # Ringbauer matrix ----
     ringbauerServer("ringbauer", network, plots)
     # ERGMs ----
