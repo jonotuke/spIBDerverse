@@ -17,51 +17,46 @@ mapplotOutput <- function(id) {
     shiny::plotOutput(
       shiny::NS(id, "plot"),
       height = "800px"
-    ),
-    shiny::verbatimTextOutput(
-      shiny::NS(id, "debug")
     )
   )
 }
 mapplotServer <- function(id, leaflet_params, network) {
   shiny::moduleServer(id, function(input, output, session) {
-    output$debug <- shiny::renderPrint({
-      print("Module debug")
-      print(leaflet_params)
-      print(network)
-      print(network_sf())
-    })
     network_sf <- shiny::reactive({
       convert_sf(
         network,
-        leaflet_params$lat,
-        leaflet_params$lon,
-        leaflet_params$col
-      )
+        leaflet_params$lat(),
+        leaflet_params$lon(),
+        leaflet_params$col()
+      ) |>
+        filter_sf(
+          xmin = leaflet_params$BB()$west,
+          xmax = leaflet_params$BB()$east,
+          ymin = leaflet_params$BB()$south,
+          ymax = leaflet_params$BB()$north
+        )
     })
     output$plot <- shiny::renderPlot({
-      plot_map(network_sf(), zoom = input$zoom)
+      if (leaflet_params$lat() != "none" & leaflet_params$lon() != "none") {
+        plot_map(network_sf(), zoom = input$zoom)
+      }
     })
   })
 }
-mapplotApp <- function(network) {
+mapplotApp <- function(network_input) {
+  meta <- igraph::vertex_attr_names(network_input)
   ui <- shiny::fluidPage(
+    leafletInput("leaflet", meta),
     mapplotInput("map"),
     mapplotOutput("map"),
+    leafletOutput("leaflet")
   )
   server <- function(input, output, session) {
-    params <- list(
-      BB = list(
-        north = -34.80481,
-        east = 138.633,
-        south = -34.8189,
-        west = 138.6117
-      ),
-      lat = "lat",
-      lon = "long",
-      col = "site"
-    )
-    mapplotServer("map", params, network)
+    network <- shiny::reactive({
+      network_input
+    })
+    mapplotServer("map", x, network())
+    x <- leafletServer("leaflet", network)
   }
   shiny::shinyApp(ui, server)
 }
