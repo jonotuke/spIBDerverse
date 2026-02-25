@@ -6,7 +6,12 @@ for the plot function.
 ## Usage
 
 ``` r
-convert_ringbauer_measures(RM, abbr = TRUE)
+convert_ringbauer_measures(
+  RM,
+  abbr = TRUE,
+  addSize = FALSE,
+  addPercent = FALSE
+)
 ```
 
 ## Arguments
@@ -18,6 +23,14 @@ convert_ringbauer_measures(RM, abbr = TRUE)
 - abbr:
 
   a boolean that when true will shorten the group names
+
+- addSize:
+
+  adds size to group labels
+
+- addPercent:
+
+  add percent to labels
 
 ## Value
 

@@ -4,7 +4,7 @@ pkgdown_sha: ~
 articles:
   hammersley-clifford: hammersley-clifford.html
   homophily-measures: homophily-measures.html
-last_built: 2026-02-25T03:37Z
+last_built: 2026-02-25T05:28Z
 urls:
   reference: https://jonotuke.github.io/spIBDerverse/reference
   article: https://jonotuke.github.io/spIBDerverse/articles
