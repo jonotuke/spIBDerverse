@@ -85,7 +85,7 @@ plot_ergm_coef <- function(
     ggplot2::facet_wrap(
       ~Model,
       scales = "free_y",
-      # space = "free_y",
+      space = "free_y",
       ncol = 1
     ) +
     tidytext::scale_y_reordered() +
@@ -93,10 +93,11 @@ plot_ergm_coef <- function(
     ggplot2::theme_bw() +
     ggplot2::labs(x = xlab)
 }
-# pacman::p_load(conflicted, tidyverse, targets, ergm)
+# pacman::p_load(tidyverse, targets, ergm)
 # ergms <- get_ergms(
 #   example_network,
-#   preds = c("site", "genetic_sex")
+#   preds = c("site", "genetic_sex"),
+#   types = c("nodematch", "nodemix")
 # )
 # ergms |> plot_ergm_bic() |> print()
 # ergms |> plot_ergm_coef(type = "phi") |> print()

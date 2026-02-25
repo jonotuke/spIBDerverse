@@ -56,10 +56,6 @@ ergmInput <- function(id, meta, g) {
 }
 ergmOutput <- function(id) {
   shiny::tagList(
-    # shiny::h4("Debug"),
-    # shiny::verbatimTextOutput(
-    #   shiny::NS(id, "debug")
-    # ),
     shiny::h4("ERGMs BIC"),
     shiny::plotOutput(
       shiny::NS(id, "ergm_aic_plot")
@@ -73,8 +69,7 @@ ergmOutput <- function(id) {
     ),
     shiny::h4("ERGMs coefficients"),
     shiny::plotOutput(
-      shiny::NS(id, "ergm_coef_plot"),
-      height = "800px"
+      shiny::NS(id, "ergm_coef_plot")
     ),
     shiny::actionButton(
       shiny::NS(id, "coef_save"),
@@ -159,13 +154,6 @@ ergmServer <- function(id, df, store) {
         \(x) input[[x]]
       )
     })
-    output$debug <- shiny::renderPrint({
-      print("Module debug")
-      input$preds |> print()
-      pred_type_vec()
-      input$ergm_aic_tab_rows_selected |> print()
-      selected_rows_data()
-    })
   })
 }
 make_ergm_ui <- function(pred, g, label, id) {
@@ -195,7 +183,6 @@ ergmApp <- function(network_input) {
   ui <- shiny::fluidPage(
     ergmInput("ergm", meta, network_input),
     ergmOutput("ergm"),
-    shiny::verbatimTextOutput("debug")
   )
   server <- function(input, output, session) {
     network <- shiny::reactive(network_input)
@@ -205,11 +192,6 @@ ergmApp <- function(network_input) {
         plot_default_image()
       })
     )
-    output$debug <- shiny::renderPrint({
-      print("App debug")
-      print(network_input)
-      # shiny::reactiveValuesToList(input)
-    })
   }
   shiny::shinyApp(ui, server)
 }
