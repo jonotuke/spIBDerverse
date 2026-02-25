@@ -1,11 +1,11 @@
-# Plot ergm coefficients
+# Tab ergm coefficients
 
-Plot ergm coefficients
+Tab ergm coefficients
 
 ## Usage
 
 ``` r
-plot_ergm_coef(ergms, type = "theta", trim = TRUE, models = NULL)
+tab_ergm_coef(ergms, type = "theta", trim = TRUE, models = NULL)
 ```
 
 ## Arguments

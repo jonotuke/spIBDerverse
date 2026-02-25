@@ -59,7 +59,7 @@
 - [`plot_centrality()`](https://jonotuke.github.io/spIBDerverse/reference/plot_centrality.md)
   : plot centrality measures
 - [`plot_ergm_bic()`](https://jonotuke.github.io/spIBDerverse/reference/plot_ergm_bic.md)
-  : plot_ergm_bic
+  : Plots BIC
 - [`plot_ergm_coef()`](https://jonotuke.github.io/spIBDerverse/reference/plot_ergm_coef.md)
   : Plot ergm coefficients
 - [`plot_ggnet()`](https://jonotuke.github.io/spIBDerverse/reference/plot_ggnet.md)
@@ -76,5 +76,7 @@
   : sort labels
 - [`spibder_app()`](https://jonotuke.github.io/spIBDerverse/reference/spibder_app.md)
   : spIBDerverse shiny app
+- [`tab_ergm_coef()`](https://jonotuke.github.io/spIBDerverse/reference/tab_ergm_coef.md)
+  : Tab ergm coefficients
 - [`transform_alpha()`](https://jonotuke.github.io/spIBDerverse/reference/transform_alpha.md)
   : Transform vector to (a,b)
