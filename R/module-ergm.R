@@ -71,6 +71,9 @@ ergmOutput <- function(id) {
     shiny::plotOutput(
       shiny::NS(id, "ergm_coef_plot")
     ),
+    DT::dataTableOutput(
+      shiny::NS(id, "ergm_coef_tab")
+    ),
     shiny::actionButton(
       shiny::NS(id, "coef_save"),
       "Set as export plot"
@@ -124,7 +127,21 @@ ergmServer <- function(id, df, store) {
     output$ergm_coef_plot <- shiny::renderPlot({
       coef_plot()
     })
-
+    output$ergm_coef_tab <- DT::renderDataTable({
+      shiny::req(selected_rows_data())
+      DT::datatable(
+        tab_ergm_coef(
+          ergm(),
+          type = input$ergm_coef,
+          trim = input$ergm_trim,
+          models = selected_rows_data()
+        )
+      ) |>
+        DT::formatRound(
+          columns = c('theta', 'phi'),
+          digits = 2
+        )
+    })
     shiny::observeEvent(df(), {
       shiny::updateCheckboxGroupInput(
         session,

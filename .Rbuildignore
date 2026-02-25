@@ -13,3 +13,4 @@ spIBDerverse.code-workspace
 vignettes/.quarto
 ^dev/
 ^rosm.cache/
+^archive/

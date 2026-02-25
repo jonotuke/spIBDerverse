@@ -1,5 +1,5 @@
 utils::globalVariables(
-  c("AIC")
+  c("AIC", "BIC", "Model")
 )
 #' Tabulate the ergm AIC and BIC
 #'
