@@ -8,6 +8,8 @@ utils::globalVariables(
 #'
 #' @param RM A ringbauer measure tibble
 #' @param abbr a boolean that when true will shorten the group names
+#' @param addSize adds size to group labels
+#' @param addPercent add percent to labels
 #'
 #' @return a list of three matrices: density, labels, and text colour
 #' @export
@@ -17,13 +19,28 @@ utils::globalVariables(
 #' convert_ringbauer_measures()
 convert_ringbauer_measures <- function(
   RM,
-  abbr = TRUE
+  abbr = TRUE,
+  addSize = FALSE,
+  addPercent = FALSE
 ) {
   if (abbr) {
     RM <- RM |>
       dplyr::mutate(
         grp1 = abbreviate(grp1),
         grp2 = abbreviate(grp2)
+      )
+  }
+  if (addSize) {
+    RM <- RM |>
+      dplyr::mutate(
+        grp1 = stringr::str_glue("{grp1} (n = {n1})"),
+        grp2 = stringr::str_glue("{grp2} (n = {n2})")
+      )
+  }
+  if (addPercent) {
+    RM <- RM |>
+      dplyr::mutate(
+        label = stringr::str_glue("{label} ({round(density * 100)}%)")
       )
   }
   RM <- RM |> dplyr::select(grp1, grp2, density, label)
@@ -62,10 +79,10 @@ convert_ringbauer_measures <- function(
     text_colour = C
   )
 }
-# source("R/heatmap.R")
-# get_ringbauer_matrix(
+
+# get_ringbauer_measures(
 #   example_network,
 #   "site"
 # ) |>
-#   plot_ringbauer_matrix() |>
+#   convert_ringbauer_measures(addPercent = TRUE) |>
 #   print()

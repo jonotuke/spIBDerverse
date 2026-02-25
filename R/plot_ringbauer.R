@@ -117,7 +117,14 @@ plot_ringbauer <- function(RM, label_margin = 2, label_size = 3) {
   )
   invisible(RM)
 }
-# get_ringbauer_measures(example_network, "site") |>
+# RM <- get_ringbauer_measures(example_network, "site")
+# RM <- RM |>
+#   dplyr::mutate(
+#     grp1 = stringr::str_glue("{grp1} (n = {n1})"),
+#     grp2 = stringr::str_glue("{grp2} (n = {n2})")
+#   )
+# RM |> print()
+# unique(RM$grp1)
+# RM |>
 #   convert_ringbauer_measures() |>
-#   plot_ringbauer(label_margin = 10, label_size = 8)
-# p <- recordPlot()
+#   plot_ringbauer(label_margin = 8, label_size = 1)

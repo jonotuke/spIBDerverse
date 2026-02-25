@@ -4,12 +4,21 @@
 \alias{convert_ringbauer_measures}
 \title{Convert ringbauer measures}
 \usage{
-convert_ringbauer_measures(RM, abbr = TRUE)
+convert_ringbauer_measures(
+  RM,
+  abbr = TRUE,
+  addSize = FALSE,
+  addPercent = FALSE
+)
 }
 \arguments{
 \item{RM}{A ringbauer measure tibble}
 
 \item{abbr}{a boolean that when true will shorten the group names}
+
+\item{addSize}{adds size to group labels}
+
+\item{addPercent}{add percent to labels}
 }
 \value{
 a list of three matrices: density, labels, and text colour

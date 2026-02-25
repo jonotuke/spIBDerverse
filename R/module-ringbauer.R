@@ -28,13 +28,23 @@ ringbauerInput <- function(id, meta) {
       value = TRUE
     ),
     shiny::checkboxInput(
+      shiny::NS(id, "addSize"),
+      label = "Add size",
+      value = FALSE
+    ),
+    shiny::checkboxInput(
+      shiny::NS(id, "addPercent"),
+      label = "Add percent",
+      value = FALSE
+    ),
+    shiny::checkboxInput(
       shiny::NS(id, "show_sign"),
       "Show significance",
       value = FALSE
     ),
     shiny::checkboxInput(
       shiny::NS(id, "filter_sign"),
-      "Filter out non-significant",
+      "Filter out alpha = 0.25",
       value = FALSE
     )
   )
@@ -45,9 +55,6 @@ ringbauerOutput <- function(id) {
       shiny::NS(id, "ringbauer_plot"),
       height = "800px"
     ),
-    # shiny::downloadButton(
-    #   shiny::NS(id, "ringbauer_down")
-    # ),
     shiny::actionButton(
       shiny::NS(id, "ringbauer_save"),
       "Set as export plot"
@@ -76,7 +83,9 @@ ringbauerServer <- function(id, df, store) {
     ringbauer_p <- shiny::reactive({
       RM() |>
         convert_ringbauer_measures(
-          abbr = input$abbr
+          abbr = input$abbr,
+          addSize = input$addSize,
+          addPercent = input$addPercent
         ) |>
         plot_ringbauer(
           label_size = input$font_size,
