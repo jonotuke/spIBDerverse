@@ -67,7 +67,8 @@ Suggests:
     quarto,
     fs,
     grDevices,
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0), 
+    methods
 VignetteBuilder: quarto, knitr
 Depends: 
     R (>= 4.1.0)

@@ -92,6 +92,12 @@ plot_ggnet <- function(
     alpha <- ifelse(ggnet_obj$degree >= 1, 1, 0.1)
   }
   # Set up fill and shape columns
+  if (!methods::is(ggnet_obj[[fill_col]], "character")) {
+    fill_col <- ""
+  }
+  if (!methods::is(ggnet_obj[[shape_col]], "character")) {
+    shape_col <- ""
+  }
   fill_col <- rlang::sym(fill_col)
   shape_col <- rlang::sym(shape_col)
   # If .alpha is in ggnet, use this for alpha
@@ -136,13 +142,13 @@ plot_ggnet <- function(
 }
 # pacman::p_load(tidyverse, ggnetwork, igraph)
 # set.seed(2025)
-# V(example_network_2)$.alpha <- degree(example_network_2)
-# V(example_network_2)$.alpha
 
-# example_network_2 |>
+# example_network |>
 #   ggnetwork() |>
 #   plot_ggnet(
 #     node_size = 5,
-#     connected = "Grey out"
+#     connected = "Grey out",
+#     fill_col = "degree",
+#     shape_col = "site"
 #   ) |>
 #   print()
