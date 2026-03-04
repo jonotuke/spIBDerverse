@@ -41,6 +41,7 @@ Imports:
     leaflet,
     shiny
 Suggests: 
+    prettymapr,
     dplyr,
     DT,
     farver,

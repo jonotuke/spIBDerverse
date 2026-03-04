@@ -18,9 +18,11 @@ filter_network <- function(
 ) {
   id <- igraph::V(g)$name
   if (node_inc != "") {
+    node_inc <- convert_pipe(node_inc)
     id <- id |> purrr::keep(\(x) stringr::str_detect(x, node_inc))
   }
   if (node_exc != "") {
+    node_exc <- convert_pipe(node_exc)
     id <- id |> purrr::keep(\(x) !stringr::str_detect(x, node_exc))
   }
   igraph::induced_subgraph(g, id)

@@ -18,7 +18,9 @@
 #' sort_label("A", "B")
 #' sort_label("B", "A")
 sort_label <- function(label1, label2) {
-  c(label1, label2) |> sort() |> stringr::str_c(collapse = "-")
+  c(label1, label2) |>
+    sort() |>
+    stringr::str_c(collapse = "==")
 }
 #' label_grp_duplicates
 #'

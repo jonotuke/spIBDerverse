@@ -20,7 +20,13 @@ networkplotInput <- function(id, meta) {
     shiny::selectInput(
       shiny::NS(id, "alpha_id"),
       label = "Alpha variable",
-      choices = c("", "degree", "betweenness", "closeness", "eigen_centrality"),
+      choices = c(
+        "none",
+        "degree",
+        "betweenness",
+        "closeness",
+        "eigen_centrality"
+      ),
       selected = ""
     ),
     shiny::radioButtons(
@@ -81,7 +87,7 @@ networkplotOutput <- function(id) {
 networkplotServer <- function(id, network, store) {
   shiny::moduleServer(id, function(input, output, session) {
     plot_network <- shiny::reactive({
-      if (input$alpha_id != "") {
+      if (input$alpha_id != "none") {
         add_alpha(network(), measure = input$alpha_id)
       } else {
         network()

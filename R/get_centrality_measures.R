@@ -22,8 +22,8 @@ get_centrality_measures <- function(g, var = NULL) {
     var <- "vertex_id"
   }
   df <- igraph::as_data_frame(g, what = "vertices") |>
+    tibble::rownames_to_column(var = "vertex_id") |>
     tibble::as_tibble() |>
-    dplyr::mutate(vertex_id = as.character(igraph::V(g))) |>
     dplyr::mutate(
       nodes = 1,
       closeness = igraph::closeness(g),
@@ -35,11 +35,13 @@ get_centrality_measures <- function(g, var = NULL) {
       dplyr::across(dplyr::any_of(var))
     ) |>
     dplyr::reframe(
-      dplyr::across(c(degree, closeness:eigen_centrality), mean),
+      dplyr::across(c(degree, closeness:eigen_centrality), \(x) {
+        mean(x, na.rm = TRUE)
+      }),
       dplyr::across(nodes, sum),
     ) |>
     dplyr::relocate(nodes, .before = degree)
 }
 # pacman::p_load(conflicted, tidyverse, targets)
-# get_centrality_measures(example_network, c("site", "genetic_sex")) |> print()
-# get_centrality_measures(example_network) |> print()
+# get_centrality_measures(example_network_2) |> print()
+# get_centrality_measures(example_network_2, "Province") |> print()

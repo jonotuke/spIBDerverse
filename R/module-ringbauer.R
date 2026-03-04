@@ -44,7 +44,7 @@ ringbauerInput <- function(id, meta) {
     ),
     shiny::checkboxInput(
       shiny::NS(id, "filter_sign"),
-      "Filter out alpha = 0.25",
+      "Filter out non-significant",
       value = FALSE
     )
   )

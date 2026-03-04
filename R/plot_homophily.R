@@ -32,6 +32,7 @@ plot_homophily <- function(RM, show_sign = FALSE, filter_sign = FALSE) {
     tidyr::separate(
       .grp_label,
       into = c("grp1", "grp2"),
+      sep = "=="
     )
   RM <- RM |>
     dplyr::mutate(
@@ -51,20 +52,28 @@ plot_homophily <- function(RM, show_sign = FALSE, filter_sign = FALSE) {
         )
       )
   }
+  alpha <- 1
   if (filter_sign) {
-    RM <- RM |> dplyr::filter(adj_pv <= 0.05)
+    alpha <- ifelse(RM$adj_pv <= 0.05, 1, 0.2)
   }
   p <- RM |>
     ggplot2::ggplot(
       ggplot2::aes(name, density, fill = type)
     ) +
-    ggplot2::geom_point(pch = 21, size = 5) +
+    ggplot2::geom_point(
+      pch = 21,
+      size = 5,
+      alpha = alpha
+    ) +
     ggplot2::theme_bw() +
     ggplot2::theme(
       axis.text.x = ggplot2::element_text(angle = -90, hjust = 0)
     ) +
     harrypotter::scale_fill_hp_d("Ravenclaw") +
     ggplot2::labs(y = "Connectivity", x = "Edge", fill = NULL)
+  if (show_sign) {
+    p <- p + harrypotter::scale_fill_hp_d("Hufflepuff")
+  }
   p
 }
 # pacman::p_load(conflicted, tidyverse, targets, ggrepel, igraph)

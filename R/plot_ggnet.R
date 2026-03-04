@@ -57,9 +57,7 @@ plot_ggnet <- function(
   }
   # Clean labels
   if (label_inc != "") {
-    label_inc <- label_inc |>
-      stringr::str_replace_all(",", "|") |>
-      stringr::str_remove_all(" ")
+    label_inc <- convert_pipe(label_inc)
     ggnet_obj <- ggnet_obj |>
       dplyr::mutate(
         name = dplyr::case_when(
@@ -69,9 +67,7 @@ plot_ggnet <- function(
       )
   }
   if (label_exc != "") {
-    label_exc <- label_exc |>
-      stringr::str_replace_all(",", "|") |>
-      stringr::str_remove_all(" ")
+    label_exc <- convert_pipe(label_exc)
     ggnet_obj <- ggnet_obj |>
       dplyr::mutate(
         name = dplyr::case_when(

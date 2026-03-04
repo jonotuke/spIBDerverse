@@ -40,7 +40,7 @@ convert_ringbauer_measures <- function(
   if (addPercent) {
     RM <- RM |>
       dplyr::mutate(
-        label = stringr::str_glue("{label} ({round(density * 100)}%)")
+        label = stringr::str_glue("{label} ({round(density * 100, 2)}%)")
       )
   }
   RM <- RM |> dplyr::select(grp1, grp2, density, label)
