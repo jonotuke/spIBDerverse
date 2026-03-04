@@ -28,7 +28,7 @@ label of form first-second
 
 ``` r
 sort_label("A", "B")
-#> [1] "A-B"
+#> [1] "A==B"
 sort_label("B", "A")
-#> [1] "A-B"
+#> [1] "A==B"
 ```

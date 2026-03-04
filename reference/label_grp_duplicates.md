@@ -42,13 +42,13 @@ label_grp_duplicates(df, grp1, grp2)
 #> # Rowwise: 
 #>   grp1  grp2  value .grp_label
 #>   <chr> <chr> <int> <chr>     
-#> 1 A     A         1 A-A       
-#> 2 A     B         2 A-B       
-#> 3 A     C         3 A-C       
-#> 4 B     A         4 A-B       
-#> 5 B     B         5 B-B       
-#> 6 B     C         6 B-C       
-#> 7 C     A         7 A-C       
-#> 8 C     B         8 B-C       
-#> 9 C     C         9 C-C       
+#> 1 A     A         1 A==A      
+#> 2 A     B         2 A==B      
+#> 3 A     C         3 A==C      
+#> 4 B     A         4 A==B      
+#> 5 B     B         5 B==B      
+#> 6 B     C         6 B==C      
+#> 7 C     A         7 A==C      
+#> 8 C     B         8 B==C      
+#> 9 C     C         9 C==C      
 ```
