@@ -132,14 +132,15 @@ ergmServer <- function(id, df, store) {
       DT::datatable(
         tab_ergm_coef(
           ergm(),
-          type = input$ergm_coef,
-          trim = input$ergm_trim,
           models = selected_rows_data()
         )
       ) |>
         DT::formatRound(
-          columns = c('theta', 'phi'),
+          columns = c('estimate', 'std.error', 'statistic'),
           digits = 2
+        ) |>
+        DT::formatSignif(
+          columns = 'p.value'
         )
     })
     shiny::observeEvent(df(), {

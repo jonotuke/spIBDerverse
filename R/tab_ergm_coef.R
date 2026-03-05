@@ -1,8 +1,9 @@
+utils::globalVariables(
+  c("mcmc.error")
+)
 #' Tab ergm coefficients
 #'
 #' @param ergms list of ergm fits
-#' @param type either "theta" or "phi" - fold changes
-#' @param trim remove -Inf coefficients
 #' @param models models to show
 #'
 #' @return plot of coefficients
@@ -17,24 +18,16 @@
 #' ergms |> plot_ergm_coef()
 tab_ergm_coef <- function(
   ergms,
-  type = "theta",
-  trim = TRUE,
   models = NULL
 ) {
-  if (type == "theta") {
-    xlab = "Coefficient of ERGM"
-    cutoff <- 0
-  } else {
-    xlab = "Fold change compared to edges"
-    cutoff <- 1
-  }
   if (is.null(models)) {
     return(NULL)
   }
   coef <- ergms |>
-    purrr::map(get_ergm_fc, trim = trim) |>
+    purrr::map(broom::tidy) |>
     purrr::list_rbind(names_to = "Model") |>
-    dplyr::group_by(Model)
+    dplyr::group_by(Model) |>
+    dplyr::select(-mcmc.error)
   coef <- coef |>
     dplyr::filter(Model %in% models)
   return(coef)

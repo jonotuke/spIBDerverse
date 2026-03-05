@@ -4,14 +4,10 @@
 \alias{tab_ergm_coef}
 \title{Tab ergm coefficients}
 \usage{
-tab_ergm_coef(ergms, type = "theta", trim = TRUE, models = NULL)
+tab_ergm_coef(ergms, models = NULL)
 }
 \arguments{
 \item{ergms}{list of ergm fits}
-
-\item{type}{either "theta" or "phi" - fold changes}
-
-\item{trim}{remove -Inf coefficients}
 
 \item{models}{models to show}
 }
