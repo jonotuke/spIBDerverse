@@ -76,6 +76,8 @@
   : Plot Ringbauer
 - [`plot_single_ergm_coef()`](https://jonotuke.github.io/spIBDerverse/reference/plot_single_ergm_coef.md)
   : Plot single ergm coefficients
+- [`remove_redundant_models()`](https://jonotuke.github.io/spIBDerverse/reference/remove_redundant_models.md)
+  : remove redundant models
 - [`sort_label()`](https://jonotuke.github.io/spIBDerverse/reference/sort_label.md)
   : sort labels
 - [`spibder_app()`](https://jonotuke.github.io/spIBDerverse/reference/spibder_app.md)

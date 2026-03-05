@@ -26,5 +26,5 @@ ergm term for attribute based on class
 
 ``` r
 convert_pred_ergmterm("site", "nodecov")
-#> nodecov('site')
+#> [1] "nodecov('site')"
 ```
