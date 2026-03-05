@@ -9,17 +9,21 @@
 #' @examples
 #' convert_pred_ergmterm("site", "nodecov")
 convert_pred_ergmterm <- function(pred, type) {
-  ergm_term <- dplyr::case_when(
-    type == "nodecov" ~ stringr::str_glue("nodecov('{pred}')"),
-    type == "absdiff" ~ stringr::str_glue("absdiff('{pred}')"),
-    # choices = c("nodematch", "nodematch(diff)", "nodemix")
-    type == "nodematch" ~ stringr::str_glue("nodematch('{pred}')"),
-    type == "nodematch(diff)" ~ stringr::str_glue(
-      "nodematch('{pred}', diff = TRUE)"
-    ),
-    type == "nodemix" ~ stringr::str_glue("nodemix('{pred}')"),
-    TRUE ~ pred
-  )
+  type <- stringr::str_split(type, "\\|") |> purrr::pluck(1)
+  n_term <- length(type)
+  ergm_term <- character(n_term)
+  for (i in 1:n_term) {
+    ergm_term[i] <- dplyr::case_when(
+      type[i] == "nodecov" ~ stringr::str_glue("nodecov('{pred}')"),
+      type[i] == "absdiff" ~ stringr::str_glue("absdiff('{pred}')"),
+      type[i] == "nodematch" ~ stringr::str_glue("nodematch('{pred}')"),
+      type[i] == "nodematch(diff)" ~ stringr::str_glue(
+        "nodematch('{pred}', diff = TRUE)"
+      ),
+      type[i] == "nodemix" ~ stringr::str_glue("nodemix('{pred}')"),
+      TRUE ~ pred
+    )
+  }
   ergm_term
 }
 #' get_all_models
@@ -62,8 +66,10 @@ get_ergms <- function(network, preds = NULL, types = NULL) {
     models <- list()
     models[["null"]] <- "network ~ edges"
   } else {
-    preds <- purrr::map2_chr(preds, types, \(x, y) convert_pred_ergmterm(x, y))
-    models <- get_all_models(preds, "network")
+    terms <- purrr::map2(preds, types, \(x, y) convert_pred_ergmterm(x, y))
+    terms <- unlist(terms)
+    models <- get_all_models(terms, "network")
+    models <- remove_redundant_models(models, preds)
   }
   network <- intergraph::asNetwork(network)
   models |>
@@ -71,9 +77,9 @@ get_ergms <- function(network, preds = NULL, types = NULL) {
     purrr::map(\(x) ergm::ergm(stats::as.formula(x)))
 }
 # pacman::p_load(conflicted, tidyverse, targets, ergm)
-# get_ergms(
+# models <- get_ergms(
 #   example_network,
 #   preds = c("site", "genetic_sex", "degree"),
-#   types = c("nodematch", "nodemix", "nodecov")
-# ) |>
-#   print()
+#   types = c("nodematch|nodemix", "nodemix|nodematch", "nodecov")
+# )
+# length(models)

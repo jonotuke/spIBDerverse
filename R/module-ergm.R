@@ -56,6 +56,9 @@ ergmInput <- function(id, meta, g) {
 }
 ergmOutput <- function(id) {
   shiny::tagList(
+    # shiny::verbatimTextOutput(
+    #   shiny::NS(id, "debug")
+    # ),
     shiny::h4("ERGMs BIC"),
     shiny::plotOutput(
       shiny::NS(id, "ergm_aic_plot")
@@ -169,9 +172,13 @@ ergmServer <- function(id, df, store) {
     pred_type_vec <- shiny::reactive({
       purrr::map_chr(
         input$preds,
-        \(x) input[[x]]
+        \(x) stringr::str_c(input[[x]], collapse = "|")
       )
     })
+    # output$debug <- shiny::renderPrint({
+    #   print("Module debug")
+    #   print(pred_type_vec())
+    # })
   })
 }
 make_ergm_ui <- function(pred, g, label, id) {
@@ -181,17 +188,30 @@ make_ergm_ui <- function(pred, g, label, id) {
     type <- "non selected"
   }
   if (type == "numeric") {
-    shiny::radioButtons(
+    # shiny::radioButtons(
+    shiny::checkboxGroupInput(
       shiny::NS(id, label),
       label = pred,
-      choices = c("nodecov", "absdiff")
+      choices = c("nodecov", "absdiff"),
+      selected = "nodecov"
     )
   } else if (type == "character") {
-    shiny::radioButtons(
-      shiny::NS(id, label),
-      label = pred,
-      choices = c("nodematch", "nodematch(diff)", "nodemix")
-    )
+    n_levels <- nlevels(factor(igraph::vertex_attr(g, pred)))
+    if (n_levels <= 2) {
+      shiny::radioButtons(
+        shiny::NS(id, label),
+        label = pred,
+        choices = c("nodematch")
+      )
+    } else {
+      # shiny::radioButtons(
+      shiny::checkboxGroupInput(
+        shiny::NS(id, label),
+        label = pred,
+        choices = c("nodematch", "nodematch(diff)", "nodemix"),
+        selected = "nodematch"
+      )
+    }
   } else {
     NULL
   }
@@ -200,7 +220,8 @@ ergmApp <- function(network_input) {
   meta <- igraph::vertex_attr_names(network_input)
   ui <- shiny::fluidPage(
     ergmInput("ergm", meta, network_input),
-    ergmOutput("ergm"),
+    shiny::verbatimTextOutput(outputId = "debug"),
+    ergmOutput("ergm")
   )
   server <- function(input, output, session) {
     network <- shiny::reactive(network_input)
