@@ -5,7 +5,7 @@ Tab ergm coefficients
 ## Usage
 
 ``` r
-tab_ergm_coef(ergms, type = "theta", trim = TRUE, models = NULL)
+tab_ergm_coef(ergms, models = NULL)
 ```
 
 ## Arguments
@@ -13,14 +13,6 @@ tab_ergm_coef(ergms, type = "theta", trim = TRUE, models = NULL)
 - ergms:
 
   list of ergm fits
-
-- type:
-
-  either "theta" or "phi" - fold changes
-
-- trim:
-
-  remove -Inf coefficients
 
 - models:
 
