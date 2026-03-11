@@ -39,9 +39,9 @@ Imports:
     igraph,
     intergraph,
     leaflet,
-    shiny
+    shiny, 
+    ggmap
 Suggests: 
-    prettymapr,
     dplyr,
     DT,
     farver,
@@ -69,7 +69,9 @@ Suggests:
     fs,
     grDevices,
     testthat (>= 3.0.0), 
-    methods
+    methods, 
+    shinyWidgets, 
+    gt
 VignetteBuilder: quarto, knitr
 Depends: 
     R (>= 4.1.0)

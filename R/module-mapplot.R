@@ -26,8 +26,8 @@ mapplotServer <- function(id, leaflet_params, network) {
       convert_sf(
         network(),
         leaflet_params$lat(),
-        leaflet_params$lon(),
-        leaflet_params$col()
+        leaflet_params$lon()
+        # leaflet_params$col()
       ) |>
         filter_sf(
           xmin = leaflet_params$BB()$west,

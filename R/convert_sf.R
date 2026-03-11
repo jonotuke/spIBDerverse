@@ -7,18 +7,16 @@
 #' @param g igraph network
 #' @param lat attribute that gives latitude
 #' @param lon attribute that gives longitude
-#' @param col attribute that will give colour in leaflet or plot
 #'
 #' @returns list of edges_sf and nodes_sf
 #'
 #' @export
 #' @examples
-#' convert_sf(example_network,"lat","long",col = "site")
+#' convert_sf(example_network,"lat","long")
 convert_sf <- function(
   g,
   lat,
-  lon,
-  col = "site"
+  lon
 ) {
   nodes_df <- igraph::as_data_frame(g, what = "vertices")
   nodes_df <- nodes_df |>
@@ -26,15 +24,15 @@ convert_sf <- function(
       lat = dplyr::all_of(lat),
       lon = dplyr::all_of(lon)
     )
-  if (col == "none") {
-    nodes_df$col <- "black"
-    nodes_df <- nodes_df |>
-      dplyr::mutate(label = name)
-  } else {
-    nodes_df <- nodes_df |>
-      dplyr::rename(col = dplyr::all_of(col)) |>
-      dplyr::mutate(label = stringr::str_glue("{name}: {col}"))
-  }
+  # if (col == "none") {
+  #   nodes_df$col <- "black"
+  #   nodes_df <- nodes_df |>
+  #     dplyr::mutate(label = name)
+  # } else {
+  #   nodes_df <- nodes_df |>
+  #     dplyr::rename(col = dplyr::all_of(col)) |>
+  #     dplyr::mutate(label = stringr::str_glue("{name}: {col}"))
+  # }
   nodes_sf <- sf::st_as_sf(
     nodes_df,
     coords = c("lon", "lat"),
@@ -56,7 +54,6 @@ convert_sf <- function(
 # convert_sf(
 #   example_network,
 #   "lat",
-#   "long",
-#   col = "site"
+#   "long"
 # ) |>
 #   print()

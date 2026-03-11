@@ -74,9 +74,12 @@ ergmOutput <- function(id) {
     shiny::plotOutput(
       shiny::NS(id, "ergm_coef_plot")
     ),
-    DT::dataTableOutput(
+    # DT::dataTableOutput(
+    #   shiny::NS(id, "ergm_coef_tab")
+    # ),
+    gt::gt_output({
       shiny::NS(id, "ergm_coef_tab")
-    ),
+    }),
     shiny::actionButton(
       shiny::NS(id, "coef_save"),
       "Set as export plot"
@@ -130,22 +133,32 @@ ergmServer <- function(id, df, store) {
     output$ergm_coef_plot <- shiny::renderPlot({
       coef_plot()
     })
-    output$ergm_coef_tab <- DT::renderDataTable({
+    output$ergm_coef_tab <- gt::render_gt({
       shiny::req(selected_rows_data())
-      DT::datatable(
-        tab_ergm_coef(
-          ergm(),
-          models = selected_rows_data()
-        )
+      tab_ergm_coef(
+        ergm(),
+        models = selected_rows_data()
       ) |>
-        DT::formatRound(
-          columns = c('estimate', 'std.error', 'statistic'),
-          digits = 2
-        ) |>
-        DT::formatSignif(
-          columns = 'p.value'
-        )
+        gt::gt() |>
+        gt::fmt_number() |>
+        gt::fmt_scientific("p.value")
     })
+    # output$ergm_coef_tab <- DT::renderDataTable({
+    #   shiny::req(selected_rows_data())
+    #   DT::datatable(
+    #     tab_ergm_coef(
+    #       ergm(),
+    #       models = selected_rows_data()
+    #     )
+    #   ) |>
+    #     DT::formatRound(
+    #       columns = c('estimate', 'std.error', 'statistic'),
+    #       digits = 2
+    #     ) |>
+    #     DT::formatSignif(
+    #       columns = 'p.value'
+    #     )
+    # })
     shiny::observeEvent(df(), {
       shiny::updateCheckboxGroupInput(
         session,
@@ -198,10 +211,11 @@ make_ergm_ui <- function(pred, g, label, id) {
   } else if (type == "character") {
     n_levels <- nlevels(factor(igraph::vertex_attr(g, pred)))
     if (n_levels <= 2) {
-      shiny::radioButtons(
+      shiny::checkboxGroupInput(
         shiny::NS(id, label),
         label = pred,
-        choices = c("nodematch")
+        choices = c("nodematch", "nodematch(diff)"),
+        selected = "nodematch"
       )
     } else {
       # shiny::radioButtons(

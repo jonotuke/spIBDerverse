@@ -4,7 +4,7 @@
 \alias{convert_sf}
 \title{Convert to SF}
 \usage{
-convert_sf(g, lat, lon, col = "site")
+convert_sf(g, lat, lon)
 }
 \arguments{
 \item{g}{igraph network}
@@ -12,8 +12,6 @@ convert_sf(g, lat, lon, col = "site")
 \item{lat}{attribute that gives latitude}
 
 \item{lon}{attribute that gives longitude}
-
-\item{col}{attribute that will give colour in leaflet or plot}
 }
 \value{
 list of edges_sf and nodes_sf
@@ -22,5 +20,5 @@ list of edges_sf and nodes_sf
 Converts an igraph object into two sf objects
 }
 \examples{
-convert_sf(example_network,"lat","long",col = "site")
+convert_sf(example_network,"lat","long")
 }

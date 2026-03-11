@@ -2,6 +2,7 @@
 
 export(abbreviate)
 export(add_alpha)
+export(add_convert_bb_adj)
 export(clean_models)
 export(clean_network)
 export(convert_pipe)
