@@ -6,10 +6,16 @@
   : abbreviate labels
 - [`add_alpha()`](https://jonotuke.github.io/spIBDerverse/reference/add_alpha.md)
   : Add alpha
+- [`add_convert_bb_adj()`](https://jonotuke.github.io/spIBDerverse/reference/add_convert_bb_adj.md)
+  : Adjust BB for network work sf object
 - [`clean_models()`](https://jonotuke.github.io/spIBDerverse/reference/clean_models.md)
   : clean model names
 - [`clean_network()`](https://jonotuke.github.io/spIBDerverse/reference/clean_network.md)
   : Clean network
+- [`convert_bb()`](https://jonotuke.github.io/spIBDerverse/reference/convert_bb.md)
+  : Given a bounding box, increase the lat and long by given amounts
+- [`convert_bb_asp()`](https://jonotuke.github.io/spIBDerverse/reference/convert_bb_asp.md)
+  : convert bb to be square
 - [`convert_pipe()`](https://jonotuke.github.io/spIBDerverse/reference/convert_pipe.md)
   : convert pipe
 - [`convert_pred_ergmterm()`](https://jonotuke.github.io/spIBDerverse/reference/convert_pred_ergmterm.md)
@@ -34,6 +40,8 @@
   : example network 2
 - [`example_sf`](https://jonotuke.github.io/spIBDerverse/reference/example_sf.md)
   : example sf object
+- [`expand_line()`](https://jonotuke.github.io/spIBDerverse/reference/expand_line.md)
+  : Expand a line by given amount
 - [`filter_network()`](https://jonotuke.github.io/spIBDerverse/reference/filter_network.md)
   : Filter network
 - [`filter_sf()`](https://jonotuke.github.io/spIBDerverse/reference/filter_sf.md)

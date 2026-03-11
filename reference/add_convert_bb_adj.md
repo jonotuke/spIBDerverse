@@ -1,40 +1,36 @@
-# Convert to SF
+# Adjust BB for network work sf object
 
-Converts an igraph object into two sf objects
+Adjust BB for network work sf object
 
 ## Usage
 
 ``` r
-convert_sf(g, lat, lon)
+add_convert_bb_adj(network_sf, asp = 1)
 ```
 
 ## Arguments
 
-- g:
+- network_sf:
 
-  igraph network
+  network sf objects
 
-- lat:
+- asp:
 
-  attribute that gives latitude
-
-- lon:
-
-  attribute that gives longitude
+  aspect ratio
 
 ## Value
 
-list of edges_sf and nodes_sf
+same network sf with adjusted aspect ration
 
 ## Examples
 
 ``` r
-convert_sf(example_network,"lat","long")
+add_convert_bb_adj(example_sf)
 #> $nodes_sf
 #> Simple feature collection with 40 features and 4 fields
 #> Geometry type: POINT
 #> Dimension:     XY
-#> Bounding box:  xmin: 138.5867 ymin: -34.92707 xmax: 138.6253 ymax: -34.8057
+#> Bounding box:  xmin: 138.4653 ymin: -34.93921 xmax: 138.7467 ymax: -34.79356
 #> Geodetic CRS:  WGS 84
 #> First 10 features:
 #>    genetic_sex site name degree                   geometry
@@ -53,7 +49,7 @@ convert_sf(example_network,"lat","long")
 #> Simple feature collection with 111 features and 3 fields
 #> Geometry type: LINESTRING
 #> Dimension:     XY
-#> Bounding box:  xmin: 138.5867 ymin: -34.92707 xmax: 138.6253 ymax: -34.8057
+#> Bounding box:  xmin: 138.4653 ymin: -34.93921 xmax: 138.7467 ymax: -34.79356
 #> Geodetic CRS:  WGS 84
 #> First 10 features:
 #>    from to       wij                       geometry
