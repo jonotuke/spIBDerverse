@@ -142,8 +142,6 @@ ibd_network
   : Expand a line by given amount
 - [`filter_network()`](https://jonotuke.github.io/spIBDerverse/reference/filter_network.md)
   : Filter network
-- [`filter_sf()`](https://jonotuke.github.io/spIBDerverse/reference/filter_sf.md)
-  : Filter SF object
 - [`get_all_models()`](https://jonotuke.github.io/spIBDerverse/reference/get_all_models.md)
   : get_all_models
 - [`get_centrality_measures()`](https://jonotuke.github.io/spIBDerverse/reference/get_centrality_measures.md)
@@ -156,6 +154,8 @@ ibd_network
   : Convert ergm coefficients to fold changes
 - [`get_ergms()`](https://jonotuke.github.io/spIBDerverse/reference/get_ergms.md)
   : get_ergms
+- [`get_lat_range()`](https://jonotuke.github.io/spIBDerverse/reference/get_lat_range.md)
+  : get lat or lon from network sf object
 - [`get_network_summary()`](https://jonotuke.github.io/spIBDerverse/reference/get_network_summary.md)
   : Get network summary
 - [`get_node_info()`](https://jonotuke.github.io/spIBDerverse/reference/get_node_info.md)
@@ -168,6 +168,8 @@ ibd_network
   : label_grp_duplicates
 - [`plot_centrality()`](https://jonotuke.github.io/spIBDerverse/reference/plot_centrality.md)
   : plot centrality measures
+- [`plot_default_image()`](https://jonotuke.github.io/spIBDerverse/reference/plot_default_image.md)
+  : Plots a default image
 - [`plot_ergm_bic()`](https://jonotuke.github.io/spIBDerverse/reference/plot_ergm_bic.md)
   : Plots BIC
 - [`plot_ergm_coef()`](https://jonotuke.github.io/spIBDerverse/reference/plot_ergm_coef.md)
