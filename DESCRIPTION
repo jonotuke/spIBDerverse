@@ -35,7 +35,6 @@ BugReports: https://github.com/jonotuke/spIBDerverse/issues
 Imports: 
     ergm,
     ggnetwork,
-    ggspatial,
     igraph,
     intergraph,
     leaflet,

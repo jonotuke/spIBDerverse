@@ -1,3 +1,14 @@
+#' get lat or lon from network sf object
+#'
+#' @param network_sf network sf object
+#' @param type whether lat or lon
+#'
+#' @returns 2 vector of lat or lon
+#'
+#' @export
+#' @examples
+#' get_lat_range(example_sf, "lon")
+#' get_lat_range(example_sf, "lat")
 get_lat_range <- function(network_sf, type = "lat") {
   bb <- sf::st_bbox(network_sf$nodes_sf)
   names(bb) <- NULL

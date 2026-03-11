@@ -5,7 +5,9 @@ ergmInput <- function(id, meta, g) {
       "Select Predictors",
       choices = meta
     ),
-    shiny::uiOutput(shiny::NS(id, "pred_types")),
+    shiny::uiOutput(
+      shiny::NS(id, "pred_types")
+    ),
     shiny::radioButtons(
       shiny::NS(id, "ergm_coef"),
       label = "ERGM type",
@@ -56,9 +58,6 @@ ergmInput <- function(id, meta, g) {
 }
 ergmOutput <- function(id) {
   shiny::tagList(
-    # shiny::verbatimTextOutput(
-    #   shiny::NS(id, "debug")
-    # ),
     shiny::h4("ERGMs BIC"),
     shiny::plotOutput(
       shiny::NS(id, "ergm_aic_plot")
@@ -74,9 +73,6 @@ ergmOutput <- function(id) {
     shiny::plotOutput(
       shiny::NS(id, "ergm_coef_plot")
     ),
-    # DT::dataTableOutput(
-    #   shiny::NS(id, "ergm_coef_tab")
-    # ),
     gt::gt_output({
       shiny::NS(id, "ergm_coef_tab")
     }),
@@ -141,24 +137,15 @@ ergmServer <- function(id, df, store) {
       ) |>
         gt::gt() |>
         gt::fmt_number() |>
-        gt::fmt_scientific("p.value")
+        gt::fmt_scientific("p.value") |>
+        gt::tab_style(
+          style = list(
+            gt::cell_fill(color = "grey80"),
+            gt::cell_text(weight = "bold")
+          ),
+          locations = gt::cells_row_groups()
+        )
     })
-    # output$ergm_coef_tab <- DT::renderDataTable({
-    #   shiny::req(selected_rows_data())
-    #   DT::datatable(
-    #     tab_ergm_coef(
-    #       ergm(),
-    #       models = selected_rows_data()
-    #     )
-    #   ) |>
-    #     DT::formatRound(
-    #       columns = c('estimate', 'std.error', 'statistic'),
-    #       digits = 2
-    #     ) |>
-    #     DT::formatSignif(
-    #       columns = 'p.value'
-    #     )
-    # })
     shiny::observeEvent(df(), {
       shiny::updateCheckboxGroupInput(
         session,
@@ -188,10 +175,6 @@ ergmServer <- function(id, df, store) {
         \(x) stringr::str_c(input[[x]], collapse = "|")
       )
     })
-    # output$debug <- shiny::renderPrint({
-    #   print("Module debug")
-    #   print(pred_type_vec())
-    # })
   })
 }
 make_ergm_ui <- function(pred, g, label, id) {
@@ -201,7 +184,6 @@ make_ergm_ui <- function(pred, g, label, id) {
     type <- "non selected"
   }
   if (type == "numeric") {
-    # shiny::radioButtons(
     shiny::checkboxGroupInput(
       shiny::NS(id, label),
       label = pred,
@@ -218,7 +200,6 @@ make_ergm_ui <- function(pred, g, label, id) {
         selected = "nodematch"
       )
     } else {
-      # shiny::radioButtons(
       shiny::checkboxGroupInput(
         shiny::NS(id, label),
         label = pred,

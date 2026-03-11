@@ -1,6 +1,11 @@
 utils::globalVariables(
   c("pixel")
 )
+#' Plots a default image
+#'
+#' @returns an ASCII image
+#'
+#' @export
 plot_default_image <- function() {
   spIBDerverse::default_image |>
     ggplot2::ggplot(
