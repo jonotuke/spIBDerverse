@@ -82,7 +82,7 @@ create_ibd_network <- function(
   # Ben creates an adjacency matrix to get the network, we will do it directly
   edge_df <- edge_df |>
     dplyr::filter(eij == 1) |>
-    dplyr::select(iid1, iid2, wij)
+    dplyr::select(-eij)
   # GRAPH
   g <- igraph::graph_from_data_frame(
     edge_df,

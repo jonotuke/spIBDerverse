@@ -1,4 +1,4 @@
-staticmapInput <- function(id, meta) {
+staticmapInput <- function(id, meta, edge_meta) {
   shiny::tagList(
     shiny::selectInput(
       shiny::NS(id, "lat"),
@@ -24,6 +24,12 @@ staticmapInput <- function(id, meta) {
       choices = c("none", meta),
       selected = "none"
     ),
+    shiny::selectInput(
+      shiny::NS(id, "edge"),
+      label = "Choose edge column",
+      choices = c("none", edge_meta),
+      selected = "none"
+    ),
     shiny::sliderInput(
       shiny::NS(id, "pt_size"),
       "Node size",
@@ -34,9 +40,9 @@ staticmapInput <- function(id, meta) {
     shiny::sliderInput(
       shiny::NS(id, "zoom"),
       label = "Map resolution",
-      min = 6,
+      min = 0,
       max = 15,
-      value = 9,
+      value = 5,
       step = 1
     ),
     shiny::selectInput(
@@ -121,6 +127,7 @@ staticmapServer <- function(id, network, store) {
         key = input$key,
         fill_col = input$col,
         shape_col = input$shape,
+        edge_col = input$edge,
         maptype = input$maptype,
         pt_size = input$pt_size,
         lat_range = input$lat_range,
@@ -146,19 +153,72 @@ staticmapServer <- function(id, network, store) {
         p()
       )
     })
+    shiny::observeEvent(network(), {
+      shiny::updateSelectInput(
+        session,
+        "lat",
+        choices = c(
+          "",
+          igraph::vertex_attr_names(network())
+        )
+      )
+    })
+    shiny::observeEvent(network(), {
+      shiny::updateSelectInput(
+        session,
+        "lon",
+        choices = c(
+          "",
+          igraph::vertex_attr_names(network())
+        )
+      )
+    })
+    shiny::observeEvent(network(), {
+      shiny::updateSelectInput(
+        session,
+        "shape",
+        choices = c(
+          "",
+          igraph::vertex_attr_names(network())
+        )
+      )
+    })
+    shiny::observeEvent(network(), {
+      shiny::updateSelectInput(
+        session,
+        "col",
+        choices = c(
+          "",
+          igraph::vertex_attr_names(network())
+        )
+      )
+    })
+    shiny::observeEvent(network(), {
+      shiny::updateSelectInput(
+        session,
+        "edge",
+        choices = c(
+          "",
+          igraph::edge_attr_names(network())
+        )
+      )
+    })
   })
 }
 
 staticmapApp <- function(network_input) {
   meta <- igraph::vertex_attr_names(network_input)
+  edge_meta <- igraph::edge_attr_names(network_input)
 
   ui <- shiny::fluidPage(
     title = "Static map",
-    staticmapInput("staticmap", meta),
+    staticmapInput("staticmap", meta, edge_meta),
     staticmapOutput("staticmap")
   )
   server <- function(input, output, session) {
-    staticmapServer("staticmap", network_input)
+    staticmapServer("staticmap", shiny::reactive(network_input))
   }
   shiny::shinyApp(ui, server)
 }
+
+# staticmapApp(example_network_2) |> print()

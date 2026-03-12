@@ -8,6 +8,7 @@ plot_ggnet(
   ggnet_obj,
   fill_col = "",
   shape_col = "",
+  edge_col = "",
   node_size = 4,
   text_size = 4,
   labels = FALSE,
@@ -23,6 +24,8 @@ plot_ggnet(
 \item{fill_col}{vertex attribute for node fill}
 
 \item{shape_col}{vertex attribute for node shape}
+
+\item{edge_col}{edge attribute for line colour}
 
 \item{node_size}{node size}
 

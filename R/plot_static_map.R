@@ -1,3 +1,20 @@
+#' plot static map
+#'
+#' @param network_sf a network sf object
+#' @param zoom level of tile resolution
+#' @param maptype type of tile
+#' @param key API key for stadia
+#' @param fill_col node attribute for fill
+#' @param shape_col node attribute for shape
+#' @param edge_col edge attribute for edge width and colour
+#' @param lon_range lon range to zoom
+#' @param lat_range lat range to zoom
+#' @param theme type of ggplot
+#' @param pt_size node size
+#'
+#' @returns plot of network with background tiles
+#'
+#' @export
 plot_static_map <- function(
   network_sf,
   zoom = NULL,
@@ -5,6 +22,7 @@ plot_static_map <- function(
   key = NULL,
   fill_col = "",
   shape_col = "",
+  edge_col = "",
   lon_range = NULL,
   lat_range = NULL,
   theme = "minimal",
@@ -55,11 +73,21 @@ plot_static_map <- function(
     shape_col <- ""
   }
   shape_col <- rlang::sym(shape_col)
+  # Edge
+  if (edge_col == "none") {
+    edge_col = ""
+  }
+  edge_sym <- rlang::sym(edge_col)
   p <- ggmap::ggmap(tile) +
     ggplot2::geom_sf(
       data = edges_sf,
       inherit.aes = FALSE,
-      alpha = 0.2
+      alpha = 0.2,
+      ggplot2::aes(
+        linewidth = {{ edge_sym }},
+        col = {{ edge_sym }}
+      ),
+      show.legend = FALSE
     ) +
     ggplot2::geom_sf(
       data = nodes_sf,
@@ -74,9 +102,14 @@ plot_static_map <- function(
     ggplot2::labs(x = "Longitude", y = "Latitude") +
     ggplot2::scale_shape_manual(
       values = rep(21:25, 1e4)
-    )
+    ) +
+    ggplot2::scale_linewidth_continuous(
+      range = c(0.5, 2)
+    ) +
+    ggplot2::scale_color_gradient2(low = "grey90", high = "black")
   if (!is.null(lon_range)) {
-    p <- p + ggplot2::scale_x_continuous(limits = lon_range, labels = identity)
+    p <- p +
+      ggplot2::scale_x_continuous(limits = lon_range, labels = identity)
   }
   if (!is.null(lat_range)) {
     p <- p + ggplot2::scale_y_continuous(limits = lat_range, labels = identity)
@@ -91,17 +124,13 @@ plot_static_map <- function(
 }
 # pacman::p_load(conflicted, tidyverse, targets)
 # jono_key <- "a7bf69ed-3e77-41ed-b1e2-52f9aa99ec19"
-# example_sf_adj <- add_convert_bb_adj(example_sf)
-# example_sf_adj
 
-# plot_static_map(
-#   example_sf_adj,
-#   zoom = 12,
-#   key = jono_key,
-#   fill_col = "genetic_sex",
-#   shape_col = "site",
-#   lon_range = c(138.55, 138.65),
-#   lat_range = c(-34.86, -34.80),
-#   theme = "void"
-# ) |>
+# example_network_2 |>
+#   convert_sf("Latitude", "Longitude") |>
+#   add_convert_bb_adj(asp = 4) |>
+#   plot_static_map(
+#     zoom = 7,
+#     key = jono_key,
+#     edge_col = "n_ibd_8"
+#   ) |>
 #   print()

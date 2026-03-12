@@ -25,9 +25,6 @@ ibdInput <- function(id) {
 }
 ibdOutput <- function(id) {
   shiny::tagList(
-    # shiny::verbatimTextOutput(
-    #   shiny::NS(id, "cutoffs")
-    # ),
     DT::dataTableOutput(
       shiny::NS(id, "node_dt")
     )

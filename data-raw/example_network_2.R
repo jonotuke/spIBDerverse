@@ -14,9 +14,9 @@ example_network_2 <- create_ibd_network(
   ibd_co = c(0, 2, 1, 0),
   frac_co = 0.49
 )
-V(example_network_2)$site <- str_remove_all(
-  V(example_network_2)$Master_ID,
+igraph::V(example_network_2)$site <- stringr::str_remove_all(
+  igraph::V(example_network_2)$Master_ID,
   "\\d"
 )
-# example_network_2 |> print()
-# usethis::use_data(example_network_2, overwrite = TRUE)
+example_network_2 |> print()
+usethis::use_data(example_network_2, overwrite = TRUE)

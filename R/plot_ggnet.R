@@ -17,6 +17,7 @@ utils::globalVariables(
 #' @param fill_col vertex attribute for node fill
 #' @param shape_col vertex attribute for node shape
 #' @param node_size node size
+#' @param edge_col edge attribute for line colour
 #' @param text_size label size
 #' @param labels add labels
 #' @param label_col vertex attribute to use for labels
@@ -35,6 +36,7 @@ plot_ggnet <- function(
   ggnet_obj,
   fill_col = "",
   shape_col = "",
+  edge_col = "",
   node_size = 4,
   text_size = 4,
   labels = FALSE,
@@ -87,15 +89,12 @@ plot_ggnet <- function(
   } else if (connected == "Grey out") {
     alpha <- ifelse(ggnet_obj$degree >= 1, 1, 0.1)
   }
-  # Set up fill and shape columns
-  # if (!methods::is(ggnet_obj[[fill_col]], "character")) {
-  #   fill_col <- ""
-  # }
   if (!methods::is(ggnet_obj[[shape_col]], "character")) {
     shape_col <- ""
   }
   fill_sym <- rlang::sym(fill_col)
   shape_sym <- rlang::sym(shape_col)
+  edge_sym <- rlang::sym(edge_col)
   # If .alpha is in ggnet, use this for alpha
   if (".alpha" %in% colnames(ggnet_obj)) {
     alpha <- transform_alpha(ggnet_obj$.alpha, a = 0.1)
@@ -106,17 +105,21 @@ plot_ggnet <- function(
         x = x,
         y = y,
         xend = xend,
-        yend = yend,
-        linewidth = wij,
+        yend = yend
       )
     ) +
     ggnetwork::theme_blank() +
     ggnetwork::geom_edges(
+      ggplot2::aes(
+        col = {{ edge_sym }},
+        linewidth = {{ edge_sym }}
+      ),
       show.legend = FALSE
     ) +
     ggplot2::scale_linewidth_continuous(
       range = c(0.5, 2)
     ) +
+    ggplot2::scale_color_gradient2(low = "grey90", high = "black") +
     ggplot2::scale_shape_manual(
       values = rep(21:25, 1e4)
     ) +
@@ -144,12 +147,13 @@ plot_ggnet <- function(
 }
 # pacman::p_load(tidyverse, ggnetwork, igraph)
 # set.seed(2025)
-# example_network |>
+# example_network_2 |>
 #   ggnetwork() |>
 #   plot_ggnet(
-#     node_size = 5,
-#     connected = "Grey out",
+#     node_size = 3,
 #     shape_col = "site",
-#     fill_col = "degree"
+#     fill_col = "site",
+#     edge_col = "sum_ibd_8",
+#     connected = "Hide"
 #   ) |>
 #   print()

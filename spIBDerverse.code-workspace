@@ -4,5 +4,9 @@
 			"path": "."
 		}
 	],
-	"settings": {}
+	"settings": {
+		"shiny.runFromOverrides": {
+			"R/app.R": "R"
+		}
+	}
 }

@@ -32,12 +32,14 @@ convert_bb <- function(bb, x_adj = 0.1, y_adj = 0.1) {
 #' @returns adjusted BB
 convert_bb_asp <- function(bb, asp = 1) {
   w <- bb[3] - bb[1]
+  message(stringr::str_glue("w is {w}"))
   h <- bb[4] - bb[2]
+  message(stringr::str_glue("h is {h}"))
   if (w < h) {
     x_adj <- asp * h / w
     y_adj <- 0.1
   } else {
-    y_adj <- w / (asp * h)
+    y_adj <- h / (asp * w)
     x_adj <- 0.1
   }
   convert_bb(bb, x_adj, y_adj)
@@ -60,6 +62,8 @@ add_convert_bb_adj <- function(network_sf, asp = 1) {
   attr(sf::st_geometry(network_sf$edges_sf), "bbox") <- new_bb
   network_sf
 }
-
-# pacman::p_load(conflicted, tidyverse, targets)
-# add_convert_bb_adj(example_sf) |> print()
+# example_network_2 |>
+#   convert_sf("Latitude", "Longitude") |>
+#   add_convert_bb_adj() |>
+#   plot_static_map(key = "a7bf69ed-3e77-41ed-b1e2-52f9aa99ec19") |>
+#   print()

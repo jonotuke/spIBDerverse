@@ -12,6 +12,7 @@ spibder_app <- function(input_network = NULL) {
     input_network <- example_network
   }
   meta <- igraph::vertex_attr_names(input_network)
+  edge_meta <- igraph::edge_attr_names(input_network)
   ui <- shiny::fluidPage(
     prompter::use_prompt(),
     shiny::titlePanel("shiny spIBDer"),
@@ -22,8 +23,12 @@ spibder_app <- function(input_network = NULL) {
           ibdInput("ibd")
         ),
         shiny::conditionalPanel(
+          condition = "input.tabs == 'Edge table'",
+          edgeInput("edge")
+        ),
+        shiny::conditionalPanel(
           condition = "input.tabs == 'Network plot'",
-          networkplotInput("networkplot", meta)
+          networkplotInput("networkplot", meta, edge_meta)
         ),
         shiny::conditionalPanel(
           condition = "input.tabs == 'Centrality measures'",
@@ -35,7 +40,7 @@ spibder_app <- function(input_network = NULL) {
         ),
         shiny::conditionalPanel(
           condition = "input.tabs == 'Static map'",
-          staticmapInput("staticmap", meta)
+          staticmapInput("staticmap", meta, edge_meta)
         ),
         shiny::conditionalPanel(
           condition = "input.tabs == 'Ringbauer matrix'",
@@ -61,6 +66,10 @@ spibder_app <- function(input_network = NULL) {
           shiny::tabPanel(
             title = "Upload IBD",
             ibdOutput("ibd")
+          ),
+          shiny::tabPanel(
+            title = "Edge table",
+            edgeOutput("edge")
           ),
           shiny::tabPanel(
             title = "Network plot",
@@ -121,6 +130,8 @@ spibder_app <- function(input_network = NULL) {
     ergmServer("ergm", network, plots)
     # IBD ----
     network <- ibdServer("ibd", input_network)
+    # Edge ----
+    edgeServer("edge", network)
     # EXPORT <----
     snapshot <- shiny::reactive({
       shiny::reactiveValuesToList(input)

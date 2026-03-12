@@ -1,4 +1,4 @@
-networkplotInput <- function(id, meta) {
+networkplotInput <- function(id, meta, edge_meta) {
   shiny::tagList(
     shiny::numericInput(
       shiny::NS(id, "seed"),
@@ -15,6 +15,12 @@ networkplotInput <- function(id, meta) {
       shiny::NS(id, "fill_id"),
       label = "Fill variable",
       choices = c("", meta),
+      selected = ""
+    ),
+    shiny::selectInput(
+      shiny::NS(id, "edge"),
+      label = "Edge variable",
+      choices = c("", edge_meta),
       selected = ""
     ),
     shiny::selectInput(
@@ -105,6 +111,7 @@ networkplotServer <- function(id, network, store) {
         ggnet(),
         shape_col = input$shape_id,
         fill_col = input$fill_id,
+        edge_col = input$edge,
         node_size = input$node_size,
         labels = input$add_label,
         label_col = input$label_id,
@@ -137,6 +144,16 @@ networkplotServer <- function(id, network, store) {
     shiny::observeEvent(network(), {
       shiny::updateSelectInput(
         session,
+        "edge",
+        choices = c(
+          "",
+          igraph::edge_attr_names(network())
+        )
+      )
+    })
+    shiny::observeEvent(network(), {
+      shiny::updateSelectInput(
+        session,
         "label_id",
         choices = c(
           "",
@@ -153,9 +170,10 @@ networkplotServer <- function(id, network, store) {
 }
 networkplotApp <- function(network_input) {
   meta <- igraph::vertex_attr_names(network_input)
+  edge_meta <- igraph::edge_attr_names(network_input)
   ui <- shiny::fluidPage(
     title = "Network plot",
-    networkplotInput("networkplot", meta),
+    networkplotInput("networkplot", meta, edge_meta),
     networkplotOutput("networkplot"),
   )
   server <- function(input, output, session) {
