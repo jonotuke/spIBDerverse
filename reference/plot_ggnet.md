@@ -9,6 +9,7 @@ plot_ggnet(
   ggnet_obj,
   fill_col = "",
   shape_col = "",
+  edge_col = "",
   node_size = 4,
   text_size = 4,
   labels = FALSE,
@@ -32,6 +33,10 @@ plot_ggnet(
 - shape_col:
 
   vertex attribute for node shape
+
+- edge_col:
+
+  edge attribute for line colour
 
 - node_size:
 
@@ -71,6 +76,6 @@ ggnetwork plot
 ``` r
 example_ggnet <- ggnetwork::ggnetwork(example_network)
 plot_ggnet(example_ggnet)
-#> Warning: Removed 151 rows containing missing values or values outside the scale range
+#> Warning: Removed 40 rows containing missing values or values outside the scale range
 #> (`geom_text()`).
 ```

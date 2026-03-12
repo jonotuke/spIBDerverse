@@ -148,6 +148,8 @@ ibd_network
   : Get centrality measures
 - [`get_connected_graph()`](https://jonotuke.github.io/spIBDerverse/reference/get_connected_graph.md)
   : get_connected_graph
+- [`get_edge_info()`](https://jonotuke.github.io/spIBDerverse/reference/get_edge_info.md)
+  : Get network edge information
 - [`get_ergm_bic()`](https://jonotuke.github.io/spIBDerverse/reference/get_ergm_bic.md)
   : Tabulate the ergm AIC and BIC
 - [`get_ergm_fc()`](https://jonotuke.github.io/spIBDerverse/reference/get_ergm_fc.md)
@@ -184,6 +186,8 @@ ibd_network
   : Plot Ringbauer
 - [`plot_single_ergm_coef()`](https://jonotuke.github.io/spIBDerverse/reference/plot_single_ergm_coef.md)
   : Plot single ergm coefficients
+- [`plot_static_map()`](https://jonotuke.github.io/spIBDerverse/reference/plot_static_map.md)
+  : plot static map
 - [`remove_redundant_models()`](https://jonotuke.github.io/spIBDerverse/reference/remove_redundant_models.md)
   : remove redundant models
 - [`sort_label()`](https://jonotuke.github.io/spIBDerverse/reference/sort_label.md)
