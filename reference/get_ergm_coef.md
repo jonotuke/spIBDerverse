@@ -1,30 +1,31 @@
-# clean model names
+# Gets coefficients and fold changes for a ergm model
 
-clean model names
+Gets coefficients and fold changes for a ergm model
 
 ## Usage
 
 ``` r
-clean_models(x)
+get_ergm_coef(ergm)
 ```
 
 ## Arguments
 
-- x:
+- ergm:
 
-  vector of ergm model names
+  ergm model
 
 ## Value
 
-cleaned vector
+coefficient table
 
 ## Examples
 
 ``` r
-ergms <- example_network |>
-  get_ergms(c("site", "genetic_sex"), c("nodemix", "nodematch")) |>
-  purrr::map(broom::glance) |>
-  purrr::list_rbind(names_to = "model")
+ergms <- get_ergms(
+example_network,
+preds = c("site", "genetic_sex"),
+types = c("nodematch", "nodematch")
+)
 #> Starting maximum pseudolikelihood estimation (MPLE):
 #> Obtaining the responsible dyads.
 #> Evaluating the predictor and response matrix.
@@ -53,9 +54,10 @@ ergms <- example_network |>
 #> Finished MPLE.
 #> Evaluating log-likelihood at the estimate. 
 #> 
-clean_models(ergms$model) |> print()
-#> [1] "nodemix(site)"                       
-#> [2] "nodematch(genetic_sex)"              
-#> [3] "nodemix(site)+nodematch(genetic_sex)"
-#> [4] "null model"                          
+ergms[[1]] |> get_ergm_coef()
+#> # A tibble: 2 × 6
+#>   term            coef fold_change std.error statistic  p.value
+#>   <chr>          <dbl>       <dbl>     <dbl>     <dbl>    <dbl>
+#> 1 edges          -2.51        1        0.164    -15.3  1.64e-52
+#> 2 nodematch.site  1.72        4.16     0.214      8.06 7.78e-16
 ```

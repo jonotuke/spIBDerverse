@@ -152,6 +152,8 @@ ibd_network
   : Get network edge information
 - [`get_ergm_bic()`](https://jonotuke.github.io/spIBDerverse/reference/get_ergm_bic.md)
   : Tabulate the ergm AIC and BIC
+- [`get_ergm_coef()`](https://jonotuke.github.io/spIBDerverse/reference/get_ergm_coef.md)
+  : Gets coefficients and fold changes for a ergm model
 - [`get_ergm_fc()`](https://jonotuke.github.io/spIBDerverse/reference/get_ergm_fc.md)
   : Convert ergm coefficients to fold changes
 - [`get_ergms()`](https://jonotuke.github.io/spIBDerverse/reference/get_ergms.md)

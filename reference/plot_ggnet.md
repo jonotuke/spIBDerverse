@@ -12,6 +12,7 @@ plot_ggnet(
   edge_col = "",
   node_size = 4,
   text_size = 4,
+  text_col = "black",
   labels = FALSE,
   label_col = "",
   label_inc = "",
@@ -45,6 +46,10 @@ plot_ggnet(
 - text_size:
 
   label size
+
+- text_col:
+
+  text colour
 
 - labels:
 
