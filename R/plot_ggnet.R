@@ -19,6 +19,7 @@ utils::globalVariables(
 #' @param node_size node size
 #' @param edge_col edge attribute for line colour
 #' @param text_size label size
+#' @param text_col text colour
 #' @param labels add labels
 #' @param label_col vertex attribute to use for labels
 #' @param label_inc regular expression to include labels
@@ -39,6 +40,7 @@ plot_ggnet <- function(
   edge_col = "",
   node_size = 4,
   text_size = 4,
+  text_col = "black",
   labels = FALSE,
   label_col = "",
   label_inc = "",
@@ -97,7 +99,7 @@ plot_ggnet <- function(
   edge_sym <- rlang::sym(edge_col)
   # If .alpha is in ggnet, use this for alpha
   if (".alpha" %in% colnames(ggnet_obj)) {
-    alpha <- transform_alpha(ggnet_obj$.alpha, a = 0.1)
+    ggnet_obj$alpha <- transform_alpha(ggnet_obj$.alpha, a = 0.1)
   }
   p <- ggnet_obj |>
     ggplot2::ggplot(
@@ -127,15 +129,18 @@ plot_ggnet <- function(
       ggplot2::aes(
         fill = {{ fill_sym }},
         shape = {{ shape_sym }},
+        alpha = alpha
       ),
       size = node_size,
-      alpha = alpha
+      # alpha = alpha
     ) +
     ggnetwork::geom_nodetext(
       ggplot2::aes(label = name),
-      size = text_size
+      size = text_size,
+      col = text_col
     ) +
-    ggplot2::coord_equal()
+    ggplot2::coord_equal() +
+    ggplot2::scale_alpha_identity()
   if (fill_col != "") {
     if (methods::is(ggnet_obj[[fill_col]], "character")) {
       p <- p + harrypotter::scale_fill_hp_d("Ravenclaw")
@@ -154,6 +159,8 @@ plot_ggnet <- function(
 #     shape_col = "site",
 #     fill_col = "site",
 #     edge_col = "sum_ibd_8",
-#     connected = "Hide"
+#     connected = "Hide",
+#     labels = TRUE,
+#     text_col = "white"
 #   ) |>
 #   print()

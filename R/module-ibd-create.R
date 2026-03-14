@@ -36,7 +36,10 @@ ibdServer <- function(id, input_network) {
       print(cutoffs())
     })
     output$node_dt <- DT::renderDataTable({
-      get_node_info(network())
+      DT::datatable(
+        get_node_info(network()),
+        options = list(pageLength = 100)
+      )
     })
     cutoffs <- shiny::reactive({
       stringr::str_split(input$cutoffs, ",") |>

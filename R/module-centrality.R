@@ -1,11 +1,11 @@
-networkstatsInput <- function(id, meta) {
+centralityInput <- function(id, meta) {
   shiny::tagList(
     shiny::checkboxGroupInput(
       shiny::NS(id, "strata"),
       "Choose attributes to stratify on",
       choices = meta
     ),
-    shiny::sliderInput(
+    shiny::numericInput(
       shiny::NS(id, "places"),
       label = "Choose decimal places for table",
       min = 0,
@@ -26,7 +26,7 @@ networkstatsInput <- function(id, meta) {
     )
   )
 }
-networkstatsOutput <- function(id) {
+centralityOutput <- function(id) {
   shiny::tagList(
     DT::dataTableOutput(
       shiny::NS(id, "tab")
@@ -37,13 +37,10 @@ networkstatsOutput <- function(id) {
     ),
     shiny::plotOutput(
       shiny::NS(id, "hist")
-    ),
-    # shiny::verbatimTextOutput(
-    #   shiny::NS(id, "debug")
-    # )
+    )
   )
 }
-networkstatsServer <- function(id, network) {
+centralityServer <- function(id, network) {
   shiny::moduleServer(id, function(input, output, session) {
     central_df <- shiny::reactive({
       get_centrality_measures(network(), input$strata)
@@ -75,18 +72,27 @@ networkstatsServer <- function(id, network) {
         facets = input$strata
       )
     })
+    shiny::observeEvent(network(), {
+      shiny::updateCheckboxGroupInput(
+        session,
+        "strata",
+        choices = c(
+          igraph::vertex_attr_names(network())
+        )
+      )
+    })
   })
 }
-networkstatsApp <- function(network_input) {
+centralityApp <- function(network_input) {
   meta <- igraph::vertex_attr_names(network_input)
   ui <- shiny::fluidPage(
-    networkstatsInput("central", meta),
-    networkstatsOutput("central")
+    centralityInput("central", meta),
+    centralityOutput("central")
   )
   server <- function(input, output, session) {
     network <- shiny::reactive(network_input)
-    networkstatsServer("central", network)
+    centralityServer("central", network)
   }
   shiny::shinyApp(ui, server)
 }
-# networkstatsApp(example_network) |> print()
+# centralityApp(example_network) |> print()

@@ -108,8 +108,10 @@ plot_ergm_bic <- function(
     # ggplot2::labs(x = NULL, y = measure)
     ggplot2::xlab(NULL)
 }
-# pacman::p_load(conflicted, tidyverse, targets)
-# ergms <- example_network |>
-#   get_ergms(c("site", "genetic_sex", "degree"))
-# ergms
+# pacman::p_load(conflicted, tidyverse, targets, ergm)
+# ergms <- get_ergms(
+#   example_network,
+#   preds = c("site", "genetic_sex", "degree"),
+#   types = c("nodematch|nodemix", "nodemix|nodematch", "nodecov")
+# )
 # plot_ergm_bic(ergms, abbr = TRUE) |> print()

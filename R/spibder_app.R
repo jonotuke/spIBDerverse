@@ -32,7 +32,7 @@ spibder_app <- function(input_network = NULL) {
         ),
         shiny::conditionalPanel(
           condition = "input.tabs == 'Centrality measures'",
-          networkstatsInput("central", meta)
+          centralityInput("central", meta)
         ),
         shiny::conditionalPanel(
           condition = "input.tabs == 'Dynamic map'",
@@ -72,16 +72,16 @@ spibder_app <- function(input_network = NULL) {
             edgeOutput("edge")
           ),
           shiny::tabPanel(
-            title = "Network plot",
-            networkplotOutput("networkplot")
-          ),
-          shiny::tabPanel(
             title = "Network summary",
             shiny::tableOutput("summary")
           ),
           shiny::tabPanel(
+            title = "Network plot",
+            networkplotOutput("networkplot")
+          ),
+          shiny::tabPanel(
             title = "Centrality measures",
-            networkstatsOutput("central")
+            centralityOutput("central")
           ),
           shiny::tabPanel(
             title = "Dynamic map",
@@ -119,7 +119,7 @@ spibder_app <- function(input_network = NULL) {
       get_network_summary(network())
     })
     ## Centrality measures
-    networkstatsServer("central", network)
+    centralityServer("central", network)
     ## Leaflet plot ----
     leafletServer("leaflet", network)
     ## Static map

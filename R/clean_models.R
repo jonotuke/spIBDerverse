@@ -13,15 +13,11 @@
 #' clean_models(ergms$model) |> print()
 clean_models <- function(x) {
   x |>
-    stringr::str_remove_all("network ~ ") |>
-    stringr::str_replace_all(" \\+ ", "|") |>
-    stringr::str_replace_all("nodemix", "NM") |>
-    stringr::str_replace_all("nodecov", "NC") |>
-    stringr::str_remove_all("'")
+    stringr::str_remove_all(' ') |>
+    stringr::str_replace_all("^network~edges$", "null model") |>
+    stringr::str_remove_all("^.*~edges\\+") |>
+    stringr::str_remove_all("'") |>
+    stringr::str_replace_all('nodecov', 'sum') |>
+    stringr::str_replace_all('absdiff', 'diff') |>
+    stringr::str_replace_all("nodematch\\((.*),diff=TRUE\\)", "nodediff(\\1)")
 }
-# pacman::p_load(conflicted, tidyverse, targets)
-# ergms <- example_network |>
-#   get_ergms(c("site", "genetic_sex")) |>
-#   map(broom::glance) |>
-#   list_rbind(names_to = "model")
-# clean_models(ergms$model) |> print()

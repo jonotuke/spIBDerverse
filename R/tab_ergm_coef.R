@@ -1,6 +1,40 @@
 utils::globalVariables(
-  c("mcmc.error")
+  c(
+    "mcmc.error",
+    "phi",
+    "std.error",
+    "statistic",
+    "p.value"
+  )
 )
+#' Gets coefficients and fold changes for a ergm model
+#'
+#' @param ergm ergm model
+#'
+#' @returns coefficient table
+#'
+#' @export
+#' @examples
+#' ergms <- get_ergms(
+#' example_network,
+#' preds = c("site", "genetic_sex"),
+#' types = c("nodematch", "nodematch")
+#' )
+#' ergms[[1]] |> get_ergm_coef()
+get_ergm_coef <- function(ergm) {
+  coef <- broom::tidy(ergm)
+  fc <- get_ergm_fc(ergm)
+  coefs <- coef |> dplyr::left_join(fc, by = "term")
+  coefs |>
+    dplyr::select(
+      term,
+      coef = theta,
+      fold_change = phi,
+      std.error,
+      statistic,
+      p.value
+    )
+}
 #' Tab ergm coefficients
 #'
 #' @param ergms list of ergm fits
@@ -24,11 +58,9 @@ tab_ergm_coef <- function(
     return(NULL)
   }
   coef <- ergms |>
-    purrr::map(broom::tidy) |>
+    purrr::map(get_ergm_coef) |>
     purrr::list_rbind(names_to = "Model") |>
     dplyr::group_by(Model) |>
-    dplyr::select(-mcmc.error)
-  coef <- coef |>
     dplyr::filter(Model %in% models)
   return(coef)
 }
@@ -39,8 +71,11 @@ tab_ergm_coef <- function(
 #   types = c("nodematch", "nodematch")
 # )
 # ergms
-# models <- c(
-#   "network ~ edges",
-#   "network ~ edges + nodematch('site') + nodematch('genetic_sex')"
-# )
-# ergms |> tab_ergm_coef(models = models) |> print()
+# ergms |>
+#   tab_ergm_coef(
+#     models = c(
+#       "network ~ edges",
+#       "network ~ edges + nodematch('site') + nodematch('genetic_sex')"
+#     )
+#   ) |>
+#   print()

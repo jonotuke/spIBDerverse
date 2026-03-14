@@ -15,7 +15,7 @@ ergmInput <- function(id, meta, g) {
         "Coefficients" = "theta",
         "Fold changes" = "phi"
       ),
-      selected = "theta",
+      selected = "phi",
     ),
     shiny::radioButtons(
       shiny::NS(id, "measure"),
@@ -60,7 +60,8 @@ ergmOutput <- function(id) {
   shiny::tagList(
     shiny::h4("ERGMs BIC"),
     shiny::plotOutput(
-      shiny::NS(id, "ergm_aic_plot")
+      shiny::NS(id, "ergm_aic_plot"),
+      height = "600px"
     ),
     shiny::actionButton(
       shiny::NS(id, "bic_save"),

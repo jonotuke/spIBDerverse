@@ -41,14 +41,15 @@ networkplotInput <- function(id, meta, edge_meta) {
       choices = c("Show", "Grey out", "Hide"),
       selected = "Show"
     ),
-    shiny::sliderInput(
+    shiny::numericInput(
       shiny::NS(id, "node_size"),
       "Node size",
       min = 1,
       max = 20,
-      value = 10
+      value = 10,
+      step = 1
     ),
-    shiny::sliderInput(
+    shiny::numericInput(
       shiny::NS(id, "label_size"),
       "Label size",
       min = 1,
@@ -65,6 +66,12 @@ networkplotInput <- function(id, meta, edge_meta) {
       label = "Label variable",
       choices = c("", meta),
       selected = ""
+    ),
+    shiny::radioButtons(
+      shiny::NS(id, "text_col"),
+      label = "Text colour",
+      choices = c("black", "white"),
+      selected = "black"
     ),
     shiny::textInput(
       shiny::NS(id, "label_inc"),
@@ -116,6 +123,7 @@ networkplotServer <- function(id, network, store) {
         labels = input$add_label,
         label_col = input$label_id,
         text_size = input$label_size,
+        text_col = input$text_col,
         label_inc = input$label_inc,
         label_exc = input$label_exc,
         connected = input$solo_nodes
