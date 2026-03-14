@@ -48,8 +48,17 @@ plot_static_map <- function(
   edges_sf <- network_sf$edges_sf
   edges_sf
   # Get bounding box
-  bb <- sf::st_bbox(nodes_sf)
-  names(bb) <- c("left", "bottom", "right", "top")
+  if (is.null(lat_range) | is.null(lon_range)) {
+    bb <- sf::st_bbox(nodes_sf)
+    names(bb) <- c("left", "bottom", "right", "top")
+  } else {
+    bb <- c(
+      left = lon_range[1],
+      bottom = lat_range[1],
+      right = lon_range[2],
+      top = lat_range[2]
+    )
+  }
   # Get zoom
   if (is.null(zoom)) {
     zoom <- ggmap::calc_zoom(bb)
@@ -109,15 +118,15 @@ plot_static_map <- function(
     ggplot2::scale_color_gradient2(low = "grey90", high = "black")
   if (!is.null(lon_range)) {
     p <- p +
-      ggplot2::scale_x_continuous(limits = lon_range, labels = identity)
+      ggplot2::scale_x_continuous(labels = identity)
   }
   if (!is.null(lat_range)) {
-    p <- p + ggplot2::scale_y_continuous(limits = lat_range, labels = identity)
+    p <- p + ggplot2::scale_y_continuous(labels = identity)
   }
   selected_theme <- dplyr::case_when(
-    theme == "black white" ~ list(theme_bw()),
-    theme == "void" ~ list(theme_void()),
-    TRUE ~ list(theme_minimal())
+    theme == "black white" ~ list(ggplot2::theme_bw()),
+    theme == "void" ~ list(ggplot2::theme_void()),
+    TRUE ~ list(ggplot2::theme_minimal())
   )[[1]]
   p <- p + selected_theme
   p
