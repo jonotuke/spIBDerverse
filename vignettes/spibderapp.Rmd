@@ -1,0 +1,44 @@
+---
+title: "Using the spIBDerapp"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Using the spIBDerapp}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+toc: true
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(spIBDerverse)
+```
+
+# Running
+
+# Loading data
+
+# Filtering the node table
+
+# Filtering the edge table
+
+# Using the network plot
+
+# Looking at centrality measures
+
+# Exploring the network geography
+
+# Getting a static plot of network geography
+
+# Looking at homophilly using the Ringbauer matrix
+
+# Fiting ERGM models
+
+# Exporting a plot
+
+# What to do if it does not work

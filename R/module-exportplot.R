@@ -10,8 +10,7 @@ exportplotInput <- function(id) {
       max = 20,
       step = 1,
       value = 6
-    ) |>
-      prompter::add_prompt(message = "Hello world"),
+    ),
     shiny::numericInput(
       inputId = shiny::NS(id, "fig_height"),
       label = "Figure height (in)",

@@ -13,6 +13,7 @@ spibder_app <- function(input_network = NULL) {
   }
   meta <- igraph::vertex_attr_names(input_network)
   edge_meta <- igraph::edge_attr_names(input_network)
+  options(shiny.maxRequestSize = Inf)
   ui <- shiny::fluidPage(
     prompter::use_prompt(),
     shiny::titlePanel("shiny spIBDer"),
