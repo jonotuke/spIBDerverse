@@ -7,9 +7,11 @@ plot ggnet
 ``` r
 plot_ggnet(
   ggnet_obj,
-  fill_col = "",
-  shape_col = "",
-  edge_col = "",
+  fill_col = "none",
+  shape_col = "none",
+  edge_col = "none",
+  edge_trans = "identity",
+  edge_legend = TRUE,
   node_size = 4,
   text_size = 4,
   text_col = "black",
@@ -38,6 +40,14 @@ plot_ggnet(
 - edge_col:
 
   edge attribute for line colour
+
+- edge_trans:
+
+  transformation for edge mapping
+
+- edge_legend:
+
+  boolean to control edge legend
 
 - node_size:
 
