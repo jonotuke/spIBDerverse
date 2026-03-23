@@ -42,12 +42,12 @@ Imports:
     ggmap,
     shinyWidgets,
     gt,
-    shinyvalidate
+    shinyvalidate,
+    forcats
 Suggests: 
     dplyr,
     DT,
     farver,
-    forcats,
     ggplot2,
     harrypotter,
     janitor,
@@ -70,7 +70,7 @@ Suggests:
     quarto,
     fs,
     grDevices,
-    testthat (>= 3.0.0), 
+    testthat (>= 3.0.0),
     methods
 VignetteBuilder: quarto, knitr
 Depends: 

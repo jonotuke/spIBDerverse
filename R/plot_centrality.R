@@ -1,3 +1,6 @@
+utils::globalVariables(
+  c(".interaction")
+)
 #' plot centrality measures
 #'
 #' @param g igraph obj
@@ -19,22 +22,34 @@ plot_centrality <- function(g, measure = "degree", facets = NULL) {
       betweenness = igraph::betweenness(g),
       eigen_centrality = igraph::eigen_centrality(g)$vector
     )
-  p <- df |>
-    ggplot2::ggplot(
-      ggplot2::aes(
-        x = .data[[measure]]
-      )
-    )
-  if (measure == "degree") {
-    p <- p + ggplot2::geom_bar()
+  if (is.null(facets)) {
+    p <- ggplot2::ggplot(df, ggplot2::aes(x = .data[[measure]])) +
+      ggplot2::geom_histogram(col = "white", fill = "black")
   } else {
-    p <- p + ggplot2::geom_histogram(col = "white", fill = "black")
+    interaction_term <- interaction(df[facets], sep = "\n")
+    df <- df |>
+      dplyr::mutate(
+        .interaction = interaction_term,
+        .interaction = forcats::fct_reorder(.interaction, .data[[measure]])
+      )
+    p <- df |>
+      ggplot2::ggplot() +
+      ggplot2::geom_boxplot(
+        ggplot2::aes(
+          x = .interaction,
+          y = .data[[measure]],
+          fill = .interaction
+        )
+      ) +
+      ggplot2::labs(
+        fill = stringr::str_c(facets, collapse = "\n"),
+        x = stringr::str_c(facets, collapse = "\n")
+      ) +
+      harrypotter::scale_fill_hp_d("Ravenclaw")
   }
   p <- p + ggplot2::theme_bw()
-  if (!is.null(facets)) {
-    p <- p + ggplot2::facet_wrap(facets)
-  }
+
   p
 }
-# plot_centrality(example_network, "degree", c("genetic_sex", "site")) |>
+# plot_centrality(example_network, "closeness", c("site", "genetic_sex")) |>
 #   print()
