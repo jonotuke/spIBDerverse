@@ -30,4 +30,5 @@ histogram or barchart
 
 ``` r
 plot_centrality(example_network)
+#> `stat_bin()` using `bins = 30`. Pick better value `binwidth`.
 ```
