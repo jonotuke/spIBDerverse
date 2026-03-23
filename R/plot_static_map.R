@@ -115,7 +115,8 @@ plot_static_map <- function(
     ggplot2::scale_linewidth_continuous(
       range = c(0.5, 2)
     ) +
-    ggplot2::scale_color_gradient2(low = "grey90", high = "black")
+    ggplot2::coord_sf(expand = c(0, 0))
+  # ggplot2::scale_color_gradient2(low = "grey10", high = "black")
   if (!is.null(lon_range)) {
     p <- p +
       ggplot2::scale_x_continuous(labels = identity)
@@ -136,10 +137,10 @@ plot_static_map <- function(
 
 # example_network_2 |>
 #   convert_sf("Latitude", "Longitude") |>
-#   add_convert_bb_adj(asp = 4) |>
+#   add_convert_bb_adj() |>
 #   plot_static_map(
-#     zoom = 7,
+#     zoom = 6,
 #     key = jono_key,
-#     edge_col = "n_ibd_8"
+#     edge_col = "wij"
 #   ) |>
 #   print()

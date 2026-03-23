@@ -6,9 +6,11 @@
 \usage{
 plot_ggnet(
   ggnet_obj,
-  fill_col = "",
-  shape_col = "",
-  edge_col = "",
+  fill_col = "none",
+  shape_col = "none",
+  edge_col = "none",
+  edge_trans = "identity",
+  edge_legend = TRUE,
   node_size = 4,
   text_size = 4,
   text_col = "black",
@@ -27,6 +29,10 @@ plot_ggnet(
 \item{shape_col}{vertex attribute for node shape}
 
 \item{edge_col}{edge attribute for line colour}
+
+\item{edge_trans}{transformation for edge mapping}
+
+\item{edge_legend}{boolean to control edge legend}
 
 \item{node_size}{node size}
 

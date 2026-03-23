@@ -14,7 +14,7 @@ staticmapInput <- function(id, meta, edge_meta) {
     ),
     shiny::selectInput(
       shiny::NS(id, "col"),
-      label = "Choose node colour column",
+      label = "Choose node fill column",
       choices = c("none", meta),
       selected = "none"
     ),
@@ -178,7 +178,7 @@ staticmapServer <- function(id, network, store) {
         session,
         "shape",
         choices = c(
-          "",
+          "none",
           igraph::vertex_attr_names(network())
         )
       )
@@ -188,7 +188,7 @@ staticmapServer <- function(id, network, store) {
         session,
         "col",
         choices = c(
-          "",
+          "none",
           igraph::vertex_attr_names(network())
         )
       )
@@ -198,7 +198,7 @@ staticmapServer <- function(id, network, store) {
         session,
         "edge",
         choices = c(
-          "",
+          "none",
           igraph::edge_attr_names(network())
         )
       )

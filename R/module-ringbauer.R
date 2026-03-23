@@ -25,7 +25,7 @@ ringbauerInput <- function(id, meta) {
     shiny::checkboxInput(
       shiny::NS(id, "abbr"),
       label = "Abbreviate labels",
-      value = TRUE
+      value = FALSE
     ),
     shiny::checkboxInput(
       shiny::NS(id, "addSize"),

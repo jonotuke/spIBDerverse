@@ -18,6 +18,8 @@ utils::globalVariables(
 #' @param shape_col vertex attribute for node shape
 #' @param node_size node size
 #' @param edge_col edge attribute for line colour
+#' @param edge_legend boolean to control edge legend
+#' @param edge_trans transformation for edge mapping
 #' @param text_size label size
 #' @param text_col text colour
 #' @param labels add labels
@@ -35,9 +37,11 @@ utils::globalVariables(
 #' plot_ggnet(example_ggnet)
 plot_ggnet <- function(
   ggnet_obj,
-  fill_col = "",
-  shape_col = "",
-  edge_col = "",
+  fill_col = "none",
+  shape_col = "none",
+  edge_col = "none",
+  edge_trans = "identity",
+  edge_legend = TRUE,
   node_size = 4,
   text_size = 4,
   text_col = "black",
@@ -94,6 +98,15 @@ plot_ggnet <- function(
   if (!methods::is(ggnet_obj[[shape_col]], "character")) {
     shape_col <- ""
   }
+  if (fill_col == "none") {
+    fill_col <- ""
+  }
+  if (shape_col == "none") {
+    shape_col <- ""
+  }
+  if (edge_col == "none") {
+    edge_col <- ""
+  }
   fill_sym <- rlang::sym(fill_col)
   shape_sym <- rlang::sym(shape_col)
   edge_sym <- rlang::sym(edge_col)
@@ -116,14 +129,20 @@ plot_ggnet <- function(
         col = {{ edge_sym }},
         linewidth = {{ edge_sym }}
       ),
-      show.legend = FALSE
+      show.legend = edge_legend
     ) +
     ggplot2::scale_linewidth_continuous(
-      range = c(0.5, 2)
+      range = c(0.5, 2),
+      transform = edge_trans
     ) +
     ggplot2::scale_color_gradient2(low = "grey90", high = "black") +
     ggplot2::scale_shape_manual(
       values = rep(21:25, 1e4)
+    ) +
+    ggnetwork::geom_nodes(
+      ggplot2::aes(shape = {{ shape_sym }}),
+      fill = "white",
+      size = node_size
     ) +
     ggnetwork::geom_nodes(
       ggplot2::aes(
@@ -132,7 +151,6 @@ plot_ggnet <- function(
         alpha = alpha
       ),
       size = node_size,
-      # alpha = alpha
     ) +
     ggnetwork::geom_nodetext(
       ggplot2::aes(label = name),
@@ -140,7 +158,8 @@ plot_ggnet <- function(
       col = text_col
     ) +
     ggplot2::coord_equal() +
-    ggplot2::scale_alpha_identity()
+    ggplot2::scale_alpha_identity() +
+    ggplot2::guides(col = "none")
   if (fill_col != "") {
     if (methods::is(ggnet_obj[[fill_col]], "character")) {
       p <- p + harrypotter::scale_fill_hp_d("Ravenclaw")
@@ -158,9 +177,8 @@ plot_ggnet <- function(
 #     node_size = 3,
 #     shape_col = "site",
 #     fill_col = "site",
-#     edge_col = "sum_ibd_8",
-#     connected = "Hide",
-#     labels = TRUE,
-#     text_col = "white"
+#     edge_col = "wij",
+#     edge_trans = "log2",
+#     connected = "Hide"
 #   ) |>
 #   print()

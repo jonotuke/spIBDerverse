@@ -30,9 +30,9 @@ ibdInput <- function(id) {
 }
 ibdOutput <- function(id) {
   shiny::tagList(
-    shiny::verbatimTextOutput(
-      shiny::NS(id, "debug")
-    ),
+    # shiny::verbatimTextOutput(
+    #   shiny::NS(id, "debug")
+    # ),
     DT::dataTableOutput(
       shiny::NS(id, "node_dt")
     )

@@ -8,20 +8,37 @@ networkplotInput <- function(id, meta, edge_meta) {
     shiny::selectInput(
       inputId = shiny::NS(id, "shape_id"),
       label = "Shape variable",
-      choices = c("", meta),
-      selected = ""
+      choices = c("none", meta),
+      selected = "none"
     ),
     shiny::selectInput(
       shiny::NS(id, "fill_id"),
       label = "Fill variable",
-      choices = c("", meta),
-      selected = ""
+      choices = c("none", meta),
+      selected = "none"
     ),
     shiny::selectInput(
       shiny::NS(id, "edge"),
       label = "Edge variable",
-      choices = c("", edge_meta),
-      selected = ""
+      choices = c("none", edge_meta),
+      selected = "none"
+    ),
+    shiny::checkboxInput(
+      shiny::NS(id, "edge_legend"),
+      label = "Add edge legend",
+      value = TRUE
+    ),
+    shiny::selectInput(
+      shiny::NS(id, "edge_trans"),
+      label = "Edge mapping",
+      choices = c(
+        "atanh",
+        "identity",
+        "log",
+        "log10",
+        "log2"
+      ),
+      selected = "identity"
     ),
     shiny::selectInput(
       shiny::NS(id, "alpha_id"),
@@ -119,6 +136,8 @@ networkplotServer <- function(id, network, store) {
         shape_col = input$shape_id,
         fill_col = input$fill_id,
         edge_col = input$edge,
+        edge_legend = input$edge_legend,
+        edge_trans = input$edge_trans,
         node_size = input$node_size,
         labels = input$add_label,
         label_col = input$label_id,
@@ -134,7 +153,7 @@ networkplotServer <- function(id, network, store) {
         session,
         "shape_id",
         choices = c(
-          "",
+          "none",
           igraph::vertex_attr_names(network())
         )
       )
@@ -144,7 +163,7 @@ networkplotServer <- function(id, network, store) {
         session,
         "fill_id",
         choices = c(
-          "",
+          "none",
           igraph::vertex_attr_names(network())
         )
       )
@@ -154,7 +173,7 @@ networkplotServer <- function(id, network, store) {
         session,
         "edge",
         choices = c(
-          "",
+          "none",
           igraph::edge_attr_names(network())
         )
       )
