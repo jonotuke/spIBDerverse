@@ -8,6 +8,11 @@ ibdInput <- function(id) {
       shiny::NS(id, "meta_file"),
       "Upload a meta file"
     ),
+    shiny::checkboxInput(
+      shiny::NS(id, "filter"),
+      "Filter edges to just nodes in metafile",
+      value = TRUE
+    ),
     shiny::textInput(
       shiny::NS(id, "cutoffs"),
       label = "Please enter cutoffs with commas between",
@@ -25,6 +30,9 @@ ibdInput <- function(id) {
 }
 ibdOutput <- function(id) {
   shiny::tagList(
+    shiny::verbatimTextOutput(
+      shiny::NS(id, "debug")
+    ),
     DT::dataTableOutput(
       shiny::NS(id, "node_dt")
     )
@@ -32,9 +40,70 @@ ibdOutput <- function(id) {
 }
 ibdServer <- function(id, input_network) {
   shiny::moduleServer(id, function(input, output, session) {
-    output$cutoffs <- shiny::renderPrint({
-      print(cutoffs())
+    ibd_data <- shiny::reactive({
+      shiny::req(input$ibd_file)
+      tryCatch(
+        {
+          df <- readr::read_tsv(input$ibd_file$datapath)
+          return(df)
+        },
+        error = function(e) {
+          conditionMessage(e)
+          return(NULL)
+        }
+      )
     })
+    # Validate IBD file
+    ibd_iv <- shinyvalidate::InputValidator$new()
+    ibd_iv$condition(~ !is.null(input$ibd_file))
+    ibd_iv$add_rule("ibd_file", function(value) {
+      data <- ibd_data()
+      if (is.null(data)) {
+        return("Could not read file. Is it a valid TSV?")
+      }
+      actual_cols <- names(data)
+      missing_cols <- setdiff(c("iid1", "iid2"), actual_cols)
+      if (length(missing_cols) > 0) {
+        return(paste(
+          "Missing required columns:",
+          paste(missing_cols, collapse = ", ")
+        ))
+      }
+      NULL
+    })
+    ibd_iv$enable()
+    # Validate META file
+    meta_data <- shiny::reactive({
+      shiny::req(input$meta_file)
+      tryCatch(
+        {
+          df <- readr::read_tsv(input$meta_file$datapath)
+          return(df)
+        },
+        error = function(e) {
+          conditionMessage(e)
+          return(NULL)
+        }
+      )
+    })
+    meta_iv <- shinyvalidate::InputValidator$new()
+    meta_iv$condition(~ !is.null(input$meta_file))
+    meta_iv$add_rule("meta_file", function(value) {
+      data <- meta_data()
+      if (is.null(data)) {
+        return("Could not read file. Is it a valid TSV?")
+      }
+      actual_cols <- names(data)
+      missing_cols <- setdiff(c("iid"), actual_cols)
+      if (length(missing_cols) > 0) {
+        return(paste(
+          "Missing required columns:",
+          paste(missing_cols, collapse = ", ")
+        ))
+      }
+      NULL
+    })
+    meta_iv$enable()
     output$node_dt <- DT::renderDataTable({
       DT::datatable(
         get_node_info(network()),
@@ -52,8 +121,8 @@ ibdServer <- function(id, input_network) {
       create_ibd_network(
         input$ibd_file$datapath,
         input$meta_file$datapath,
-        # ibd_co = c(0, 2, 1, 0)
-        ibd_co = cutoffs()
+        ibd_co = cutoffs(),
+        filter_on_meta = input$filter
       )
     })
     ## full network ----
@@ -63,10 +132,6 @@ ibdServer <- function(id, input_network) {
           file_network()
         },
         shiny.silent.error = function(e) {
-          shiny::showNotification(
-            "Using example network",
-            type = "warning"
-          )
           input_network
         }
       )
@@ -78,18 +143,21 @@ ibdServer <- function(id, input_network) {
         node_exc = input$node_exc
       )
     })
+    output$debug <- shiny::renderPrint({
+      print(input$meta_file)
+      print(meta_data())
+    })
     shiny::reactive(network())
   })
 }
 ibdcreateApp <- function(input_network) {
+  options(shiny.maxRequestSize = Inf)
   ui <- shiny::fluidPage(
     ibdInput("ibd"),
     ibdOutput("ibd"),
-    shiny::verbatimTextOutput("network_txt")
   )
   server <- function(input, output, session) {
     network <- ibdServer("ibd", input_network)
-    output$network_txt <- shiny::renderPrint(network())
   }
   shiny::shinyApp(ui, server)
 }

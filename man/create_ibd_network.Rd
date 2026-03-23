@@ -4,7 +4,13 @@
 \alias{create_ibd_network}
 \title{create_ibd_network}
 \usage{
-create_ibd_network(ibd_file, meta_file, ibd_co, frac_co = 0.7)
+create_ibd_network(
+  ibd_file,
+  meta_file,
+  ibd_co = c(0, 2, 1, 0),
+  frac_co = 0.7,
+  filter_on_meta = FALSE
+)
 }
 \arguments{
 \item{ibd_file}{TSV file with IBD data}
@@ -14,6 +20,8 @@ create_ibd_network(ibd_file, meta_file, ibd_co, frac_co = 0.7)
 \item{ibd_co}{vector of cutoffs for defining an edge}
 
 \item{frac_co}{cutoff for quality control - default is 0.49}
+
+\item{filter_on_meta}{if true, only include edges that have nodes in meta df}
 }
 \value{
 IBD network

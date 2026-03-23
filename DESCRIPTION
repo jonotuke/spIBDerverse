@@ -38,10 +38,11 @@ Imports:
     igraph,
     intergraph,
     leaflet,
-    shiny, 
-    ggmap, 
-    shinyWidgets, 
-    gt
+    shiny,
+    ggmap,
+    shinyWidgets,
+    gt,
+    shinyvalidate
 Suggests: 
     dplyr,
     DT,

@@ -10,6 +10,7 @@ utils::globalVariables(
 #' @param meta_file TSV with node metadata
 #' @param ibd_co vector of cutoffs for defining an edge
 #' @param frac_co cutoff for quality control - default is 0.49
+#' @param filter_on_meta if true, only include edges that have nodes in meta df
 #'
 #' @return IBD network
 #' @export
@@ -32,8 +33,9 @@ utils::globalVariables(
 create_ibd_network <- function(
   ibd_file,
   meta_file,
-  ibd_co,
-  frac_co = 0.7
+  ibd_co = c(0, 2, 1, 0),
+  frac_co = 0.7,
+  filter_on_meta = FALSE
 ) {
   # EDGES
   ibd <- ibd_file |>
@@ -41,6 +43,8 @@ create_ibd_network <- function(
     janitor::clean_names()
   # NODES
   node_df <- readr::read_tsv(meta_file, show_col_types = FALSE)
+  stopifnot("metafile needs a col called iid" = "iid" %in% colnames(node_df))
+  node_df <- node_df |> dplyr::relocate(iid)
   # Get frac_gp
   if (
     !all(
@@ -83,6 +87,12 @@ create_ibd_network <- function(
   edge_df <- edge_df |>
     dplyr::filter(eij == 1) |>
     dplyr::select(-eij)
+  # Filter edges based on node
+  if (filter_on_meta) {
+    node_iid <- node_df |> dplyr::pull(iid)
+    edge_df <- edge_df |>
+      dplyr::filter(iid1 %in% node_iid & iid2 %in% node_iid)
+  }
   # GRAPH
   g <- igraph::graph_from_data_frame(
     edge_df,
@@ -92,19 +102,9 @@ create_ibd_network <- function(
   igraph::V(g)$degree <- igraph::degree(g)
   g
 }
-# ibd_file <- fs::path_package(
-#   "extdata",
-#   "example-ibd-data.tsv",
-#   package = "spIBDerverse"
-# )
-# meta_file <- fs::path_package(
-#   "extdata",
-#   "example-meta-data.tsv",
-#   package = "spIBDerverse"
-# )
 # create_ibd_network(
-#   ibd_file,
-#   meta_file,
-#   ibd_co = c(0, 2, 1, 0)
+#   ibd_file = "dev/data/ibd220f.ind.12.0.tsv",
+#   meta_file = "dev/data/meta-filter.tsv",
+#   filter_on_meta = TRUE
 # ) |>
 #   print()
