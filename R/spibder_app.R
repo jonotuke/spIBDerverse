@@ -11,12 +11,23 @@ spibder_app <- function(input_network = NULL) {
   if (is.null(input_network)) {
     input_network <- example_network
   }
-  meta <- igraph::vertex_attr_names(input_network)
-  edge_meta <- igraph::edge_attr_names(input_network)
+
+  cat_vars <- get_node_attributes(input_network, "cat")
+  all_vars <- get_node_attributes(input_network)
+  edge_vars <- igraph::edge_attr_names(input_network)
   options(shiny.maxRequestSize = Inf)
   ui <- shiny::fluidPage(
     prompter::use_prompt(),
-    shiny::titlePanel("shiny spIBDer"),
+    shiny::tags$head(
+      shiny::tags$style(
+        shiny::HTML(
+          "[class*=hint--][aria-label]:after {
+   white-space: pre;
+   "
+        )
+      )
+    ),
+    shiny::titlePanel("SpIBDer-verse: Network Analyses"),
     shiny::sidebarLayout(
       shiny::sidebarPanel(
         shiny::conditionalPanel(
@@ -29,27 +40,37 @@ spibder_app <- function(input_network = NULL) {
         ),
         shiny::conditionalPanel(
           condition = "input.tabs == 'Network plot'",
-          networkplotInput("networkplot", meta, edge_meta)
+          networkplotInput(
+            "networkplot",
+            cat_vars = cat_vars,
+            all_vars = all_vars,
+            edge_vars = edge_vars
+          )
         ),
         shiny::conditionalPanel(
           condition = "input.tabs == 'Centrality measures'",
-          centralityInput("central", meta)
+          centralityInput("central", cat_vars)
         ),
         shiny::conditionalPanel(
           condition = "input.tabs == 'Dynamic map'",
-          leafletInput("leaflet", meta)
+          leafletInput("leaflet", all_vars)
         ),
         shiny::conditionalPanel(
           condition = "input.tabs == 'Static map'",
-          staticmapInput("staticmap", meta, edge_meta)
+          staticmapInput(
+            "staticmap",
+            all_vars = all_vars,
+            cat_vars = cat_vars,
+            edge_vars = edge_vars
+          )
         ),
         shiny::conditionalPanel(
           condition = "input.tabs == 'Ringbauer matrix'",
-          ringbauerInput("ringbauer", meta)
+          ringbauerInput("ringbauer", cat_vars)
         ),
         shiny::conditionalPanel(
           condition = "input.tabs == 'ERGM models'",
-          ergmInput("ergm", meta)
+          ergmInput("ergm", all_vars)
         ),
         shiny::conditionalPanel(
           condition = "input.tabs == 'Export plot'",
@@ -58,8 +79,7 @@ spibder_app <- function(input_network = NULL) {
         shiny::downloadButton(
           "bookmark",
           "Save analysis state"
-        ) |>
-          prompter::add_prompt(message = "This is a tool tip")
+        )
       ),
       shiny::mainPanel(
         shiny::tabsetPanel(
@@ -71,10 +91,6 @@ spibder_app <- function(input_network = NULL) {
           shiny::tabPanel(
             title = "Edge table",
             edgeOutput("edge")
-          ),
-          shiny::tabPanel(
-            title = "Network summary",
-            shiny::tableOutput("summary")
           ),
           shiny::tabPanel(
             title = "Network plot",
@@ -105,6 +121,10 @@ spibder_app <- function(input_network = NULL) {
             exportplotOutput("export")
           ),
           shiny::tabPanel(
+            title = "Network summary",
+            shiny::tableOutput("summary")
+          ),
+          shiny::tabPanel(
             title = "Debugging",
             shiny::verbatimTextOutput(outputId = "debug")
           )
@@ -120,7 +140,7 @@ spibder_app <- function(input_network = NULL) {
       get_network_summary(network())
     })
     ## Centrality measures
-    centralityServer("central", network)
+    centralityServer("central", network, plots)
     ## Leaflet plot ----
     leafletServer("leaflet", network)
     ## Static map

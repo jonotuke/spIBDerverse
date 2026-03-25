@@ -1,21 +1,27 @@
-leafletInput <- function(id, meta) {
+leafletInput <- function(id, all_vars) {
   shiny::tagList(
     shiny::selectInput(
       shiny::NS(id, "lat"),
       label = "Choose latitude column",
-      choices = c("none", meta),
+      choices = c("none", all_vars),
       selected = "none"
     ),
     shiny::selectInput(
       shiny::NS(id, "lon"),
       label = "Choose longitude column",
-      choices = c("none", meta),
+      choices = c("none", all_vars),
       selected = "none"
     ),
     shiny::selectInput(
       shiny::NS(id, "leaflet_col"),
       label = "Choose node colour column",
-      choices = c("none", meta),
+      choices = c("none", all_vars),
+      selected = "none"
+    ),
+    shiny::selectInput(
+      shiny::NS(id, "label"),
+      label = "Choose node label column",
+      choices = c("none", all_vars),
       selected = "none"
     ),
     shiny::radioButtons(
@@ -47,7 +53,8 @@ leafletServer <- function(id, df) {
           input$lat,
           input$lon,
           input$leaflet_col,
-          input$tile
+          input$tile,
+          label = input$label
         )
       }
     })
@@ -55,14 +62,14 @@ leafletServer <- function(id, df) {
       shiny::updateSelectInput(
         session,
         "lat",
-        choices = c("none", igraph::vertex_attr_names(df()))
+        choices = c("none", get_node_attributes(df()))
       )
     })
     shiny::observeEvent(df(), {
       shiny::updateSelectInput(
         session,
         "lon",
-        choices = c("none", igraph::vertex_attr_names(df()))
+        choices = c("none", get_node_attributes(df()))
       )
     })
     shiny::observeEvent(df(), {
@@ -71,7 +78,17 @@ leafletServer <- function(id, df) {
         "leaflet_col",
         choices = c(
           "none",
-          igraph::vertex_attr_names(df())
+          get_node_attributes(df())
+        )
+      )
+    })
+    shiny::observeEvent(df(), {
+      shiny::updateSelectInput(
+        session,
+        "label",
+        choices = c(
+          "none",
+          get_node_attributes(df())
         )
       )
     })
@@ -84,9 +101,9 @@ leafletServer <- function(id, df) {
   })
 }
 leafletApp <- function(network_input) {
-  meta <- igraph::vertex_attr_names(network_input)
+  all_vars <- get_node_attributes(network_input)
   ui <- shiny::fluidPage(
-    leafletInput("leaflet", meta),
+    leafletInput("leaflet", all_vars),
     leafletOutput("leaflet")
   )
   server <- function(input, output, session) {

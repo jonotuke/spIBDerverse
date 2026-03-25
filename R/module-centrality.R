@@ -1,9 +1,9 @@
-centralityInput <- function(id, meta) {
+centralityInput <- function(id, cat_vars) {
   shiny::tagList(
     shiny::checkboxGroupInput(
       shiny::NS(id, "strata"),
       "Choose attributes to stratify on",
-      choices = meta
+      choices = cat_vars
     ),
     shiny::numericInput(
       shiny::NS(id, "places"),
@@ -20,7 +20,7 @@ centralityInput <- function(id, meta) {
         "Degree" = "degree",
         "Closeness" = "closeness",
         "Betweenness" = "betweenness",
-        "Eigen centrality" = "eigen_centrality"
+        "Eigencentrality" = "eigencentrality"
       ),
       selected = "degree"
     )
@@ -37,10 +37,14 @@ centralityOutput <- function(id) {
     ),
     shiny::plotOutput(
       shiny::NS(id, "hist")
+    ),
+    shiny::actionButton(
+      shiny::NS(id, "save"),
+      "Set as export plot"
     )
   )
 }
-centralityServer <- function(id, network) {
+centralityServer <- function(id, network, store) {
   shiny::moduleServer(id, function(input, output, session) {
     central_df <- shiny::reactive({
       get_centrality_measures(network(), input$strata)
@@ -50,7 +54,7 @@ centralityServer <- function(id, network) {
         central_df()
       }) |>
         DT::formatRound(
-          c("degree", "closeness", "betweenness", "eigen_centrality"),
+          c("degree", "closeness", "betweenness", "eigencentrality"),
           input$places
         )
     })
@@ -66,6 +70,9 @@ centralityServer <- function(id, network) {
       }
     )
     output$hist <- shiny::renderPlot({
+      p()
+    })
+    p <- shiny::reactive({
       plot_centrality(
         network(),
         measure = input$measure,
@@ -77,16 +84,21 @@ centralityServer <- function(id, network) {
         session,
         "strata",
         choices = c(
-          igraph::vertex_attr_names(network())
+          get_node_attributes(network(), "cat")
         )
+      )
+    })
+    shiny::observeEvent(input$save, {
+      store$export <- shiny::reactive(
+        p()
       )
     })
   })
 }
 centralityApp <- function(network_input) {
-  meta <- igraph::vertex_attr_names(network_input)
+  cat_var <- get_node_attributes(network_input, "cat")
   ui <- shiny::fluidPage(
-    centralityInput("central", meta),
+    centralityInput("central", cat_var),
     centralityOutput("central")
   )
   server <- function(input, output, session) {

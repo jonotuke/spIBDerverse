@@ -1,9 +1,9 @@
-ringbauerInput <- function(id, meta) {
+ringbauerInput <- function(id, cat_vars) {
   shiny::tagList(
     shiny::selectInput(
       shiny::NS(id, "grp"),
       label = "Choose group to calculate Ringbauer matrix on",
-      choices = c("none", meta),
+      choices = c("none", cat_vars),
       selected = "none"
     ),
     shiny::sliderInput(
@@ -12,16 +12,32 @@ ringbauerInput <- function(id, meta) {
       min = 1,
       max = 10,
       step = 1,
-      value = 1
-    ),
+      value = 1,
+      width = "100%"
+    ) |>
+      prompter::add_prompt(
+        message = "Change font size for axis labels and cell counts (matrix plot).",
+        type = "info",
+        position = "right",
+        rounded = TRUE
+      ),
     shiny::sliderInput(
       shiny::NS(id, "margin"),
       label = "Heatmap margin",
       min = 4,
       max = 20,
       step = 1,
-      value = 4
-    ),
+      value = 4,
+      width = "100%"
+    ) |>
+      prompter::add_prompt(
+        message = "Increase or decrease the space around\n
+the edge of the plot (matrix plot).\n
+Useful when labels are too large to be seen properly.",
+        type = "info",
+        position = "right",
+        rounded = TRUE
+      ),
     shiny::checkboxInput(
       shiny::NS(id, "abbr"),
       label = "Abbreviate labels",
@@ -30,23 +46,52 @@ ringbauerInput <- function(id, meta) {
     shiny::checkboxInput(
       shiny::NS(id, "addSize"),
       label = "Add size",
-      value = FALSE
-    ),
+      value = FALSE,
+      width = "100%"
+    ) |>
+      prompter::add_prompt(
+        message = "Add the sample size to the axis labels (matrix plot).",
+        type = "info",
+        position = "right",
+        rounded = TRUE
+      ),
     shiny::checkboxInput(
       shiny::NS(id, "addPercent"),
       label = "Add percent",
-      value = FALSE
-    ),
+      value = FALSE,
+      width = "100%"
+    ) |>
+      prompter::add_prompt(
+        message = "Add the percentages to the cell counts (matrix plot).",
+        type = "info",
+        position = "right",
+        rounded = TRUE
+      ),
     shiny::checkboxInput(
       shiny::NS(id, "show_sign"),
       "Show significance",
-      value = FALSE
-    ),
+      value = FALSE,
+      width = "100%"
+    ) |>
+      prompter::add_prompt(
+        message = "Colours pairs of levels as significant (yellow)\n
+or not (black) compared to the \n
+average overall connectedness (connectivity plot).",
+        type = "info",
+        position = "right",
+        rounded = TRUE
+      ),
     shiny::checkboxInput(
       shiny::NS(id, "filter_sign"),
       "Filter out non-significant",
       value = FALSE
-    )
+    ) |>
+      prompter::add_prompt(
+        message = "Makes non-significant pairs transparent (connectivity plot).",
+        type = "info",
+        position = "right",
+        rounded = TRUE
+      )
   )
 }
 ringbauerOutput <- function(id) {
@@ -107,7 +152,7 @@ ringbauerServer <- function(id, df, store) {
       shiny::updateSelectInput(
         session,
         "grp",
-        choices = c("none", igraph::vertex_attr_names(df()))
+        choices = c("none", get_node_attributes(df(), "cat"))
       )
     })
     shiny::observeEvent(input$homophily_save, {
@@ -120,29 +165,12 @@ ringbauerServer <- function(id, df, store) {
         ringbauer_p()
       )
     })
-    # output$ringbauer_down <- shiny::downloadHandler(
-    #   filename = function() {
-    #     paste0(lubridate::today(), "-ringbauer.pdf")
-    #   },
-    #   content = function(file) {
-    #     grDevices::pdf(file, width = 10, height = 10)
-    #     RM() |>
-    #       convert_ringbauer_measures(
-    #         abbr = input$abbr
-    #       ) |>
-    #       plot_ringbauer(
-    #         label_size = input$font_size,
-    #         label_margin = input$margin
-    #       )
-    #     grDevices::dev.off()
-    #   }
-    # )
   })
 }
 ringbauerApp <- function(network_input) {
-  meta <- igraph::vertex_attr_names(network_input)
+  cat_vars <- get_node_attributes(network_input, "cat")
   ui <- shiny::fluidPage(
-    ringbauerInput("ringbauer", meta),
+    ringbauerInput("ringbauer", cat_vars),
     ringbauerOutput("ringbauer"),
     shiny::plotOutput("debug")
   )

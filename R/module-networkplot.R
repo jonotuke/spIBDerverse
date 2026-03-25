@@ -1,26 +1,32 @@
-networkplotInput <- function(id, meta, edge_meta) {
+networkplotInput <- function(id, cat_vars, all_vars, edge_vars) {
   shiny::tagList(
     shiny::numericInput(
       shiny::NS(id, "seed"),
       label = "Set seed",
       value = 1000
-    ),
+    ) |>
+      prompter::add_prompt(
+        message = "Number to generate new network layout.\nChange this number to rearrange the nodes.",
+        type = "info",
+        position = "right",
+        rounded = TRUE
+      ),
     shiny::selectInput(
-      inputId = shiny::NS(id, "shape_id"),
-      label = "Shape variable",
-      choices = c("none", meta),
+      shiny::NS(id, "fill_id"),
+      label = "Choose node fill column",
+      choices = c("none", all_vars),
       selected = "none"
     ),
     shiny::selectInput(
-      shiny::NS(id, "fill_id"),
-      label = "Fill variable",
-      choices = c("none", meta),
+      inputId = shiny::NS(id, "shape_id"),
+      label = "Choose node shape column",
+      choices = c("none", cat_vars),
       selected = "none"
     ),
     shiny::selectInput(
       shiny::NS(id, "edge"),
-      label = "Edge variable",
-      choices = c("none", edge_meta),
+      label = "Choose edge column",
+      choices = c("none", edge_vars),
       selected = "none"
     ),
     shiny::checkboxInput(
@@ -30,34 +36,65 @@ networkplotInput <- function(id, meta, edge_meta) {
     ),
     shiny::selectInput(
       shiny::NS(id, "edge_trans"),
-      label = "Edge mapping",
+      label = "Edge Transformation",
       choices = c(
-        "atanh",
-        "identity",
-        "log",
-        "log10",
-        "log2"
+        "None" = "identity",
+        "Log10" = "log10"
       ),
-      selected = "identity"
-    ),
+      selected = "identity",
+      width = "100%"
+    ) |>
+      prompter::add_prompt(
+        message = "Method to scale the edge values and\n
+legend. Either \"None\" or a \"log10\"\ntransformation.",
+        type = "info",
+        position = "right",
+        rounded = TRUE
+      ),
     shiny::selectInput(
-      shiny::NS(id, "alpha_id"),
-      label = "Alpha variable",
+      shiny::NS(id, "centrality"),
+      label = "Show node centrality",
       choices = c(
         "none",
         "degree",
         "betweenness",
         "closeness",
-        "eigen_centrality"
+        "eigencentrality"
       ),
-      selected = ""
-    ),
+      selected = "none",
+      width = "100%"
+    ) |>
+      prompter::add_prompt(
+        message = "Degree: the number of other individuals an\n
+individual is connected to. High values indicate\n
+an individual has more relatives.\n\n
+Closeness: the inverse of the sum of the shortest\n
+paths to all other nodes. Low values indicate that\n
+an individual is relatively closely related to all others.\n\n
+Betweeness: how frequently an individual appears on the shortest\n
+path between all pairs of individuals. High values indicate that \n
+an individual is important to connecting the network.\n\n
+Eigencentrality: a measure of \"prestige\" on the network. \n
+High values indicate that an individual is connected to many\n
+highly-connected individuals.
+",
+        type = "info",
+        position = "right",
+        rounded = TRUE
+      ),
     shiny::radioButtons(
       shiny::NS(id, "solo_nodes"),
-      label = "Isolated nodes",
+      label = "Unconnected nodes",
       choices = c("Show", "Grey out", "Hide"),
       selected = "Show"
-    ),
+    ) |>
+      prompter::add_prompt(
+        message = "How to treat the unconnected nodes in the network plot.",
+        type = "info",
+        position = "right",
+        size = "large",
+        rounded = TRUE
+      ),
     shiny::numericInput(
       shiny::NS(id, "node_size"),
       "Node size",
@@ -81,7 +118,7 @@ networkplotInput <- function(id, meta, edge_meta) {
     shiny::selectInput(
       inputId = shiny::NS(id, "label_id"),
       label = "Label variable",
-      choices = c("", meta),
+      choices = c("", all_vars),
       selected = ""
     ),
     shiny::radioButtons(
@@ -116,25 +153,16 @@ networkplotOutput <- function(id) {
 
 networkplotServer <- function(id, network, store) {
   shiny::moduleServer(id, function(input, output, session) {
-    plot_network <- shiny::reactive({
-      if (input$alpha_id != "none") {
-        add_alpha(network(), measure = input$alpha_id)
-      } else {
-        network()
-      }
-    })
-    ggnet <- shiny::reactive({
-      set.seed(input$seed)
-      ggnetwork::ggnetwork(plot_network())
-    })
     output$plot <- shiny::renderPlot({
       p()
     })
     p <- shiny::reactive({
-      plot_ggnet(
-        ggnet(),
+      set.seed(input$seed)
+      plot_network(
+        network(),
         shape_col = input$shape_id,
         fill_col = input$fill_id,
+        node_alpha_col = input$centrality,
         edge_col = input$edge,
         edge_legend = input$edge_legend,
         edge_trans = input$edge_trans,
@@ -154,7 +182,7 @@ networkplotServer <- function(id, network, store) {
         "shape_id",
         choices = c(
           "none",
-          igraph::vertex_attr_names(network())
+          get_node_attributes(network(), "cat")
         )
       )
     })
@@ -164,7 +192,7 @@ networkplotServer <- function(id, network, store) {
         "fill_id",
         choices = c(
           "none",
-          igraph::vertex_attr_names(network())
+          get_node_attributes(network())
         )
       )
     })
@@ -184,7 +212,7 @@ networkplotServer <- function(id, network, store) {
         "label_id",
         choices = c(
           "",
-          igraph::vertex_attr_names(network())
+          get_node_attributes(network())
         )
       )
     })
@@ -196,11 +224,17 @@ networkplotServer <- function(id, network, store) {
   })
 }
 networkplotApp <- function(network_input) {
-  meta <- igraph::vertex_attr_names(network_input)
-  edge_meta <- igraph::edge_attr_names(network_input)
+  cat_vars <- get_node_attributes(network_input, "cat")
+  all_vars <- get_node_attributes(network_input)
+  edge_vars <- igraph::edge_attr_names(network_input)
   ui <- shiny::fluidPage(
     title = "Network plot",
-    networkplotInput("networkplot", meta, edge_meta),
+    networkplotInput(
+      "networkplot",
+      cat_vars = cat_vars,
+      all_vars = all_vars,
+      edge_vars = edge_vars
+    ),
     networkplotOutput("networkplot"),
   )
   server <- function(input, output, session) {

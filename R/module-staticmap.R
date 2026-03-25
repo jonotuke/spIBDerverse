@@ -1,50 +1,61 @@
-staticmapInput <- function(id, meta, edge_meta) {
+staticmapInput <- function(id, all_vars, cat_vars, edge_vars) {
   shiny::tagList(
     shiny::selectInput(
       shiny::NS(id, "lat"),
       label = "Choose latitude column",
-      choices = c("none", meta),
+      choices = c("none", all_vars),
       selected = "none"
     ),
     shiny::selectInput(
       shiny::NS(id, "lon"),
       label = "Choose longitude column",
-      choices = c("none", meta),
+      choices = c("none", all_vars),
       selected = "none"
     ),
     shiny::selectInput(
-      shiny::NS(id, "col"),
+      shiny::NS(id, "fill"),
       label = "Choose node fill column",
-      choices = c("none", meta),
+      choices = c("none", cat_vars),
       selected = "none"
     ),
     shiny::selectInput(
       shiny::NS(id, "shape"),
       label = "Choose node shape column",
-      choices = c("none", meta),
+      choices = c("none", cat_vars),
       selected = "none"
     ),
     shiny::selectInput(
       shiny::NS(id, "edge"),
       label = "Choose edge column",
-      choices = c("none", edge_meta),
+      choices = c("none", edge_vars),
       selected = "none"
     ),
-    shiny::sliderInput(
-      shiny::NS(id, "pt_size"),
+    shiny::numericInput(
+      shiny::NS(id, "node_size"),
       "Node size",
       min = 1,
-      max = 10,
-      value = 3
+      max = 20,
+      value = 10,
+      step = 1
     ),
     shiny::sliderInput(
       shiny::NS(id, "zoom"),
       label = "Map resolution",
+      width = "100%",
       min = 0,
       max = 15,
       value = 5,
       step = 1
-    ),
+    ) |>
+      prompter::add_prompt(
+        message = "The level of resolution of the background map details.\n
+Higher values make the map more detailed, but take longer to\n
+download. We recommend leaving this value low while deciding on the\n
+ranges for the latitude and longitude, or the terrain type.",
+        type = "info",
+        position = "right",
+        rounded = TRUE
+      ),
     shiny::selectInput(
       shiny::NS(id, "maptype"),
       label = "Terrain type",
@@ -60,8 +71,16 @@ staticmapInput <- function(id, meta, edge_meta) {
         "stamen_toner_lines",
         "stamen_toner_labels"
       ),
-      selected = 1
-    ),
+      selected = 1,
+      width = "100%"
+    ) |>
+      prompter::add_prompt(
+        message = "The type of map that is \n
+used in the background.",
+        type = "info",
+        position = "right",
+        rounded = TRUE
+      ),
     shiny::selectInput(
       shiny::NS(id, "theme"),
       label = "Theme type",
@@ -70,16 +89,37 @@ staticmapInput <- function(id, meta, edge_meta) {
         "black white",
         "void"
       ),
-      selected = 1
-    ),
+      selected = 1,
+      width = "100%"
+    ) |>
+      prompter::add_prompt(
+        message = "The plotting theme for the map. Minimal allows\n
+you to see the latitude and longitude values, black white\n
+is similar but removes the grey background from the legend,\n
+and video removes all axis labels and latitude and longitude\n
+values.
+",
+        type = "info",
+        position = "right",
+        rounded = TRUE
+      ),
     shiny::textInput(
       shiny::NS(id, "key"),
       "Stadia API key",
-      value = "a7bf69ed-3e77-41ed-b1e2-52f9aa99ec19"
-    ),
-    shiny::helpText(
-      "The key would not normally be here - added for ease"
-    ),
+      value = "",
+      width = "100%"
+      # value = "a7bf69ed-3e77-41ed-b1e2-52f9aa99ec19"
+    ) |>
+      prompter::add_prompt(
+        message = "This key is required to be able to download the\n
+        map background. See this website for simple instructions on\n
+        setting this up\n
+        (https://docs.stadiamaps.com/authentication/#api-keys).",
+        type = "info",
+        position = "right",
+        rounded = TRUE
+      ),
+
     shinyWidgets::numericRangeInput(
       shiny::NS(id, "lat_range"),
       "Latitude range",
@@ -125,11 +165,11 @@ staticmapServer <- function(id, network, store) {
         network_sf(),
         zoom = input$zoom,
         key = input$key,
-        fill_col = input$col,
+        fill_col = input$fill,
         shape_col = input$shape,
         edge_col = input$edge,
         maptype = input$maptype,
-        pt_size = input$pt_size,
+        pt_size = input$node_size,
         lat_range = input$lat_range,
         lon_range = input$lon_range,
         theme = input$theme
@@ -159,7 +199,7 @@ staticmapServer <- function(id, network, store) {
         "lat",
         choices = c(
           "",
-          igraph::vertex_attr_names(network())
+          get_node_attributes(network())
         )
       )
     })
@@ -169,7 +209,7 @@ staticmapServer <- function(id, network, store) {
         "lon",
         choices = c(
           "",
-          igraph::vertex_attr_names(network())
+          get_node_attributes(network())
         )
       )
     })
@@ -179,17 +219,17 @@ staticmapServer <- function(id, network, store) {
         "shape",
         choices = c(
           "none",
-          igraph::vertex_attr_names(network())
+          get_node_attributes(network(), "cat")
         )
       )
     })
     shiny::observeEvent(network(), {
       shiny::updateSelectInput(
         session,
-        "col",
+        "fill",
         choices = c(
           "none",
-          igraph::vertex_attr_names(network())
+          get_node_attributes(network(), "cat")
         )
       )
     })
@@ -207,12 +247,18 @@ staticmapServer <- function(id, network, store) {
 }
 
 staticmapApp <- function(network_input) {
-  meta <- igraph::vertex_attr_names(network_input)
-  edge_meta <- igraph::edge_attr_names(network_input)
+  all_vars <- get_node_attributes(network_input)
+  cat_vars <- get_node_attributes(network_input, "cat")
+  edge_vars <- igraph::edge_attr_names(network_input)
 
   ui <- shiny::fluidPage(
     title = "Static map",
-    staticmapInput("staticmap", meta, edge_meta),
+    staticmapInput(
+      "staticmap",
+      all_vars = all_vars,
+      cat_vars = cat_vars,
+      edge_vars = edge_vars
+    ),
     staticmapOutput("staticmap")
   )
   server <- function(input, output, session) {

@@ -4,7 +4,7 @@
 \alias{plot_leaflet}
 \title{plot leaflet}
 \usage{
-plot_leaflet(g, lat, lon, col = "site", tile = "Default")
+plot_leaflet(g, lat, lon, col = "site", label = "none", tile = "Default")
 }
 \arguments{
 \item{g}{igraph object}
@@ -14,6 +14,8 @@ plot_leaflet(g, lat, lon, col = "site", tile = "Default")
 \item{lon}{vertex attribute that gives longitude}
 
 \item{col}{vertex attribute to give marker colour}
+
+\item{label}{vertex attribute to give marker label}
 
 \item{tile}{background tile}
 }

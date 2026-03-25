@@ -1,5 +1,5 @@
 utils::globalVariables(
-  c("closeness", "eigen_centrality", "nodes")
+  c("closeness", "eigencentrality", "nodes")
 )
 #' Get centrality measures
 #'
@@ -25,17 +25,17 @@ get_centrality_measures <- function(g, var = NULL) {
     tibble::rownames_to_column(var = "vertex_id") |>
     tibble::as_tibble() |>
     dplyr::mutate(
-      nodes = 1,
-      closeness = igraph::closeness(g),
-      betweenness = igraph::betweenness(g),
-      eigen_centrality = igraph::eigen_centrality(g)$vector
+      nodes = 1
+      # closeness = igraph::closeness(g),
+      # betweenness = igraph::betweenness(g),
+      # eigen_centrality = igraph::eigen_centrality(g)$vector
     )
   df |>
     dplyr::group_by(
       dplyr::across(dplyr::any_of(var))
     ) |>
     dplyr::reframe(
-      dplyr::across(c(degree, closeness:eigen_centrality), \(x) {
+      dplyr::across(c(degree, closeness:eigencentrality), \(x) {
         mean(x, na.rm = TRUE)
       }),
       dplyr::across(nodes, sum),
@@ -43,5 +43,4 @@ get_centrality_measures <- function(g, var = NULL) {
     dplyr::relocate(nodes, .before = degree)
 }
 # pacman::p_load(conflicted, tidyverse, targets)
-# get_centrality_measures(example_network_2) |> print()
-# get_centrality_measures(example_network_2, "Province") |> print()
+# get_centrality_measures(example_network) |> print()

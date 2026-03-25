@@ -100,11 +100,23 @@ create_ibd_network <- function(
     vertices = node_df
   )
   igraph::V(g)$degree <- igraph::degree(g)
+  igraph::V(g)$closeness = igraph::closeness(g)
+  igraph::V(g)$betweenness = igraph::betweenness(g)
+  igraph::V(g)$eigencentrality = igraph::eigen_centrality(g)$vector
   g
 }
+# ibd_file <- fs::path_package(
+#   "extdata",
+#   "example-ibd-data.tsv",
+#   package = "spIBDerverse"
+# )
+# meta_file <- fs::path_package(
+#   "extdata",
+#   "example-meta-data.tsv",
+#   package = "spIBDerverse"
+# )
 # create_ibd_network(
-#   ibd_file = "dev/data/ibd220f.ind.12.0.tsv",
-#   meta_file = "dev/data/meta-filter.tsv",
-#   filter_on_meta = TRUE
+#   ibd_file = ibd_file,
+#   meta_file = meta_file
 # ) |>
 #   print()

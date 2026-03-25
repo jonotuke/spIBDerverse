@@ -27,9 +27,19 @@ V(example_network)$name <- V(example_network)$vertex.names
 
 # Add degree
 V(example_network)$degree <- degree(example_network)
+V(example_network)$closeness = igraph::closeness(example_network)
+V(example_network)$betweenness = igraph::betweenness(example_network)
+V(example_network)$eigencentrality = igraph::eigen_centrality(
+  example_network
+)$vector
 
 # Add wij
 E(example_network)$wij <- runif(ecount(example_network), 0.1, 1)
+E(example_network)$edge_type <- sample(
+  LETTERS[1:3],
+  ecount(example_network),
+  replace = TRUE
+)
 
 # Add lat and long
 V(example_network)$lat <- case_when(

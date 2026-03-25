@@ -8,14 +8,16 @@ utils::globalVariables(
     "yend",
     "fill_col",
     "shape_col",
-    "name"
+    "name",
+    "alpha"
   )
 )
 #' plot ggnet
 #'
-#' @param ggnet_obj ggnetwork dataframe
+#' @param g network
 #' @param fill_col vertex attribute for node fill
 #' @param shape_col vertex attribute for node shape
+#' @param node_alpha_col vertext attribute for node alpha
 #' @param node_size node size
 #' @param edge_col edge attribute for line colour
 #' @param edge_legend boolean to control edge legend
@@ -29,16 +31,16 @@ utils::globalVariables(
 #' @param connected choice for how to deal with isolated nodes with choices
 #' Hide, Show, Grey out
 #'
-#' @return ggnetwork plot
+#' @return network plot
 #' @export
 #'
 #' @examples
-#' example_ggnet <- ggnetwork::ggnetwork(example_network)
-#' plot_ggnet(example_ggnet)
-plot_ggnet <- function(
-  ggnet_obj,
+#' plot_network(example_network)
+plot_network <- function(
+  g,
   fill_col = "none",
   shape_col = "none",
+  node_alpha_col = "none",
   edge_col = "none",
   edge_trans = "identity",
   edge_legend = TRUE,
@@ -55,10 +57,11 @@ plot_ggnet <- function(
     "point",
     list(shape = 21, fill = "white")
   )
+  g <- ggnetwork::ggnetwork(g)
   if (label_col != "") {
     label_col <- rlang::sym(label_col)
-    ggnet_obj <-
-      ggnet_obj |>
+    g <-
+      g |>
       dplyr::mutate(
         name = {{ label_col }}
       )
@@ -66,7 +69,7 @@ plot_ggnet <- function(
   # Clean labels
   if (label_inc != "") {
     label_inc <- convert_pipe(label_inc)
-    ggnet_obj <- ggnet_obj |>
+    g <- g |>
       dplyr::mutate(
         name = dplyr::case_when(
           stringr::str_detect(name, label_inc) ~ name,
@@ -76,7 +79,7 @@ plot_ggnet <- function(
   }
   if (label_exc != "") {
     label_exc <- convert_pipe(label_exc)
-    ggnet_obj <- ggnet_obj |>
+    g <- g |>
       dplyr::mutate(
         name = dplyr::case_when(
           stringr::str_detect(name, label_exc) ~ NA,
@@ -85,17 +88,20 @@ plot_ggnet <- function(
       )
   }
   if (!labels) {
-    ggnet_obj$name <- NA
+    g$name <- NA
   }
   # Add alpha to grey out unconnected nodes
-  alpha <- 1
+  g$alpha <- 1
   if (connected == "Hide") {
-    ggnet_obj <- ggnet_obj |>
+    g <- g |>
       dplyr::filter(degree >= 1)
   } else if (connected == "Grey out") {
-    alpha <- ifelse(ggnet_obj$degree >= 1, 1, 0.1)
+    g <- g |>
+      dplyr::mutate(
+        alpha = ifelse(degree >= 1, 1, 0.1)
+      )
   }
-  if (!methods::is(ggnet_obj[[shape_col]], "character")) {
+  if (!methods::is(g[[shape_col]], "character")) {
     shape_col <- ""
   }
   if (fill_col == "none") {
@@ -110,11 +116,13 @@ plot_ggnet <- function(
   fill_sym <- rlang::sym(fill_col)
   shape_sym <- rlang::sym(shape_col)
   edge_sym <- rlang::sym(edge_col)
-  # If .alpha is in ggnet, use this for alpha
-  if (".alpha" %in% colnames(ggnet_obj)) {
-    ggnet_obj$alpha <- transform_alpha(ggnet_obj$.alpha, a = 0.1)
+  if (node_alpha_col != "none") {
+    g <- g |>
+      dplyr::mutate(
+        alpha = transform_alpha(.data[[node_alpha_col]], a = 0.1)
+      )
   }
-  p <- ggnet_obj |>
+  p <- g |>
     ggplot2::ggplot(
       ggplot2::aes(
         x = x,
@@ -130,6 +138,7 @@ plot_ggnet <- function(
         linewidth = {{ edge_sym }}
       ),
       show.legend = edge_legend
+      # show.legend = FALSE
     ) +
     ggplot2::scale_linewidth_continuous(
       range = c(0.5, 2),
@@ -139,6 +148,7 @@ plot_ggnet <- function(
     ggplot2::scale_shape_manual(
       values = rep(21:25, 1e4)
     ) +
+    ggplot2::scale_alpha_identity() +
     ggnetwork::geom_nodes(
       ggplot2::aes(shape = {{ shape_sym }}),
       fill = "white",
@@ -158,10 +168,13 @@ plot_ggnet <- function(
       col = text_col
     ) +
     ggplot2::coord_equal() +
-    ggplot2::scale_alpha_identity() +
-    ggplot2::guides(col = "none")
+    ggplot2::guides(
+      col = "none",
+      alpha = "none",
+      fill = ggplot2::guide_legend(override.aes = list(linetype = NA))
+    )
   if (fill_col != "") {
-    if (methods::is(ggnet_obj[[fill_col]], "character")) {
+    if (methods::is(g[[fill_col]], "character")) {
       p <- p + harrypotter::scale_fill_hp_d("Ravenclaw")
     } else {
       p <- p + harrypotter::scale_fill_hp("Ravenclaw")
@@ -171,14 +184,10 @@ plot_ggnet <- function(
 }
 # pacman::p_load(tidyverse, ggnetwork, igraph)
 # set.seed(2025)
-# example_network_2 |>
-#   ggnetwork() |>
-#   plot_ggnet(
-#     node_size = 3,
-#     shape_col = "site",
-#     fill_col = "site",
-#     edge_col = "wij",
-#     edge_trans = "log2",
-#     connected = "Hide"
-#   ) |>
+
+# plot_network(
+#   example_network,
+#   fill_col = "site",
+#   edge_col = "wij"
+# ) |>
 #   print()

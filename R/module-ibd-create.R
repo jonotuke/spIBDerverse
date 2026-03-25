@@ -2,22 +2,75 @@ ibdInput <- function(id) {
   shiny::tagList(
     shiny::fileInput(
       shiny::NS(id, "ibd_file"),
-      "Upload a IBD file"
-    ),
+      "Upload an IBD file (edges)"
+    ) |>
+      prompter::add_prompt(
+        message = "Upload pairwise IBD file. Each line\n 
+should have two individuals, and how related that\n
+pair is. Additional columns can include pairwise\n
+information (like geographic distance for\n
+example). The first column should be called\n
+\"iid1\" and the second column \"iid2\".",
+        type = "info",
+        position = "right",
+        rounded = TRUE
+      ),
     shiny::fileInput(
       shiny::NS(id, "meta_file"),
-      "Upload a meta file"
-    ),
+      "Upload a meta data file (nodes)"
+    ) |>
+      prompter::add_prompt(
+        message = "Upload your meta data for the\n
+individuals. This can include any meta data you\n
+might like to plot or test. The first column\n
+should be called \"iid\".",
+        type = "info",
+        position = "right",
+        rounded = TRUE
+      ),
     shiny::checkboxInput(
       shiny::NS(id, "filter"),
       "Filter edges to just nodes in metafile",
-      value = TRUE
-    ),
+      value = TRUE,
+      width = "100%"
+    ) |>
+      prompter::add_prompt(
+        message = "Toggle this off to keep ALL IBD\n
+information. Will slow down analyses!",
+        type = "info",
+        position = "right",
+        rounded = TRUE
+      ),
     shiny::textInput(
       shiny::NS(id, "cutoffs"),
       label = "Please enter cutoffs with commas between",
-      value = "0,2,1,0"
-    ),
+      value = "0,2,1,0",
+      width = "100%"
+    ) |>
+      prompter::add_prompt(
+        message = "This defines the definition of two\n
+individuals being \"connected\". A comma-separated\n
+description of the cut-off for the minimum number\n
+of blocks of IBD of length >=8cM, >=12cM, >=16cM and >=20cM.",
+        type = "info",
+        position = "right",
+        rounded = TRUE
+      ),
+    shiny::numericInput(
+      shiny::NS(id, "frac_cutoff"),
+      label = "Minimum Frac GP",
+      value = 0.7,
+      width = "100%"
+    ) |>
+      prompter::add_prompt(
+        message = "Used for quality control. The fraction\n
+of genotype likelihoods that had posterior\n
+values of >=0.99, indicating high quality imputation.\n
+Recommended default is 0.7.",
+        type = "info",
+        position = "right",
+        rounded = TRUE
+      ),
     shiny::textInput(
       shiny::NS(id, "node_inc"),
       "Node names to include"
@@ -122,6 +175,7 @@ ibdServer <- function(id, input_network) {
         input$ibd_file$datapath,
         input$meta_file$datapath,
         ibd_co = cutoffs(),
+        frac_co = input$frac_cutoff,
         filter_on_meta = input$filter
       )
     })

@@ -4,6 +4,7 @@
 #' @param lat vertex attribute that gives latitude
 #' @param lon vertex attribute that gives longitude
 #' @param col vertex attribute to give marker colour
+#' @param label vertex attribute to give marker label
 #' @param tile background tile
 #'
 #' @return leaflet plot
@@ -16,6 +17,7 @@ plot_leaflet <- function(
   lat,
   lon,
   col = "site",
+  label = "none",
   tile = "Default"
 ) {
   node_df <- igraph::as_data_frame(g, what = "vertices")
@@ -23,12 +25,23 @@ plot_leaflet <- function(
     dplyr::rename(lat = dplyr::all_of(lat), lon = dplyr::all_of(lon))
   if (col == "none") {
     node_df$col <- "black"
-    node_df <- node_df |>
-      dplyr::mutate(label = name)
   } else {
     node_df <- node_df |>
-      dplyr::rename(col = dplyr::all_of(col)) |>
-      dplyr::mutate(label = stringr::str_glue("{name}: {col}"))
+      dplyr::mutate(col = .data[[col]])
+  }
+  if (label == "none") {
+    node_df <- node_df |>
+      dplyr::mutate(
+        label = name
+      )
+  } else {
+    node_df <- node_df |>
+      dplyr::rename(
+        label = dplyr::all_of(label)
+      ) |>
+      dplyr::mutate(
+        label = stringr::str_glue("{.env$label}: {label}")
+      )
   }
   edges_df <- edges_to_sf(g, lat, lon)
   icon_col <- c(
@@ -72,6 +85,10 @@ plot_leaflet <- function(
       icon = icons,
       lng = ~lon,
       lat = ~lat
+    ) |>
+    leaflet::addScaleBar(
+      position = "bottomleft",
+      options = leaflet::scaleBarOptions(metric = TRUE, imperial = TRUE)
     )
   if (tile == "Default") {
     return(leaf)
@@ -93,4 +110,11 @@ plot_leaflet <- function(
 # example_network
 # example_sf <- convert_sf(example_network, "lat", "long")
 # example_sf
-# plot_leaflet(example_network, "lat", "long", col = "genetic_sex")
+# plot_leaflet(
+#   example_network,
+#   "lat",
+#   "long",
+#   col = "site",
+#   label = "site"
+# ) |>
+#   print()

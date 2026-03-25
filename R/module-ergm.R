@@ -1,10 +1,25 @@
-ergmInput <- function(id, meta, g) {
+ergmInput <- function(id, all_vars, g) {
   shiny::tagList(
     shiny::checkboxGroupInput(
       shiny::NS(id, "preds"),
       "Select Predictors",
-      choices = meta
-    ),
+      choices = all_vars,
+      width = "100%"
+    ) |>
+      prompter::add_prompt(
+        message = "Select the predictors to include in the model.\n
+For each variable you can choose which level of complexity\n
+to include. If a categorical value has only two levels,\n
+then nodematch(diff) and nodemix are equivalent, and nodemix is removed.\n
+Quantitative: nodecov (sum of values) or absdiff (absolute difference in values).\n
+Categorical: nodematch (do the variables match or not), nodematch(diff)\n
+(do the variables match or not, and if so, which level is it) or nodemix\n
+(the combination of levels).\n
+See https://doi.org/10.1093/genetics/iyag053 for full details.",
+        type = "info",
+        position = "bottom",
+        rounded = TRUE
+      ),
     shiny::uiOutput(
       shiny::NS(id, "pred_types")
     ),
@@ -16,7 +31,15 @@ ergmInput <- function(id, meta, g) {
         "Fold changes" = "phi"
       ),
       selected = "phi",
-    ),
+      width = "100%"
+    ) |>
+      prompter::add_prompt(
+        message = "Report model coefficients as just coefficients,\n
+or with the fold change effect of the variable.",
+        type = "info",
+        position = "right",
+        rounded = TRUE
+      ),
     shiny::radioButtons(
       shiny::NS(id, "measure"),
       label = "Measure",
@@ -24,8 +47,16 @@ ergmInput <- function(id, meta, g) {
         "AIC",
         "BIC"
       ),
-      selected = "BIC"
-    ),
+      selected = "BIC",
+      width = "100%"
+    ) |>
+      prompter::add_prompt(
+        message = "Use AIC or BIC for model selection.\n
+We suggest BIC based on a simulation study.",
+        type = "info",
+        position = "right",
+        rounded = TRUE
+      ),
     shiny::checkboxInput(
       shiny::NS(id, "top_5"),
       label = "Show just top 5"
@@ -35,7 +66,7 @@ ergmInput <- function(id, meta, g) {
       label = "Text size",
       min = 5,
       max = 20,
-      value = 8
+      value = 8,
     ),
     shiny::sliderInput(
       shiny::NS(id, "text_angle"),
@@ -43,12 +74,28 @@ ergmInput <- function(id, meta, g) {
       min = 0,
       max = 90,
       value = 90,
-      step = 15
-    ),
+      step = 15,
+      width = "100%"
+    ) |>
+      prompter::add_prompt(
+        message = "Change the angle at which the x-axis model\n
+names appear. Useful when long names make the model\n
+selection plot too small.",
+        type = "info",
+        position = "right",
+        rounded = TRUE
+      ),
     shiny::checkboxInput(
       shiny::NS(id, "abbr"),
-      label = "Abbreviate models"
-    ),
+      label = "Abbreviate models",
+      width = "100%"
+    ) |>
+      prompter::add_prompt(
+        message = "Shorten the model names on the model selection plot.",
+        type = "info",
+        position = "right",
+        rounded = TRUE
+      ),
     shiny::checkboxInput(
       shiny::NS(id, "ergm_trim"),
       label = "Trim coefficients",
@@ -151,7 +198,7 @@ ergmServer <- function(id, df, store) {
       shiny::updateCheckboxGroupInput(
         session,
         "preds",
-        choices = igraph::vertex_attr_names(df())
+        choices = get_node_attributes(df())
       )
     })
     shiny::observeEvent(input$bic_save, {
@@ -213,9 +260,9 @@ make_ergm_ui <- function(pred, g, label, id) {
   }
 }
 ergmApp <- function(network_input) {
-  meta <- igraph::vertex_attr_names(network_input)
+  all_vars <- get_node_attributes(network_input)
   ui <- shiny::fluidPage(
-    ergmInput("ergm", meta, network_input),
+    ergmInput("ergm", all_vars, network_input),
     shiny::verbatimTextOutput(outputId = "debug"),
     ergmOutput("ergm")
   )
