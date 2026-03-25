@@ -4,8 +4,6 @@
 
 - [`abbreviate()`](https://jonotuke.github.io/spIBDerverse/reference/abbreviate.md)
   : abbreviate labels
-- [`add_alpha()`](https://jonotuke.github.io/spIBDerverse/reference/add_alpha.md)
-  : Add alpha
 - [`add_convert_bb_adj()`](https://jonotuke.github.io/spIBDerverse/reference/add_convert_bb_adj.md)
   : Adjust BB for network work sf object
 - [`clean_models()`](https://jonotuke.github.io/spIBDerverse/reference/clean_models.md)
@@ -64,6 +62,8 @@
   : get lat or lon from network sf object
 - [`get_network_summary()`](https://jonotuke.github.io/spIBDerverse/reference/get_network_summary.md)
   : Get network summary
+- [`get_node_attributes()`](https://jonotuke.github.io/spIBDerverse/reference/get_node_attributes.md)
+  : get node attributes
 - [`get_node_info()`](https://jonotuke.github.io/spIBDerverse/reference/get_node_info.md)
   : Get network node information
 - [`get_ringbauer_measures()`](https://jonotuke.github.io/spIBDerverse/reference/get_ringbauer_measures.md)
@@ -80,12 +80,12 @@
   : Plots BIC
 - [`plot_ergm_coef()`](https://jonotuke.github.io/spIBDerverse/reference/plot_ergm_coef.md)
   : Plot ergm coefficients
-- [`plot_ggnet()`](https://jonotuke.github.io/spIBDerverse/reference/plot_ggnet.md)
-  : plot ggnet
 - [`plot_homophily()`](https://jonotuke.github.io/spIBDerverse/reference/plot_homophily.md)
   : Plot homophily
 - [`plot_leaflet()`](https://jonotuke.github.io/spIBDerverse/reference/plot_leaflet.md)
   : plot leaflet
+- [`plot_network()`](https://jonotuke.github.io/spIBDerverse/reference/plot_network.md)
+  : plot ggnet
 - [`plot_ringbauer()`](https://jonotuke.github.io/spIBDerverse/reference/plot_ringbauer.md)
   : Plot Ringbauer
 - [`plot_single_ergm_coef()`](https://jonotuke.github.io/spIBDerverse/reference/plot_single_ergm_coef.md)
