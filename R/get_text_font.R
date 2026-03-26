@@ -6,6 +6,7 @@
 #' @param x numeric vector to convert to colour
 #' @param type whether to return the colour, or black / white for text
 #'
+#'
 #' @returns vector of colours
 #'
 #' @export

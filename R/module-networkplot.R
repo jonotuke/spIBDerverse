@@ -12,13 +12,13 @@ networkplotInput <- function(id, cat_vars, all_vars, edge_vars) {
         rounded = TRUE
       ),
     shiny::selectInput(
-      shiny::NS(id, "fill_id"),
+      shiny::NS(id, "fill"),
       label = "Choose node fill column",
       choices = c("none", all_vars),
       selected = "none"
     ),
     shiny::selectInput(
-      inputId = shiny::NS(id, "shape_id"),
+      inputId = shiny::NS(id, "shape"),
       label = "Choose node shape column",
       choices = c("none", cat_vars),
       selected = "none"
@@ -52,7 +52,7 @@ legend. Either \"None\" or a \"log10\"\ntransformation.",
         rounded = TRUE
       ),
     shiny::selectInput(
-      shiny::NS(id, "centrality"),
+      shiny::NS(id, "node_centrality"),
       label = "Show node centrality",
       choices = c(
         "none",
@@ -83,7 +83,7 @@ highly-connected individuals.
         rounded = TRUE
       ),
     shiny::radioButtons(
-      shiny::NS(id, "solo_nodes"),
+      shiny::NS(id, "connected"),
       label = "Unconnected nodes",
       choices = c("Show", "Grey out", "Hide"),
       selected = "Show"
@@ -110,22 +110,11 @@ highly-connected individuals.
       max = 20,
       value = 4
     ),
-    shiny::checkboxInput(
-      shiny::NS(id, "add_label"),
-      "Add labels",
-      value = FALSE
-    ),
     shiny::selectInput(
-      inputId = shiny::NS(id, "label_id"),
+      inputId = shiny::NS(id, "label"),
       label = "Label variable",
-      choices = c("", all_vars),
-      selected = ""
-    ),
-    shiny::radioButtons(
-      shiny::NS(id, "text_col"),
-      label = "Text colour",
-      choices = c("black", "white"),
-      selected = "black"
+      choices = c("none", all_vars),
+      selected = "none"
     ),
     shiny::textInput(
       shiny::NS(id, "label_inc"),
@@ -160,26 +149,25 @@ networkplotServer <- function(id, network, store) {
       set.seed(input$seed)
       plot_network(
         network(),
-        shape_col = input$shape_id,
-        fill_col = input$fill_id,
-        node_alpha_col = input$centrality,
-        edge_col = input$edge,
+        seed = input$seed,
+        connected = input$connected,
+        edge = input$edge,
+        node_size = input$node_size,
         edge_legend = input$edge_legend,
         edge_trans = input$edge_trans,
-        node_size = input$node_size,
-        labels = input$add_label,
-        label_col = input$label_id,
-        text_size = input$label_size,
-        text_col = input$text_col,
+        label = input$label,
+        label_size = input$label_size,
         label_inc = input$label_inc,
         label_exc = input$label_exc,
-        connected = input$solo_nodes
+        fill = input$fill,
+        shape = input$shape,
+        node_centrality = input$node_centrality
       )
     })
     shiny::observeEvent(network(), {
       shiny::updateSelectInput(
         session,
-        "shape_id",
+        "shape",
         choices = c(
           "none",
           get_node_attributes(network(), "cat")
@@ -189,7 +177,7 @@ networkplotServer <- function(id, network, store) {
     shiny::observeEvent(network(), {
       shiny::updateSelectInput(
         session,
-        "fill_id",
+        "fill",
         choices = c(
           "none",
           get_node_attributes(network())
@@ -209,9 +197,9 @@ networkplotServer <- function(id, network, store) {
     shiny::observeEvent(network(), {
       shiny::updateSelectInput(
         session,
-        "label_id",
+        "label",
         choices = c(
-          "",
+          "none",
           get_node_attributes(network())
         )
       )

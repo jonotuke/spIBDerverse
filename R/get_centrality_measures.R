@@ -1,5 +1,10 @@
 utils::globalVariables(
-  c("closeness", "eigencentrality", "nodes")
+  c(
+    "closeness",
+    "eigencentrality",
+    "nodes",
+    "degree"
+  )
 )
 #' Get centrality measures
 #'

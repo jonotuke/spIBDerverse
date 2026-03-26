@@ -1,3 +1,9 @@
+utils::globalVariables(
+  c(
+    "name",
+    "degree"
+  )
+)
 #' Get network summary
 #'
 #' @param g ibd network

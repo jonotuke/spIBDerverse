@@ -2,63 +2,60 @@
 % Please edit documentation in R/plot_network.R
 \name{plot_network}
 \alias{plot_network}
-\title{plot ggnet}
+\title{plot network}
 \usage{
 plot_network(
   g,
-  fill_col = "none",
-  shape_col = "none",
-  node_alpha_col = "none",
-  edge_col = "none",
-  edge_trans = "identity",
+  seed = 2026,
+  connected = "Show",
+  edge = "none",
   edge_legend = TRUE,
-  node_size = 4,
-  text_size = 4,
-  text_col = "black",
-  labels = FALSE,
-  label_col = "",
+  edge_trans = "identity",
+  label = "none",
+  label_size = 4,
   label_inc = "",
   label_exc = "",
-  connected = "Show"
+  fill = "none",
+  shape = "none",
+  node_size = 5,
+  node_centrality = "none"
 )
 }
 \arguments{
 \item{g}{network}
 
-\item{fill_col}{vertex attribute for node fill}
+\item{seed}{seed to set node locations}
 
-\item{shape_col}{vertex attribute for node shape}
+\item{connected}{choice for how to deal with isolated nodes with choices
+Hide, Show, Grey out}
 
-\item{node_alpha_col}{vertext attribute for node alpha}
-
-\item{edge_col}{edge attribute for line colour}
-
-\item{edge_trans}{transformation for edge mapping}
+\item{edge}{edge attribute for line colour}
 
 \item{edge_legend}{boolean to control edge legend}
 
-\item{node_size}{node size}
+\item{edge_trans}{transformation for edge mapping}
 
-\item{text_size}{label size}
+\item{label}{vertex attribute to use for labels}
 
-\item{text_col}{text colour}
-
-\item{labels}{add labels}
-
-\item{label_col}{vertex attribute to use for labels}
+\item{label_size}{label size}
 
 \item{label_inc}{regular expression to include labels}
 
 \item{label_exc}{regular expression to exclude labels}
 
-\item{connected}{choice for how to deal with isolated nodes with choices
-Hide, Show, Grey out}
+\item{fill}{vertex attribute for node fill}
+
+\item{shape}{vertex attribute for node shape}
+
+\item{node_size}{node size}
+
+\item{node_centrality}{vertext attribute for node alpha}
 }
 \value{
 network plot
 }
 \description{
-plot ggnet
+plot network
 }
 \examples{
 plot_network(example_network)
