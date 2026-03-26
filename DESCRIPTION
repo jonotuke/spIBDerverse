@@ -45,8 +45,7 @@ Imports:
     shinyvalidate,
     forcats,
     prompter,
-    ggnewscale
-Suggests: 
+    ggnewscale,
     dplyr,
     DT,
     farver,
@@ -66,13 +65,14 @@ Suggests:
     viridis,
     broom,
     colourvalues,
-    knitr,
-    rmarkdown,
-    quarto,
     fs,
     grDevices,
-    testthat (>= 3.0.0),
     methods
+Suggests: 
+    quarto,
+    rmarkdown,
+    knitr,
+    testthat (>= 3.0.0),
 VignetteBuilder: quarto, knitr
 Depends: 
     R (>= 4.1.0)

@@ -146,7 +146,6 @@ networkplotServer <- function(id, network, store) {
       p()
     })
     p <- shiny::reactive({
-      set.seed(input$seed)
       plot_network(
         network(),
         seed = input$seed,
