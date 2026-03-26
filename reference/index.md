@@ -85,7 +85,7 @@
 - [`plot_leaflet()`](https://jonotuke.github.io/spIBDerverse/reference/plot_leaflet.md)
   : plot leaflet
 - [`plot_network()`](https://jonotuke.github.io/spIBDerverse/reference/plot_network.md)
-  : plot ggnet
+  : plot network
 - [`plot_ringbauer()`](https://jonotuke.github.io/spIBDerverse/reference/plot_ringbauer.md)
   : Plot Ringbauer
 - [`plot_single_ergm_coef()`](https://jonotuke.github.io/spIBDerverse/reference/plot_single_ergm_coef.md)

@@ -1,26 +1,25 @@
-# plot ggnet
+# plot network
 
-plot ggnet
+plot network
 
 ## Usage
 
 ``` r
 plot_network(
   g,
-  fill_col = "none",
-  shape_col = "none",
-  node_alpha_col = "none",
-  edge_col = "none",
-  edge_trans = "identity",
+  seed = 2026,
+  connected = "Show",
+  edge = "none",
   edge_legend = TRUE,
-  node_size = 4,
-  text_size = 4,
-  text_col = "black",
-  labels = FALSE,
-  label_col = "",
+  edge_trans = "identity",
+  label = "none",
+  label_size = 4,
   label_inc = "",
   label_exc = "",
-  connected = "Show"
+  fill = "none",
+  shape = "none",
+  node_size = 5,
+  node_centrality = "none"
 )
 ```
 
@@ -30,49 +29,34 @@ plot_network(
 
   network
 
-- fill_col:
+- seed:
 
-  vertex attribute for node fill
+  seed to set node locations
 
-- shape_col:
+- connected:
 
-  vertex attribute for node shape
+  choice for how to deal with isolated nodes with choices Hide, Show,
+  Grey out
 
-- node_alpha_col:
-
-  vertext attribute for node alpha
-
-- edge_col:
+- edge:
 
   edge attribute for line colour
-
-- edge_trans:
-
-  transformation for edge mapping
 
 - edge_legend:
 
   boolean to control edge legend
 
-- node_size:
+- edge_trans:
 
-  node size
+  transformation for edge mapping
 
-- text_size:
-
-  label size
-
-- text_col:
-
-  text colour
-
-- labels:
-
-  add labels
-
-- label_col:
+- label:
 
   vertex attribute to use for labels
+
+- label_size:
+
+  label size
 
 - label_inc:
 
@@ -82,10 +66,21 @@ plot_network(
 
   regular expression to exclude labels
 
-- connected:
+- fill:
 
-  choice for how to deal with isolated nodes with choices Hide, Show,
-  Grey out
+  vertex attribute for node fill
+
+- shape:
+
+  vertex attribute for node shape
+
+- node_size:
+
+  node size
+
+- node_centrality:
+
+  vertext attribute for node alpha
 
 ## Value
 
