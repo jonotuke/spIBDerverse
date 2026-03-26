@@ -5,7 +5,7 @@ Converts an igraph object into two sf objects
 ## Usage
 
 ``` r
-convert_sf(g, lat, lon)
+convert_sf(g, lat, lon, jitter = 0)
 ```
 
 ## Arguments
@@ -21,6 +21,10 @@ convert_sf(g, lat, lon)
 - lon:
 
   attribute that gives longitude
+
+- jitter:
+
+  amount of jitter to add
 
 ## Value
 
