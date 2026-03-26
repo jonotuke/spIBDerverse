@@ -136,7 +136,7 @@ plot_static_map <- function(
 # jono_key <- "a7bf69ed-3e77-41ed-b1e2-52f9aa99ec19"
 
 # example_network_2 |>
-#   convert_sf("Latitude", "Longitude") |>
+#   convert_sf("Latitude", "Longitude", jitter = 0.05) |>
 #   add_convert_bb_adj() |>
 #   plot_static_map(
 #     zoom = 6,

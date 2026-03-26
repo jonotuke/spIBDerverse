@@ -96,6 +96,7 @@ average overall connectedness (connectivity plot).",
 }
 ringbauerOutput <- function(id) {
   shiny::tagList(
+    shiny::h1("Matrix plot"),
     shiny::plotOutput(
       shiny::NS(id, "ringbauer_plot"),
       height = "800px"
@@ -104,6 +105,7 @@ ringbauerOutput <- function(id) {
       shiny::NS(id, "ringbauer_save"),
       "Set as export plot"
     ),
+    shiny::h1("Connectivity plot"),
     shiny::plotOutput(
       shiny::NS(id, "homophily_plot")
     ),

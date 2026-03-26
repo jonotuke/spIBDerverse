@@ -12,6 +12,14 @@ staticmapInput <- function(id, all_vars, cat_vars, edge_vars) {
       choices = c("none", all_vars),
       selected = "none"
     ),
+    shiny::sliderInput(
+      shiny::NS(id, "jitter"),
+      label = "Add jitter to nodes",
+      min = 0,
+      max = 0.05,
+      step = 0.01,
+      value = 0
+    ),
     shiny::selectInput(
       shiny::NS(id, "fill"),
       label = "Choose node fill column",
@@ -106,15 +114,15 @@ values.
     shiny::textInput(
       shiny::NS(id, "key"),
       "Stadia API key",
-      value = "",
-      width = "100%"
-      # value = "a7bf69ed-3e77-41ed-b1e2-52f9aa99ec19"
+      width = "100%",
+      # value = "",
+      value = "a7bf69ed-3e77-41ed-b1e2-52f9aa99ec19"
     ) |>
       prompter::add_prompt(
         message = "This key is required to be able to download the\n
-        map background. See this website for simple instructions on\n
-        setting this up\n
-        (https://docs.stadiamaps.com/authentication/#api-keys).",
+map background. See this website for simple instructions on\n
+setting this up\n
+(https://docs.stadiamaps.com/authentication/#api-keys).",
         type = "info",
         position = "right",
         rounded = TRUE
@@ -151,7 +159,12 @@ staticmapServer <- function(id, network, store) {
       if (input$lat == "none" | input$lon == "none") {
         return(NULL)
       }
-      convert_sf(network(), lat = input$lat, lon = input$lon) |>
+      convert_sf(
+        network(),
+        lat = input$lat,
+        lon = input$lon,
+        jitter = input$jitter
+      ) |>
         add_convert_bb_adj()
     })
     output$plot <- shiny::renderPlot({

@@ -13,6 +13,7 @@ utils::globalVariables(
 #' @examples
 #' get_ringbauer_measures(example_network, "site") |> plot_homophily()
 plot_homophily <- function(RM, show_sign = FALSE, filter_sign = FALSE) {
+  overall_density <- RM$overall_density[1]
   # Remove missing densities
   RM <- RM |>
     dplyr::filter(!is.nan(density))
@@ -70,7 +71,12 @@ plot_homophily <- function(RM, show_sign = FALSE, filter_sign = FALSE) {
       axis.text.x = ggplot2::element_text(angle = -90, hjust = 0)
     ) +
     harrypotter::scale_fill_hp_d("Ravenclaw") +
-    ggplot2::labs(y = "Connectivity", x = "Edge", fill = NULL)
+    ggplot2::labs(y = "Connectivity", x = "Edge", fill = NULL) +
+    ggplot2::geom_hline(
+      yintercept = overall_density,
+      linewidth = 1,
+      linetype = "dashed"
+    )
   if (show_sign) {
     p <- p + harrypotter::scale_fill_hp_d("Hufflepuff")
   }

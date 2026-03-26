@@ -64,6 +64,7 @@ get_ringbauer_measures <- function(g, grp) {
       label = stringr::str_glue("{n_edges}/{n_possible_edges}")
     )
   p <- igraph::edge_density(g)
+  edge_count$overall_density <- p
   edge_count$pv <- 1
   for (i in 1:nrow(edge_count)) {
     edge_count$pv[i] <-

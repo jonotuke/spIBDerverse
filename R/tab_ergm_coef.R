@@ -61,7 +61,8 @@ tab_ergm_coef <- function(
     purrr::map(get_ergm_coef) |>
     purrr::list_rbind(names_to = "Model") |>
     dplyr::group_by(Model) |>
-    dplyr::filter(Model %in% models)
+    dplyr::filter(Model %in% models) |>
+    dplyr::mutate(sign = add_stars(p.value))
   return(coef)
 }
 # pacman::p_load(conflicted, tidyverse, targets, ergm)

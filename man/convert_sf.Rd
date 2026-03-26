@@ -4,7 +4,7 @@
 \alias{convert_sf}
 \title{Convert to SF}
 \usage{
-convert_sf(g, lat, lon)
+convert_sf(g, lat, lon, jitter = 0)
 }
 \arguments{
 \item{g}{igraph network}
@@ -12,6 +12,8 @@ convert_sf(g, lat, lon)
 \item{lat}{attribute that gives latitude}
 
 \item{lon}{attribute that gives longitude}
+
+\item{jitter}{amount of jitter to add}
 }
 \value{
 list of edges_sf and nodes_sf
