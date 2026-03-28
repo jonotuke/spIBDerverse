@@ -185,7 +185,7 @@ plot_staticmap <- function(
     }
   }
   if (fill %in% c("", "none")) {
-    nodes_sfg$label_colour <- "black"
+    nodes_sf$label_colour <- "black"
   } else {
     nodes_sf$label_colour <- get_text_font(
       nodes_sf[[fill]],
@@ -262,6 +262,7 @@ plot_staticmap <- function(
         override.aes = list(linetype = NA)
       )
     )
+  p
 }
 # jono_key <- "a7bf69ed-3e77-41ed-b1e2-52f9aa99ec19"
 # plot_staticmap(

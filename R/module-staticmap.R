@@ -24,7 +24,6 @@ staticmapInput <- function(id, all_vars, cat_vars, edge_vars) {
     shiny::sliderInput(
       shiny::NS(id, "zoom"),
       label = "Map resolution",
-      width = "100%",
       min = 0,
       max = 15,
       value = 5,
@@ -123,18 +122,25 @@ staticmapServer <- function(id, network, store) {
       if (input$lat == "none" | input$lon == "none") {
         return(NULL)
       }
-      plot_static_map(
-        network_sf(),
+      plot_staticmap(
+        sf = network_sf(),
         zoom = input$zoom,
         key = input$key,
-        fill_col = input$fill,
-        shape_col = input$shape,
-        edge_col = input$edge,
+        fill = input$fill,
+        shape = input$shape,
+        edge = input$edge,
+        node_size = input$node_size,
+        node_centrality = input$node_centrality,
         maptype = input$maptype,
-        pt_size = input$node_size,
         lat_range = input$lat_range,
         lon_range = input$lon_range,
-        theme = input$theme
+        theme = input$theme,
+        connected = input$connected,
+        edge_legend = input$edge_legend,
+        edge_trans = input$edge_trans,
+        label = input$label,
+        label_inc = input$label_inc,
+        label_exc = input$label_exc
       )
     })
     update_range <- function(id, type = "lat") {
