@@ -15,11 +15,8 @@ ringbauerInput <- function(id, cat_vars) {
       value = 1,
       width = "100%"
     ) |>
-      prompter::add_prompt(
-        message = "Change font size for axis labels and cell counts (matrix plot).",
-        type = "info",
-        position = "right",
-        rounded = TRUE
+      bslib::tooltip(
+        "Change font size for axis labels and cell counts (matrix plot)."
       ),
     shiny::sliderInput(
       shiny::NS(id, "margin"),
@@ -30,13 +27,8 @@ ringbauerInput <- function(id, cat_vars) {
       value = 4,
       width = "100%"
     ) |>
-      prompter::add_prompt(
-        message = "Increase or decrease the space around\n
-the edge of the plot (matrix plot).\n
-Useful when labels are too large to be seen properly.",
-        type = "info",
-        position = "right",
-        rounded = TRUE
+      bslib::tooltip(
+        "Increase or decrease the space around the edge of the plot (matrix plot). Useful when labels are too large to be seen properly."
       ),
     shiny::checkboxInput(
       shiny::NS(id, "abbr"),
@@ -49,11 +41,8 @@ Useful when labels are too large to be seen properly.",
       value = FALSE,
       width = "100%"
     ) |>
-      prompter::add_prompt(
-        message = "Add the sample size to the axis labels (matrix plot).",
-        type = "info",
-        position = "right",
-        rounded = TRUE
+      bslib::tooltip(
+        "Add the sample size to the axis labels (matrix plot)."
       ),
     shiny::checkboxInput(
       shiny::NS(id, "addPercent"),
@@ -61,11 +50,8 @@ Useful when labels are too large to be seen properly.",
       value = FALSE,
       width = "100%"
     ) |>
-      prompter::add_prompt(
-        message = "Add the percentages to the cell counts (matrix plot).",
-        type = "info",
-        position = "right",
-        rounded = TRUE
+      bslib::tooltip(
+        "Add the percentages to the cell counts (matrix plot)."
       ),
     shiny::checkboxInput(
       shiny::NS(id, "show_sign"),
@@ -73,24 +59,16 @@ Useful when labels are too large to be seen properly.",
       value = FALSE,
       width = "100%"
     ) |>
-      prompter::add_prompt(
-        message = "Colours pairs of levels as significant (yellow)\n
-or not (black) compared to the \n
-average overall connectedness (connectivity plot).",
-        type = "info",
-        position = "right",
-        rounded = TRUE
+      bslib::tooltip(
+        "Colours pairs of levels as significant (yellow) or not (black) compared to the average overall connectedness (connectivity plot)."
       ),
     shiny::checkboxInput(
       shiny::NS(id, "filter_sign"),
       "Filter out non-significant",
       value = FALSE
     ) |>
-      prompter::add_prompt(
-        message = "Makes non-significant pairs transparent (connectivity plot).",
-        type = "info",
-        position = "right",
-        rounded = TRUE
+      bslib::tooltip(
+        "Makes non-significant pairs transparent (connectivity plot)."
       )
   )
 }

@@ -1,10 +1,10 @@
 add_stars <- function(pv) {
   stars <- dplyr::case_when(
-    between(pv, 0, 0.001) ~ "***",
-    between(pv, 0.001, 0.01) ~ "**",
-    between(pv, 0.01, 0.05) ~ "*",
-    between(pv, 0.05, 0.1) ~ ".",
-    between(pv, 0.1, 1) ~ ""
+    dplyr::between(pv, 0, 0.001) ~ "***",
+    dplyr::between(pv, 0.001, 0.01) ~ "**",
+    dplyr::between(pv, 0.01, 0.05) ~ "*",
+    dplyr::between(pv, 0.05, 0.1) ~ ".",
+    dplyr::between(pv, 0.1, 1) ~ ""
   )
   stars
 }

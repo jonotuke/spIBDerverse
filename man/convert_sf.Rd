@@ -4,7 +4,7 @@
 \alias{convert_sf}
 \title{Convert to SF}
 \usage{
-convert_sf(g, lat, lon, jitter = 0)
+convert_sf(g, lat, lon, jitter = 0, landscape = TRUE)
 }
 \arguments{
 \item{g}{igraph network}
@@ -14,6 +14,8 @@ convert_sf(g, lat, lon, jitter = 0)
 \item{lon}{attribute that gives longitude}
 
 \item{jitter}{amount of jitter to add}
+
+\item{landscape}{if true changes bounding box to be landscape}
 }
 \value{
 list of edges_sf and nodes_sf
