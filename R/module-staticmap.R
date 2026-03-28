@@ -55,14 +55,8 @@ staticmapInput <- function(id, all_vars, cat_vars, edge_vars) {
       value = 5,
       step = 1
     ) |>
-      prompter::add_prompt(
-        message = "The level of resolution of the background map details.\n
-Higher values make the map more detailed, but take longer to\n
-download. We recommend leaving this value low while deciding on the\n
-ranges for the latitude and longitude, or the terrain type.",
-        type = "info",
-        position = "right",
-        rounded = TRUE
+      bslib::tooltip(
+        "The level of resolution of the background map details. Higher values make the map more detailed, but take longer to download. We recommend leaving this value low while deciding on the ranges for the latitude and longitude, or the terrain type."
       ),
     shiny::selectInput(
       shiny::NS(id, "maptype"),
@@ -82,12 +76,8 @@ ranges for the latitude and longitude, or the terrain type.",
       selected = 1,
       width = "100%"
     ) |>
-      prompter::add_prompt(
-        message = "The type of map that is \n
-used in the background.",
-        type = "info",
-        position = "right",
-        rounded = TRUE
+      bslib::popover(
+        "The type of map that is used in the background."
       ),
     shiny::selectInput(
       shiny::NS(id, "theme"),
@@ -100,16 +90,8 @@ used in the background.",
       selected = 1,
       width = "100%"
     ) |>
-      prompter::add_prompt(
-        message = "The plotting theme for the map. Minimal allows\n
-you to see the latitude and longitude values, black white\n
-is similar but removes the grey background from the legend,\n
-and video removes all axis labels and latitude and longitude\n
-values.
-",
-        type = "info",
-        position = "right",
-        rounded = TRUE
+      bslib::popover(
+        "The plotting theme for the map. Minimal allows you to see the latitude and longitude values, black white is similar but removes the grey background from the legend, and video removes all axis labels and latitude and longitude values."
       ),
     shiny::textInput(
       shiny::NS(id, "key"),
@@ -118,16 +100,9 @@ values.
       # value = "",
       value = "a7bf69ed-3e77-41ed-b1e2-52f9aa99ec19"
     ) |>
-      prompter::add_prompt(
-        message = "This key is required to be able to download the\n
-map background. See this website for simple instructions on\n
-setting this up\n
-(https://docs.stadiamaps.com/authentication/#api-keys).",
-        type = "info",
-        position = "right",
-        rounded = TRUE
+      bslib::popover(
+        "This key is required to be able to download the map background. See this website for simple instructions on setting this up (https://docs.stadiamaps.com/authentication/#api-keys)."
       ),
-
     shinyWidgets::numericRangeInput(
       shiny::NS(id, "lat_range"),
       "Latitude range",

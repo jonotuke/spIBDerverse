@@ -4,29 +4,15 @@ ibdInput <- function(id) {
       shiny::NS(id, "ibd_file"),
       "Upload an IBD file (edges)"
     ) |>
-      prompter::add_prompt(
-        message = "Upload pairwise IBD file. Each line\n 
-should have two individuals, and how related that\n
-pair is. Additional columns can include pairwise\n
-information (like geographic distance for\n
-example). The first column should be called\n
-\"iid1\" and the second column \"iid2\".",
-        type = "info",
-        position = "right",
-        rounded = TRUE
+      bslib::tooltip(
+        "Upload pairwise IBD file. Each line should have two individuals, and how related that pair is. Additional columns can include pairwise information (like geographic distance for example). The first column should be called \"iid1\" and the second column \"iid2\"."
       ),
     shiny::fileInput(
       shiny::NS(id, "meta_file"),
       "Upload a meta data file (nodes)"
     ) |>
-      prompter::add_prompt(
-        message = "Upload your meta data for the\n
-individuals. This can include any meta data you\n
-might like to plot or test. The first column\n
-should be called \"iid\".",
-        type = "info",
-        position = "right",
-        rounded = TRUE
+      bslib::tooltip(
+        "Upload your meta data for the individuals. This can include any meta data you might like to plot or test. The first column should be called \"iid\"."
       ),
     shiny::checkboxInput(
       shiny::NS(id, "filter"),
@@ -34,12 +20,8 @@ should be called \"iid\".",
       value = TRUE,
       width = "100%"
     ) |>
-      prompter::add_prompt(
-        message = "Toggle this off to keep ALL IBD\n
-information. Will slow down analyses!",
-        type = "info",
-        position = "right",
-        rounded = TRUE
+      bslib::tooltip(
+        "Toggle this off to keep ALL IBD information. Will slow down analyses!"
       ),
     shiny::textInput(
       shiny::NS(id, "cutoffs"),
@@ -47,14 +29,8 @@ information. Will slow down analyses!",
       value = "0,2,1,0",
       width = "100%"
     ) |>
-      prompter::add_prompt(
-        message = "This defines the definition of two\n
-individuals being \"connected\". A comma-separated\n
-description of the cut-off for the minimum number\n
-of blocks of IBD of length >=8cM, >=12cM, >=16cM and >=20cM.",
-        type = "info",
-        position = "right",
-        rounded = TRUE
+      bslib::popover(
+        "This defines the definition of two individuals being \"connected\". A comma-separated description of the cut-off for the minimum number of blocks of IBD of length >=8cM, >=12cM, >=16cM and >=20cM."
       ),
     shiny::numericInput(
       shiny::NS(id, "frac_cutoff"),
@@ -62,14 +38,8 @@ of blocks of IBD of length >=8cM, >=12cM, >=16cM and >=20cM.",
       value = 0.7,
       width = "100%"
     ) |>
-      prompter::add_prompt(
-        message = "Used for quality control. The fraction\n
-of genotype likelihoods that had posterior\n
-values of >=0.99, indicating high quality imputation.\n
-Recommended default is 0.7.",
-        type = "info",
-        position = "right",
-        rounded = TRUE
+      bslib::popover(
+        "Used for quality control. The fraction of genotype likelihoods that had posterior values of >=0.99, indicating high quality imputation. Recommended default is 0.7."
       ),
     shiny::textInput(
       shiny::NS(id, "node_inc"),

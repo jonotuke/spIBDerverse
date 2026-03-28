@@ -6,19 +6,16 @@ ergmInput <- function(id, all_vars, g) {
       choices = all_vars,
       width = "100%"
     ) |>
-      prompter::add_prompt(
-        message = "Select the predictors to include in the model.\n
-For each variable you can choose which level of complexity\n
-to include. If a categorical value has only two levels,\n
-then nodematch(diff) and nodemix are equivalent, and nodemix is removed.\n
-Quantitative: nodecov (sum of values) or absdiff (absolute difference in values).\n
-Categorical: nodematch (do the variables match or not), nodematch(diff)\n
-(do the variables match or not, and if so, which level is it) or nodemix\n
-(the combination of levels).\n
-See https://doi.org/10.1093/genetics/iyag053 for full details.",
-        type = "info",
-        position = "bottom",
-        rounded = TRUE
+      bslib::tooltip(
+        htmltools::HTML(
+          "Select the predictors to include in the model. For each variable you can choose which level of complexity to include. If a categorical value has only two levels, then nodematch(diff) and nodemix are equivalent, and nodemix is removed.
+      <br><br>
+        Quantitative: nodecov (sum of values) or absdiff (absolute difference in values
+      <br><br>
+        Categorical: nodematch (do the variables match or not), nodematch(diff) (do the variables match or not, and if so, which level is it) or nodemix (the combination of levels).
+      <br><br>
+        See https://doi.org/10.1093/genetics/iyag053 for full details."
+        )
       ),
     shiny::uiOutput(
       shiny::NS(id, "pred_types")
@@ -33,12 +30,8 @@ See https://doi.org/10.1093/genetics/iyag053 for full details.",
       selected = "phi",
       width = "100%"
     ) |>
-      prompter::add_prompt(
-        message = "Report model coefficients as just coefficients,\n
-or with the fold change effect of the variable.",
-        type = "info",
-        position = "right",
-        rounded = TRUE
+      bslib::tooltip(
+        "Report model coefficients as just coefficients, or with the fold change effect of the variable."
       ),
     shiny::radioButtons(
       shiny::NS(id, "measure"),
@@ -50,12 +43,8 @@ or with the fold change effect of the variable.",
       selected = "BIC",
       width = "100%"
     ) |>
-      prompter::add_prompt(
-        message = "Use AIC or BIC for model selection.\n
-We suggest BIC based on a simulation study.",
-        type = "info",
-        position = "right",
-        rounded = TRUE
+      bslib::tooltip(
+        "Use AIC or BIC for model selection. We suggest BIC based on a simulation study."
       ),
     shiny::checkboxInput(
       shiny::NS(id, "top_5"),
@@ -77,24 +66,16 @@ We suggest BIC based on a simulation study.",
       step = 15,
       width = "100%"
     ) |>
-      prompter::add_prompt(
-        message = "Change the angle at which the x-axis model\n
-names appear. Useful when long names make the model\n
-selection plot too small.",
-        type = "info",
-        position = "right",
-        rounded = TRUE
+      bslib::tooltip(
+        "Change the angle at which the x-axis model names appear. Useful when long names make the model selection plot too small."
       ),
     shiny::checkboxInput(
       shiny::NS(id, "abbr"),
       label = "Abbreviate models",
       width = "100%"
     ) |>
-      prompter::add_prompt(
-        message = "Shorten the model names on the model selection plot.",
-        type = "info",
-        position = "right",
-        rounded = TRUE
+      bslib::tooltip(
+        "Shorten the model names on the model selection plot."
       ),
     shiny::checkboxInput(
       shiny::NS(id, "ergm_trim"),

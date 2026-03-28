@@ -5,11 +5,8 @@ networkplotInput <- function(id, cat_vars, all_vars, edge_vars) {
       label = "Set seed",
       value = 1000
     ) |>
-      prompter::add_prompt(
-        message = "Number to generate new network layout.\nChange this number to rearrange the nodes.",
-        type = "info",
-        position = "right",
-        rounded = TRUE
+      bslib::popover(
+        "Number to generate new network layout. Change this number to rearrange the nodes."
       ),
     shiny::selectInput(
       shiny::NS(id, "fill"),
@@ -44,12 +41,8 @@ networkplotInput <- function(id, cat_vars, all_vars, edge_vars) {
       selected = "identity",
       width = "100%"
     ) |>
-      prompter::add_prompt(
-        message = "Method to scale the edge values and\n
-legend. Either \"None\" or a \"log10\"\ntransformation.",
-        type = "info",
-        position = "right",
-        rounded = TRUE
+      bslib::popover(
+        "Method to scale the edge values and legend. Either \"None\" or a \"log10\"transformation."
       ),
     shiny::selectInput(
       shiny::NS(id, "node_centrality"),
@@ -64,23 +57,16 @@ legend. Either \"None\" or a \"log10\"\ntransformation.",
       selected = "none",
       width = "100%"
     ) |>
-      prompter::add_prompt(
-        message = "Degree: the number of other individuals an\n
-individual is connected to. High values indicate\n
-an individual has more relatives.\n\n
-Closeness: the inverse of the sum of the shortest\n
-paths to all other nodes. Low values indicate that\n
-an individual is relatively closely related to all others.\n\n
-Betweeness: how frequently an individual appears on the shortest\n
-path between all pairs of individuals. High values indicate that \n
-an individual is important to connecting the network.\n\n
-Eigencentrality: a measure of \"prestige\" on the network. \n
-High values indicate that an individual is connected to many\n
-highly-connected individuals.
-",
-        type = "info",
-        position = "right",
-        rounded = TRUE
+      bslib::popover(
+        htmltools::HTML(
+          "Degree: the number of other individuals an individual is connected to. High values indicate an individual has more relatives.
+          <br><br>
+            Closeness: the inverse of the sum of the shortest paths to all other nodes. Low values indicate that an individual is relatively closely related to all others.
+          <br><br>
+            Betweeness: how frequently an individual appears on the shortest path between all pairs of individuals. High values indicate that an individual is important to connecting the network.
+          <br><br>
+            Eigencentrality: a measure of \"prestige\" on the network. High values indicate that an individual is connected to many highly-connected individuals.",
+        )
       ),
     shiny::radioButtons(
       shiny::NS(id, "connected"),
@@ -88,12 +74,8 @@ highly-connected individuals.
       choices = c("Show", "Grey out", "Hide"),
       selected = "Show"
     ) |>
-      prompter::add_prompt(
-        message = "How to treat the unconnected nodes in the network plot.",
-        type = "info",
-        position = "right",
-        size = "large",
-        rounded = TRUE
+      bslib::tooltip(
+        "How to treat the unconnected nodes in the network plot."
       ),
     shiny::numericInput(
       shiny::NS(id, "node_size"),

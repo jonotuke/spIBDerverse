@@ -17,16 +17,7 @@ spibder_app <- function(input_network = NULL) {
   edge_vars <- igraph::edge_attr_names(input_network)
   options(shiny.maxRequestSize = Inf)
   ui <- shiny::fluidPage(
-    prompter::use_prompt(),
-    shiny::tags$head(
-      shiny::tags$style(
-        shiny::HTML(
-          "[class*=hint--][aria-label]:after {
-   white-space: pre;
-   "
-        )
-      )
-    ),
+    theme = bslib::bs_theme(version = 5),
     shiny::titlePanel("SpIBDer-verse: Network Analyses"),
     shiny::sidebarLayout(
       shiny::sidebarPanel(
