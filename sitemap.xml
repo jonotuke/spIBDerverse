@@ -28,6 +28,7 @@
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/example_sf.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/expand_line.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/filter_network.html</loc></url>
+<url><loc>https://jonotuke.github.io/spIBDerverse/reference/filter_sf.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/get_all_models.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/get_centrality_measures.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/get_connected_graph.html</loc></url>
@@ -54,6 +55,7 @@
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/plot_ringbauer.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/plot_single_ergm_coef.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/plot_static_map.html</loc></url>
+<url><loc>https://jonotuke.github.io/spIBDerverse/reference/plot_staticmap.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/remove_redundant_models.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/sort_label.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/spibder_app.html</loc></url>

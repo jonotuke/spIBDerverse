@@ -5,7 +5,7 @@ Converts an igraph object into two sf objects
 ## Usage
 
 ``` r
-convert_sf(g, lat, lon, jitter = 0)
+convert_sf(g, lat, lon, jitter = 0, landscape = TRUE)
 ```
 
 ## Arguments
@@ -26,6 +26,10 @@ convert_sf(g, lat, lon, jitter = 0)
 
   amount of jitter to add
 
+- landscape:
+
+  if true changes bounding box to be landscape
+
 ## Value
 
 list of edges_sf and nodes_sf
@@ -34,11 +38,13 @@ list of edges_sf and nodes_sf
 
 ``` r
 convert_sf(example_network,"lat","long")
+#> w is 0.0363898350350382
+#> h is 0.120979854288471
 #> $nodes_sf
 #> Simple feature collection with 40 features and 7 fields
 #> Geometry type: POINT
 #> Dimension:     XY
-#> Bounding box:  xmin: 138.5872 ymin: -34.92732 xmax: 138.6235 ymax: -34.80634
+#> Bounding box:  xmin: 138.4662 ymin: -34.93942 xmax: 138.7445 ymax: -34.79425
 #> Geodetic CRS:  WGS 84
 #> First 10 features:
 #>    genetic_sex site name degree   closeness betweenness eigencentrality
@@ -68,7 +74,7 @@ convert_sf(example_network,"lat","long")
 #> Simple feature collection with 99 features and 4 fields
 #> Geometry type: LINESTRING
 #> Dimension:     XY
-#> Bounding box:  xmin: 138.5872 ymin: -34.92732 xmax: 138.6235 ymax: -34.80634
+#> Bounding box:  xmin: 138.4662 ymin: -34.93942 xmax: 138.7445 ymax: -34.79425
 #> Geodetic CRS:  WGS 84
 #> First 10 features:
 #>    from to       wij edge_type                       geometry

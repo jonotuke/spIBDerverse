@@ -42,6 +42,8 @@
   : Expand a line by given amount
 - [`filter_network()`](https://jonotuke.github.io/spIBDerverse/reference/filter_network.md)
   : Filter network
+- [`filter_sf()`](https://jonotuke.github.io/spIBDerverse/reference/filter_sf.md)
+  : Filter SF object
 - [`get_all_models()`](https://jonotuke.github.io/spIBDerverse/reference/get_all_models.md)
   : get_all_models
 - [`get_centrality_measures()`](https://jonotuke.github.io/spIBDerverse/reference/get_centrality_measures.md)
@@ -92,6 +94,8 @@
   : Plot single ergm coefficients
 - [`plot_static_map()`](https://jonotuke.github.io/spIBDerverse/reference/plot_static_map.md)
   : plot static map
+- [`plot_staticmap()`](https://jonotuke.github.io/spIBDerverse/reference/plot_staticmap.md)
+  : plot static-map
 - [`remove_redundant_models()`](https://jonotuke.github.io/spIBDerverse/reference/remove_redundant_models.md)
   : remove redundant models
 - [`sort_label()`](https://jonotuke.github.io/spIBDerverse/reference/sort_label.md)
