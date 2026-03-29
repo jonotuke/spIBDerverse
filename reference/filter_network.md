@@ -30,11 +30,11 @@ filtered IBD network
 
 ``` r
 filter_network(example_network, node_exc = "1")
-#> IGRAPH 8847a80 UN-- 27 43 -- 
+#> IGRAPH 30e1336 UN-- 27 43 -- 
 #> + attr: genetic_sex (v/c), site (v/c), name (v/n), degree (v/n),
 #> | closeness (v/n), betweenness (v/n), eigencentrality (v/n), lat (v/n),
 #> | long (v/n), wij (e/n), edge_type (e/c)
-#> + edges from 8847a80 (vertex names):
+#> + edges from 30e1336 (vertex names):
 #>  [1]  2-- 3  2--20  3-- 8  4--22  5-- 8  5--38  5--39  6--20  6--24  6--28
 #> [11]  6--36  7--38  8--22  9--36  9--38  9--40 20--26 20--27 20--34 22--27
 #> [21] 23--24 23--40 24--26 24--27 24--29 24--35 24--38 25--27 25--34 25--35
