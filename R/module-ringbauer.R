@@ -12,8 +12,7 @@ ringbauerInput <- function(id, cat_vars) {
       min = 1,
       max = 10,
       step = 1,
-      value = 1,
-      width = "100%"
+      value = 1
     ) |>
       bslib::tooltip(
         "Change font size for axis labels and cell counts (matrix plot)."
@@ -24,8 +23,7 @@ ringbauerInput <- function(id, cat_vars) {
       min = 4,
       max = 20,
       step = 1,
-      value = 4,
-      width = "100%"
+      value = 4
     ) |>
       bslib::tooltip(
         "Increase or decrease the space around the edge of the plot (matrix plot). Useful when labels are too large to be seen properly."
@@ -38,8 +36,7 @@ ringbauerInput <- function(id, cat_vars) {
     shiny::checkboxInput(
       shiny::NS(id, "addSize"),
       label = "Add size",
-      value = FALSE,
-      width = "100%"
+      value = FALSE
     ) |>
       bslib::tooltip(
         "Add the sample size to the axis labels (matrix plot)."
@@ -47,8 +44,7 @@ ringbauerInput <- function(id, cat_vars) {
     shiny::checkboxInput(
       shiny::NS(id, "addPercent"),
       label = "Add percent",
-      value = FALSE,
-      width = "100%"
+      value = FALSE
     ) |>
       bslib::tooltip(
         "Add the percentages to the cell counts (matrix plot)."
@@ -56,8 +52,7 @@ ringbauerInput <- function(id, cat_vars) {
     shiny::checkboxInput(
       shiny::NS(id, "show_sign"),
       "Show significance",
-      value = FALSE,
-      width = "100%"
+      value = FALSE
     ) |>
       bslib::tooltip(
         "Colours pairs of levels as significant (yellow) or not (black) compared to the average overall connectedness (connectivity plot)."

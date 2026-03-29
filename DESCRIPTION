@@ -74,6 +74,7 @@ Suggests:
     rmarkdown,
     knitr,
     testthat (>= 3.0.0),
+    shinipsum
 VignetteBuilder: quarto, knitr
 Depends: 
     R (>= 4.1.0)

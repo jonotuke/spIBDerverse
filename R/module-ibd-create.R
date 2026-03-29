@@ -17,8 +17,7 @@ ibdInput <- function(id) {
     shiny::checkboxInput(
       shiny::NS(id, "filter"),
       "Filter edges to just nodes in metafile",
-      value = TRUE,
-      width = "100%"
+      value = TRUE
     ) |>
       bslib::tooltip(
         "Toggle this off to keep ALL IBD information. Will slow down analyses!"
@@ -26,8 +25,7 @@ ibdInput <- function(id) {
     shiny::textInput(
       shiny::NS(id, "cutoffs"),
       label = "Please enter cutoffs with commas between",
-      value = "0,2,1,0",
-      width = "100%"
+      value = "0,2,1,0"
     ) |>
       bslib::popover(
         "This defines the definition of two individuals being \"connected\". A comma-separated description of the cut-off for the minimum number of blocks of IBD of length >=8cM, >=12cM, >=16cM and >=20cM."
@@ -35,8 +33,7 @@ ibdInput <- function(id) {
     shiny::numericInput(
       shiny::NS(id, "frac_cutoff"),
       label = "Minimum Frac GP",
-      value = 0.7,
-      width = "100%"
+      value = 0.7
     ) |>
       bslib::popover(
         "Used for quality control. The fraction of genotype likelihoods that had posterior values of >=0.99, indicating high quality imputation. Recommended default is 0.7."

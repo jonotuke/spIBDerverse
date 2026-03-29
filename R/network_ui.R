@@ -30,8 +30,7 @@ network_ui <- function(id, all_vars, cat_vars, edge_vars) {
         "None" = "identity",
         "Log10" = "log10"
       ),
-      selected = "identity",
-      width = "100%"
+      selected = "identity"
     ) |>
       bslib::popover(
         "Method to scale the edge values and legend. Either \"None\" or a \"log10\"transformation."
@@ -46,8 +45,7 @@ network_ui <- function(id, all_vars, cat_vars, edge_vars) {
         "closeness",
         "eigencentrality"
       ),
-      selected = "none",
-      width = "100%"
+      selected = "none"
     ) |>
       bslib::popover(
         htmltools::HTML(

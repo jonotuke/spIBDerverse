@@ -47,8 +47,7 @@ staticmapInput <- function(id, all_vars, cat_vars, edge_vars) {
         "stamen_toner_lines",
         "stamen_toner_labels"
       ),
-      selected = 1,
-      width = "100%"
+      selected = 1
     ) |>
       bslib::popover(
         "The type of map that is used in the background."
@@ -61,8 +60,7 @@ staticmapInput <- function(id, all_vars, cat_vars, edge_vars) {
         "black white",
         "void"
       ),
-      selected = 1,
-      width = "100%"
+      selected = 1
     ) |>
       bslib::popover(
         "The plotting theme for the map. Minimal allows you to see the latitude and longitude values, black white is similar but removes the grey background from the legend, and video removes all axis labels and latitude and longitude values."
@@ -70,7 +68,6 @@ staticmapInput <- function(id, all_vars, cat_vars, edge_vars) {
     shiny::textInput(
       shiny::NS(id, "key"),
       "Stadia API key",
-      width = "100%",
       # value = "",
       value = "a7bf69ed-3e77-41ed-b1e2-52f9aa99ec19"
     ) |>

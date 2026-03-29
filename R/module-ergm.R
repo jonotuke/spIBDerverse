@@ -3,8 +3,7 @@ ergmInput <- function(id, all_vars, g) {
     shiny::checkboxGroupInput(
       shiny::NS(id, "preds"),
       "Select Predictors",
-      choices = all_vars,
-      width = "100%"
+      choices = all_vars
     ) |>
       bslib::tooltip(
         htmltools::HTML(
@@ -27,8 +26,7 @@ ergmInput <- function(id, all_vars, g) {
         "Coefficients" = "theta",
         "Fold changes" = "phi"
       ),
-      selected = "phi",
-      width = "100%"
+      selected = "phi"
     ) |>
       bslib::tooltip(
         "Report model coefficients as just coefficients, or with the fold change effect of the variable."
@@ -40,8 +38,7 @@ ergmInput <- function(id, all_vars, g) {
         "AIC",
         "BIC"
       ),
-      selected = "BIC",
-      width = "100%"
+      selected = "BIC"
     ) |>
       bslib::tooltip(
         "Use AIC or BIC for model selection. We suggest BIC based on a simulation study."
@@ -63,16 +60,14 @@ ergmInput <- function(id, all_vars, g) {
       min = 0,
       max = 90,
       value = 90,
-      step = 15,
-      width = "100%"
+      step = 15
     ) |>
       bslib::tooltip(
         "Change the angle at which the x-axis model names appear. Useful when long names make the model selection plot too small."
       ),
     shiny::checkboxInput(
       shiny::NS(id, "abbr"),
-      label = "Abbreviate models",
-      width = "100%"
+      label = "Abbreviate models"
     ) |>
       bslib::tooltip(
         "Shorten the model names on the model selection plot."
