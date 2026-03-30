@@ -18,8 +18,8 @@ abbreviate_one <- function(x) {
 #'
 #' @export
 #' @examples
-#' abbreviate(c("Jono Tuke", "Adam Ben Rohrlach", "Adelaide-University"))
-abbreviate <- function(x) {
+#' abbreviate_terms(c("Jono Tuke", "Adam Ben Rohrlach", "Adelaide-University"))
+abbreviate_terms <- function(x) {
   x |> purrr::map_chr(abbreviate_one)
 }
 # x <- c(
@@ -30,4 +30,4 @@ abbreviate <- function(x) {
 #   "Adam Ben Rohrlach",
 #   "A (N = 12) (N = 1)"
 # )
-# abbreviate(x) |> print()
+# abbreviate_terms(x) |> print()

@@ -8,13 +8,13 @@ test_that("abbreviate works", {
     "Adam Ben Rohrlach"
   )
   expect_equal(
-    abbreviate(x),
+    abbreviate_terms(x),
     c("JNS", "JT", "BK", "HB", "JT", "ABR")
   )
 })
 test_that("abbreviate works with brackets", {
   expect_equal(
-    abbreviate("A (N = 1)"),
+    abbreviate_terms("A (N = 1)"),
     "A"
   )
 })

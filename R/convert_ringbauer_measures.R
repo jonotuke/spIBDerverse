@@ -26,8 +26,8 @@ convert_ringbauer_measures <- function(
   if (abbr) {
     RM <- RM |>
       dplyr::mutate(
-        grp1 = abbreviate(grp1),
-        grp2 = abbreviate(grp2)
+        grp1 = abbreviate_terms(grp1),
+        grp2 = abbreviate_terms(grp2)
       )
   }
   if (addSize) {
