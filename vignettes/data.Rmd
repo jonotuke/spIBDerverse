@@ -1,0 +1,65 @@
+---
+title: "Loading data into SpIBDerverse app"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Loading data into SpIBDerverse app}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+#| message: false
+library(spIBDerverse)
+library(igraph)
+```
+
+In the spIBDerverse app, there are three ways to get data into the app.
+
+# Load examples
+Built into the `spIBDerverse` package are numerous example neworks that can be loaded into the app using the `get_examples()` function. 
+
+```{r}
+example <- get_example()
+example
+```
+
+It will return a message if you ask for a dataset that does not exist. 
+
+```{r}
+get_example("bob")
+```
+
+# Create an IBD network
+This will use two files:
+
+- an IBD file which gives the edges, and 
+- an META file which has node information:
+
+```{r}
+ibd_file <- fs::path_package(
+  "extdata/example-ibd-data.tsv",
+  package = "spIBDerverse"
+)
+ibd_file |> readr::read_tsv() |> dplyr::slice(1:5)
+```
+
+```{r}
+meta_file <- fs::path_package(
+  "extdata/example-meta-data.tsv",
+  package = "spIBDerverse"
+)
+meta_file |> readr::read_tsv() |> dplyr::slice(1:5)
+```
+
+The IBD file must have two columns `iid1` and `iid2` else you can not create the IBD network, while the META file must have a column called `iid`. 
+
+```{r}
+create_ibd_network(ibd_file, meta_file)
+```

@@ -88,16 +88,16 @@ ibd_network <- create_ibd_network(
 
 ``` r
 ibd_network
-#> IGRAPH a241c68 UN-- 328 2103 -- 
+#> IGRAPH 4ed0b5b UN-- 328 2103 -- 
 #> + attr: name (v/c), frac_gp (v/n), frac_missing (v/n), frac_het (v/n),
 #> | n_cov_snp (v/n), Archaeological_ID (v/c), Master_ID (v/c), Projects
 #> | (v/c), Locality (v/c), Province (v/c), Country (v/c), Latitude (v/n),
 #> | Longitude (v/n), date (v/c), date_type (v/c), imputation_type (v/c),
-#> | degree (v/n), wij (e/n)
-#> + edges from a241c68 (vertex names):
-#>  [1] KUP007--KUP023 RKC013--RKC029 RKC031--RKF238 RKF195--RKF196 RKC020--RKF142
-#>  [6] KFJ018--KFJ017 RKF182--RKF148 RKF142--RKF002 RKF162--RKF118 RKC011--RKC029
-#> [11] RKF052--RKF172 KFJ021--KFJ010 KFJ012--KFJ009 RKF143--RKF034 RKF237--RKF136
-#> [16] KFJ022--KFJ009 RKF026--RKF027 RKF142--RKF140 RKF254--RKF256 RKF160--RKF047
+#> | degree (v/n), closeness (v/n), betweenness (v/n), eigencentrality
+#> | (v/n), frac_gp1 (e/n), frac_gp2 (e/n), max_ibd (e/n), sum_ibd_8
+#> | (e/n), n_ibd_8 (e/n), sum_ibd_12 (e/n), n_ibd_12 (e/n), sum_ibd_16
+#> | (e/n), n_ibd_16 (e/n), sum_ibd_20 (e/n), n_ibd_20 (e/n), wij (e/n)
+#> + edges from 4ed0b5b (vertex names):
+#> [1] KUP007--KUP023 RKC013--RKC029 RKC031--RKF238 RKF195--RKF196 RKC020--RKF142
 #> + ... omitted several edges
 ```
