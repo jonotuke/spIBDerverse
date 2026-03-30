@@ -23,17 +23,17 @@ library(igraph)
 In the spIBDerverse app, there are three ways to get data into the app.
 
 # Load examples
-Built into the `spIBDerverse` package are numerous example neworks that can be loaded into the app using the `get_examples()` function. 
+Built into the `spIBDerverse` package are numerous example neworks that can be loaded into the app using the `load_examples()` function. 
 
 ```{r}
-example <- get_example()
+example <- load_example()
 example
 ```
 
 It will return a message if you ask for a dataset that does not exist. 
 
 ```{r}
-get_example("bob")
+load_example("bob")
 ```
 
 # Create an IBD network

@@ -1,4 +1,4 @@
 test_that("get example works", {
-  expect_equal(get_example(), example_network)
-  expect_message(get_example("example_network_4"))
+  expect_equal(load_example(), example_network)
+  expect_message(load_example("example_network_4"))
 })
