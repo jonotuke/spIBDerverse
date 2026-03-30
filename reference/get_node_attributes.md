@@ -26,4 +26,6 @@ list of attributes names
 
 ``` r
 get_node_attributes(example_network)
+#> [1] "genetic_sex" "site"        "name"        "betweenness" "lat"        
+#> [6] "long"       
 ```
