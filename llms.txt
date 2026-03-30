@@ -100,7 +100,7 @@ ibd_network
 
 ## All functions
 
-- [`abbreviate()`](https://jonotuke.github.io/spIBDerverse/reference/abbreviate.md)
+- [`abbreviate_terms()`](https://jonotuke.github.io/spIBDerverse/reference/abbreviate_terms.md)
   : abbreviate labels
 - [`add_convert_bb_adj()`](https://jonotuke.github.io/spIBDerverse/reference/add_convert_bb_adj.md)
   : Adjust BB for network work sf object

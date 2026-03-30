@@ -2,11 +2,6 @@
 
 ``` r
 library(spIBDerverse)
-#> 
-#> Attaching package: 'spIBDerverse'
-#> The following object is masked from 'package:base':
-#> 
-#>     abbreviate
 ```
 
 This is based on Lusher, Koskinen, and Robins (2012).
