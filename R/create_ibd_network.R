@@ -38,12 +38,25 @@ create_ibd_network <- function(
   filter_on_meta = FALSE
 ) {
   # EDGES
-  ibd <- ibd_file |>
-    readr::read_tsv(show_col_types = FALSE) |>
-    janitor::clean_names()
+  ibd <- tryCatch(
+    ibd_file |>
+      readr::read_tsv(show_col_types = FALSE) |>
+      janitor::clean_names(),
+    error = function(e) {
+      message(stringr::str_glue("Cannot read in {ibd_file}"))
+      return(NULL)
+    }
+  )
+  if (!all(c("iid1", "iid2") %in% colnames(ibd))) {
+    message("The columns iid1 and iid2 are not in the IBD file")
+    return(NULL)
+  }
   # NODES
   node_df <- readr::read_tsv(meta_file, show_col_types = FALSE)
-  stopifnot("metafile needs a col called iid" = "iid" %in% colnames(node_df))
+  if (!all(c("iid") %in% colnames(node_df))) {
+    message("The column iid is not in the META file")
+    return(NULL)
+  }
   node_df <- node_df |> dplyr::relocate(iid)
   # Get frac_gp
   if (
@@ -94,10 +107,16 @@ create_ibd_network <- function(
       dplyr::filter(iid1 %in% node_iid & iid2 %in% node_iid)
   }
   # GRAPH
-  g <- igraph::graph_from_data_frame(
-    edge_df,
-    directed = FALSE,
-    vertices = node_df
+  g <- tryCatch(
+    igraph::graph_from_data_frame(
+      edge_df,
+      directed = FALSE,
+      vertices = node_df
+    ),
+    error = function(e) {
+      message("Cannot create igraph object")
+      return(NULL)
+    }
   )
   igraph::V(g)$degree <- igraph::degree(g)
   igraph::V(g)$closeness = igraph::closeness(g)
