@@ -28,6 +28,8 @@
   : create_ibd_network
 - [`default_image`](https://jonotuke.github.io/spIBDerverse/reference/default_image.md)
   : default image
+- [`dist_network`](https://jonotuke.github.io/spIBDerverse/reference/dist_network.md)
+  : dist network
 - [`edges_to_sf()`](https://jonotuke.github.io/spIBDerverse/reference/edges_to_sf.md)
   : edges to sf
 - [`example_network`](https://jonotuke.github.io/spIBDerverse/reference/example_network.md)
@@ -74,6 +76,8 @@
   : Get text font
 - [`label_grp_duplicates()`](https://jonotuke.github.io/spIBDerverse/reference/label_grp_duplicates.md)
   : label_grp_duplicates
+- [`load_example()`](https://jonotuke.github.io/spIBDerverse/reference/load_example.md)
+  : loads some example data
 - [`plot_centrality()`](https://jonotuke.github.io/spIBDerverse/reference/plot_centrality.md)
   : plot centrality measures
 - [`plot_default_image()`](https://jonotuke.github.io/spIBDerverse/reference/plot_default_image.md)

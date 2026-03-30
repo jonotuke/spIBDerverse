@@ -2,6 +2,7 @@
 <url><loc>https://jonotuke.github.io/spIBDerverse/404.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/LICENSE-text.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/LICENSE.html</loc></url>
+<url><loc>https://jonotuke.github.io/spIBDerverse/articles/data.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/articles/hammersley-clifford.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/articles/homophily-measures.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/articles/index.html</loc></url>
@@ -21,6 +22,7 @@
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/copy_files.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/create_ibd_network.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/default_image.html</loc></url>
+<url><loc>https://jonotuke.github.io/spIBDerverse/reference/dist_network.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/edges_to_sf.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/example_network.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/example_network_2.html</loc></url>
@@ -45,6 +47,7 @@
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/get_text_font.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/index.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/label_grp_duplicates.html</loc></url>
+<url><loc>https://jonotuke.github.io/spIBDerverse/reference/load_example.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/plot_centrality.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/plot_default_image.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/plot_ergm_bic.html</loc></url>
