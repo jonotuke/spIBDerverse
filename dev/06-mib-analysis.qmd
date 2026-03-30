@@ -17,6 +17,7 @@ execute:
 ```{r}
 #| label: setup
 pacman::p_load(tidyverse, targets, gt)
+library(spIBDerverse)
 here::here()
 ```
 
@@ -40,7 +41,7 @@ write_rds(g, "dev/06-mib-data/mib-graph.rds")
 
 
 ```{r}
-g <- read_rds("dev/06-mib-data/mib-graph.rds")
+g <- read_rds(here::here("dev/06-mib-data/mib-graph.rds"))
 g
 ```
 
@@ -58,8 +59,6 @@ igraph::vertex_attr_names(g)
 we see that Ben has added extra columns with centrality measures. So to fix, we remove the centrality measures directly. 
 
 # Ringbauer
-
-
 ```{r}
 g |> get_ringbauer_measures("simple_culture")
 ```
