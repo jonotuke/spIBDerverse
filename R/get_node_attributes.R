@@ -18,13 +18,16 @@ get_node_attributes <- function(g, type = "all") {
       colnames()
   } else if (type == "all") {
     vars <- node_df |>
-      dplyr::select(-c(degree:eigencentrality)) |>
       colnames()
   } else if (type == "num") {
     vars <- node_df |>
       dplyr::select(dplyr::where(is.numeric)) |>
-      dplyr::select(-c(degree:eigencentrality)) |>
       colnames()
   }
+  vars <- vars |>
+    purrr::discard(\(x) {
+      x %in% c("degree", "closeness", "betweeness", "eigencentrality")
+    })
+  vars
 }
 # get_node_attributes(example_network, "cat") |> print()
