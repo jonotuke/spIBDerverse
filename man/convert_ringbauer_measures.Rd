@@ -6,7 +6,7 @@
 \usage{
 convert_ringbauer_measures(
   RM,
-  abbr = TRUE,
+  abbr = FALSE,
   addSize = FALSE,
   addPercent = FALSE
 )

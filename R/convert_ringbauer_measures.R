@@ -19,7 +19,7 @@ utils::globalVariables(
 #' convert_ringbauer_measures()
 convert_ringbauer_measures <- function(
   RM,
-  abbr = TRUE,
+  abbr = FALSE,
   addSize = FALSE,
   addPercent = FALSE
 ) {
@@ -79,7 +79,6 @@ convert_ringbauer_measures <- function(
     text_colour = C
   )
 }
-
 # get_ringbauer_measures(
 #   example_network,
 #   "site"

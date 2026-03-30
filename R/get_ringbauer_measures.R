@@ -43,7 +43,8 @@ get_ringbauer_measures <- function(g, grp) {
       edge_count$n2[i] <- n
       edge_count$n_possible_edges[i] <- n * (n - 1) / 2
       edge_count$n_edges[i] <- sum(
-        edge_df$grp.x == grp1 & edge_df$grp.y == grp2
+        edge_df$grp.x == grp1 & edge_df$grp.y == grp2,
+        na.rm = TRUE
       )
     } else {
       n1 <- sum(node_df$grp == grp1)
@@ -54,7 +55,8 @@ get_ringbauer_measures <- function(g, grp) {
       edge_count$n_edges[i] <- sum(
         (edge_df$grp.x == grp1 &
           edge_df$grp.y == grp2) |
-          (edge_df$grp.x == grp2 & edge_df$grp.y == grp1)
+          (edge_df$grp.x == grp2 & edge_df$grp.y == grp1),
+        na.rm = TRUE
       )
     }
   }

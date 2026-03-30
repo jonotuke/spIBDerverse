@@ -56,3 +56,10 @@ igraph::vertex_attr_names(g)
 ```
 
 we see that Ben has added extra columns with centrality measures. So to fix, we remove the centrality measures directly. 
+
+# Ringbauer
+
+
+```{r}
+g |> get_ringbauer_measures("simple_culture")
+```
