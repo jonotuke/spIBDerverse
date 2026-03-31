@@ -75,7 +75,7 @@ Suggests:
     knitr,
     testthat (>= 3.0.0),
     shinipsum
-VignetteBuilder: quarto, knitr
+VignetteBuilder: knitr
 Depends: 
     R (>= 4.1.0)
 LazyData: true

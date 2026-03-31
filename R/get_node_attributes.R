@@ -26,7 +26,7 @@ get_node_attributes <- function(g, type = "all") {
   }
   vars <- vars |>
     purrr::discard(\(x) {
-      x %in% c("degree", "closeness", "betweeness", "eigencentrality")
+      x %in% c("degree", "closeness", "betweenness", "eigencentrality")
     })
   vars
 }

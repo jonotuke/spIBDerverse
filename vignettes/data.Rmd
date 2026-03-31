@@ -36,7 +36,7 @@ It will return a message if you ask for a dataset that does not exist.
 load_example("bob")
 ```
 
-# Create an IBD network
+# Load an IBD network
 This will use two files:
 
 - an IBD file which gives the edges, and 
@@ -63,3 +63,6 @@ The IBD file must have two columns `iid1` and `iid2` else you can not create the
 ```{r}
 load_ibd_network(ibd_file, meta_file)
 ```
+
+# Load distance network
+

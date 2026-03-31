@@ -18,7 +18,8 @@ plot_network(
   fill = "none",
   shape = "none",
   node_size = 5,
-  node_centrality = "none"
+  node_centrality = "none",
+  pal = "ravenclaw"
 )
 }
 \arguments{
@@ -50,6 +51,8 @@ Hide, Show, Grey out}
 \item{node_size}{node size}
 
 \item{node_centrality}{vertext attribute for node alpha}
+
+\item{pal}{colour palette}
 }
 \value{
 network plot

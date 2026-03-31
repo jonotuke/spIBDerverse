@@ -36,6 +36,7 @@ utils::globalVariables(
 #' @param shape vertex attribute for node shape
 #' @param node_size node size
 #' @param node_centrality vertext attribute for node alpha
+#' @param pal colour palette
 #'
 #' @return network plot
 #' @export
@@ -56,7 +57,8 @@ plot_network <- function(
   fill = "none",
   shape = "none",
   node_size = 5,
-  node_centrality = "none"
+  node_centrality = "none",
+  pal = "ravenclaw"
 ) {
   # SETUP ----
   ggplot2::update_geom_defaults(
@@ -64,6 +66,7 @@ plot_network <- function(
     list(shape = 21, fill = "white")
   )
   set.seed(seed)
+
   g <- ggnetwork::ggnetwork(g)
   # LABEL COLUMN----
   g$label <- NA
@@ -191,9 +194,9 @@ plot_network <- function(
       values = rep(21:25, 1e4)
     )
   if (methods::is(g[[fill]], "character")) {
-    p <- p + harrypotter::scale_fill_hp_d("Ravenclaw")
+    p <- p + fill_discrete(pal = pal)
   } else {
-    p <- p + harrypotter::scale_fill_hp("Ravenclaw")
+    p <- p + fill_continuous(pal = pal)
   }
   # LABELS ----
   p <- p + ggnewscale::new_scale_colour()
@@ -217,12 +220,13 @@ plot_network <- function(
   return(p)
 }
 # pacman::p_load(conflicted, tidyverse, targets)
-# plot_network_2(
+# plot_network(
 #   example_network,
 #   label = "name",
-#   fill = "site",
+#   fill = "degree",
 #   shape = "genetic_sex",
 #   edge = "wij",
-#   node_size = 10
+#   node_size = 10,
+#   pal = "ravenclaw"
 # ) |>
 #   print()

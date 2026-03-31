@@ -45,7 +45,8 @@ networkplotServer <- function(id, network, store) {
         label_exc = input$label_exc,
         fill = input$fill,
         shape = input$shape,
-        node_centrality = input$node_centrality
+        node_centrality = input$node_centrality,
+        pal = input$pal
       )
     })
     shiny::observeEvent(network(), {

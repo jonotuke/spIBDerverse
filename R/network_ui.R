@@ -95,6 +95,15 @@ network_ui <- function(id, all_vars, cat_vars, edge_vars) {
     shiny::textInput(
       shiny::NS(id, "label_exc"),
       "Labels to exclude"
+    ),
+    shiny::selectInput(
+      shiny::NS(id, "pal"),
+      label = "Fill palette",
+      choices = c(
+        "default",
+        "ravenclaw",
+        "colourblind"
+      )
     )
   )
 }
