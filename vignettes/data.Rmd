@@ -61,5 +61,5 @@ meta_file |> readr::read_tsv() |> dplyr::slice(1:5)
 The IBD file must have two columns `iid1` and `iid2` else you can not create the IBD network, while the META file must have a column called `iid`. 
 
 ```{r}
-create_ibd_network(ibd_file, meta_file)
+load_ibd_network(ibd_file, meta_file)
 ```

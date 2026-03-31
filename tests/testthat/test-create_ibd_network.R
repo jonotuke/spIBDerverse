@@ -30,19 +30,19 @@ broken_meta <- fs::path_package(
 )
 test_that("IBD upload works", {
   expect_message(
-    create_ibd_network(
+    load_ibd_network(
       broken_ibd_1,
       meta_file
     )
   )
   expect_message(
-    create_ibd_network(
+    load_ibd_network(
       broken_ibd_2,
       meta_file
     )
   )
   expect_message(
-    create_ibd_network(
+    load_ibd_network(
       broken_ibd_3,
       meta_file
     )
@@ -50,7 +50,7 @@ test_that("IBD upload works", {
 })
 test_that("Meta upload works", {
   expect_message(
-    create_ibd_network(
+    load_ibd_network(
       ibd_file,
       broken_meta
     )

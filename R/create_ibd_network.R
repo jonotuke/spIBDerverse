@@ -4,7 +4,7 @@ utils::globalVariables(
     "n_ibd_16", "n_ibd_20", "sum_ibd_8", "eij", 
     "iid1", "iid2", "iid","wij")
 )
-#' create_ibd_network
+#' load_ibd_network
 #'
 #' @param ibd_file TSV file with IBD data
 #' @param meta_file TSV with node metadata
@@ -25,12 +25,12 @@ utils::globalVariables(
 #'   "example-meta-data.tsv",
 #'   package = "spIBDerverse"
 #' )
-#' create_ibd_network(
+#' load_ibd_network(
 #'   ibd_file,
 #'   meta_file,
 #'   ibd_co = c(0, 2, 1, 0)
 #' )
-create_ibd_network <- function(
+load_ibd_network <- function(
   ibd_file,
   meta_file,
   ibd_co = c(0, 2, 1, 0),
@@ -134,7 +134,7 @@ create_ibd_network <- function(
 #   "example-meta-data.tsv",
 #   package = "spIBDerverse"
 # )
-# create_ibd_network(
+# load_ibd_network(
 #   ibd_file = ibd_file,
 #   meta_file = meta_file
 # ) |>

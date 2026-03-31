@@ -8,7 +8,7 @@ meta_file <- fs::path_package(
   "example-meta-data.tsv",
   package = "spIBDerverse"
 )
-example_network_2 <- create_ibd_network(
+example_network_2 <- load_ibd_network(
   ibd_file,
   meta_file,
   ibd_co = c(0, 2, 1, 0),

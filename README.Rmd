@@ -84,7 +84,7 @@ We convert these to an IBD network with
 
 
 ```{r}
-ibd_network <- create_ibd_network(
+ibd_network <- load_ibd_network(
   ibd_file,
   meta_file,
   ibd_co = c(0, 2, 1, 0),

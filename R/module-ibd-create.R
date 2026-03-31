@@ -138,7 +138,7 @@ ibdServer <- function(id, input_network) {
     file_network <- shiny::reactive({
       shiny::req(input$ibd_file)
       shiny::req(input$meta_file)
-      create_ibd_network(
+      load_ibd_network(
         input$ibd_file$datapath,
         input$meta_file$datapath,
         ibd_co = cutoffs(),

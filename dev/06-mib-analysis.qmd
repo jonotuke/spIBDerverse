@@ -35,7 +35,7 @@ meta_file <- "dev/06-mib-data/2026-03-30-meta.tsv"
 
 ```{r}
 #| eval: false
-g <- create_ibd_network(ibd_file, meta_file, filter_on_meta = TRUE)
+g <- load_ibd_network(ibd_file, meta_file, filter_on_meta = TRUE)
 write_rds(g, "dev/06-mib-data/mib-graph.rds")
 ```
 
