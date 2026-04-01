@@ -106,10 +106,10 @@ ergmOutput <- function(id) {
     )
   )
 }
-ergmServer <- function(id, df, store) {
+ergmServer <- function(id, r, store) {
   shiny::moduleServer(id, function(input, output, session) {
     ergm <- shiny::reactive(
-      get_ergms(df(), input$preds, pred_type_vec())
+      get_ergms(r$network(), input$preds, pred_type_vec())
     )
     output$ergm_aic_tab <- DT::renderDataTable({
       DT::datatable(ergm_bic()) |>
@@ -170,11 +170,11 @@ ergmServer <- function(id, df, store) {
           locations = gt::cells_row_groups()
         )
     })
-    shiny::observeEvent(df(), {
+    shiny::observeEvent(r$network(), {
       shiny::updateCheckboxGroupInput(
         session,
         "preds",
-        choices = get_node_attributes(df())
+        choices = get_node_attributes(r$network())
       )
     })
     shiny::observeEvent(input$bic_save, {
@@ -190,7 +190,7 @@ ergmServer <- function(id, df, store) {
     output$pred_types <- shiny::renderUI({
       purrr::map(
         input$preds,
-        \(x) make_ergm_ui(x, df(), x, id)
+        \(x) make_ergm_ui(x, r$network(), x, id)
       )
     })
     pred_type_vec <- shiny::reactive({
@@ -237,6 +237,10 @@ make_ergm_ui <- function(pred, g, label, id) {
 }
 ergmApp <- function(network_input) {
   all_vars <- get_node_attributes(network_input)
+  r <- shiny::reactiveValues()
+  r$network <- shiny::reactive({
+    network_input
+  })
   ui <- shiny::fluidPage(
     ergmInput("ergm", all_vars, network_input),
     shiny::verbatimTextOutput(outputId = "debug"),
@@ -244,7 +248,7 @@ ergmApp <- function(network_input) {
   )
   server <- function(input, output, session) {
     network <- shiny::reactive(network_input)
-    ergmServer("ergm", network, store)
+    ergmServer("ergm", r = r, store)
     store <- shiny::reactiveValues(
       export = shiny::reactive({
         plot_default_image()

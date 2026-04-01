@@ -23,11 +23,13 @@ spibder_app <- function(input_network = NULL) {
       shiny::sidebarPanel(
         shiny::conditionalPanel(
           condition = "input.tabs == 'Upload IBD'",
-          ibdInput("ibd")
+          ibdInput("ibd"),
         ),
         shiny::conditionalPanel(
-          condition = "input.tabs == 'Edge table'",
-          edgeInput("edge")
+          condition = "input.tabs == 'Upload IBD' || 
+            input.tabs == 'Edge info' || 
+            input.tabs == 'Node info'",
+          networkFilter("ibd")
         ),
         shiny::conditionalPanel(
           condition = "input.tabs == 'Network plot'",
@@ -77,11 +79,15 @@ spibder_app <- function(input_network = NULL) {
           id = "tabs",
           shiny::tabPanel(
             title = "Upload IBD",
-            ibdOutput("ibd")
+            shiny::tableOutput("summary")
           ),
           shiny::tabPanel(
-            title = "Edge table",
+            title = "Edge info",
             edgeOutput("edge")
+          ),
+          shiny::tabPanel(
+            title = "Node info",
+            nodeOutput("node")
           ),
           shiny::tabPanel(
             title = "Network plot",
@@ -112,10 +118,6 @@ spibder_app <- function(input_network = NULL) {
             exportplotOutput("export")
           ),
           shiny::tabPanel(
-            title = "Network summary",
-            shiny::tableOutput("summary")
-          ),
-          shiny::tabPanel(
             title = "Debugging",
             shiny::verbatimTextOutput(outputId = "debug")
           )
@@ -124,27 +126,30 @@ spibder_app <- function(input_network = NULL) {
     )
   )
   server <- function(input, output, session) {
-    ## Network plot ----
-    networkplotServer("networkplot", network, plots)
-    ## Network summary ----
+    r <- shiny::reactiveValues()
+    # Edge ----
+    edgeServer("edge", r)
+    # Node ----
+    nodeServer("node", r)
+    # Network plot ----
+    networkplotServer("networkplot", r = r, plots)
+    # Network summary ----
     output$summary <- shiny::renderTable({
       get_network_summary(network())
     })
-    ## Centrality measures
-    centralityServer("central", network, plots)
-    ## Leaflet plot ----
-    leafletServer("leaflet", network)
-    ## Static map
-    staticmapServer("staticmap", network, plots)
+    # Centrality measures
+    centralityServer("central", plots, r = r)
+    # Leaflet plot ----
+    leafletServer("leaflet", r = r)
+    # Static map
+    staticmapServer("staticmap", r = r, plots)
     # Ringbauer matrix ----
-    ringbauerServer("ringbauer", network, plots)
+    ringbauerServer("ringbauer", r = r, plots)
     # ERGMs ----
-    ergmServer("ergm", network, plots)
+    ergmServer("ergm", r = r, plots)
     # IBD ----
-    network <- ibdServer("ibd", input_network)
-    # Edge ----
-    edgeServer("edge", network)
-    # EXPORT <----
+    network <- ibdServer("ibd", input_network, r)
+    # EXPORT ----
     snapshot <- shiny::reactive({
       shiny::reactiveValuesToList(input)
     })
@@ -165,6 +170,8 @@ spibder_app <- function(input_network = NULL) {
     # DEBUG ----
     output$debug <- shiny::renderPrint({
       print(network())
+      print(r$network())
+      print(r$number_strata)
     })
   }
   shiny::shinyApp(ui, server)

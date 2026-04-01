@@ -1,32 +1,33 @@
-edgeOutput <- function(id) {
+nodeOutput <- function(id) {
   shiny::tagList(
     DT::dataTableOutput(
-      shiny::NS(id, "tab")
+      shiny::NS(id, "node_dt")
     )
   )
 }
-edgeServer <- function(id, r) {
+
+nodeServer <- function(id, r) {
   shiny::moduleServer(id, function(input, output, session) {
-    output$tab <- DT::renderDataTable({
+    output$node_dt <- DT::renderDataTable({
       DT::datatable(
-        get_edge_info(r$network())
+        get_node_info(r$network()),
+        options = list(pageLength = 100)
       )
     })
   })
 }
-edgeApp <- function(network_input) {
+nodeApp <- function(network_input) {
   ui <- shiny::fluidPage(
     networkFilter("ibd"),
-    edgeOutput("edge")
+    nodeOutput("node")
   )
   r <- shiny::reactiveValues()
   r$network <- shiny::reactive({
     network_input
   })
   server <- function(input, output, session) {
-    ibdServer("ibd", network_input, r)
-    edgeServer("edge", r)
+    nodeServer("node", r = r)
+    ibdServer('ibd', network_input, r = r)
   }
   shiny::shinyApp(ui, server)
 }
-# edgeApp(example_network_2)

@@ -44,10 +44,10 @@ centralityOutput <- function(id) {
     )
   )
 }
-centralityServer <- function(id, network, store) {
+centralityServer <- function(id, store, r) {
   shiny::moduleServer(id, function(input, output, session) {
     central_df <- shiny::reactive({
-      get_centrality_measures(network(), input$strata)
+      get_centrality_measures(r$network(), input$strata)
     })
     output$tab <- DT::renderDataTable({
       DT::datatable({
@@ -74,17 +74,17 @@ centralityServer <- function(id, network, store) {
     })
     p <- shiny::reactive({
       plot_centrality(
-        network(),
+        r$network(),
         measure = input$measure,
         facets = input$strata
       )
     })
-    shiny::observeEvent(network(), {
+    shiny::observeEvent(r$network(), {
       shiny::updateCheckboxGroupInput(
         session,
         "strata",
         choices = c(
-          get_node_attributes(network(), "cat")
+          get_node_attributes(r$network(), "cat")
         )
       )
     })
@@ -102,8 +102,10 @@ centralityApp <- function(network_input) {
     centralityOutput("central")
   )
   server <- function(input, output, session) {
-    network <- shiny::reactive(network_input)
-    centralityServer("central", network)
+    r <- shiny::reactiveValues()
+
+    r$network <- shiny::reactive(network_input)
+    centralityServer("central", r = r)
   }
   shiny::shinyApp(ui, server)
 }

@@ -88,12 +88,12 @@ ringbauerOutput <- function(id) {
     ),
   )
 }
-ringbauerServer <- function(id, df, store) {
+ringbauerServer <- function(id, r, store) {
   shiny::moduleServer(id, function(input, output, session) {
     RM <- shiny::reactive({
       shiny::req(input$grp != "none")
       get_ringbauer_measures(
-        df(),
+        r$network(),
         input$grp
       )
     })
@@ -123,11 +123,11 @@ ringbauerServer <- function(id, df, store) {
           filter_sign = input$filter_sign
         )
     })
-    shiny::observeEvent(df(), {
+    shiny::observeEvent(r$network(), {
       shiny::updateSelectInput(
         session,
         "grp",
-        choices = c("none", get_node_attributes(df(), "cat"))
+        choices = c("none", get_node_attributes(r$network(), "cat"))
       )
     })
     shiny::observeEvent(input$homophily_save, {
@@ -144,6 +144,11 @@ ringbauerServer <- function(id, df, store) {
 }
 ringbauerApp <- function(network_input) {
   cat_vars <- get_node_attributes(network_input, "cat")
+  r <- shiny::reactiveValues()
+  r$network <- shiny::reactive({
+    network_input
+  })
+
   ui <- shiny::fluidPage(
     ringbauerInput("ringbauer", cat_vars),
     ringbauerOutput("ringbauer"),
@@ -151,7 +156,7 @@ ringbauerApp <- function(network_input) {
   )
   server <- function(input, output, session) {
     network <- shiny::reactive(network_input)
-    ringbauerServer("ringbauer", network, store)
+    ringbauerServer("ringbauer", r = r, store)
     store <- shiny::reactiveValues(
       export = shiny::reactive({
         plot_default_image()

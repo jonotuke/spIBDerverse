@@ -37,7 +37,11 @@ ibdInput <- function(id) {
     ) |>
       bslib::popover(
         "Used for quality control. The fraction of genotype likelihoods that had posterior values of >=0.99, indicating high quality imputation. Recommended default is 0.7."
-      ),
+      )
+  )
+}
+networkFilter <- function(id) {
+  shiny::tagList(
     shiny::textInput(
       shiny::NS(id, "node_inc"),
       "Node names to include"
@@ -58,7 +62,7 @@ ibdOutput <- function(id) {
     )
   )
 }
-ibdServer <- function(id, input_network) {
+ibdServer <- function(id, input_network, r) {
   shiny::moduleServer(id, function(input, output, session) {
     ibd_data <- shiny::reactive({
       shiny::req(input$ibd_file)
@@ -168,6 +172,7 @@ ibdServer <- function(id, input_network) {
       print(input$meta_file)
       print(meta_data())
     })
+    r$network <- shiny::reactive(network())
     shiny::reactive(network())
   })
 }
@@ -175,7 +180,8 @@ ibdcreateApp <- function(input_network) {
   options(shiny.maxRequestSize = Inf)
   ui <- shiny::fluidPage(
     ibdInput("ibd"),
-    ibdOutput("ibd"),
+    networkFilter("ibd"),
+    ibdOutput("ibd")
   )
   server <- function(input, output, session) {
     network <- ibdServer("ibd", input_network)

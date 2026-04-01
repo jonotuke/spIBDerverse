@@ -25,14 +25,14 @@ networkplotOutput <- function(id) {
   )
 }
 
-networkplotServer <- function(id, network, store) {
+networkplotServer <- function(id, store, r) {
   shiny::moduleServer(id, function(input, output, session) {
     output$plot <- shiny::renderPlot({
       p()
     })
     p <- shiny::reactive({
       plot_network(
-        network(),
+        r$network(),
         seed = input$seed,
         connected = input$connected,
         edge = input$edge,
@@ -49,43 +49,43 @@ networkplotServer <- function(id, network, store) {
         pal = input$pal
       )
     })
-    shiny::observeEvent(network(), {
+    shiny::observeEvent(r$network(), {
       shiny::updateSelectInput(
         session,
         "shape",
         choices = c(
           "none",
-          get_node_attributes(network(), "cat")
+          get_node_attributes(r$network(), "cat")
         )
       )
     })
-    shiny::observeEvent(network(), {
+    shiny::observeEvent(r$network(), {
       shiny::updateSelectInput(
         session,
         "fill",
         choices = c(
           "none",
-          get_node_attributes(network())
+          get_node_attributes(r$network())
         )
       )
     })
-    shiny::observeEvent(network(), {
+    shiny::observeEvent(r$network(), {
       shiny::updateSelectInput(
         session,
         "edge",
         choices = c(
           "none",
-          igraph::edge_attr_names(network())
+          igraph::edge_attr_names(r$network())
         )
       )
     })
-    shiny::observeEvent(network(), {
+    shiny::observeEvent(r$network(), {
       shiny::updateSelectInput(
         session,
         "label",
         choices = c(
           "none",
-          get_node_attributes(network())
+          get_node_attributes(r$network())
         )
       )
     })
@@ -100,6 +100,7 @@ networkplotApp <- function(network_input) {
   cat_vars <- get_node_attributes(network_input, "cat")
   all_vars <- get_node_attributes(network_input)
   edge_vars <- igraph::edge_attr_names(network_input)
+  r <- shiny::reactiveValues()
   ui <- shiny::fluidPage(
     title = "Network plot",
     networkplotInput(
@@ -111,12 +112,12 @@ networkplotApp <- function(network_input) {
     networkplotOutput("networkplot"),
   )
   server <- function(input, output, session) {
-    network <- shiny::reactive(
+    r$network <- shiny::reactive(
       network_input
     )
     networkplotServer(
       "networkplot",
-      network = network,
+      r = r,
       plots
     )
     plots <- shiny::reactiveValues(

@@ -44,12 +44,12 @@ leafletOutput <- function(id) {
     )
   )
 }
-leafletServer <- function(id, df) {
+leafletServer <- function(id, r) {
   shiny::moduleServer(id, function(input, output, session) {
     output$map <- leaflet::renderLeaflet({
       if (input$lat != "none" & input$lon != "none") {
         plot_leaflet(
-          df(),
+          r$network(),
           input$lat,
           input$lon,
           input$leaflet_col,
@@ -58,50 +58,48 @@ leafletServer <- function(id, df) {
         )
       }
     })
-    shiny::observeEvent(df(), {
+    shiny::observeEvent(r$network(), {
       shiny::updateSelectInput(
         session,
         "lat",
-        choices = c("none", get_node_attributes(df()))
+        choices = c("none", get_node_attributes(r$network()))
       )
     })
-    shiny::observeEvent(df(), {
+    shiny::observeEvent(r$network(), {
       shiny::updateSelectInput(
         session,
         "lon",
-        choices = c("none", get_node_attributes(df()))
+        choices = c("none", get_node_attributes(r$network()))
       )
     })
-    shiny::observeEvent(df(), {
+    shiny::observeEvent(r$network(), {
       shiny::updateSelectInput(
         session,
         "leaflet_col",
         choices = c(
           "none",
-          get_node_attributes(df())
+          get_node_attributes(r$network())
         )
       )
     })
-    shiny::observeEvent(df(), {
+    shiny::observeEvent(r$network(), {
       shiny::updateSelectInput(
         session,
         "label",
         choices = c(
           "none",
-          get_node_attributes(df())
+          get_node_attributes(r$network())
         )
       )
     })
-    list(
-      BB = shiny::reactive(input$map_bounds),
-      lat = shiny::reactive(input$lat),
-      lon = shiny::reactive(input$lon),
-      col = shiny::reactive(input$leaflet_col)
-    )
   })
 }
 leafletApp <- function(network_input) {
   all_vars <- get_node_attributes(network_input)
+  r <- shiny::reactiveValues()
+  r$network <- shiny::reactive({
+    network_input
+  })
   ui <- shiny::fluidPage(
     leafletInput("leaflet", all_vars),
     leafletOutput("leaflet")
@@ -110,7 +108,7 @@ leafletApp <- function(network_input) {
     network <- shiny::reactive(network_input)
     x <- leafletServer(
       "leaflet",
-      network
+      r = r
     )
   }
   shiny::shinyApp(ui, server)

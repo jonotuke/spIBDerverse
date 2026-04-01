@@ -99,14 +99,14 @@ staticmapOutput <- function(id) {
   )
 }
 
-staticmapServer <- function(id, network, store) {
+staticmapServer <- function(id, network, store, r) {
   shiny::moduleServer(id, function(input, output, session) {
     network_sf <- shiny::reactive({
       if (input$lat == "none" | input$lon == "none") {
         return(NULL)
       }
       convert_sf(
-        network(),
+        r$network(),
         lat = input$lat,
         lon = input$lon,
         jitter = input$jitter
@@ -159,53 +159,53 @@ staticmapServer <- function(id, network, store) {
         p()
       )
     })
-    shiny::observeEvent(network(), {
+    shiny::observeEvent(r$network(), {
       shiny::updateSelectInput(
         session,
         "lat",
         choices = c(
           "",
-          get_node_attributes(network())
+          get_node_attributes(r$network())
         )
       )
     })
-    shiny::observeEvent(network(), {
+    shiny::observeEvent(r$network(), {
       shiny::updateSelectInput(
         session,
         "lon",
         choices = c(
           "",
-          get_node_attributes(network())
+          get_node_attributes(r$network())
         )
       )
     })
-    shiny::observeEvent(network(), {
+    shiny::observeEvent(r$network(), {
       shiny::updateSelectInput(
         session,
         "shape",
         choices = c(
           "none",
-          get_node_attributes(network(), "cat")
+          get_node_attributes(r$network(), "cat")
         )
       )
     })
-    shiny::observeEvent(network(), {
+    shiny::observeEvent(r$network(), {
       shiny::updateSelectInput(
         session,
         "fill",
         choices = c(
           "none",
-          get_node_attributes(network())
+          get_node_attributes(r$network())
         )
       )
     })
-    shiny::observeEvent(network(), {
+    shiny::observeEvent(r$network(), {
       shiny::updateSelectInput(
         session,
         "edge",
         choices = c(
           "none",
-          igraph::edge_attr_names(network())
+          igraph::edge_attr_names(r$network())
         )
       )
     })
@@ -216,6 +216,11 @@ staticmapApp <- function(network_input) {
   all_vars <- get_node_attributes(network_input)
   cat_vars <- get_node_attributes(network_input, "cat")
   edge_vars <- igraph::edge_attr_names(network_input)
+
+  r <- shiny::reactiveValues()
+  r$network <- shiny::reactive({
+    network_input
+  })
 
   ui <- shiny::fluidPage(
     title = "Static map",
@@ -228,7 +233,7 @@ staticmapApp <- function(network_input) {
     staticmapOutput("staticmap")
   )
   server <- function(input, output, session) {
-    staticmapServer("staticmap", shiny::reactive(network_input))
+    staticmapServer("staticmap", r = r)
   }
   shiny::shinyApp(ui, server)
 }
