@@ -122,7 +122,7 @@
 <span><span class="op">)</span></span></code></pre></div>
 <p>We convert these to an IBD network with</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">ibd_network</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/create_ibd_network.html">create_ibd_network</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="va">ibd_network</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/load_ibd_network.html">load_ibd_network</a></span><span class="op">(</span></span>
 <span>  <span class="va">ibd_file</span>,</span>
 <span>  <span class="va">meta_file</span>,</span>
 <span>  ibd_co <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">2</span>, <span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span>,</span>
@@ -130,7 +130,7 @@
 <span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ibd_network</span></span>
-<span><span class="co">#&gt; IGRAPH 4ed0b5b UN-- 328 2103 -- </span></span>
+<span><span class="co">#&gt; IGRAPH e615b11 UN-- 328 2103 -- </span></span>
 <span><span class="co">#&gt; + attr: name (v/c), frac_gp (v/n), frac_missing (v/n), frac_het (v/n),</span></span>
 <span><span class="co">#&gt; | n_cov_snp (v/n), Archaeological_ID (v/c), Master_ID (v/c), Projects</span></span>
 <span><span class="co">#&gt; | (v/c), Locality (v/c), Province (v/c), Country (v/c), Latitude (v/n),</span></span>
@@ -139,7 +139,7 @@
 <span><span class="co">#&gt; | (v/n), frac_gp1 (e/n), frac_gp2 (e/n), max_ibd (e/n), sum_ibd_8</span></span>
 <span><span class="co">#&gt; | (e/n), n_ibd_8 (e/n), sum_ibd_12 (e/n), n_ibd_12 (e/n), sum_ibd_16</span></span>
 <span><span class="co">#&gt; | (e/n), n_ibd_16 (e/n), sum_ibd_20 (e/n), n_ibd_20 (e/n), wij (e/n)</span></span>
-<span><span class="co">#&gt; + edges from 4ed0b5b (vertex names):</span></span>
+<span><span class="co">#&gt; + edges from e615b11 (vertex names):</span></span>
 <span><span class="co">#&gt; [1] KUP007--KUP023 RKC013--RKC029 RKC031--RKF238 RKF195--RKF196 RKC020--RKF142</span></span>
 <span><span class="co">#&gt; + ... omitted several edges</span></span></code></pre></div>
 </div>

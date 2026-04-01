@@ -26,8 +26,6 @@ same network sf with adjusted aspect ration
 
 ``` r
 add_convert_bb_adj(example_sf)
-#> w is 0.278349543611967
-#> h is 0.145175825146161
 #> $nodes_sf
 #> Simple feature collection with 40 features and 7 fields
 #> Geometry type: POINT

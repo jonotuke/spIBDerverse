@@ -45,7 +45,7 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">convert_sf</span><span class="op">(</span><span class="va">g</span>, <span class="va">lat</span>, <span class="va">lon</span>, jitter <span class="op">=</span> <span class="fl">0</span>, landscape <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">convert_sf</span><span class="op">(</span><span class="va">g</span>, <span class="va">lat</span>, <span class="va">lon</span>, jitter <span class="op">=</span> <span class="fl">0</span>, landscape <span class="op">=</span> <span class="cn">TRUE</span>, crs <span class="op">=</span> <span class="fl">3857</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -71,6 +71,10 @@
 <dt id="arg-landscape">landscape<a class="anchor" aria-label="anchor" href="#arg-landscape"></a></dt>
 <dd><p>if true changes bounding box to be landscape</p></dd>
 
+
+<dt id="arg-crs">crs<a class="anchor" aria-label="anchor" href="#arg-crs"></a></dt>
+<dd><p>default CRS to use, using Web Mercator</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -80,14 +84,12 @@
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">convert_sf</span><span class="op">(</span><span class="va">example_network</span>,<span class="st">"lat"</span>,<span class="st">"long"</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> w is 0.0363898350350382</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> h is 0.120979854288471</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $nodes_sf</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 40 features and 7 fields</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: POINT</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: 138.4662 ymin: -34.93942 xmax: 138.7445 ymax: -34.79425</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Geodetic CRS:  WGS 84</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Projected CRS: WGS 84 / Pseudo-Mercator</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> First 10 features:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    genetic_sex site name degree   closeness betweenness eigencentrality</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1            F    C    1      4 0.009433962   14.215476      0.18812328</span>
@@ -117,7 +119,7 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: LINESTRING</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: 138.4662 ymin: -34.93942 xmax: 138.7445 ymax: -34.79425</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Geodetic CRS:  WGS 84</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Projected CRS: WGS 84 / Pseudo-Mercator</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> First 10 features:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    from to       wij edge_type                       geometry</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1     1 21 0.4073892         C LINESTRING (138.6163 -34.80...</span>

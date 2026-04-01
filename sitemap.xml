@@ -20,7 +20,6 @@
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/convert_ringbauer_measures.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/convert_sf.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/copy_files.html</loc></url>
-<url><loc>https://jonotuke.github.io/spIBDerverse/reference/create_ibd_network.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/default_image.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/dist_network.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/edges_to_sf.html</loc></url>
@@ -29,6 +28,8 @@
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/example_network_3.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/example_sf.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/expand_line.html</loc></url>
+<url><loc>https://jonotuke.github.io/spIBDerverse/reference/fill_continuous.html</loc></url>
+<url><loc>https://jonotuke.github.io/spIBDerverse/reference/fill_discrete.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/filter_network.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/filter_sf.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/get_all_models.html</loc></url>
@@ -48,6 +49,7 @@
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/index.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/label_grp_duplicates.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/load_example.html</loc></url>
+<url><loc>https://jonotuke.github.io/spIBDerverse/reference/load_ibd_network.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/plot_centrality.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/plot_default_image.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/plot_ergm_bic.html</loc></url>
@@ -57,7 +59,6 @@
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/plot_network.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/plot_ringbauer.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/plot_single_ergm_coef.html</loc></url>
-<url><loc>https://jonotuke.github.io/spIBDerverse/reference/plot_static_map.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/plot_staticmap.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/remove_redundant_models.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/sort_label.html</loc></url>

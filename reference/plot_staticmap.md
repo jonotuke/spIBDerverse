@@ -24,7 +24,8 @@ plot_staticmap(
   label_inc = "",
   label_exc = "",
   label_size = 3,
-  theme = "minimal"
+  theme = "minimal",
+  pal = "ravenclaw"
 )
 ```
 
@@ -32,7 +33,7 @@ plot_staticmap(
 
 - sf:
 
-  network sf pobject
+  network sf object
 
 - key:
 
@@ -106,6 +107,10 @@ plot_staticmap(
 - theme:
 
   type of plot theme
+
+- pal:
+
+  colour palette
 
 ## Value
 

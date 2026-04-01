@@ -24,8 +24,6 @@
   : Convert to SF
 - [`copy_files()`](https://jonotuke.github.io/spIBDerverse/reference/copy_files.md)
   : Copy files
-- [`create_ibd_network()`](https://jonotuke.github.io/spIBDerverse/reference/create_ibd_network.md)
-  : create_ibd_network
 - [`default_image`](https://jonotuke.github.io/spIBDerverse/reference/default_image.md)
   : default image
 - [`dist_network`](https://jonotuke.github.io/spIBDerverse/reference/dist_network.md)
@@ -42,6 +40,10 @@
   : example sf object
 - [`expand_line()`](https://jonotuke.github.io/spIBDerverse/reference/expand_line.md)
   : Expand a line by given amount
+- [`fill_continuous()`](https://jonotuke.github.io/spIBDerverse/reference/fill_continuous.md)
+  : fill continuous
+- [`fill_discrete()`](https://jonotuke.github.io/spIBDerverse/reference/fill_discrete.md)
+  : fill discrete
 - [`filter_network()`](https://jonotuke.github.io/spIBDerverse/reference/filter_network.md)
   : Filter network
 - [`filter_sf()`](https://jonotuke.github.io/spIBDerverse/reference/filter_sf.md)
@@ -78,6 +80,8 @@
   : label_grp_duplicates
 - [`load_example()`](https://jonotuke.github.io/spIBDerverse/reference/load_example.md)
   : loads some example data
+- [`load_ibd_network()`](https://jonotuke.github.io/spIBDerverse/reference/load_ibd_network.md)
+  : load_ibd_network
 - [`plot_centrality()`](https://jonotuke.github.io/spIBDerverse/reference/plot_centrality.md)
   : plot centrality measures
 - [`plot_default_image()`](https://jonotuke.github.io/spIBDerverse/reference/plot_default_image.md)
@@ -96,8 +100,6 @@
   : Plot Ringbauer
 - [`plot_single_ergm_coef()`](https://jonotuke.github.io/spIBDerverse/reference/plot_single_ergm_coef.md)
   : Plot single ergm coefficients
-- [`plot_static_map()`](https://jonotuke.github.io/spIBDerverse/reference/plot_static_map.md)
-  : plot static map
 - [`plot_staticmap()`](https://jonotuke.github.io/spIBDerverse/reference/plot_staticmap.md)
   : plot static-map
 - [`remove_redundant_models()`](https://jonotuke.github.io/spIBDerverse/reference/remove_redundant_models.md)

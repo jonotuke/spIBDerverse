@@ -19,7 +19,8 @@ plot_network(
   fill = "none",
   shape = "none",
   node_size = 5,
-  node_centrality = "none"
+  node_centrality = "none",
+  pal = "ravenclaw"
 )
 ```
 
@@ -81,6 +82,10 @@ plot_network(
 - node_centrality:
 
   vertext attribute for node alpha
+
+- pal:
+
+  colour palette
 
 ## Value
 
