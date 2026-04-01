@@ -1,6 +1,6 @@
 #' plot static-map
 #'
-#' @param sf network sf pobject
+#' @param sf network sf object
 #' @param key stadia API key
 #' @param zoom stadia tile zoom
 #' @param maptype stadia map tile
@@ -20,6 +20,7 @@
 #' @param label_inc regular expression to include labels
 #' @param label_exc regular expression to exclude labels
 #' @param theme type of plot theme
+#' @param pal colour palette
 #'
 #' @return network plot
 #' @export
@@ -45,7 +46,8 @@ plot_staticmap <- function(
   label_inc = "",
   label_exc = "",
   label_size = 3,
-  theme = "minimal"
+  theme = "minimal",
+  pal = "ravenclaw"
 ) {
   # SETUP ----
   ggplot2::update_geom_defaults(
@@ -220,9 +222,9 @@ plot_staticmap <- function(
       values = rep(21:25, 1e4)
     )
   if (methods::is(nodes_sf[[fill]], "character")) {
-    p <- p + harrypotter::scale_fill_hp_d("Ravenclaw")
+    p <- p + fill_discrete(pal)
   } else {
-    p <- p + harrypotter::scale_fill_hp("Ravenclaw")
+    p <- p + fill_continuous(pal)
   }
   # LABELS ----
   p <- p + ggnewscale::new_scale_colour()
@@ -275,6 +277,7 @@ plot_staticmap <- function(
 #   edge_trans = "log10",
 #   label = "site",
 #   lat_range = c(-34.95, -34.6),
-#   lon_range = c(138.5, 138.7)
+#   lon_range = c(138.5, 138.7),
+#   pal = "ravenclaw"
 # ) |>
 #   print()

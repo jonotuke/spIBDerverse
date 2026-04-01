@@ -137,7 +137,8 @@ staticmapServer <- function(id, network, store) {
         edge_trans = input$edge_trans,
         label = input$label,
         label_inc = input$label_inc,
-        label_exc = input$label_exc
+        label_exc = input$label_exc,
+        pal = input$pal
       )
     })
     update_range <- function(id, type = "lat") {
@@ -194,7 +195,7 @@ staticmapServer <- function(id, network, store) {
         "fill",
         choices = c(
           "none",
-          get_node_attributes(network(), "cat")
+          get_node_attributes(network())
         )
       )
     })

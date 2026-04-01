@@ -23,11 +23,12 @@ plot_staticmap(
   label_inc = "",
   label_exc = "",
   label_size = 3,
-  theme = "minimal"
+  theme = "minimal",
+  pal = "ravenclaw"
 )
 }
 \arguments{
-\item{sf}{network sf pobject}
+\item{sf}{network sf object}
 
 \item{key}{stadia API key}
 
@@ -65,6 +66,8 @@ Hide, Show, Grey out}
 \item{label_size}{label size}
 
 \item{theme}{type of plot theme}
+
+\item{pal}{colour palette}
 }
 \value{
 network plot
