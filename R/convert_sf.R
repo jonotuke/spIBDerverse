@@ -37,6 +37,9 @@ convert_sf <- function(
   )
   if (jitter > 0) {
     nodes_sf <- sf::st_jitter(nodes_sf, factor = jitter)
+    coords <- sf::st_coordinates(nodes_sf)
+    g <- igraph::set_vertex_attr(g, lon, value = coords[, 1])
+    g <- igraph::set_vertex_attr(g, lat, value = coords[, 2])
   }
   edges_sf <- edges_to_sf(g, lat, lon)
   edges_sf <- edges_sf |> sf::st_set_crs(crs)
@@ -59,9 +62,8 @@ convert_sf <- function(
 # convert_sf(
 #   example_network,
 #   "lat",
-#   "long"
+#   "long",
+#   jitter = 0.01
 # ) |>
-#   plot_static_map(
-#     key = jono_key,
-#     zoom = 11
-#   )
+#   plot_staticmap(key = jono_key) |>
+#   print()

@@ -32,9 +32,7 @@ convert_bb <- function(bb, x_adj = 0.1, y_adj = 0.1) {
 #' @returns adjusted BB
 convert_bb_asp <- function(bb, asp = 1) {
   w <- bb[3] - bb[1]
-  message(stringr::str_glue("w is {w}"))
   h <- bb[4] - bb[2]
-  message(stringr::str_glue("h is {h}"))
   if (w < h) {
     x_adj <- asp * h / w
     y_adj <- 0.1

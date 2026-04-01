@@ -242,11 +242,7 @@ plot_staticmap <- function(
     ggplot2::scale_colour_identity()
   # EXTRAS ----
   p <- p + ggplot2::labs(x = "Longitude", y = "Latitude")
-  p <- p +
-    ggplot2::scale_x_continuous(labels = identity)
-  p <- p +
-    ggplot2::scale_y_continuous(labels = identity)
-  p <- p + ggplot2::coord_sf(expand = c(0, 0))
+  p <- p + ggplot2::coord_sf(datum = sf::st_crs(3857))
   selected_theme <- dplyr::case_when(
     theme == "black white" ~ list(ggplot2::theme_bw()),
     theme == "void" ~ list(ggplot2::theme_void()),
@@ -276,8 +272,8 @@ plot_staticmap <- function(
 #   edge = "edge_type",
 #   edge_trans = "log10",
 #   label = "site",
-#   lat_range = c(-34.95, -34.6),
-#   lon_range = c(138.5, 138.7),
-#   pal = "ravenclaw"
+#   pal = "ravenclaw",
+#   lon_range = c(138.55, 138.65),
+#   lat_range = c(-34.94, -34.9)
 # ) |>
 #   print()
