@@ -4,7 +4,7 @@
 \alias{convert_sf}
 \title{Convert to SF}
 \usage{
-convert_sf(g, lat, lon, jitter = 0, landscape = TRUE)
+convert_sf(g, lat, lon, jitter = 0, landscape = TRUE, crs = 3857)
 }
 \arguments{
 \item{g}{igraph network}
@@ -16,6 +16,8 @@ convert_sf(g, lat, lon, jitter = 0, landscape = TRUE)
 \item{jitter}{amount of jitter to add}
 
 \item{landscape}{if true changes bounding box to be landscape}
+
+\item{crs}{default CRS to use, using Web Mercator}
 }
 \value{
 list of edges_sf and nodes_sf

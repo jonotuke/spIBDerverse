@@ -9,6 +9,7 @@
 #' @param lon attribute that gives longitude
 #' @param jitter amount of jitter to add
 #' @param landscape if true changes bounding box to be landscape
+#' @param crs default CRS to use, using Web Mercator
 #'
 #' @returns list of edges_sf and nodes_sf
 #'
@@ -20,7 +21,8 @@ convert_sf <- function(
   lat,
   lon,
   jitter = 0,
-  landscape = TRUE
+  landscape = TRUE,
+  crs = 3857
 ) {
   nodes_df <- igraph::as_data_frame(g, what = "vertices")
   nodes_df <- nodes_df |>
@@ -31,13 +33,13 @@ convert_sf <- function(
   nodes_sf <- sf::st_as_sf(
     nodes_df,
     coords = c("lon", "lat"),
-    crs = 4326
+    crs = crs
   )
   if (jitter > 0) {
     nodes_sf <- sf::st_jitter(nodes_sf, factor = jitter)
   }
   edges_sf <- edges_to_sf(g, lat, lon)
-  edges_sf <- edges_sf |> sf::st_set_crs(4326)
+  edges_sf <- edges_sf |> sf::st_set_crs(crs)
   network_sf <- list(nodes_sf = nodes_sf, edges_sf = edges_sf)
   if (landscape) {
     network_sf <- network_sf |> add_convert_bb_adj()
