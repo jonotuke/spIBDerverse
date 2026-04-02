@@ -99,7 +99,7 @@ staticmapOutput <- function(id) {
   )
 }
 
-staticmapServer <- function(id, network, store, r) {
+staticmapServer <- function(id, network, r) {
   shiny::moduleServer(id, function(input, output, session) {
     network_sf <- shiny::reactive({
       if (input$lat == "none" | input$lon == "none") {
@@ -155,7 +155,7 @@ staticmapServer <- function(id, network, store, r) {
       update_range("lon_range", "lon")
     })
     shiny::observeEvent(input$save, {
-      store$export <- shiny::reactive(
+      r$export <- shiny::reactive(
         p()
       )
     })

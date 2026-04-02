@@ -88,7 +88,7 @@ ringbauerOutput <- function(id) {
     ),
   )
 }
-ringbauerServer <- function(id, r, store) {
+ringbauerServer <- function(id, r) {
   shiny::moduleServer(id, function(input, output, session) {
     RM <- shiny::reactive({
       shiny::req(input$grp != "none")
@@ -131,12 +131,12 @@ ringbauerServer <- function(id, r, store) {
       )
     })
     shiny::observeEvent(input$homophily_save, {
-      store$export <- shiny::reactive(
+      r$export <- shiny::reactive(
         homophily_p()
       )
     })
     shiny::observeEvent(input$ringbauer_save, {
-      store$export <- shiny::reactive(
+      r$export <- shiny::reactive(
         ringbauer_p()
       )
     })
@@ -148,6 +148,9 @@ ringbauerApp <- function(network_input) {
   r$network <- shiny::reactive({
     network_input
   })
+  r$export <- shiny::reactive({
+    plot_default_image()
+  })
 
   ui <- shiny::fluidPage(
     ringbauerInput("ringbauer", cat_vars),
@@ -155,15 +158,9 @@ ringbauerApp <- function(network_input) {
     shiny::plotOutput("debug")
   )
   server <- function(input, output, session) {
-    network <- shiny::reactive(network_input)
-    ringbauerServer("ringbauer", r = r, store)
-    store <- shiny::reactiveValues(
-      export = shiny::reactive({
-        plot_default_image()
-      })
-    )
+    ringbauerServer("ringbauer", r = r)
     output$debug <- shiny::renderPlot({
-      store$export()
+      r$export()
     })
   }
   shiny::shinyApp(ui, server)

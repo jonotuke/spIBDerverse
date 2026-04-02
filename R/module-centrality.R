@@ -44,7 +44,7 @@ centralityOutput <- function(id) {
     )
   )
 }
-centralityServer <- function(id, store, r) {
+centralityServer <- function(id, r) {
   shiny::moduleServer(id, function(input, output, session) {
     central_df <- shiny::reactive({
       get_centrality_measures(r$network(), input$strata)
@@ -89,7 +89,7 @@ centralityServer <- function(id, store, r) {
       )
     })
     shiny::observeEvent(input$save, {
-      store$export <- shiny::reactive(
+      r$export <- shiny::reactive(
         p()
       )
     })

@@ -55,14 +55,14 @@ exportplotOutput <- function(id) {
     )
   )
 }
-exportplotServer <- function(id, type, store) {
+exportplotServer <- function(id, r) {
   shiny::moduleServer(id, function(input, output, session) {
     output$down <- shiny::downloadHandler(
       filename = function() {
         input$filename
       },
       content = function(file) {
-        if ("recordedplot" %in% class(store$export())) {
+        if ("recordedplot" %in% class(r$export())) {
           if (input$fig_ext == "pdf") {
             grDevices::pdf(
               file,
@@ -84,12 +84,12 @@ exportplotServer <- function(id, type, store) {
               res = input$res
             )
           }
-          store$export() |> print()
+          r$export() |> print()
           grDevices::dev.off()
         } else {
           ggplot2::ggsave(
             file,
-            store$export(),
+            r$export(),
             width = input$fig_width,
             height = input$fig_height,
             dpi = input$res
@@ -98,7 +98,7 @@ exportplotServer <- function(id, type, store) {
       }
     )
     output$plot <- shiny::renderPlot({
-      store$export()
+      r$export()
     })
     shiny::observe({
       selected_value <- input$fig_ext
@@ -119,13 +119,14 @@ exportplotApp <- function(p) {
     exportplotInput("export_mpg"),
     exportplotOutput("export_mpg"),
   )
+
   server <- function(input, output, session) {
-    plots <- shiny::reactiveValues(
+    r <- shiny::reactiveValues(
       export = shiny::reactive({
         p
       })
     )
-    exportplotServer("export_mpg", "network", plots)
+    exportplotServer("export_mpg", r)
   }
   shiny::shinyApp(ui, server)
 }

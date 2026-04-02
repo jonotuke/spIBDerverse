@@ -106,7 +106,7 @@ ergmOutput <- function(id) {
     )
   )
 }
-ergmServer <- function(id, r, store) {
+ergmServer <- function(id, r) {
   shiny::moduleServer(id, function(input, output, session) {
     ergm <- shiny::reactive(
       get_ergms(r$network(), input$preds, pred_type_vec())
@@ -178,12 +178,12 @@ ergmServer <- function(id, r, store) {
       )
     })
     shiny::observeEvent(input$bic_save, {
-      store$export <- shiny::reactive(
+      r$export <- shiny::reactive(
         bic_plot()
       )
     })
     shiny::observeEvent(input$coef_save, {
-      store$export <- shiny::reactive(
+      r$export <- shiny::reactive(
         coef_plot()
       )
     })
@@ -241,19 +241,23 @@ ergmApp <- function(network_input) {
   r$network <- shiny::reactive({
     network_input
   })
+  r$export <- shiny::reactive({
+    plot_default_image()
+  })
+
   ui <- shiny::fluidPage(
     ergmInput("ergm", all_vars, network_input),
     shiny::verbatimTextOutput(outputId = "debug"),
-    ergmOutput("ergm")
+    ergmOutput("ergm"),
+    shiny::plotOutput("export")
   )
+
   server <- function(input, output, session) {
     network <- shiny::reactive(network_input)
-    ergmServer("ergm", r = r, store)
-    store <- shiny::reactiveValues(
-      export = shiny::reactive({
-        plot_default_image()
-      })
-    )
+    ergmServer("ergm", r = r)
+    output$export <- shiny::renderPlot({
+      r$export()
+    })
   }
   shiny::shinyApp(ui, server)
 }

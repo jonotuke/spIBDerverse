@@ -25,7 +25,7 @@ networkplotOutput <- function(id) {
   )
 }
 
-networkplotServer <- function(id, store, r) {
+networkplotServer <- function(id, r) {
   shiny::moduleServer(id, function(input, output, session) {
     output$plot <- shiny::renderPlot({
       p()
@@ -90,7 +90,7 @@ networkplotServer <- function(id, store, r) {
       )
     })
     shiny::observeEvent(input$save, {
-      store$export <- shiny::reactive(
+      r$export <- shiny::reactive(
         p()
       )
     })
@@ -100,7 +100,15 @@ networkplotApp <- function(network_input) {
   cat_vars <- get_node_attributes(network_input, "cat")
   all_vars <- get_node_attributes(network_input)
   edge_vars <- igraph::edge_attr_names(network_input)
+
   r <- shiny::reactiveValues()
+  r$export <- shiny::reactive({
+    plot_default_image()
+  })
+  r$network <- shiny::reactive(
+    network_input
+  )
+
   ui <- shiny::fluidPage(
     title = "Network plot",
     networkplotInput(
@@ -110,26 +118,23 @@ networkplotApp <- function(network_input) {
       edge_vars = edge_vars
     ),
     networkplotOutput("networkplot"),
+    shiny::plotOutput("export")
   )
+
   server <- function(input, output, session) {
-    r$network <- shiny::reactive(
-      network_input
-    )
     networkplotServer(
       "networkplot",
-      r = r,
-      plots
+      r = r
     )
-    plots <- shiny::reactiveValues(
-      export = shiny::reactive({
-        plot_default_image()
-      })
-    )
+
     exportplotServer(
       "exportplot",
-      "network",
-      plots$export
+      r = r
     )
+
+    output$export <- shiny::renderPlot({
+      r$export()
+    })
   }
   shiny::shinyApp(ui, server)
 }

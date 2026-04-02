@@ -127,26 +127,29 @@ spibder_app <- function(input_network = NULL) {
   )
   server <- function(input, output, session) {
     r <- shiny::reactiveValues()
+    r$export <- shiny::reactive({
+      plot_default_image()
+    })
     # Edge ----
     edgeServer("edge", r)
     # Node ----
     nodeServer("node", r)
     # Network plot ----
-    networkplotServer("networkplot", r = r, plots)
+    networkplotServer("networkplot", r = r)
     # Network summary ----
     output$summary <- shiny::renderTable({
       get_network_summary(network())
     })
     # Centrality measures
-    centralityServer("central", plots, r = r)
+    centralityServer("central", r = r)
     # Leaflet plot ----
     leafletServer("leaflet", r = r)
     # Static map
-    staticmapServer("staticmap", r = r, plots)
+    staticmapServer("staticmap", r = r)
     # Ringbauer matrix ----
-    ringbauerServer("ringbauer", r = r, plots)
+    ringbauerServer("ringbauer", r = r)
     # ERGMs ----
-    ergmServer("ergm", r = r, plots)
+    ergmServer("ergm", r = r)
     # IBD ----
     network <- ibdServer("ibd", input_network, r)
     # EXPORT ----
@@ -161,12 +164,7 @@ spibder_app <- function(input_network = NULL) {
         readr::write_rds(snapshot(), file)
       }
     )
-    plots <- shiny::reactiveValues(
-      export = shiny::reactive({
-        plot_default_image()
-      })
-    )
-    exportplotServer("export", "network", plots)
+    exportplotServer("export", r = r)
     # DEBUG ----
     output$debug <- shiny::renderPrint({
       print(network())
