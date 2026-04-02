@@ -102,7 +102,7 @@ create the IBD network, while the META file must have a column called
 
 ``` r
 load_ibd_network(ibd_file, meta_file)
-#> IGRAPH ab10108 UN-- 328 1712 -- 
+#> IGRAPH cdd1f9c UN-- 328 1712 -- 
 #> + attr: name (v/c), frac_gp (v/n), frac_missing (v/n), frac_het (v/n),
 #> | n_cov_snp (v/n), Archaeological_ID (v/c), Master_ID (v/c), Projects
 #> | (v/c), Locality (v/c), Province (v/c), Country (v/c), Latitude (v/n),
@@ -111,7 +111,7 @@ load_ibd_network(ibd_file, meta_file)
 #> | (v/n), frac_gp1 (e/n), frac_gp2 (e/n), max_ibd (e/n), sum_ibd_8
 #> | (e/n), n_ibd_8 (e/n), sum_ibd_12 (e/n), n_ibd_12 (e/n), sum_ibd_16
 #> | (e/n), n_ibd_16 (e/n), sum_ibd_20 (e/n), n_ibd_20 (e/n), wij (e/n)
-#> + edges from ab10108 (vertex names):
+#> + edges from cdd1f9c (vertex names):
 #> [1] KUP007--KUP023 RKC013--RKC029 RKC031--RKF238 RKF195--RKF196 RKC020--RKF142
 #> + ... omitted several edges
 ```
