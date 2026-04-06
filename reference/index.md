@@ -24,6 +24,8 @@
   : Convert to SF
 - [`copy_files()`](https://jonotuke.github.io/spIBDerverse/reference/copy_files.md)
   : Copy files
+- [`dataWizardInput()`](https://jonotuke.github.io/spIBDerverse/reference/dataWizardInput.md)
+  : dataWizardInput
 - [`default_image`](https://jonotuke.github.io/spIBDerverse/reference/default_image.md)
   : default image
 - [`dist_network`](https://jonotuke.github.io/spIBDerverse/reference/dist_network.md)

@@ -42,21 +42,21 @@ a list of three matrices: density, labels, and text colour
 get_ringbauer_measures(example_network, "site") |>
 convert_ringbauer_measures()
 #> $density
-#>            C          A          B
-#> C 0.40000000 0.06470588 0.06923077
-#> A 0.06470588 0.14705882 0.09049774
-#> B 0.06923077 0.09049774 0.26923077
+#>            A          B          C
+#> A 0.14166667 0.07291667 0.07812500
+#> B 0.07291667 0.27272727 0.09722222
+#> C 0.07812500 0.09722222 0.48484848
 #> 
 #> $labels
-#>   C        A        B       
-#> C "18/45"  "11/170" "9/130" 
-#> A "11/170" "20/136" "20/221"
-#> B "9/130"  "20/221" "21/78" 
+#>   A        B        C       
+#> A "17/120" "14/192" "15/192"
+#> B "14/192" "18/66"  "14/144"
+#> C "15/192" "14/144" "32/66" 
 #> 
 #> $text_colour
-#>   C       A       B      
-#> C "black" "white" "white"
+#>   A       B       C      
 #> A "white" "white" "white"
-#> B "white" "white" "black"
+#> B "white" "black" "white"
+#> C "white" "white" "black"
 #> 
 ```
