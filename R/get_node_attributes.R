@@ -11,6 +11,9 @@
 #' @examples
 #' get_node_attributes(example_network)
 get_node_attributes <- function(g, type = "all") {
+  if (!methods::is(g, "igraph")) {
+    return(NULL)
+  }
   node_df <- igraph::as_data_frame(g, what = "vertices")
   if (type == "cat") {
     vars <- node_df |>
@@ -26,8 +29,8 @@ get_node_attributes <- function(g, type = "all") {
   }
   vars <- vars |>
     purrr::discard(\(x) {
-      x %in% c("degree", "closeness", "betweenness", "eigencentrality")
+      stringr::str_detect(x, "^\\.")
     })
   vars
 }
-# get_node_attributes(example_network, "cat") |> print()
+# get_node_attributes(example_network) |> print()

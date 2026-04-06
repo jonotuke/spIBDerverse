@@ -40,10 +40,10 @@ network_ui <- function(id, all_vars, cat_vars, edge_vars) {
       label = "Show node centrality",
       choices = c(
         "none",
-        "degree",
-        "betweenness",
-        "closeness",
-        "eigencentrality"
+        "degree" = ".degree",
+        "betweenness" = ".betweenness",
+        "closeness" = ".closeness",
+        "eigencentrality" = ".eigencentrality"
       ),
       selected = "none"
     ) |>

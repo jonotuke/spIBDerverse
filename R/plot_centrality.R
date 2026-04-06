@@ -12,7 +12,7 @@ utils::globalVariables(
 #' @export
 #' @examples
 #' plot_centrality(example_network)
-plot_centrality <- function(g, measure = "degree", facets = NULL) {
+plot_centrality <- function(g, measure = ".degree", facets = NULL) {
   df <- igraph::as_data_frame(g, what = "vertices") |>
     tibble::as_tibble() |>
     dplyr::mutate(vertex_id = as.character(igraph::V(g))) |>

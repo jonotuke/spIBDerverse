@@ -31,6 +31,9 @@ networkplotServer <- function(id, r) {
       p()
     })
     p <- shiny::reactive({
+      if (is.null(r$network())) {
+        return(NULL)
+      }
       plot_network(
         r$network(),
         seed = input$seed,
@@ -49,43 +52,43 @@ networkplotServer <- function(id, r) {
         pal = input$pal
       )
     })
-    shiny::observeEvent(r$network(), {
+    shiny::observeEvent(r$full_network(), {
       shiny::updateSelectInput(
         session,
         "shape",
         choices = c(
           "none",
-          get_node_attributes(r$network(), "cat")
+          get_node_attributes(r$full_network(), "cat")
         )
       )
     })
-    shiny::observeEvent(r$network(), {
+    shiny::observeEvent(r$full_network(), {
       shiny::updateSelectInput(
         session,
         "fill",
         choices = c(
           "none",
-          get_node_attributes(r$network())
+          get_node_attributes(r$full_network())
         )
       )
     })
-    shiny::observeEvent(r$network(), {
+    shiny::observeEvent(r$full_network(), {
       shiny::updateSelectInput(
         session,
         "edge",
         choices = c(
           "none",
-          igraph::edge_attr_names(r$network())
+          igraph::edge_attr_names(r$full_network())
         )
       )
     })
-    shiny::observeEvent(r$network(), {
+    shiny::observeEvent(r$full_network(), {
       shiny::updateSelectInput(
         session,
         "label",
         choices = c(
           "none",
-          get_node_attributes(r$network())
+          get_node_attributes(r$full_network())
         )
       )
     })

@@ -24,7 +24,7 @@ get_network_summary <- function(g) {
         \(x) sum(is.na(x))
       )
     ) |>
-    dplyr::select(-name, -c(degree:eigencentrality))
+    dplyr::select(-name, -dplyr::starts_with("."))
   tibble::tibble(
     measure = c(
       "Number of nodes",

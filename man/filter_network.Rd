@@ -4,7 +4,14 @@
 \alias{filter_network}
 \title{Filter network}
 \usage{
-filter_network(g, node_inc = "", node_exc = "")
+filter_network(
+  g,
+  node_inc = "",
+  node_exc = "",
+  filter_column = "none",
+  cutoff = NULL,
+  is_less_than = TRUE
+)
 }
 \arguments{
 \item{g}{ibd network}
@@ -12,6 +19,12 @@ filter_network(g, node_inc = "", node_exc = "")
 \item{node_inc}{regular expression for inclusion}
 
 \item{node_exc}{regular expression for exclusion}
+
+\item{filter_column}{node attribute to filter network on}
+
+\item{cutoff}{cutoffs for filter}
+
+\item{is_less_than}{in numeric filter do you keep less than or greater than}
 }
 \value{
 filtered IBD network

@@ -15,17 +15,18 @@ edgeServer <- function(id, r) {
   })
 }
 edgeApp <- function(network_input) {
+  all_vars <- get_node_attributes(network_input)
   ui <- shiny::fluidPage(
-    networkFilter("ibd"),
+    networkFilterInput("filter", all_vars),
     edgeOutput("edge")
   )
   r <- shiny::reactiveValues()
-  r$network <- shiny::reactive({
+  r$full_network <- shiny::reactive({
     network_input
   })
   server <- function(input, output, session) {
-    ibdServer("ibd", network_input, r)
-    edgeServer("edge", r)
+    networkFilterServer("filter", r = r)
+    edgeServer("edge", r = r)
   }
   shiny::shinyApp(ui, server)
 }

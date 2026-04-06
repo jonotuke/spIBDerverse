@@ -17,12 +17,12 @@ centralityInput <- function(id, cat_vars) {
       shiny::NS(id, "measure"),
       "Centrality measure to plot",
       choices = c(
-        "Degree" = "degree",
-        "Closeness" = "closeness",
-        "Betweenness" = "betweenness",
-        "Eigencentrality" = "eigencentrality"
+        "Degree" = ".degree",
+        "Closeness" = ".closeness",
+        "Betweenness" = ".betweenness",
+        "Eigencentrality" = ".eigencentrality"
       ),
-      selected = "degree"
+      selected = ".degree"
     )
   )
 }
@@ -54,7 +54,7 @@ centralityServer <- function(id, r) {
         central_df()
       }) |>
         DT::formatRound(
-          c("degree", "closeness", "betweenness", "eigencentrality"),
+          c(".degree", ".closeness", ".betweenness", ".eigencentrality"),
           input$places
         )
     })
@@ -79,12 +79,12 @@ centralityServer <- function(id, r) {
         facets = input$strata
       )
     })
-    shiny::observeEvent(r$network(), {
+    shiny::observeEvent(r$full_network(), {
       shiny::updateCheckboxGroupInput(
         session,
         "strata",
         choices = c(
-          get_node_attributes(r$network(), "cat")
+          get_node_attributes(r$full_network(), "cat")
         )
       )
     })
@@ -105,6 +105,7 @@ centralityApp <- function(network_input) {
     r <- shiny::reactiveValues()
 
     r$network <- shiny::reactive(network_input)
+    r$full_network <- shiny::reactive(network_input)
     centralityServer("central", r = r)
   }
   shiny::shinyApp(ui, server)

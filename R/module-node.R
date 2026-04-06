@@ -9,6 +9,7 @@ nodeOutput <- function(id) {
 nodeServer <- function(id, r) {
   shiny::moduleServer(id, function(input, output, session) {
     output$node_dt <- DT::renderDataTable({
+      shiny::req(r$network())
       DT::datatable(
         get_node_info(r$network()),
         options = list(pageLength = 100)
@@ -17,17 +18,18 @@ nodeServer <- function(id, r) {
   })
 }
 nodeApp <- function(network_input) {
+  all_vars <- get_node_attributes(network_input)
   ui <- shiny::fluidPage(
-    networkFilter("ibd"),
+    networkFilterInput("filter", all_vars),
     nodeOutput("node")
   )
   r <- shiny::reactiveValues()
-  r$network <- shiny::reactive({
+  r$full_network <- shiny::reactive({
     network_input
   })
   server <- function(input, output, session) {
     nodeServer("node", r = r)
-    ibdServer('ibd', network_input, r = r)
+    networkFilterServer("filter", r = r)
   }
   shiny::shinyApp(ui, server)
 }

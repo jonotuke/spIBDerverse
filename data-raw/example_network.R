@@ -26,12 +26,7 @@ example_network <- intergraph::asIgraph(example_network)
 V(example_network)$name <- V(example_network)$vertex.names
 
 # Add degree
-V(example_network)$degree <- degree(example_network)
-V(example_network)$closeness = igraph::closeness(example_network)
-V(example_network)$betweenness = igraph::betweenness(example_network)
-V(example_network)$eigencentrality = igraph::eigen_centrality(
-  example_network
-)$vector
+example_network <- example_network |> add_centrality_measures()
 
 # Add wij
 E(example_network)$wij <- runif(ecount(example_network), 0.1, 1)

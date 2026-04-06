@@ -123,11 +123,11 @@ ringbauerServer <- function(id, r) {
           filter_sign = input$filter_sign
         )
     })
-    shiny::observeEvent(r$network(), {
+    shiny::observeEvent(r$full_network(), {
       shiny::updateSelectInput(
         session,
         "grp",
-        choices = c("none", get_node_attributes(r$network(), "cat"))
+        choices = c("none", get_node_attributes(r$full_network(), "cat"))
       )
     })
     shiny::observeEvent(input$homophily_save, {

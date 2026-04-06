@@ -40,18 +40,7 @@ ibdInput <- function(id) {
       )
   )
 }
-networkFilter <- function(id) {
-  shiny::tagList(
-    shiny::textInput(
-      shiny::NS(id, "node_inc"),
-      "Node names to include"
-    ),
-    shiny::textInput(
-      shiny::NS(id, "node_exc"),
-      "Node names to exclude"
-    )
-  )
-}
+
 ibdOutput <- function(id) {
   shiny::tagList(
     # shiny::verbatimTextOutput(
@@ -177,14 +166,21 @@ ibdServer <- function(id, input_network, r) {
   })
 }
 ibdcreateApp <- function(input_network) {
+  all_vars <- get_node_attributes(input_network)
+  r <- shiny::reactiveValues()
+  r$full_network <- shiny::reactive({
+    input_network
+  })
   options(shiny.maxRequestSize = Inf)
   ui <- shiny::fluidPage(
     ibdInput("ibd"),
-    networkFilter("ibd"),
-    ibdOutput("ibd")
+    networkFilterInput("filter", all_vars),
+    nodeOutput("node")
   )
   server <- function(input, output, session) {
-    network <- ibdServer("ibd", input_network)
+    network <- ibdServer("ibd", input_network, r = r)
+    networkFilterServer("filter", r = r)
+    nodeServer("node", r = r)
   }
   shiny::shinyApp(ui, server)
 }

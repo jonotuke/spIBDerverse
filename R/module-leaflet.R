@@ -58,37 +58,37 @@ leafletServer <- function(id, r) {
         )
       }
     })
-    shiny::observeEvent(r$network(), {
+    shiny::observeEvent(r$full_network(), {
       shiny::updateSelectInput(
         session,
         "lat",
-        choices = c("none", get_node_attributes(r$network()))
+        choices = c("none", get_node_attributes(r$full_network()))
       )
     })
-    shiny::observeEvent(r$network(), {
+    shiny::observeEvent(r$full_network(), {
       shiny::updateSelectInput(
         session,
         "lon",
-        choices = c("none", get_node_attributes(r$network()))
+        choices = c("none", get_node_attributes(r$full_network()))
       )
     })
-    shiny::observeEvent(r$network(), {
+    shiny::observeEvent(r$full_network(), {
       shiny::updateSelectInput(
         session,
         "leaflet_col",
         choices = c(
           "none",
-          get_node_attributes(r$network())
+          get_node_attributes(r$full_network())
         )
       )
     })
-    shiny::observeEvent(r$network(), {
+    shiny::observeEvent(r$full_network(), {
       shiny::updateSelectInput(
         session,
         "label",
         choices = c(
           "none",
-          get_node_attributes(r$network())
+          get_node_attributes(r$full_network())
         )
       )
     })

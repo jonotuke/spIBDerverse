@@ -122,10 +122,7 @@ load_ibd_network <- function(
   if (is.null(g)) {
     return(g)
   }
-  igraph::V(g)$degree <- igraph::degree(g)
-  igraph::V(g)$closeness = igraph::closeness(g)
-  igraph::V(g)$betweenness = igraph::betweenness(g)
-  igraph::V(g)$eigencentrality = igraph::eigen_centrality(g)$vector
+  g <- g |> add_centrality_measures()
   g
 }
 # ibd_file <- fs::path_package(

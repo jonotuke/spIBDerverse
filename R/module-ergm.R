@@ -170,11 +170,11 @@ ergmServer <- function(id, r) {
           locations = gt::cells_row_groups()
         )
     })
-    shiny::observeEvent(r$network(), {
+    shiny::observeEvent(r$full_network(), {
       shiny::updateCheckboxGroupInput(
         session,
         "preds",
-        choices = get_node_attributes(r$network())
+        choices = get_node_attributes(r$full_network())
       )
     })
     shiny::observeEvent(input$bic_save, {

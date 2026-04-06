@@ -4,7 +4,7 @@
 \alias{plot_centrality}
 \title{plot centrality measures}
 \usage{
-plot_centrality(g, measure = "degree", facets = NULL)
+plot_centrality(g, measure = ".degree", facets = NULL)
 }
 \arguments{
 \item{g}{igraph obj}
