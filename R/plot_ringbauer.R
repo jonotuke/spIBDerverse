@@ -68,12 +68,20 @@ plot_ringbauer <- function(RM, label_margin = 2, label_size = 3) {
     col = text_colour,
     cex = label_size
   )
+  # graphics::axis(
+  #   1,
+  #   at = seq(1, nc, by = 1),
+  #   labels = colnames(density),
+  #   cex.axis = label_size,
+  #   padj = 1
+  # )
   graphics::axis(
     1,
     at = seq(1, nc, by = 1),
     labels = colnames(density),
     cex.axis = label_size,
-    padj = 1
+    las = 2,
+    padj = 0.5
   )
   ypos <- graphics::axis(
     2,
@@ -84,13 +92,14 @@ plot_ringbauer <- function(RM, label_margin = 2, label_size = 3) {
     srt = 45
   )
   text(
-    x = graphics::par("usr")[1],
+    x = graphics::par("usr")[1] - 0.3,
     y = ypos,
     labels = rownames(density),
     cex = label_size,
     srt = 0,
     xpd = NA,
-    adj = 1.5
+    adj = 1,
+    padj = 0.5
   )
 
   # Add dendrogram
@@ -117,14 +126,10 @@ plot_ringbauer <- function(RM, label_margin = 2, label_size = 3) {
   )
   invisible(RM)
 }
-# RM <- get_ringbauer_measures(example_network, "site")
-# RM <- RM |>
-#   dplyr::mutate(
-#     grp1 = stringr::str_glue("{grp1} (n = {n1})"),
-#     grp2 = stringr::str_glue("{grp2} (n = {n2})")
-#   )
-# RM |> print()
-# unique(RM$grp1)
+# g <- readr::read_rds("~/Desktop/2026-04-08-network.rds")
+# RM <- get_ringbauer_measures(g, "simple_culture")
+
 # RM |>
 #   convert_ringbauer_measures() |>
-#   plot_ringbauer(label_margin = 8, label_size = 1)
+#   plot_ringbauer(label_margin = 8, label_size = 1) |>
+#   print()
