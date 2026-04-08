@@ -9,9 +9,10 @@ filter_network(
   g,
   node_inc = "",
   node_exc = "",
-  filter_column = "none",
-  cutoff = NULL,
-  is_less_than = TRUE
+  node_column = "none",
+  node_cutoff = NULL,
+  edge_column = "none",
+  edge_cutoff = NULL
 )
 ```
 
@@ -29,17 +30,21 @@ filter_network(
 
   regular expression for exclusion
 
-- filter_column:
+- node_column:
 
   node attribute to filter network on
 
-- cutoff:
+- node_cutoff:
 
-  cutoffs for filter
+  cutoffs for node filter
 
-- is_less_than:
+- edge_column:
 
-  in numeric filter do you keep less than or greater than
+  edge attributes to filter network on
+
+- edge_cutoff:
+
+  cutoffs for edge filter
 
 ## Value
 
@@ -49,15 +54,16 @@ filtered IBD network
 
 ``` r
 filter_network(example_network, node_exc = "1")
-#> IGRAPH 0e6d9c0 UN-- 27 53 -- 
+#> IGRAPH 22f3232 UN-- 40 110 -- 
 #> + attr: genetic_sex (v/c), site (v/c), name (v/n), .degree (v/n),
 #> | .closeness (v/n), .betweenness (v/n), .eigencentrality (v/n), lat
 #> | (v/n), long (v/n), wij (e/n), edge_type (e/c)
-#> + edges from 0e6d9c0 (vertex names):
-#>  [1]  2-- 5  2--24  2--26  2--28  2--36  3-- 4  3-- 6  3--24  3--34  3--39
-#> [11]  4-- 8  4--27  4--30  4--36  4--37  5-- 7  5-- 9  5--20  5--25  5--33
-#> [21]  7-- 9  7--23  7--25  7--38  9--23  9--25  9--26  9--38 22--28 22--35
-#> [31] 23--25 23--26 23--37 23--38 23--40 24--29 24--30 24--35 25--38 26--37
-#> [41] 26--40 27--38 28--33 28--38 29--30 29--39 30--37 30--40 32--34 33--37
-#> [51] 33--40 37--40 39--40
+#> + edges from 22f3232 (vertex names):
+#>  [1]  1-- 9  1--13  1--14  1--15  1--17  1--19  1--20  1--25  1--28  2-- 5
+#> [11]  2--14  2--24  2--26  2--28  2--36  3-- 4  3-- 6  3--16  3--24  3--34
+#> [21]  3--39  4-- 8  4--10  4--14  4--27  4--30  4--36  4--37  5-- 7  5-- 9
+#> [31]  5--11  5--15  5--20  5--25  5--31  5--33  7-- 9  7--12  7--13  7--23
+#> [41]  7--25  7--38  8--14  9--10  9--11  9--16  9--23  9--25  9--26  9--38
+#> [51] 10--34 10--38 10--40 11--12 11--29 11--33 11--40 12--29 12--32 12--33
+#> + ... omitted several edges
 ```

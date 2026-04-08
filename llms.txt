@@ -178,6 +178,8 @@ ibd_network
   : Get text font
 - [`label_grp_duplicates()`](https://jonotuke.github.io/spIBDerverse/reference/label_grp_duplicates.md)
   : label_grp_duplicates
+- [`load_dist_network()`](https://jonotuke.github.io/spIBDerverse/reference/load_dist_network.md)
+  : load distance network
 - [`load_example()`](https://jonotuke.github.io/spIBDerverse/reference/load_example.md)
   : loads some example data
 - [`load_ibd_network()`](https://jonotuke.github.io/spIBDerverse/reference/load_ibd_network.md)
