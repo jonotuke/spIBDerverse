@@ -8,9 +8,10 @@ filter_network(
   g,
   node_inc = "",
   node_exc = "",
-  filter_column = "none",
-  cutoff = NULL,
-  is_less_than = TRUE
+  node_column = "none",
+  node_cutoff = NULL,
+  edge_column = "none",
+  edge_cutoff = NULL
 )
 }
 \arguments{
@@ -20,11 +21,13 @@ filter_network(
 
 \item{node_exc}{regular expression for exclusion}
 
-\item{filter_column}{node attribute to filter network on}
+\item{node_column}{node attribute to filter network on}
 
-\item{cutoff}{cutoffs for filter}
+\item{node_cutoff}{cutoffs for node filter}
 
-\item{is_less_than}{in numeric filter do you keep less than or greater than}
+\item{edge_column}{edge attributes to filter network on}
+
+\item{edge_cutoff}{cutoffs for edge filter}
 }
 \value{
 filtered IBD network

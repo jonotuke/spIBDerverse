@@ -1,4 +1,4 @@
-networkFilterInput <- function(id, all_vars) {
+networkFilterInput <- function(id, all_vars, edge_vars) {
   shiny::tagList(
     shiny::textInput(
       shiny::NS(id, "node_inc"),
@@ -9,18 +9,26 @@ networkFilterInput <- function(id, all_vars) {
       "Node names to exclude"
     ),
     shiny::selectInput(
-      shiny::NS(id, "filter_column"),
-      "Choose variable to filter on",
+      shiny::NS(id, "node_column"),
+      "Choose node attribute to filter on",
       choices = c("none", all_vars)
     ),
     shiny::uiOutput(
-      shiny::NS(id, "filter_cutoff")
+      shiny::NS(id, "node_cutoff")
+    ),
+    shiny::selectInput(
+      shiny::NS(id, "edge_column"),
+      "Choose edge attribute to filter on",
+      choices = c("none", edge_vars)
+    ),
+    shiny::uiOutput(
+      shiny::NS(id, "edge_cutoff")
     )
   )
 }
 
 
-make_filter_cutoff_ui <- function(id, x, g) {
+make_node_cutoff_ui <- function(id, x, g) {
   if (x == "none") {
     return(NULL)
   }
@@ -28,23 +36,47 @@ make_filter_cutoff_ui <- function(id, x, g) {
   if (type == "numeric") {
     obs <- igraph::vertex_attr(g, x)
     shiny::tagList(
-      shiny::numericInput(
-        inputId = shiny::NS(id, "cutoff"),
-        label = stringr::str_glue("Enter the value of {x} to filter on"),
-        value = mean(obs, na.rm = TRUE),
-        min = min(obs, na.rm = TRUE),
-        max = max(obs, na.rm = TRUE)
-      ),
-      shiny::checkboxInput(
-        inputId = shiny::NS(id, "is_less_than"),
-        label = "Keep nodes that are less than than cutoff",
-        value = TRUE
+      shinyWidgets::numericRangeInput(
+        shiny::NS(id, "node_cutoff"),
+        label = stringr::str_glue("Enter the filter range for {x}"),
+        value = c(
+          min(obs, na.rm = TRUE),
+          max(obs, na.rm = TRUE)
+        )
       )
     )
   } else {
     levels <- sort(unique(igraph::vertex_attr(g, x)))
     shiny::checkboxGroupInput(
-      inputId = shiny::NS(id, "cutoff"),
+      inputId = shiny::NS(id, "node_cutoff"),
+      label = stringr::str_glue("Select values of {x} to keep"),
+      choices = levels,
+      selected = levels[1]
+    )
+  }
+}
+
+make_edge_cutoff_ui <- function(id, x, g) {
+  if (x == "none") {
+    return(NULL)
+  }
+  type <- class(igraph::edge_attr(g, x))
+  if (type == "numeric") {
+    obs <- igraph::edge_attr(g, x)
+    shiny::tagList(
+      shinyWidgets::numericRangeInput(
+        shiny::NS(id, "edge_cutoff"),
+        label = stringr::str_glue("Enter the filter range for {x}"),
+        value = c(
+          min(obs, na.rm = TRUE),
+          max(obs, na.rm = TRUE)
+        )
+      )
+    )
+  } else {
+    levels <- sort(unique(igraph::edge_attr(g, x)))
+    shiny::checkboxGroupInput(
+      inputId = shiny::NS(id, "edge_cutoff"),
       label = stringr::str_glue("Select values of {x} to keep"),
       choices = levels,
       selected = levels[1]
@@ -63,6 +95,8 @@ networkFilterOutput <- function(id) {
 networkFilterServer <- function(id, r) {
   shiny::moduleServer(id, function(input, output, session) {
     output$debug <- shiny::renderPrint({
+      print(input$node_cutoff)
+      print(input$edge_cutoff)
       print(r$network())
     })
     r$network <- shiny::reactive({
@@ -70,22 +104,30 @@ networkFilterServer <- function(id, r) {
         r$full_network(),
         input$node_inc,
         input$node_exc,
-        filter_column = input$filter_column,
-        cutoff = input$cutoff,
-        is_less_than = input$is_less_than
+        node_column = input$node_column,
+        node_cutoff = input$node_cutoff,
+        edge_column = input$edge_column,
+        edge_cutoff = input$edge_cutoff
       )
     })
-    output$filter_cutoff <- shiny::renderUI({
-      make_filter_cutoff_ui(
+    output$node_cutoff <- shiny::renderUI({
+      make_node_cutoff_ui(
         id,
-        input$filter_column,
+        input$node_column,
+        r$full_network()
+      )
+    })
+    output$edge_cutoff <- shiny::renderUI({
+      make_edge_cutoff_ui(
+        id,
+        input$edge_column,
         r$full_network()
       )
     })
     shiny::observeEvent(r$full_network(), {
       shiny::updateSelectInput(
         session,
-        "filter_column",
+        "node_column",
         choices = c(
           "none",
           get_node_attributes(r$full_network())
@@ -104,9 +146,10 @@ networkFilterApp <- function(network_input) {
   })
 
   all_vars <- get_node_attributes(network_input)
+  edge_vars <- igraph::edge_attr_names(network_input)
 
   ui <- shiny::fluidPage(
-    networkFilterInput("networkFilter", all_vars),
+    networkFilterInput("networkFilter", all_vars, edge_vars),
     networkFilterOutput("networkFilter"),
     nodeOutput("node")
   )

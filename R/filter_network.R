@@ -5,9 +5,10 @@
 #' @param g ibd network
 #' @param node_inc regular expression for inclusion
 #' @param node_exc regular expression for exclusion
-#' @param filter_column node attribute to filter network on
-#' @param cutoff cutoffs for filter
-#' @param is_less_than in numeric filter do you keep less than or greater than
+#' @param node_column node attribute to filter network on
+#' @param node_cutoff cutoffs for node filter
+#' @param edge_column edge attributes to filter network on
+#' @param edge_cutoff cutoffs for edge filter
 #'
 #' @return filtered IBD network
 #' @export
@@ -18,12 +19,20 @@ filter_network <- function(
   g,
   node_inc = "",
   node_exc = "",
-  filter_column = "none",
-  cutoff = NULL,
-  is_less_than = TRUE
+  node_column = "none",
+  node_cutoff = NULL,
+  edge_column = "none",
+  edge_cutoff = NULL
 ) {
-  if (filter_column != "none" & is.null(cutoff)) {
-    rlang::abort("You must give a cutoff is you filter on a node attribute")
+  if (node_column != "none" & is.null(node_cutoff)) {
+    rlang::abort(
+      "You must give a node_cutoff if you filter on a node attribute"
+    )
+  }
+  if (edge_column != "none" & is.null(edge_cutoff)) {
+    rlang::abort(
+      "You must give a edge_cutoff if you filter on a edge attribute"
+    )
   }
   id <- igraph::V(g)$name
   if (node_inc != "") {
@@ -34,24 +43,34 @@ filter_network <- function(
     node_exc <- convert_pipe(node_exc)
     id <- id |> purrr::keep(\(x) !stringr::str_detect(x, node_exc))
   }
-  if (filter_column != "none") {
-    node_values <- igraph::vertex_attr(g, filter_column)
+  if (node_column != "none") {
+    node_values <- igraph::vertex_attr(g, node_column)
     if (methods::is(node_values, "character")) {
-      id <- igraph::V(g)[node_values %in% cutoff]
+      id <- igraph::V(g)[node_values %in% node_cutoff]
     } else {
-      if (is_less_than) {
-        id <- igraph::V(g)[node_values <= cutoff]
-      } else {
-        id <- igraph::V(g)[node_values >= cutoff]
-      }
+      id <- igraph::V(g)[
+        dplyr::between(node_values, node_cutoff[1], node_cutoff[2])
+      ]
     }
+    g <- igraph::induced_subgraph(g, id)
   }
-  igraph::induced_subgraph(g, id)
+  if (edge_column != "none") {
+    edge_values <- igraph::edge_attr(g, edge_column)
+    if (methods::is(edge_values, "character")) {
+      id <- igraph::E(g)[edge_values %in% edge_cutoff]
+    } else {
+      id <- igraph::E(g)[
+        dplyr::between(edge_values, edge_cutoff[1], edge_cutoff[2])
+      ]
+    }
+    g <- igraph::subgraph_from_edges(g, id)
+  }
+  g <- g |> add_centrality_measures()
+  g
 }
 # filter_network(
 #   example_network,
-#   filter_column = "long",
-#   cutoff = 138.6,
-#   is_less_than = FALSE
+#   edge_column = "edge_type",
+#   edge_cutoff = c("A")
 # ) |>
 #   print()

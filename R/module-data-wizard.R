@@ -45,110 +45,33 @@ dataWizardOutput <- function(id) {
     )
   )
 }
-make_ui <- function(x, id) {
-  if (is.null(x)) {
-    ui <- NULL
-  }
-  if (x == "example") {
-    ui <- shiny::tagList(
-      shiny::selectInput(
-        shiny::NS(id, "example_data"),
-        label = "Example dataset",
-        choices = c(
-          "example_network",
-          "example_network_2",
-          "example_network_3"
-        )
-      )
-    )
-  }
-  if (x == "ibd") {
-    ui <- shiny::tagList(
-      shiny::fileInput(
-        shiny::NS(id, "ibd_edge_file"),
-        "Upload an IBD file (edges)"
-      ) |>
-        bslib::tooltip(
-          "Upload pairwise IBD file. Each line should have two individuals, and how related that pair is. Additional columns can include pairwise information (like geographic distance for example). The first column should be called \"iid1\" and the second column \"iid2\"."
-        ),
-      shiny::fileInput(
-        shiny::NS(id, "ibd_meta_file"),
-        "Upload a meta data file (nodes)"
-      ) |>
-        bslib::tooltip(
-          "Upload your meta data for the individuals. This can include any meta data you might like to plot or test. The first column should be called \"iid\"."
-        ),
-      shiny::checkboxInput(
-        shiny::NS(id, "ibd_filter"),
-        "Filter edges to just nodes in metafile",
-        value = TRUE
-      ) |>
-        bslib::tooltip(
-          "Toggle this off to keep ALL IBD information. Will slow down analyses!"
-        ),
-      shiny::textInput(
-        shiny::NS(id, "ibd_cutoffs"),
-        label = "Please enter cutoffs with commas between",
-        value = "0,2,1,0"
-      ) |>
-        bslib::popover(
-          "This defines the definition of two individuals being \"connected\". A comma-separated description of the cut-off for the minimum number of blocks of IBD of length >=8cM, >=12cM, >=16cM and >=20cM."
-        ),
-      shiny::numericInput(
-        shiny::NS(id, "ibd_frac_cutoff"),
-        label = "Minimum Frac GP",
-        value = 0.7
-      ) |>
-        bslib::popover(
-          "Used for quality control. The fraction of genotype likelihoods that had posterior values of >=0.99, indicating high quality imputation. Recommended default is 0.7."
-        )
-    )
-  }
-  if (x == "distance") {
-    ui <- shiny::tagList(
-      shiny::fileInput(
-        shiny::NS(id, "dist_edge_file"),
-        "Upload an edge file"
-      ),
-      shiny::fileInput(
-        shiny::NS(id, "dist_meta_file"),
-        "Upload a meta data file (nodes)"
-      ),
-      shiny::checkboxInput(
-        shiny::NS(id, "dist_filter"),
-        "Filter edges to just nodes in metafile",
-        value = TRUE
-      ) |>
-        bslib::tooltip(
-          "Toggle this off to keep ALL IBD information. Will slow down analyses!"
-        )
-    )
-  }
-  if (x == "rds") {
-    ui <- shiny::tagList(
-      shiny::fileInput(
-        shiny::NS(id, "rds_file"),
-        "Upload a previous saved network"
-      )
-    )
-  }
-  return(ui)
-}
+
 
 dataWizardServer <- function(id, r) {
   shiny::moduleServer(id, function(input, output, session) {
     output$debug <- shiny::renderPrint({
-      print(shiny::reactiveValuesToList(input))
+      print("Example data")
+      print(example_data())
+      print("IBD data")
+      print(ibd_data())
+      print("RDS data")
+      print(rds_data())
+      print("DIST data")
+      print(dist_data())
+      print("Full network")
       print(r$full_network())
     })
     output$data_ui <- shiny::renderUI({
-      make_ui(input$data_type, id)
+      make_dataWizard_ui(input$data_type, id)
     })
     example_data <- shiny::reactive({
       load_example(input$example_data)
     })
     ibd_data <- shiny::reactive({
-      if (is.null(input$ibd_edge_file) | is.null(input$ibd_meta_file)) {
+      if (
+        is.null(input$ibd_edge_file) |
+          is.null(input$ibd_meta_file)
+      ) {
         return(NULL)
       }
       shiny::req(input$ibd_edge_file)
@@ -162,9 +85,26 @@ dataWizardServer <- function(id, r) {
       )
     })
     rds_data <- shiny::reactive({
+      if (is.null(input$rds_file)) {
+        return(NULL)
+      }
       shiny::req(input$rds_file)
       load_rds_data(
         input$rds_file$datapath
+      )
+    })
+    dist_data <- shiny::reactive({
+      if (
+        is.null(input$dist_edge_file) |
+          is.null(input$dist_meta_file)
+      ) {
+        return(NULL)
+      }
+      shiny::req(input$dist_edge_file)
+      shiny::req(input$dist_meta_file)
+      load_dist_network(
+        node_file = input$dist_meta_file$datapath,
+        edge_file = input$dist_edge_file$datapath
       )
     })
     ibd_cutoffs <- shiny::reactive({
@@ -183,7 +123,7 @@ dataWizardServer <- function(id, r) {
         })
       } else if (input$data_type == "distance") {
         r$full_network <- shiny::reactive({
-          NULL
+          dist_data()
         })
       } else if (input$data_type == "rds") {
         r$full_network <- shiny::reactive({

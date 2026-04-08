@@ -104,11 +104,11 @@ plot_network <- function(
   g$alpha <- 1
   if (connected == "Hide") {
     g <- g |>
-      dplyr::filter(degree >= 1)
+      dplyr::filter(.degree >= 1)
   } else if (connected == "Grey out") {
     g <- g |>
       dplyr::mutate(
-        alpha = ifelse(degree >= 1, 1, 0.1)
+        alpha = ifelse(.degree >= 1, 1, 0.1)
       )
   }
   if (node_centrality != "none") {

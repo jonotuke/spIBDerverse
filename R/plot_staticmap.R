@@ -101,11 +101,11 @@ plot_staticmap <- function(
   nodes_sf$alpha <- 1
   if (connected == "Hide") {
     nodes_sf <- nodes_sf |>
-      dplyr::filter(degree >= 1)
+      dplyr::filter(.degree >= 1)
   } else if (connected == "Grey out") {
     nodes_sf <- nodes_sf |>
       dplyr::mutate(
-        alpha = ifelse(degree >= 1, 1, 0.1)
+        alpha = ifelse(.degree >= 1, 1, 0.1)
       )
   }
   if (node_centrality != "none") {

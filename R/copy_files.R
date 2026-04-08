@@ -27,6 +27,24 @@ copy_files <- function(folder) {
       new_path = stringr::str_glue("{folder}/example_meta.tsv"),
       overwrite = TRUE
     )
+  fs::path_package(
+    "extdata",
+    "dist_network_edges.tsv",
+    package = "spIBDerverse"
+  ) |>
+    fs::file_copy(
+      new_path = stringr::str_glue("{folder}/example_dist_edge.tsv"),
+      overwrite = TRUE
+    )
+  fs::path_package(
+    "extdata",
+    "dist_network_nodes.tsv",
+    package = "spIBDerverse"
+  ) |>
+    fs::file_copy(
+      new_path = stringr::str_glue("{folder}/example_dist_node.tsv"),
+      overwrite = TRUE
+    )
 }
 # pacman::p_load(conflicted, tidyverse, targets)
 # copy_files("~/Desktop/") |> print()

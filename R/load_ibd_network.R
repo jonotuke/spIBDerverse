@@ -38,6 +38,7 @@ load_ibd_network <- function(
   filter_on_meta = FALSE
 ) {
   # EDGES
+
   ibd <- tryCatch(
     ibd_file |>
       readr::read_tsv(show_col_types = FALSE) |>

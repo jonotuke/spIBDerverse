@@ -41,7 +41,7 @@ spibder_app <- function(input_network = NULL) {
           condition = "input.tabs == 'Filter network' || 
             input.tabs == 'Edge info' || 
             input.tabs == 'Node info'",
-          networkFilterInput("filter", all_vars)
+          networkFilterInput("filter", all_vars, edge_vars)
         ),
         shiny::conditionalPanel(
           condition = "input.tabs == 'Network plot'",
