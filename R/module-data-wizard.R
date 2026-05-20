@@ -243,3 +243,7 @@ dataWizardApp <- function() {
   }
   shiny::shinyApp(ui, server)
 }
+
+if (sys.nframe() == 5) {
+  dataWizardApp() |> print()
+}

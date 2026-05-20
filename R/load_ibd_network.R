@@ -38,7 +38,6 @@ load_ibd_network <- function(
   filter_on_meta = FALSE
 ) {
   # EDGES
-
   ibd <- tryCatch(
     ibd_file |>
       readr::read_tsv(show_col_types = FALSE) |>
@@ -55,8 +54,10 @@ load_ibd_network <- function(
   # NODES
   node_df <- readr::read_tsv(meta_file, show_col_types = FALSE)
   if (!all(c("iid") %in% colnames(node_df))) {
-    message("The column iid is not in the META file")
-    return(NULL)
+    message(
+      "The column iid is not in the META file\nWe will use Column 1 as the iid"
+    )
+    colnames(node_df)[1] <- "iid"
   }
   node_df <- node_df |> dplyr::relocate(iid)
   # Get frac_gp
@@ -126,18 +127,26 @@ load_ibd_network <- function(
   g <- g |> add_centrality_measures()
   g
 }
-# ibd_file <- fs::path_package(
-#   "extdata",
-#   "example-ibd-data.tsv",
-#   package = "spIBDerverse"
-# )
-# meta_file <- fs::path_package(
-#   "extdata",
-#   "example-meta-data.tsv",
-#   package = "spIBDerverse"
-# )
-# load_ibd_network(
-#   ibd_file = ibd_file,
-#   meta_file = meta_file
-# ) |>
-#   print()
+
+if (sys.nframe() == 5) {
+  ibd_file <- fs::path_package(
+    "extdata",
+    "example-ibd-data.tsv",
+    package = "spIBDerverse"
+  )
+  meta_file <- fs::path_package(
+    "extdata",
+    "example-meta-data.tsv",
+    package = "spIBDerverse"
+  )
+  meta_file_2 <- fs::path_package(
+    "extdata",
+    "example-meta-data-sample-iid.tsv",
+    package = "spIBDerverse"
+  )
+  load_ibd_network(
+    ibd_file = ibd_file,
+    meta_file = meta_file_2
+  ) |>
+    print()
+}

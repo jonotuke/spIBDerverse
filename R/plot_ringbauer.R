@@ -7,6 +7,7 @@
 #' @param label_size adjust label and axis text
 #'
 #' @return Ringbauer plot
+#' @importFrom graphics lines
 #' @export
 #'
 #' @examples
