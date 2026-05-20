@@ -1,10 +1,11 @@
 # Hammersley-Clifford theorem
 
 ``` r
+
 library(spIBDerverse)
 ```
 
-This is based on Lusher, Koskinen, and Robins (2012).
+This is based on Lusher et al. (2012).
 
 ## Besag (1974)
 
@@ -18,7 +19,7 @@ of triangles and stars.
 
 ## Robins and Pattison (2009)
 
-This extends the types of graphs described including $p^{*}$ models, and
+This extends the types of graphs described including $`p^*`$ models, and
 hence early ERGMs
 
 ## References
@@ -38,7 +39,7 @@ Applications*. Cambridge University Press.
 
 Robins, Garry, and Philippa Pattison. 2009. “Interdependencies and
 Social Processes: Dependence Graphs and Generalized Dependence
-Structures.” In *Models and Methods in Social Network Analysis*, edited
-by Peter J. Carrington, John Scott, and Stanley Wasserman, Reprinted.
-Structural Analysis in the Social Sciences, 27 \[i.e. 28\]. Cambridge:
+Structures.” In *Models and Methods in Social Network Analysis*,
+Reprinted, edited by Peter J. Carrington, John Scott, and Stanley
+Wasserman. Structural Analysis in the Social Sciences, 27 \[i.e. 28\].
 Cambridge Univ. Press.

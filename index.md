@@ -9,6 +9,7 @@ You can install the development version of spIBDerverse from
 [GitHub](https://github.com/) with:
 
 ``` r
+
 # install.packages("pak")
 pak::pak("jonotuke/spIBDerverse")
 ```
@@ -16,6 +17,7 @@ pak::pak("jonotuke/spIBDerverse")
 ## Example
 
 ``` r
+
 library(spIBDerverse)
 ```
 
@@ -57,6 +59,7 @@ There are example files within the `spIBDerverse` package that can be
 used as an example. These can be obtained with
 
 ``` r
+
 ibd_file <- fs::path_package(
   "extdata",
   "example-ibd-data.tsv",
@@ -72,6 +75,7 @@ meta_file <- fs::path_package(
 We convert these to an IBD network with
 
 ``` r
+
 ibd_network <- load_ibd_network(
   ibd_file,
   meta_file,
@@ -81,6 +85,7 @@ ibd_network <- load_ibd_network(
 ```
 
 ``` r
+
 ibd_network
 #> IGRAPH e615b11 UN-- 328 2103 -- 
 #> + attr: name (v/c), frac_gp (v/n), frac_missing (v/n), frac_het (v/n),
