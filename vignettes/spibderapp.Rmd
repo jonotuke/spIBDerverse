@@ -1,11 +1,12 @@
 ---
 title: "Using the spIBDerapp"
-output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{Using the spIBDerapp}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+format:
+  html:
+    theme:
+      - default
+    mainfont: sans-serif
 toc: true
+bibliography: spibderapp.bibtex
 ---
 
 ```{r, include = FALSE}
@@ -19,26 +20,387 @@ knitr::opts_chunk$set(
 library(spIBDerverse)
 ```
 
-# Running
+```{css, echo = FALSE}
+.wide-figure {
+  width: 140%;
+  margin-left: -20%;
+}
+.quarto-container { 
+  max-width: 1200px !important; 
+}
+```
+
+
+
+# Introduction
+
+The SpIBDer-verse is a collection of methods that was primarily developed for the analysis of IBD networks, but can in principle be used for networks of any type (this usability in development). SpIBDer-verse can be used for three main approaches to network analysis: (i) visualisation, (ii) data exploration and (iii) formal hypothesis testing.
+
+The SpIBDer-App is designed to be modular, with modules arranged into tabs, with the exception of three tabs for loading/checking data (*Load data*, *Edge info* and *Node info*) and one tab for exporting figures (*Export plot*). New modules can be added in future releases of the SpIBDer-verse as new methods are developed, or if users request new functionality.
+
+Any new network analysis begin with the same task: getting your data into the app. Networks in general require two types of information: node and edge information.
+
+1.  **Node information:** (meta data) reflects properties of the individual units in your analysis: most likely sampled individuals, and may include variables such as their sample ID, genetic sex, age at death, etc. The first column in this file should contain the node (individual) ID, and then each row contains any meta data/information about the nodes that you might want to visualise or analyse.
+2.  **Edge information:** this file contains information about the connections between node (individuals), and hence the first two column must contain the names of two nodes as found in the node information. This table can include numerical or categorical information, such as the IBD information from ancIBD, the geographic distance between two burials or the type of relationship if it has been estimated (Parent/Child, 4th-degree etc).
+
+This is the minimum information that can be uploaded to the app to run SpIBDer-app. We now explain how each module works, tips and tricks for using the app and how some output can be interpreted.
+
+# Running the app
+
+To launch the SpIBDer-app, first load the package and then run the app by typing into the command line in R:
+
+```{r,eval=FALSE}
+require(spIBDerverse)
+spibder_app()
+```
 
 # Loading data
 
+Please note that the "Load distance data" function is currently under development and cannot currently be used.
+
+## Pre-loaded and simulated data
+
+When SpIBDer-App opens, you will (by default) be in the *Load Data* Tab <span style="color: red;">[1]</span>, and (again by default) specifically in the *Example dataset* mode <span style="color: red;">[2]</span>. This mode allows users to load one of three simulated data sets, which can be selected in the drop-down list <span style="color: red;">[3]</span>, and can be used to explore the functionality of the SpIBDer-App.
+
+<div class="wide-figure">
+
+```{r  label = load_example, echo = FALSE, fig.cap = "Figure 1: Load Data Tab - Load example data mode.", out.width = '100%', fig.align = 'center'}
+knitr::include_graphics("Figures/LoadData_example_Marked.png")
+```
+
+</div>
+
+However, you are probably more interested in loading your own data....
+
+## Loading your own data
+
+We can now load in our data. For the examples here we load in the data from [@rohrlach2026detecting], which was originally published by [@wang2025ancient]. To the IBD data we have added an edge weight, denoted $w_{ij}$, which is simply the total sum of IBD blocks ≥8cM.
+
+<div class="wide-figure">
+
+```{r  label = load_load, echo = FALSE, fig.cap = "Figure 2: Load Data Tab - Load IBD data mode.", out.width = '100%', fig.align = 'center'}
+knitr::include_graphics("Figures/LoadData_LoadIBD_Marked.png")
+```
+
+</div>
+
+We can change to _Load IBD mode_ by clicking on the correct (radio) button <span style="color: red;">[1]</span>. You will then need to upload the IBD file by clicking on the _Browse..._ button for IBD files <span style="color: red;">[2]</span> (this defines the edges), and a meta data file by clicking on the _Browse..._ button for meta data files <span style="color: red;">[3]</span> (this defines the nodes). Note that these files are uploaded to SpIBDer-App _on your system_, and certainly not online. Once these are files are uploaded, you can see this information in the yellow box  <span style="color: red;">[4]</span>.
+
+Currently, SpIBDer-App can only accept the output from ancIBD [@ringbauer2024accurate], and a cut off based on the number of blocks of IBD of length ≥8cM, ≥12cM, ≥16cM and ≥20cM. However, the format of the meta data table can be quite flexible: as long as the first column is made up of the names of the individuals (and matches the names in the IBD file), the remaining columns will be automatically read in. For example, SpIBDer-App has read in our meta data, and automatically realised that we have node variables called _site_, _sex_,..., _longitude_ <span style="color: red;">[5]</span>. Note that information about the edges and these variables is given, counting the number edges, the number of nodes, and importantly, how many times your meta data has missing values for each node variable <span style="color: red;">[5]</span>. These variables will be made available to be used in plotting functions and in the downstream analysis tabs (introduced later in the vignette). Technically, this is also true for the IBD table, although the first two columns must now be the names of nodes (individuals), although this functionality is currently limited.
+
+Given all of this hard work, you can save this network object at any time for later use <span style="color: red;">[6]</span>, which can be loaded into SpIBDer-App to save time for continuing your analysis later (see next section).
+
+Now we must define what we mean by an edge being "present", and we do this by defining a string representation of the vector of IBD block length thresholds, defined $N = \left(n_{8},n_{12},n_{16},n_{20} \right)$ <span style="color: red;">[7]</span>, where $n_i$ is the number of IBD blocks of length ≥$i$cM. In the ERGMs paper [@rohrlach2026detecting] we defined two individuals as being connected/genetically related if they shared _at least_ two IBD blocks of ≥12cM and one block of ≥16cM, which would be defined by the entry "0,2,1,0". Not that we use a zero in the first entry of the string because if an individual has two IBD blocks of ≥12cM, then these two IBD blocks are also ≥8cM. Hence, "0,2,1,0" is equivalent to "2,2,1,0". As another example, if you wished to have all edges where _any_ IBD blocks (≥8cM) were detected, say for plotting the edge weights, then the string "0,0,0,0" would be sufficient.
+
+Finally, the authors of ancIBD suggest using a quality control cut off for samples, called here the "frac_gp", of 0.7. The frac_gp is defined as proportion of genotype posterior probabilities above the threshold of 0.99 when the sample was imputed. We make this the default, although this can be changed in the text box <span style="color: red;">[8]</span>. 
+
+We have now defined our network for downstream plotting and analysis (this can be seen and ignored in the bottom right <span style="color: red;">[9]</span>). Note that you can come back to this tab to change the IBD cut off vector for relatedness, and the quality control frac_gp value at any time in the analysis.
+
+## Loading a previous network
+
+Assuming you saved your previous network object for later use, you can load this straight into SpIBDer-App to save time (done by clicking the "Save analysis state button in any tab). We can change to _Load previous network mode_ by clicking on the correct (radio) button <span style="color: red;">[1]</span>, and finding the RDS file saved earlier by clicking on the _Browse..._ button <span style="color: red;">[2]</span>.
+
+<div class="wide-figure">
+
+```{r  label = load_reload, echo = FALSE, fig.cap = "Figure 3: Load Data Tab - Load previous network mode.", out.width = '100%', fig.align = 'center'}
+knitr::include_graphics("Figures/LoadData_Saved_Marked.png")
+```
+
+</div>
+
+The loaded file name will appear in the green box <span style="color: red;">[3]</span>, and the variables <span style="color: red;">[4]</span> and full (and ignore-able) network object information <span style="color: red;">[5]</span> will appear as before.
+
 # Filtering the node table
+
+Once loaded into SpIBDer-App, the edge table (IBD information) can be visualised <span style="color: red;">[1]</span>.
+
+<div class="wide-figure">
+
+```{r  label = edge_info, echo = FALSE, fig.cap = "Figure 4: Edge Info Tab.", out.width = '100%', fig.align = 'center'}
+knitr::include_graphics("Figures/EdgeInfo_Marked.png")
+```
+
+</div>
+
+The node names, all of the IBD information, and any additional edge information can be seen for every row in the uploaded edge table <span style="color: red;">[2]</span>. This table can be made to have more rows visible at once <span style="color: red;">[3]</span>. Columns can be arbitrarily ordered (ascending or descending) by clicking on the arrows next to the column names. For example, if you were interested in seeing how had the smallest edge weight ($w_{ij}$) you could click the arrows next to "wij", and to see the highest edge weight, this could be clicked again <span style="color: red;">[4]</span>.
+
+Edges meeting (or failing some other criteria) can also be excluded in this tab. For example, if you wished to exclude individuals with a $w_{ij}<1000$cM, you could click the "Choose edge attribute to filter on" button <span style="color: red;">[5]</span>. 
+
+(Zooming in:) after first selecting $w_{ij}$ <span style="color: red;">[6]</span>, SpIBDer-App recognises that the variable is quantitative (numeric). We are then given the option to set a lower <span style="color: red;">[7]</span> and upper <span style="color: red;">[8]</span> bound for the edge values we wish to _keep_.
+
+```{r  label = edge_info_sub1, echo = FALSE, fig.cap = "Figure 5: Edge Info Tab - setting an edge inclusion or exclusion.", out.width = '100%', fig.align = 'center'}
+knitr::include_graphics("Figures/EdgeInfo_Sub1_Marked.png")
+```
 
 # Filtering the edge table
 
-# Using the network plot
+Like the edge table, the node table can also be seen <span style="color: red;">[1]</span>. The left hand panel of options looks the same as for the Node Info tab, and the visualisation of the node table is also very similar. 
 
-# Looking at centrality measures
+<div class="wide-figure">
 
-# Exploring the network geography
+```{r  label = node_info, echo = FALSE, fig.cap = "Figure 6: Node Info Tab.", out.width = '100%', fig.align = 'center'}
+knitr::include_graphics("Figures/NodeInfo_Marked.png")
+```
 
-# Getting a static plot of network geography
+</div>
 
-# Looking at homophilly using the Ringbauer matrix
+It can be used in the previous Edge Info tab, but we now introduce the node inclusion and exclusion options here. First, based on the node names, we can either _include only_ <span style="color: red;">[2]</span> or _exclude_ <span style="color: red;">[3]</span> individuals using a comma separated string. For example, if you wanted to include only RKC018 and RKC019, we can type "RKC018,RKC019" into the include text box <span style="color: red;">[2]</span>. Similarly, if we want to exclude RKC018 and RKC019, but keep everyone else, then we could type "RKC018,RKC019" in the exclude text box <span style="color: red;">[3]</span>. Sub strings also work, so one could include or exclude any individual whose name starts with RKC (and hence comes from that site) by simply entering "RKC" in the relevant text box.
 
-# Fiting ERGM models
+Nodes can also be included or excluded using the "Choose node attribute to filter on" drop down list <span style="color: red;">[5]</span>. For example, we might wish to analyse only adult individuals.
 
-# Exporting a plot
+```{r  label = node_info_sub1, echo = FALSE, fig.cap = "Figure 7: Node Info Tab - setting an node inclusion or exclusion.", out.width = '100%', fig.align = 'center'}
+knitr::include_graphics("Figures/NodeInfo_Sub1_Marked.png")
+```
+
+To do this, we click on the "age" option from the list. SpIBDer-App recognises that this is a qualitative (categorical), and each level is presented as a check box <span style="color: red;">[6]</span>. Simply check the options you wish to _keep_, which in this case is "Adult".
+
+Note that you _could_ use name as the node inclusion attribute, and select the individuals this way. This would not be feasible for very large networks.
+
+# Plotting your network
+
+SpIBDer-app allows users to plot their network in two ways. First, in network space, where finding coordinates (an orientation) that keep connected nodes together, and unconnected nodes apart, is the aim. Other software can make network plots, and SpIBDer-app simply uses the *ggnetwork* package to do this. Second, in geographical space, for which we have tabs for both exploring your data and for producing publishable plots.
+
+## Plotting in network space {#networkplot}
+
+First, we focus on network space visualisation in the Network Plot tab <span style="color: red;">[1]</span>. Note that finding "optimal" coordinates is a random algorithm, and plotting the network will produce different results every time. To avoid a situation where a preferred orientation is found, and later lost, or to keep a consistent orientation between analyses, we include a an option called "Set seed" which allows the user to set the random seed for the orientation, making it reproducible. It also allows the user to change the orientation by entering a new seed, if they are not happy with the default orientation (default = 1000) <span style="color: red;">[2]</span>.
+
+<div class="wide-figure">
+
+```{r  label = network_plot, echo = FALSE, fig.cap = "Figure 8: Network plot Tab.", out.width = '100%', fig.align = 'center'}
+knitr::include_graphics("Figures/NetworkPlot_Marked.png")
+```
+
+</div>
+
+We can also change the appearance of the nodes by assigning variables ("aesthetics") to the filled colour (site <span style="color: red;">[3]</span>) and the shape (genetic sex <span style="color: red;">[4]</span>) of the nodes. 
+
+We can assign a variable to the edges <span style="color: red;">[5]</span> which can be either numerical or categorical, and SpIBDer-App will detect this. We can also choose whether to display the edge variable legend <span style="color: red;">[6]</span>, and in the case of a numerical variable, we can change the scale to be on a log-scale <span style="color: red;">[7]</span>. However, for this example, we leave the edges without an assigned variable.
+
+Some networks may contain many unrelated/unlinked individuals, and we may choose to remove these individuals in networks plots to focus on the connections that we _do_ observe. We can either grey these nodes out (making them mostly transparent), or remove them completely <span style="color: red;">[8]</span>. This is the network representation we will continue to work with in this plotting section.
+
+<div class="wide-figure">
+
+```{r  label = network_plot_removed, echo = FALSE, fig.cap = "Figure 9: Network plot Tab - removing unconnected nodes.", out.width = '100%', fig.align = 'center'}
+knitr::include_graphics("Figures/NetworkPlot_removed_Marked.png")
+```
+
+</div>
+
+We can also visualise the _measures of centrality_ of the nodes in our network. What a measure of centrality is will be covered in the section titled "[Looking at centrality measures](#centrality)", but here we will visualise the "betweeness centrality" which can be thought of as a measure of how important an individual is to the networks connectedness. In this context, it might be that individuals with very high betweeness centrality are individuals that connect otherwise separated sub-groups/sub-pedigrees of individuals, and this should be visible in the plot.
+
+By choosing the "betweeness" option from the drop down menu titled "Show node centrality" <span style="color: red;">[9]</span>, the transparency level of the fill variable is defined by the betweeness centrality. We can also add labels (using the "Label variable" drop down menu <span style="color: red;">[10]</span>), and here we add the genetic sex of the individuals. The size of the node <span style="color: red;">[11]</span> and the label text <span style="color: red;">[12]</span> can also be changed. Note that it is possible to add just _some_ labels by either including or excluding them via the text boxes <span style="color: red;">[13]</span>. Note that this will not change the node set, but will just choose which nodes labels are displayed.
+
+<div class="wide-figure">
+
+```{r  label = network_plot_betweeness, echo = FALSE, fig.cap = "Figure 10: Network plot Tab - visualising centrality measures.", out.width = '100%', fig.align = 'center'}
+knitr::include_graphics("Figures/NetworkPlot_Betweeness_Marked.png")
+```
+
+</div>
+
+Finally note that we changed the colour palette from default to colour-blind using the "Fill palette" option <span style="color: red;">[14]</span>.
+
+The node label option can be used to find individuals of interest. For example, to find where the individual RKF179 is in the network we could (a) change the "Label variable" to "name" <span style="color: red;">[15]</span>, and (b) enter the string "RKF179" into the "Labels to include" text box <span style="color: red;">[16]</span>, revealing the location of this node <span style="color: red;">[17]</span>.
+
+<div class="wide-figure">
+
+```{r  label = network_plot_rkf179, echo = FALSE, fig.cap = "Figure 11: Network plot Tab - finding an individual by name.", out.width = '100%', fig.align = 'center'}
+knitr::include_graphics("Figures/NetworkPlot_RKF179_Marked.png")
+```
+
+</div>
+
+## Dynamic mapping in geographical space {#dynamic}
+
+
+Exploring who is connected and to where is a feature that can be useful, even when not producing images for publication. The Dynamic map tab <span style="color: red;">[1]</span> allows researchers to very quickly explore their networks in geographical space without the slow-paced nature of producing high-resolution maps.
+
+<div class="wide-figure">
+
+```{r  label = dynamic_map, echo = FALSE, fig.cap = "Figure 12: Dynamic map Tab.", out.width = '100%', fig.align = 'center'}
+knitr::include_graphics("Figures/DynamicMap_Marked.jpeg")
+```
+
+</div>
+
+Naturally, we must supply a latitude and longitude for each individual in the meta data table, and then specify these in the drop-down menus called "Choose latitude column" <span style="color: red;">[2]</span> and "Choose longitude column" <span style="color: red;">[3]</span>. SpIBDer-App will then automatically create a centred map. However, we do not see all of the individuals from the network plot. Instead we only see four points, with numbers <span style="color: red;">[4]</span>. This is because the individuals were buried at the same site, with the same latitude and longitude, and hence overlap each other, so what we actually see are the four sites, and the number of (overlapping) individuals at each site.
+
+We can use a couple of features to explore the map. First we assign genetic sex to the node colour <span style="color: red;">[5]</span>, and the same for node label <span style="color: red;">[5]</span>. Now when we click on the western-most site (KUP) <span style="color: red;">[7]</span>, the overlapping individuals expand, and we can see the mix of genetically-male (green) and female (purple) individuals.
+
+<div class="wide-figure">
+
+```{r  label = dynamic_map_zoom, echo = FALSE, fig.cap = "Figure 13: Dynamic map Tab - Zooming in.", out.width = '100%', fig.align = 'center'}
+knitr::include_graphics("Figures/DynamicMap_Zoom_Marked.jpeg")
+```
+
+</div>
+
+Note, we can change the background map using the "Choose background map" radio buttons <span style="color: red;">[8]</span>, and zooming out and in can be done either with the scroll function on your mouse, or the +/- button on the map <span style="color: red;">[8]</span>.
+
+## Static mapping in geographical space {#staticmap}
+
+Producing publication-ready figures of genetically-related individuals on a geographic map is important to show the scale of the spatial relationship between related individuals. However, unlike the [Dynamic map tab](#dynamic), the static map tab allows for more meta data to be included in the figure <span style="color: red;">[1]</span>. As for the dynamic map, you must have a columns with the spatial coordinates of the individuals, and these must be selected in the "Choose latitude column" <span style="color: red;">[2]</span> and "Choose longitude column" <span style="color: red;">[3]</span> drop-down menus.
+
+Critically, you *must* have an API key to use Stadia Maps <span style="color: red;">42]</span>. To do this, go to their website (https://docs.stadiamaps.com/authentication/) which has easy-to-follow instructions, and a video showing the process with explanations. 
+
+Note that while the plot may look small in the SpIBDer-App, the dimensions can be changed when [exporting the figure](#plotexport).
+
+<div class="wide-figure">
+
+```{r  label = static_map, echo = FALSE, fig.cap = "Figure 13: Static map Tab.", out.width = '100%', fig.align = 'center'}
+knitr::include_graphics("Figures/StaticMap.png")
+```
+
+</div>
+
+Now that we have a basic map, we can change other settings to make a more informative example. However, while finding the optimal settings for your plot, we would suggest leaving the "Map Resolution" (how much detail the map has) setting <span style="color: red;">[5]</span> low (say around 5). This is because each time you change the limits of the x- and y-axes (the bounding box), SpIBDer-App will potentially download new map data, which can be slow for very high zoom settings.
+
+<!-- Image goes here -->
+
+For this example, we have made the following plotting parameter changes (in order):
+
+* Node fill variable set to "site" <span style="color: red;">[6]</span>.
+* Node shape variable set to "sex" <span style="color: red;">[7]</span>.
+* Set node size to 4 <span style="color: red;">[8]</span>.
+* Added 0.05 jitter to nodes <span style="color: red;">[9]</span>.
+    * Note that everyone with a matching burial site also has matching latitude and longitude coordinates. hence, by adding jitter, we can better see the relative number of individuals at each site, and the density of between site connections.
+* Edge variable was set to "max_ibd", the maximum block of IBD length for a pair of individuals <span style="color: red;">[10]</span>.
+    * We also choose to keep the edge legend <span style="color: red;">[11]</span>, and
+    * change the scale of the edge weight to be on a log-scale <span style="color: red;">[12]</span>.
+* Set fill palette to Colourblind <span style="color: red;">[13]</span>.
+* Remove axis labels and values by setting the ggplot theme to void <span style="color: red;">[14]</span>.
+* Made the plotting space slightly larger by: 
+    * Changing the latitude range to 45 and 49 <span style="color: red;">[15]</span>,
+    * Changing the longitude range to 18 and 22 <span style="color: red;">[16]</span>.
+* Set the visual style of the map to "stamen_terrain_background" <span style="color: red;">[17]</span>.
+* Set the map resolution to 10 <span style="color: red;">[18]</span>.
+
+After using the ["Export Plot"](#plotexport) functionality, we produce the following 300 PPI, $12 \times 6$ inch png:
+
+<div class="wide-figure">
+
+```{r  label = static_map_output, echo = FALSE, fig.cap = "Figure 15: Exported plot using the above settings.", out.width = '100%', fig.align = 'center'}
+knitr::include_graphics("Figures/myMap.png")
+```
+
+</div>
+
+# Looking at centrality measures {#centrality}
+
+A class of statistics, called "Centrality" measures, assign either values or rankings to nodes in a network. These values reflect different properties of the network, and currently SpIBDer-App calculates four common, but important node-wise measures. Here we explain the meaning of each of these measures, and an interpretation of what they mean for a node/individual in the context of relatedness networks.
+
+- __Degree:__ the number of other individuals an individual is connected to. High values indicate an individual has more relatives.
+- __Closeness:__ the inverse of the sum of the shortest paths to all other nodes. Low values indicate that an individual is relatively closely related to all others. This value is only calculated per connected sub-graph, and receive a missing value if the node has no connections (degree zero).
+- __Betweeness:__ how frequently an individual appears on the shortest path between all pairs of individuals. High values indicate that an individual is important to connecting the network.
+- __Eigencentrality:__ a measure of "prestige" on the network. High values indicate that an individual is connected to many highly-connected individuals.
+
+SpIBDer-App allows users to explore these values on the network, either by individual, or the average per variable-stratified group in the "Centrality measures" tab <span style="color: red;">[1]</span>, returning both a table of values and a histogram or set of box plots. By default, the overall distribution of the degree of centrality is shown as a histogram <span style="color: red;">[2]</span>. However, we can also see this for the other centrality measures by changing the radio button option <span style="color: red;">[3]</span>.
+
+<div class="wide-figure">
+
+```{r  label = centrality_measures, echo = FALSE, fig.cap = "Figure 16: Centrality Measures tab.", out.width = '100%', fig.align = 'center'}
+knitr::include_graphics("Figures/CentralityMeasures_Marked.png")
+```
+
+</div>
+
+We can also explore the average centrality values by stratifying the measures by any combination of variables in the "Choose attributes to stratify on" check boxes <span style="color: red;">[4]</span>. For example, if we were interested in the the distribution of the degree of centrality for the different genetic sexes (M or F) <span style="color: red;">[5]</span> in the two time periods (EA or MA/LA) <span style="color: red;">[6]</span>, we simply select these boxes, and make sure that Degree is selected in the "Centrality measure to plot" radio buttons <span style="color: red;">[3]</span>. We can now see that the number of relatives that genetically-male individuals had in MA/LA seems to be much higher than for genetically-male individuals in the EA, and that genetically-male individuals appear to always have more relatives than genetically-female individuals <span style="color: red;">[7]</span>.
+
+<div class="wide-figure">
+
+```{r  label = centrality_measures_example, echo = FALSE, fig.cap = "Figure 17: Centrality Measures tab - stratifying on multiple variables.", out.width = '100%', fig.align = 'center'}
+knitr::include_graphics("Figures/CentralityMeasures_example_Marked.png")
+```
+
+</div>
+
+Finally, it is these values which can be visualised in the [Network Plot](#networkplot) and [Static Map](#staticmap) tabs.
+
+Note that we can reorder the table of values to find individuals with higher centrality measures by pressing the arrows next to the column names <span style="color: red;">[8]</span>.
+
+# Looking at connectedness using the Ringbauer matrix
+
+Looking at the rate of connectedness for levels of certain variables can be of interest. For example, seeing that certain sites, cultural groups or demographically-defined subsets of the population can be extremely informative. Using the "Ringbauer Matrix" tab <span style="color: red;">[1]</span>, SpIBDer-App creates matrices of connectedness, visualised as a dendrogram-arranged heat map, and named for Figure 4 in [@ringbauer2024accurate]. 
+
+<div class="wide-figure">
+
+```{r  label = ringbauer_plot, echo = FALSE, fig.cap = "Figure 18: Ringbauer plot tab.", out.width = '100%', fig.align = 'center'}
+knitr::include_graphics("Figures/RingbauerPlot.png")
+```
+
+</div>
+
+We select a variable to stratify on by using the "Choose group to calculate Ringbauer matrix on" drop down menu <span style="color: red;">[2]</span>, here choosing orientation (the direction in which the buried individual was facing: N-S, NNW-SSE or NW-SE). To improve the "Matrix Plot" <span style="color: red;">[3]</span>,  increase the border width to better see the y-axis labels <span style="color: red;">[4]</span>, and add the subgroup sizes to the axis labels <span style="color: red;">[5]</span> and percentages of connectedness to the cell text <span style="color: red;">[6]</span>.
+
+We also include the "Connectivity Plot" <span style="color: red;">[7]</span> to allow users to see the levels which are more or less connected than the average. For example, here we can see that individuals who share the same burial position (brown "within" levels points) are more connected than two random individuals (the dashed line <span style="color: red;">[8]</span>), and that individuals with different burial positions (blue "between" levels points) are less connected.
+
+# Fitting Exponential Family Random Graph models (ERGMs)
+
+Predicting if two individuals are genetically-related given node and edge attributes can be of interest when exploring _how_ and _why_ the network is connected as it is. For example, if we believe that patrilocality is being practised, then we should also observe that adult female individuals are less likely to be related. To explore this we use Exponential Family Random Graph model (ERGMs) to perform network regression, which has been shown to perform well [@rohrlach2026detecting], implemented in the "ERGMs" tab <span style="color: red;">[1]</span>.
+
+A list of possible predictor variables are generated from the meta data, and are treated differently if SpIBDer-App assigns them as numerical or categorical. However, the level of complexity in _how_ the variables interact between individuals is of importance, and so we explain this concept here. However, for a full discussion with examples, please see the ERGMs paper [@rohrlach2026detecting]. However, once a variable is selected, it will appear in the left panel, and the level of complexity can be chosen for comparison. 
+
+Note that as more variables and levels of complexity are included, many models must be fit and this can take quite some time. 
+
+## Categorical variables
+
+Consider a categorical variable, say, the burial site. We can consider three levels of complexity:
+
+1. __[nodematch]:__ It might only matter if two individuals have a matching variable level, _i.e._, either they were buried at the same site, or not. _Which_ site(s) is not important, just that they matched. We would expect that if two individuals are buried at the same site, that they might be more likely to be related.
+2. __[nodematch(diff)]:__ It might matter if the two individuals have matching variable levels, and if they do match, which level it is is important too. For example, it might be that individuals are more likely to be related if they are buried at the same site, but that one site is represented by a single family, meaning that individuals that are both buried at this site are more likely to be related than two individuals buried together at a different site. Note, two individuals buried at any two _different_ sites are equally (un)likely to be related in this scenario.
+3. __[nodemix:]__ The combination of levels is all that matters. For example, maybe two sites were actually very close, and so two individuals buried at these two different sites are actually more likely to be related than if they were buried at two _other_ sites that are quite far apart. Note that if the variable only has two levels (say genetic sex: M/F), then nodemix is equivalent to nodematch(diff), and nodemix is not offered for this variable.
+
+## Numeric variables
+
+Consider a numeric variable, say mean$\text{ }^{14}$C date or grave good wealth. We can consider two representations (of equal complexity):
+
+1. __[absdiff:]__ We could look at the absolute difference, that is the positive difference between the two values. This might make sense as two individuals with more similar mean$\text{ }^{14}$C dates will have lived closer in time to each other, and hence may be more likely to be related.
+2. __[nodecov:]__ We could consider the sum of the values. This might make sense if we consider grave good wealth where, say, it might be that individuals are very "wealthy" may be more likely to be related, but this might not be true for if only one of them is wealthy or not.
+
+## Modeling
+
+Here we will explore if genetic sex is correlated with genetic relatedness. However, we also include the burial site as a predictor variable to (a) take into account variable rates of relatedness between sites, and (b) to account for a potential sex-bias at the sites. To do this we select site <span style="color: red;">[2]</span> and sex <span style="color: red;">[3]</span> as predictors, but we also add a variable which should not be significant: longitude <span style="color: red;">[4]</span>. Then for site we select nodematch, nodematch(diff) and nodemix <span style="color: red;">[5]</span>, for sex we select only nodematch and nodematch(diff) (as sex only has two levels, nodemix is not available) <span style="color: red;">[6]</span> and for longitude we select nodecov and absdiff <span style="color: red;">[7]</span>.
+
+<div class="wide-figure">
+
+```{r  label = ergms, echo = FALSE, fig.cap = "Figure 19: ERGMs tab.", out.width = '100%', fig.align = 'center'}
+knitr::include_graphics("Figures/ERGMs_Marked.png")
+```
+
+</div>
+
+As suggested by the authors[@rohrlach2026detecting], we use the Bayesian information criterion (BIC) for model selection, and wish to choose the model with the smallest BIC value. The BIC values are shown in the ERGMs BIC plot <span style="color: red;">[8]</span>, and we can see that the red point indicates that the best model uses the predictors site nodemix[site] and sex nodematch(diff)[sex]. We can also see the models ordered by their BIC in the BIC Model panel <span style="color: red;">[9]</span>, also showing that this model performed best. 
+
+We can look at the model output, to quantify the effects of the variables in the model. To do this click on the model(s) of interest <span style="color: red;">[10]</span>. Once you select at least one model, a horizontal bar plot of the coefficients [<span style="color: red;">[11]</span> and a table of coefficients <span style="color: red;">[12]</span> will appear below the model list. The bar plot shows the fold-change in the probability of two individuals being related (and this can be changed to show the actual coefficient value from the model which is in the log-odds scale), and these are brown if the fold-change is an increase, and blue if it is a decrease. For example, two individuals buried at KFJ are 4.56 times <span style="color: red;">[13]</span> more likely to be related (compared to two individuals buried at HNJ, which is the comparison level as HNJ.HNJ is the alphabetically-first level combination). However, we can also see that two female individuals are less likely to be related (compared to a male and a female individual), by a factor of 0.36-fold <span style="color: red;">[14]</span>.
+
+<div class="wide-figure">
+
+```{r  label = ergms_model, echo = FALSE, fig.cap = "Figure 20: ERGMs tab - selecting a model an interpreting the output.", out.width = '100%', fig.align = 'center'}
+knitr::include_graphics("Figures/Ergms_Model_Marked.png")
+```
+
+</div>
+
+Note that if more than one model is selected (for comparison) the bar plot and the coefficient table are separated.
+
+# Exporting a plot {#plotexport}
+
+Under every plot that you make in SpIBDer-App (all except for the dynamic map) is a "Set as export plot" button. This button sets the figure above it as "exported" to the "Export Plot" Tab <span style="color: red;">[1]</span>. Once a figure has been set to be exported, you change from the tab that it is generated in to the "Export Plot" tab.
+
+<div class="wide-figure">
+
+```{r  label = save_plot, echo = FALSE, fig.cap = "Figure 21: Save plot tab.", out.width = '100%', fig.align = 'center'}
+knitr::include_graphics("Figures/SavePlot_Marked.png")
+```
+
+</div>
+
+We can now choose the figure width <span style="color: red;">[2]</span> and height <span style="color: red;">[3]</span> (in inches), the resolution <span style="color: red;">[4]</span> (in PPI), the file type of the output file <span style="color: red;">[5]</span> (PDF, PNG or JPEG) and the file name here <span style="color: red;">[6]</span>. We then save the file by clicking on "Save Plot" <span style="color: red;">[7]</span>, and choosing the output folder.
 
 # What to do if it does not work
+
+As for everything in life, I suggest unrestrained panic. It has served me well so far in my career, and I see no reason why this should change.
+
+However, if you prefer, you can contact us via GitHub (https://github.com/jonotuke/spIBDerverse), or email at adam_ben_rohrlach[at]eva.mpg.de or simon.tuke[at]adelaide.edu.au (replace [at] with @).
+
+# References

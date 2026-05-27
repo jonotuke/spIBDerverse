@@ -1,0 +1,7 @@
+.wide-figure {
+  width: 140%;
+  margin-left: -20%;
+}
+.quarto-container { 
+  max-width: 1200px !important; 
+}
