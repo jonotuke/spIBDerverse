@@ -1,10 +1,10 @@
 ---
 title: "Using the spIBDerapp"
-format:
-  html:
-    theme:
-      - default
-    mainfont: sans-serif
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{spibderverse-app}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 toc: true
 bibliography: spibderapp.bibtex
 ---

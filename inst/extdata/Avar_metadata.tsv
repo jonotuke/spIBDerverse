@@ -1,0 +1,238 @@
+iid	site	sex	period	age	iron_buckle	orientation	belt_harness	age_sex	latitude	longitude	num
+RKC018	RK	M	MA/LA	Adult	No Iron Buckle	NNW-SSE	No Belt/Harness	Adult/M	47.09162	20.227939	18
+RKC019	RK	F	MA/LA	Adult	Iron Buckle	NNW-SSE	No Belt/Harness	Adult/F	47.09162	20.227939	19
+RKC020	RK	M	MA/LA	Subadult	No Iron Buckle	NNW-SSE	No Belt/Harness	Subadult/M	47.09162	20.227939	20
+RKC021	RK	M	MA/LA	Adult	No Iron Buckle	NW-SE	No Belt/Harness	Adult/M	47.09162	20.227939	21
+RKC022	RK	M	MA/LA	Adult	No Iron Buckle	NNW-SSE	No Belt/Harness	Adult/M	47.09162	20.227939	22
+RKC023	RK	F	MA/LA	Adult	No Iron Buckle	NNW-SSE	No Belt/Harness	Adult/F	47.09162	20.227939	23
+RKC024	RK	F	MA/LA	Adult	Iron Buckle	NNW-SSE	No Belt/Harness	Adult/F	47.09162	20.227939	24
+RKC026	RK	M	MA/LA	Adult	No Iron Buckle	NNW-SSE	No Belt/Harness	Adult/M	47.09162	20.227939	26
+RKC027	RK	M	MA/LA	Subadult	No Iron Buckle	NNW-SSE	No Belt/Harness	Subadult/M	47.09162	20.227939	27
+RKC028	RK	M	MA/LA	Adult	Iron Buckle	NNW-SSE	No Belt/Harness	Adult/M	47.09162	20.227939	28
+RKC029	RK	F	MA/LA	Adult	No Iron Buckle	NNW-SSE	No Belt/Harness	Adult/F	47.09162	20.227939	29
+RKC030	RK	M	MA/LA	Adult	Iron Buckle	NNW-SSE	No Belt/Harness	Adult/M	47.09162	20.227939	30
+RKC031	RK	M	MA/LA	Adult	Iron Buckle	NNW-SSE	No Belt/Harness	Adult/M	47.09162	20.227939	31
+RKC032	RK	F	MA/LA	Adult	No Iron Buckle	NNW-SSE	No Belt/Harness	Adult/F	47.09162	20.227939	32
+RKC033	RK	M	MA/LA	Adult	Iron Buckle	NNW-SSE	No Belt/Harness	Adult/M	47.09162	20.227939	33
+RKC035	RK	M	MA/LA	Subadult	No Iron Buckle	NNW-SSE	No Belt/Harness	Subadult/M	47.09162	20.227939	35
+RKC036	RK	M	MA/LA	Adult	No Iron Buckle	NNW-SSE	No Belt/Harness	Adult/M	47.09162	20.227939	36
+RKC037	RK	F	MA/LA	Adult	No Iron Buckle	NW-SE	No Belt/Harness	Adult/F	47.09162	20.227939	37
+RKC038	RK	M	MA/LA	Adult	Iron Buckle	NNW-SSE	No Belt/Harness	Adult/M	47.09162	20.227939	38
+RKC039	RK	M	MA/LA	Subadult	Iron Buckle	NNW-SSE	No Belt/Harness	Subadult/M	47.09162	20.227939	39
+RKC040	RK	F	MA/LA	Adult	No Iron Buckle	NNW-SSE	No Belt/Harness	Adult/F	47.09162	20.227939	40
+RKC042	RK	M	MA/LA	Adult	Iron Buckle	N-S	Belt/Harness	Adult/M	47.09162	20.227939	42
+RKC043	RK	M	MA/LA	Adult	No Iron Buckle	NNW-SSE	No Belt/Harness	Adult/M	47.09162	20.227939	43
+RKC045	RK	M	MA/LA	Subadult	No Iron Buckle	N-S	No Belt/Harness	Subadult/M	47.09162	20.227939	45
+RKC046	RK	M	MA/LA	Subadult	No Iron Buckle	NNW-SSE	No Belt/Harness	Subadult/M	47.09162	20.227939	46
+RKC047	RK	M	MA/LA	Adult	Iron Buckle	NNW-SSE	No Belt/Harness	Adult/M	47.09162	20.227939	47
+RKC048	RK	F	MA/LA	Adult	No Iron Buckle	NNW-SSE	No Belt/Harness	Adult/F	47.09162	20.227939	48
+RKC049	RK	F	MA/LA	Adult	No Iron Buckle	N-S	No Belt/Harness	Adult/F	47.09162	20.227939	49
+RKC002	RK	M	MA/LA	Adult	No Iron Buckle	NNW-SSE	No Belt/Harness	Adult/M	47.09162	20.227939	2
+RKC050	RK	M	MA/LA	Subadult	No Iron Buckle	NNW-SSE	No Belt/Harness	Subadult/M	47.09162	20.227939	50
+RKC003	RK	M	MA/LA	Adult	No Iron Buckle	NNW-SSE	No Belt/Harness	Adult/M	47.09162	20.227939	3
+RKC051	RK	M	EA	Adult	Iron Buckle	N-S	No Belt/Harness	Adult/M	47.09162	20.227939	51
+RKC052	RK	M	EA	Adult	Iron Buckle	N-S	No Belt/Harness	Adult/M	47.09162	20.227939	52
+RKC004	RK	F	MA/LA	Adult	No Iron Buckle	NNW-SSE	No Belt/Harness	Adult/F	47.09162	20.227939	4
+RKC006	RK	F	MA/LA	Adult	Iron Buckle	NNW-SSE	No Belt/Harness	Adult/F	47.09162	20.227939	6
+RKC007	RK	F	MA/LA	Adult	Iron Buckle	NNW-SSE	No Belt/Harness	Adult/F	47.09162	20.227939	7
+RKC009	RK	M	MA/LA	Adult	No Iron Buckle	NNW-SSE	No Belt/Harness	Adult/M	47.09162	20.227939	9
+RKC010	RK	F	MA/LA	Adult	No Iron Buckle	NNW-SSE	No Belt/Harness	Adult/F	47.09162	20.227939	10
+RKC011	RK	M	MA/LA	Adult	No Iron Buckle	NNW-SSE	No Belt/Harness	Adult/M	47.09162	20.227939	11
+RKC012	RK	M	MA/LA	Adult	Iron Buckle	NNW-SSE	No Belt/Harness	Adult/M	47.09162	20.227939	12
+RKC013	RK	F	MA/LA	Adult	No Iron Buckle	NNW-SSE	No Belt/Harness	Adult/F	47.09162	20.227939	13
+RKC014	RK	F	MA/LA	Adult	No Iron Buckle	NNW-SSE	No Belt/Harness	Adult/F	47.09162	20.227939	14
+RKC015	RK	F	MA/LA	Subadult	No Iron Buckle	NNW-SSE	No Belt/Harness	Subadult/F	47.09162	20.227939	15
+RKC016	RK	M	MA/LA	Adult	Iron Buckle	NNW-SSE	No Belt/Harness	Adult/M	47.09162	20.227939	16
+RKC017	RK	F	MA/LA	Adult	Iron Buckle	NNW-SSE	No Belt/Harness	Adult/F	47.09162	20.227939	17
+RKF003	RK	F	MA/LA	Adult	No Iron Buckle	N-S	No Belt/Harness	Adult/F	47.09162	20.227939	3
+RKF007	RK	M	MA/LA	Adult	Iron Buckle	N-S	No Belt/Harness	Adult/M	47.09162	20.227939	7
+RKF163	RK	M	MA/LA	Adult	Iron Buckle	N-S	No Belt/Harness	Adult/M	47.09162	20.227939	163
+RKF164	RK	M	EA	Adult	Iron Buckle	N-S	No Belt/Harness	Adult/M	47.09162	20.227939	164
+RKF006	RK	F	MA/LA	Adult	Iron Buckle	N-S	No Belt/Harness	Adult/F	47.09162	20.227939	6
+RKF010	RK	M	MA/LA	Adult	Iron Buckle	N-S	No Belt/Harness	Adult/M	47.09162	20.227939	10
+RKF011	RK	F	MA/LA	Adult	No Iron Buckle	N-S	No Belt/Harness	Adult/F	47.09162	20.227939	11
+RKF014	RK	F	MA/LA	Adult	No Iron Buckle	N-S	No Belt/Harness	Adult/F	47.09162	20.227939	14
+RKF015	RK	M	MA/LA	Subadult	No Iron Buckle	N-S	No Belt/Harness	Subadult/M	47.09162	20.227939	15
+RKF017	RK	F	MA/LA	Adult	No Iron Buckle	N-S	No Belt/Harness	Adult/F	47.09162	20.227939	17
+RKF013	RK	M	MA/LA	Adult	Iron Buckle	N-S	No Belt/Harness	Adult/M	47.09162	20.227939	13
+RKF016	RK	M	MA/LA	Adult	Iron Buckle	N-S	No Belt/Harness	Adult/M	47.09162	20.227939	16
+RKF018	RK	F	MA/LA	Adult	Iron Buckle	N-S	No Belt/Harness	Adult/F	47.09162	20.227939	18
+RKF020	RK	M	MA/LA	Subadult	No Iron Buckle	N-S	No Belt/Harness	Subadult/M	47.09162	20.227939	20
+RKF167	RK	F	MA/LA	Adult	No Iron Buckle	N-S	No Belt/Harness	Adult/F	47.09162	20.227939	167
+RKF021	RK	F	MA/LA	Adult	No Iron Buckle	N-S	No Belt/Harness	Adult/F	47.09162	20.227939	21
+RKF023	RK	M	MA/LA	Subadult	No Iron Buckle	N-S	No Belt/Harness	Subadult/M	47.09162	20.227939	23
+RKF028	RK	F	MA/LA	Adult	Iron Buckle	N-S	No Belt/Harness	Adult/F	47.09162	20.227939	28
+RKF029	RK	M	MA/LA	Subadult	No Iron Buckle	N-S	Belt/Harness	Subadult/M	47.09162	20.227939	29
+RKF169	RK	F	MA/LA	Adult	No Iron Buckle	N-S	No Belt/Harness	Adult/F	47.09162	20.227939	169
+RKF031	RK	M	MA/LA	Adult	Iron Buckle	N-S	No Belt/Harness	Adult/M	47.09162	20.227939	31
+RKF032	RK	M	MA/LA	Adult	Iron Buckle	N-S	No Belt/Harness	Adult/M	47.09162	20.227939	32
+RKF034	RK	M	MA/LA	Adult	Iron Buckle	N-S	No Belt/Harness	Adult/M	47.09162	20.227939	34
+RKF036	RK	M	MA/LA	Adult	No Iron Buckle	N-S	No Belt/Harness	Adult/M	47.09162	20.227939	36
+RKF037	RK	F	MA/LA	Subadult	No Iron Buckle	N-S	No Belt/Harness	Subadult/F	47.09162	20.227939	37
+RKF038	RK	M	MA/LA	Subadult	No Iron Buckle	N-S	No Belt/Harness	Subadult/M	47.09162	20.227939	38
+RKF039	RK	F	MA/LA	Adult	No Iron Buckle	N-S	No Belt/Harness	Adult/F	47.09162	20.227939	39
+RKF040	RK	M	MA/LA	Adult	Iron Buckle	N-S	No Belt/Harness	Adult/M	47.09162	20.227939	40
+RKF043	RK	F	MA/LA	Adult	No Iron Buckle	N-S	No Belt/Harness	Adult/F	47.09162	20.227939	43
+RKF042	RK	M	MA/LA	Adult	Iron Buckle	N-S	No Belt/Harness	Adult/M	47.09162	20.227939	42
+RKF044	RK	F	MA/LA	Adult	No Iron Buckle	NNW-SSE	No Belt/Harness	Adult/F	47.09162	20.227939	44
+RKF046	RK	M	MA/LA	Subadult	Iron Buckle	N-S	No Belt/Harness	Subadult/M	47.09162	20.227939	46
+RKF047	RK	M	MA/LA	Adult	Iron Buckle	N-S	No Belt/Harness	Adult/M	47.09162	20.227939	47
+RKF049	RK	F	MA/LA	Adult	Iron Buckle	NNW-SSE	No Belt/Harness	Adult/F	47.09162	20.227939	49
+RKF050	RK	M	EA	Adult	Iron Buckle	N-S	No Belt/Harness	Adult/M	47.09162	20.227939	50
+RKF052	RK	M	EA	Adult	Iron Buckle	N-S	No Belt/Harness	Adult/M	47.09162	20.227939	52
+RKF172	RK	M	EA	Adult	Iron Buckle	NNW-SSE	Belt/Harness	Adult/M	47.09162	20.227939	172
+RKF173	RK	M	EA	Adult	Iron Buckle	N-S	No Belt/Harness	Adult/M	47.09162	20.227939	173
+RKF053	RK	M	EA	Adult	Iron Buckle	N-S	No Belt/Harness	Adult/M	47.09162	20.227939	53
+RKF175	RK	M	EA	Adult	Iron Buckle	N-S	No Belt/Harness	Adult/M	47.09162	20.227939	175
+RKF054	RK	M	EA	Adult	Iron Buckle	NNW-SSE	No Belt/Harness	Adult/M	47.09162	20.227939	54
+RKF055	RK	F	EA	Adult	Iron Buckle	N-S	No Belt/Harness	Adult/F	47.09162	20.227939	55
+RKF176	RK	M	EA	Adult	Iron Buckle	N-S	Belt/Harness	Adult/M	47.09162	20.227939	176
+RKF057	RK	F	EA	Adult	No Iron Buckle	N-S	No Belt/Harness	Adult/F	47.09162	20.227939	57
+RKF061	RK	F	EA	Adult	No Iron Buckle	N-S	No Belt/Harness	Adult/F	47.09162	20.227939	61
+RKF062	RK	M	EA	Adult	Iron Buckle	N-S	Belt/Harness	Adult/M	47.09162	20.227939	62
+RKF177	RK	F	EA	Adult	No Iron Buckle	N-S	No Belt/Harness	Adult/F	47.09162	20.227939	177
+RKF063	RK	F	MA/LA	Adult	Iron Buckle	N-S	No Belt/Harness	Adult/F	47.09162	20.227939	63
+RKF226	RK	M	MA/LA	Adult	Iron Buckle	N-S	Belt/Harness	Adult/M	47.09162	20.227939	226
+RKF064	RK	M	MA/LA	Adult	Iron Buckle	N-S	Belt/Harness	Adult/M	47.09162	20.227939	64
+RKF179	RK	F	EA	Adult	No Iron Buckle	N-S	No Belt/Harness	Adult/F	47.09162	20.227939	179
+RKF067	RK	F	EA	Adult	No Iron Buckle	N-S	No Belt/Harness	Adult/F	47.09162	20.227939	67
+RKF069	RK	F	EA	Adult	No Iron Buckle	N-S	No Belt/Harness	Adult/F	47.09162	20.227939	69
+RKF072	RK	F	EA	Adult	Iron Buckle	N-S	No Belt/Harness	Adult/F	47.09162	20.227939	72
+RKF074	RK	M	EA	Adult	Iron Buckle	N-S	Belt/Harness	Adult/M	47.09162	20.227939	74
+RKF181	RK	M	MA/LA	Adult	No Iron Buckle	N-S	Belt/Harness	Adult/M	47.09162	20.227939	181
+RKF078	RK	F	EA	Adult	No Iron Buckle	N-S	No Belt/Harness	Adult/F	47.09162	20.227939	78
+RKF182	RK	M	EA	Adult	Iron Buckle	N-S	Belt/Harness	Adult/M	47.09162	20.227939	182
+RKF081	RK	F	EA	Adult	No Iron Buckle	N-S	No Belt/Harness	Adult/F	47.09162	20.227939	81
+RKF183	RK	M	EA	Adult	Iron Buckle	N-S	Belt/Harness	Adult/M	47.09162	20.227939	183
+RKF185	RK	F	EA	Adult	Iron Buckle	N-S	No Belt/Harness	Adult/F	47.09162	20.227939	185
+RKF088	RK	M	MA/LA	Adult	Iron Buckle	N-S	No Belt/Harness	Adult/M	47.09162	20.227939	88
+RKF089	RK	F	EA	Adult	No Iron Buckle	N-S	No Belt/Harness	Adult/F	47.09162	20.227939	89
+RKF091	RK	F	EA	Adult	No Iron Buckle	N-S	No Belt/Harness	Adult/F	47.09162	20.227939	91
+RKF188	RK	F	EA	Adult	No Iron Buckle	N-S	No Belt/Harness	Adult/F	47.09162	20.227939	188
+RKF189	RK	F	EA	Adult	Iron Buckle	N-S	No Belt/Harness	Adult/F	47.09162	20.227939	189
+RKF190	RK	F	MA/LA	Adult	Iron Buckle	N-S	No Belt/Harness	Adult/F	47.09162	20.227939	190
+RKF099	RK	M	MA/LA	Adult	No Iron Buckle	N-S	No Belt/Harness	Adult/M	47.09162	20.227939	99
+RKF098	RK	M	MA/LA	Adult	Iron Buckle	N-S	No Belt/Harness	Adult/M	47.09162	20.227939	98
+RKF191	RK	M	MA/LA	Adult	No Iron Buckle	N-S	No Belt/Harness	Adult/M	47.09162	20.227939	191
+RKF101	RK	F	EA	Adult	Iron Buckle	NW-SE	No Belt/Harness	Adult/F	47.09162	20.227939	101
+RKF106	RK	M	EA	Adult	Iron Buckle	N-S	No Belt/Harness	Adult/M	47.09162	20.227939	106
+RKF104	RK	M	MA/LA	Adult	Iron Buckle	N-S	No Belt/Harness	Adult/M	47.09162	20.227939	104
+RKF105	RK	F	EA	Adult	Iron Buckle	N-S	No Belt/Harness	Adult/F	47.09162	20.227939	105
+RKF109	RK	M	EA	Adult	Iron Buckle	N-S	Belt/Harness	Adult/M	47.09162	20.227939	109
+RKF110	RK	M	EA	Adult	Iron Buckle	N-S	No Belt/Harness	Adult/M	47.09162	20.227939	110
+RKF192	RK	M	MA/LA	Adult	No Iron Buckle	N-S	No Belt/Harness	Adult/M	47.09162	20.227939	192
+RKF113	RK	F	EA	Subadult	Iron Buckle	N-S	No Belt/Harness	Subadult/F	47.09162	20.227939	113
+RKF115	RK	M	EA	Adult	Iron Buckle	N-S	No Belt/Harness	Adult/M	47.09162	20.227939	115
+RKF116	RK	F	EA	Adult	Iron Buckle	N-S	No Belt/Harness	Adult/F	47.09162	20.227939	116
+RKF117	RK	M	EA	Adult	Iron Buckle	N-S	No Belt/Harness	Adult/M	47.09162	20.227939	117
+RKF194	RK	M	EA	Adult	No Iron Buckle	N-S	No Belt/Harness	Adult/M	47.09162	20.227939	194
+RKF231	RK	M	MA/LA	Adult	No Iron Buckle	N-S	No Belt/Harness	Adult/M	47.09162	20.227939	231
+RKF118	RK	M	MA/LA	Adult	No Iron Buckle	N-S	No Belt/Harness	Adult/M	47.09162	20.227939	118
+RKF120	RK	F	MA/LA	Adult	No Iron Buckle	N-S	No Belt/Harness	Adult/F	47.09162	20.227939	120
+RKF121	RK	M	EA	Adult	Iron Buckle	NNW-SSE	Belt/Harness	Adult/M	47.09162	20.227939	121
+RKF124	RK	M	EA	Adult	Iron Buckle	N-S	No Belt/Harness	Adult/M	47.09162	20.227939	124
+RKF195	RK	F	EA	Adult	Iron Buckle	N-S	No Belt/Harness	Adult/F	47.09162	20.227939	195
+RKF196	RK	M	EA	Adult	Iron Buckle	N-S	No Belt/Harness	Adult/M	47.09162	20.227939	196
+RKF198	RK	M	MA/LA	Adult	No Iron Buckle	N-S	No Belt/Harness	Adult/M	47.09162	20.227939	198
+RKF199	RK	M	MA/LA	Subadult	Iron Buckle	N-S	No Belt/Harness	Subadult/M	47.09162	20.227939	199
+RKF200	RK	M	EA	Adult	Iron Buckle	N-S	No Belt/Harness	Adult/M	47.09162	20.227939	200
+RKF201	RK	M	EA	Adult	Iron Buckle	N-S	No Belt/Harness	Adult/M	47.09162	20.227939	201
+RKF202	RK	F	EA	Adult	Iron Buckle	N-S	No Belt/Harness	Adult/F	47.09162	20.227939	202
+RKF129	RK	M	EA	Adult	Iron Buckle	N-S	No Belt/Harness	Adult/M	47.09162	20.227939	129
+RKF132	RK	F	EA	Adult	Iron Buckle	N-S	No Belt/Harness	Adult/F	47.09162	20.227939	132
+RKF134	RK	F	EA	Adult	Iron Buckle	N-S	No Belt/Harness	Adult/F	47.09162	20.227939	134
+RKF133	RK	F	EA	Adult	No Iron Buckle	N-S	No Belt/Harness	Adult/F	47.09162	20.227939	133
+RKF147	RK	M	MA/LA	Adult	No Iron Buckle	N-S	Belt/Harness	Adult/M	47.09162	20.227939	147
+RKF206	RK	F	EA	Adult	Iron Buckle	NW-SE	No Belt/Harness	Adult/F	47.09162	20.227939	206
+RKF207	RK	F	EA	Adult	Iron Buckle	N-S	No Belt/Harness	Adult/F	47.09162	20.227939	207
+RKF148	RK	M	EA	Adult	Iron Buckle	N-S	No Belt/Harness	Adult/M	47.09162	20.227939	148
+RKF135	RK	F	EA	Adult	No Iron Buckle	N-S	No Belt/Harness	Adult/F	47.09162	20.227939	135
+RKF237	RK	M	MA/LA	Adult	Iron Buckle	N-S	Belt/Harness	Adult/M	47.09162	20.227939	237
+RKF162	RK	F	MA/LA	Subadult	No Iron Buckle	N-S	No Belt/Harness	Subadult/F	47.09162	20.227939	162
+RKF218	RK	M	MA/LA	Adult	No Iron Buckle	N-S	No Belt/Harness	Adult/M	47.09162	20.227939	218
+RKF136	RK	F	MA/LA	Adult	Iron Buckle	N-S	No Belt/Harness	Adult/F	47.09162	20.227939	136
+RKF238	RK	F	MA/LA	Subadult	No Iron Buckle	N-S	No Belt/Harness	Subadult/F	47.09162	20.227939	238
+RKF137	RK	M	EA	Adult	Iron Buckle	NNW-SSE	No Belt/Harness	Adult/M	47.09162	20.227939	137
+RKF138	RK	F	MA/LA	Adult	Iron Buckle	N-S	No Belt/Harness	Adult/F	47.09162	20.227939	138
+RKF209	RK	F	MA/LA	Adult	Iron Buckle	N-S	No Belt/Harness	Adult/F	47.09162	20.227939	209
+RKF140	RK	F	MA/LA	Adult	No Iron Buckle	N-S	No Belt/Harness	Adult/F	47.09162	20.227939	140
+RKF139	RK	M	MA/LA	Subadult	No Iron Buckle	NNW-SSE	No Belt/Harness	Subadult/M	47.09162	20.227939	139
+RKF141	RK	M	MA/LA	Adult	Iron Buckle	N-S	No Belt/Harness	Adult/M	47.09162	20.227939	141
+RKF142	RK	M	MA/LA	Adult	Iron Buckle	N-S	No Belt/Harness	Adult/M	47.09162	20.227939	142
+RKF210	RK	M	MA/LA	Adult	No Iron Buckle	NNW-SSE	No Belt/Harness	Adult/M	47.09162	20.227939	210
+RKF143	RK	F	MA/LA	Adult	No Iron Buckle	N-S	No Belt/Harness	Adult/F	47.09162	20.227939	143
+RKF144	RK	F	MA/LA	Adult	Iron Buckle	N-S	No Belt/Harness	Adult/F	47.09162	20.227939	144
+RKF150	RK	F	MA/LA	Adult	Iron Buckle	N-S	No Belt/Harness	Adult/F	47.09162	20.227939	150
+RKF151	RK	F	MA/LA	Adult	No Iron Buckle	NNW-SSE	No Belt/Harness	Adult/F	47.09162	20.227939	151
+RKF002	RK	F	MA/LA	Adult	No Iron Buckle	N-S	No Belt/Harness	Adult/F	47.09162	20.227939	2
+RKF211	RK	F	MA/LA	Adult	No Iron Buckle	NNW-SSE	No Belt/Harness	Adult/F	47.09162	20.227939	211
+RKF153	RK	F	MA/LA	Adult	No Iron Buckle	N-S	No Belt/Harness	Adult/F	47.09162	20.227939	153
+RKF154	RK	M	MA/LA	Adult	No Iron Buckle	N-S	No Belt/Harness	Adult/M	47.09162	20.227939	154
+RKF155	RK	M	MA/LA	Adult	Iron Buckle	N-S	No Belt/Harness	Adult/M	47.09162	20.227939	155
+RKF156	RK	M	MA/LA	Subadult	No Iron Buckle	N-S	No Belt/Harness	Subadult/M	47.09162	20.227939	156
+RKF157	RK	M	MA/LA	Adult	Iron Buckle	N-S	No Belt/Harness	Adult/M	47.09162	20.227939	157
+RKF158	RK	F	MA/LA	Subadult	No Iron Buckle	N-S	No Belt/Harness	Subadult/F	47.09162	20.227939	158
+RKF159	RK	F	MA/LA	Adult	No Iron Buckle	NNW-SSE	No Belt/Harness	Adult/F	47.09162	20.227939	159
+RKF160	RK	M	MA/LA	Adult	Iron Buckle	NNW-SSE	No Belt/Harness	Adult/M	47.09162	20.227939	160
+RKF213	RK	M	MA/LA	Adult	Iron Buckle	N-S	No Belt/Harness	Adult/M	47.09162	20.227939	213
+KFJ004	KFJ	F	MA/LA	Adult	No Iron Buckle	NW-SE	No Belt/Harness	Adult/F	46.7627801	19.7532925	4
+KFJ005	KFJ	F	MA/LA	Adult	No Iron Buckle	NW-SE	No Belt/Harness	Adult/F	46.7627801	19.7532925	5
+KFJ006	KFJ	F	MA/LA	Subadult	No Iron Buckle	NW-SE	No Belt/Harness	Subadult/F	46.7627801	19.7532925	6
+KFJ007	KFJ	M	MA/LA	Adult	No Iron Buckle	NW-SE	No Belt/Harness	Adult/M	46.7627801	19.7532925	7
+KFJ008	KFJ	F	MA/LA	Adult	No Iron Buckle	NW-SE	No Belt/Harness	Adult/F	46.7627801	19.7532925	8
+KFJ009	KFJ	F	MA/LA	Adult	No Iron Buckle	NW-SE	No Belt/Harness	Adult/F	46.7627801	19.7532925	9
+KFJ010	KFJ	M	MA/LA	Adult	No Iron Buckle	NW-SE	No Belt/Harness	Adult/M	46.7627801	19.7532925	10
+KFJ011	KFJ	F	MA/LA	Adult	No Iron Buckle	NW-SE	No Belt/Harness	Adult/F	46.7627801	19.7532925	11
+KFJ012	KFJ	M	MA/LA	Adult	No Iron Buckle	NW-SE	No Belt/Harness	Adult/M	46.7627801	19.7532925	12
+KFJ013	KFJ	M	MA/LA	Subadult	Iron Buckle	NW-SE	No Belt/Harness	Subadult/M	46.7627801	19.7532925	13
+KFJ015	KFJ	F	MA/LA	Subadult	No Iron Buckle	NW-SE	No Belt/Harness	Subadult/F	46.7627801	19.7532925	15
+KFJ017	KFJ	M	MA/LA	Adult	No Iron Buckle	NW-SE	No Belt/Harness	Adult/M	46.7627801	19.7532925	17
+KFJ018	KFJ	M	MA/LA	Subadult	No Iron Buckle	NW-SE	No Belt/Harness	Subadult/M	46.7627801	19.7532925	18
+KFJ020	KFJ	M	MA/LA	Adult	No Iron Buckle	NW-SE	No Belt/Harness	Adult/M	46.7627801	19.7532925	20
+KFJ022	KFJ	F	MA/LA	Adult	No Iron Buckle	NW-SE	No Belt/Harness	Adult/F	46.7627801	19.7532925	22
+KFJ023	KFJ	F	MA/LA	Subadult	No Iron Buckle	NW-SE	No Belt/Harness	Subadult/F	46.7627801	19.7532925	23
+KFJ024	KFJ	M	MA/LA	Subadult	Iron Buckle	NW-SE	No Belt/Harness	Subadult/M	46.7627801	19.7532925	24
+KFJ025	KFJ	M	MA/LA	Subadult	No Iron Buckle	NW-SE	No Belt/Harness	Subadult/M	46.7627801	19.7532925	25
+KFJ028	KFJ	F	MA/LA	Adult	No Iron Buckle	NW-SE	No Belt/Harness	Adult/F	46.7627801	19.7532925	28
+KFJ029	KFJ	F	MA/LA	Subadult	No Iron Buckle	NW-SE	No Belt/Harness	Subadult/F	46.7627801	19.7532925	29
+KFJ030	KFJ	M	MA/LA	Subadult	No Iron Buckle	NW-SE	No Belt/Harness	Subadult/M	46.7627801	19.7532925	30
+KFJ032	KFJ	F	MA/LA	Adult	No Iron Buckle	NW-SE	No Belt/Harness	Adult/F	46.7627801	19.7532925	32
+KFJ034	KFJ	F	MA/LA	Adult	No Iron Buckle	NW-SE	No Belt/Harness	Adult/F	46.7627801	19.7532925	34
+KFJ036	KFJ	F	MA/LA	Adult	No Iron Buckle	NW-SE	No Belt/Harness	Adult/F	46.7627801	19.7532925	36
+KFJ038	KFJ	F	MA/LA	Adult	Iron Buckle	NW-SE	No Belt/Harness	Adult/F	46.7627801	19.7532925	38
+KFJ039	KFJ	F	MA/LA	Adult	No Iron Buckle	NW-SE	No Belt/Harness	Adult/F	46.7627801	19.7532925	39
+KFJ040	KFJ	M	MA/LA	Subadult	No Iron Buckle	NW-SE	No Belt/Harness	Subadult/M	46.7627801	19.7532925	40
+KFJ041	KFJ	F	MA/LA	Adult	No Iron Buckle	NW-SE	No Belt/Harness	Adult/F	46.7627801	19.7532925	41
+KFJ043	KFJ	F	MA/LA	Adult	No Iron Buckle	NW-SE	No Belt/Harness	Adult/F	46.7627801	19.7532925	43
+KFJ045	KFJ	F	MA/LA	Adult	No Iron Buckle	NW-SE	No Belt/Harness	Adult/F	46.7627801	19.7532925	45
+KFJ047	KFJ	F	MA/LA	Subadult	No Iron Buckle	NW-SE	No Belt/Harness	Subadult/F	46.7627801	19.7532925	47
+KFJ048	KFJ	M	MA/LA	Subadult	No Iron Buckle	NW-SE	No Belt/Harness	Subadult/M	46.7627801	19.7532925	48
+KFJ049	KFJ	F	MA/LA	Subadult	No Iron Buckle	NW-SE	No Belt/Harness	Subadult/F	46.7627801	19.7532925	49
+KFJ050	KFJ	M	MA/LA	Subadult	No Iron Buckle	NW-SE	No Belt/Harness	Subadult/M	46.7627801	19.7532925	50
+KFJ051	KFJ	F	MA/LA	Subadult	No Iron Buckle	NW-SE	No Belt/Harness	Subadult/F	46.7627801	19.7532925	51
+KFJ052	KFJ	F	MA/LA	Adult	No Iron Buckle	NW-SE	No Belt/Harness	Adult/F	46.7627801	19.7532925	52
+KFJ053	KFJ	F	MA/LA	Adult	No Iron Buckle	NW-SE	No Belt/Harness	Adult/F	46.7627801	19.7532925	53
+KUP002	KUP	M	EA	Adult	Iron Buckle	NNW-SSE	No Belt/Harness	Adult/M	47.0611502	19.2753764	2
+KUP003	KUP	M	EA	Adult	Iron Buckle	NNW-SSE	No Belt/Harness	Adult/M	47.0611502	19.2753764	3
+KUP004	KUP	F	EA	Adult	No Iron Buckle	NNW-SSE	No Belt/Harness	Adult/F	47.0611502	19.2753764	4
+KUP005	KUP	M	EA	Adult	Iron Buckle	NNW-SSE	No Belt/Harness	Adult/M	47.0611502	19.2753764	5
+KUP007	KUP	F	MA/LA	Adult	Iron Buckle	NNW-SSE	No Belt/Harness	Adult/F	47.0611502	19.2753764	7
+KUP009	KUP	M	MA/LA	Adult	Iron Buckle	NNW-SSE	No Belt/Harness	Adult/M	47.0611502	19.2753764	9
+KUP010	KUP	M	MA/LA	Adult	Iron Buckle	NNW-SSE	No Belt/Harness	Adult/M	47.0611502	19.2753764	10
+KUP011	KUP	M	MA/LA	Adult	Iron Buckle	NW-SE	No Belt/Harness	Adult/M	47.0611502	19.2753764	11
+KUP015	KUP	M	MA/LA	Adult	No Iron Buckle	NNW-SSE	No Belt/Harness	Adult/M	47.0611502	19.2753764	15
+KUP017	KUP	F	MA/LA	Adult	No Iron Buckle	NNW-SSE	No Belt/Harness	Adult/F	47.0611502	19.2753764	17
+KUP018	KUP	F	MA/LA	Adult	Iron Buckle	NNW-SSE	No Belt/Harness	Adult/F	47.0611502	19.2753764	18
+KUP022	KUP	M	EA	Adult	No Iron Buckle	NNW-SSE	No Belt/Harness	Adult/M	47.0611502	19.2753764	22
+KUP027	KUP	M	EA	Subadult	No Iron Buckle	NNW-SSE	No Belt/Harness	Subadult/M	47.0611502	19.2753764	27
+HNJ002	HNJ	M	MA/LA	Subadult	No Iron Buckle	N-S	No Belt/Harness	Subadult/M	47.843005	21.42427	2
+HNJ003	HNJ	F	MA/LA	Adult	Iron Buckle	N-S	No Belt/Harness	Adult/F	47.843005	21.42427	3
+HNJ025	HNJ	M	MA/LA	Adult	Iron Buckle	N-S	No Belt/Harness	Adult/M	47.843005	21.42427	25
+HNJ011	HNJ	M	MA/LA	Adult	Iron Buckle	N-S	Belt/Harness	Adult/M	47.843005	21.42427	11
+HNJ010	HNJ	F	MA/LA	Adult	Iron Buckle	N-S	No Belt/Harness	Adult/F	47.843005	21.42427	10
+HNJ012	HNJ	M	MA/LA	Subadult	Iron Buckle	N-S	No Belt/Harness	Subadult/M	47.843005	21.42427	12
+HNJ026	HNJ	F	MA/LA	Adult	No Iron Buckle	N-S	No Belt/Harness	Adult/F	47.843005	21.42427	26
+HNJ013	HNJ	F	MA/LA	Adult	No Iron Buckle	N-S	No Belt/Harness	Adult/F	47.843005	21.42427	13
+HNJ014	HNJ	M	MA/LA	Subadult	Iron Buckle	N-S	No Belt/Harness	Subadult/M	47.843005	21.42427	14
+HNJ015	HNJ	F	MA/LA	Adult	No Iron Buckle	N-S	No Belt/Harness	Adult/F	47.843005	21.42427	15
+HNJ016	HNJ	M	MA/LA	Adult	Iron Buckle	N-S	Belt/Harness	Adult/M	47.843005	21.42427	16
