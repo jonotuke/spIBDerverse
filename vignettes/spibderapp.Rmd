@@ -2,7 +2,7 @@
 title: "Using the spIBDerapp"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{spibderverse-app}
+  %\VignetteIndexEntry{Using the spIBDerapp}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 toc: true

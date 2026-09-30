@@ -1,8 +1,8 @@
 ---
-title: "homophily-measures"
+title: "Homophily measures"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{homophily-measures}
+  %\VignetteIndexEntry{Homophily measures}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

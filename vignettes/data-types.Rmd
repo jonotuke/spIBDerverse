@@ -1,0 +1,67 @@
+---
+title: "Data-types for spIBDerverse functions"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Data-types for spIBDerverse functions}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(spIBDerverse)
+library(igraph)
+library(sf)
+```
+
+In the `spIBDerverse` package, we have two structures that are used by most of the functions, and hence by the `spibder_app()` which gives the shiny GUI. 
+
+The most common object and the primary one for the shiny app is an `igraph` object. This is the primary data structure used by the `igraph` object. @lst-igraph loads an example network and shows it structure. 
+
+Notice that to ensure that we do not have clashes if a user has already add centrality measures, we often also add them using the function `add_centrality_measures()` which adds the common centrality measures to the igraph object but with names like `.degree`, the use of a prefix of `.` should hopefully stop any clashes. 
+
+```{r}
+#| lst-cap: Example graph
+#| lst-label: lst-igraph
+data(example_network)
+example_network
+```
+
+If you would like to visualise the network on a map, then a node attibute for longitude and latitude is necessary. 
+
+For some of the plotting functions for networks on maps, we also use a network sf object. @lst-sf illustrates this object. We see that is is list that contains two objects both of `sf` types, a node object that contains information about the node positions represented as points, and an edge object that contains the information for the edges represented as linestring objects. 
+
+```{r}
+#| lst-cap: Example network sf object
+#| lst-label: lst-sf
+data(example_sf)
+example_sf
+```
+
+A network sf object can be obtained from an igraph object as illustrated in @lst-create. 
+
+
+```{r}
+#| lst-cap: Creating an network sf object
+#| lst-label: lst-create
+example_sf <- convert_sf(
+  example_network,
+  "lat",
+  "long",
+  landscape = TRUE
+)
+```
+
+The package `spIBDerverse` has the following example networks built-in:
+
+- `example_network`, 
+- `example_network_2`, 
+- `example_network_3`, 
+- `example_sf`, and
+- `dist_network`. 

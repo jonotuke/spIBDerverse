@@ -1,8 +1,8 @@
 ---
-title: "Loading data into SpIBDerverse app"
+title: "Loading data into the spIBDerverse app"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Loading data into SpIBDerverse app}
+  %\VignetteIndexEntry{Loading data into the spIBDerverse app}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -65,4 +65,5 @@ load_ibd_network(ibd_file, meta_file)
 ```
 
 # Load distance network
+
 
