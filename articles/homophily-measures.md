@@ -1,4 +1,4 @@
-# homophily-measures
+# Homophily measures
 
 ``` r
 

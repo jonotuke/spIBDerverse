@@ -1,12 +1,13 @@
 pandoc: 3.8.3
-pkgdown: 2.2.0
+pkgdown: 2.2.1
 pkgdown_sha: ~
 articles:
-  data: data.html
+  data-types: data-types.html
   hammersley-clifford: hammersley-clifford.html
   homophily-measures: homophily-measures.html
+  loading-data: loading-data.html
   spibderapp: spibderapp.html
-last_built: 2026-05-27T06:57Z
+last_built: 2026-09-30T04:15Z
 urls:
   reference: https://jonotuke.github.io/spIBDerverse/reference
   article: https://jonotuke.github.io/spIBDerverse/articles
