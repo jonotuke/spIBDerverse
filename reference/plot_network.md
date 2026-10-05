@@ -13,6 +13,7 @@ plot_network(
   edge_legend = TRUE,
   edge_trans = "identity",
   label = "none",
+  label_filter = "none",
   label_size = 4,
   label_inc = "",
   label_exc = "",
@@ -55,6 +56,10 @@ plot_network(
 
   vertex attribute to use for labels
 
+- label_filter:
+
+  variable to filter on
+
 - label_size:
 
   label size
@@ -81,7 +86,7 @@ plot_network(
 
 - node_centrality:
 
-  vertext attribute for node alpha
+  vertex attribute for node alpha
 
 - pal:
 
