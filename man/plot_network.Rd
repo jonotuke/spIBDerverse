@@ -12,6 +12,7 @@ plot_network(
   edge_legend = TRUE,
   edge_trans = "identity",
   label = "none",
+  label_filter = "none",
   label_size = 4,
   label_inc = "",
   label_exc = "",
@@ -38,6 +39,8 @@ Hide, Show, Grey out}
 
 \item{label}{vertex attribute to use for labels}
 
+\item{label_filter}{variable to filter on}
+
 \item{label_size}{label size}
 
 \item{label_inc}{regular expression to include labels}
@@ -50,7 +53,7 @@ Hide, Show, Grey out}
 
 \item{node_size}{node size}
 
-\item{node_centrality}{vertext attribute for node alpha}
+\item{node_centrality}{vertex attribute for node alpha}
 
 \item{pal}{colour palette}
 }

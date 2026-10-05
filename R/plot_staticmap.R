@@ -1,3 +1,6 @@
+utils::globalVariables(
+  c("label_colour")
+)
 #' plot static-map
 #'
 #' @param sf network sf object

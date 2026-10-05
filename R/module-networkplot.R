@@ -43,6 +43,7 @@ networkplotServer <- function(id, r) {
         edge_legend = input$edge_legend,
         edge_trans = input$edge_trans,
         label = input$label,
+        label_filter = input$label_filter,
         label_size = input$label_size,
         label_inc = input$label_inc,
         label_exc = input$label_exc,
@@ -111,6 +112,9 @@ networkplotApp <- function(network_input) {
   r$network <- shiny::reactive(
     network_input
   )
+  r$full_network <- shiny::reactive(
+    network_input
+  )
 
   ui <- shiny::fluidPage(
     title = "Network plot",
@@ -141,4 +145,6 @@ networkplotApp <- function(network_input) {
   }
   shiny::shinyApp(ui, server)
 }
-# networkplotApp(example_network_2) |> print()
+if (sys.nframe() == 5) {
+  networkplotApp(example_network) |> print()
+}

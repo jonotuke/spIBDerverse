@@ -88,6 +88,12 @@ network_ui <- function(id, all_vars, cat_vars, edge_vars) {
       choices = c("none", all_vars),
       selected = "none"
     ),
+    shiny::selectInput(
+      inputId = shiny::NS(id, "label_filter"),
+      label = "Variable to filter on",
+      choices = c("none", all_vars),
+      selected = "none"
+    ),
     shiny::textInput(
       shiny::NS(id, "label_inc"),
       "Labels to include"

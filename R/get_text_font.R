@@ -23,5 +23,7 @@ get_text_font <- function(x, type = "fill") {
     text
   }
 }
-# get_text_font(1:10) |> scales::show_col()
-# get_text_font(1:10, "text") |> scales::show_col()
+if (sys.nframe() == 5) {
+  get_text_font(1:10) |> scales::show_col()
+  get_text_font(1:10, "text") |> scales::show_col()
+}
