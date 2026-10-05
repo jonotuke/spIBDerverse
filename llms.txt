@@ -109,6 +109,10 @@ ibd_network
   : abbreviate labels
 - [`add_convert_bb_adj()`](https://jonotuke.github.io/spIBDerverse/reference/add_convert_bb_adj.md)
   : Adjust BB for network work sf object
+- [`check_ibd_file()`](https://jonotuke.github.io/spIBDerverse/reference/check_ibd_file.md)
+  : Check IBD file
+- [`check_meta_file()`](https://jonotuke.github.io/spIBDerverse/reference/check_meta_file.md)
+  : Check meta file
 - [`clean_models()`](https://jonotuke.github.io/spIBDerverse/reference/clean_models.md)
   : clean model names
 - [`clean_network()`](https://jonotuke.github.io/spIBDerverse/reference/clean_network.md)
