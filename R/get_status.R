@@ -1,5 +1,5 @@
 get_status <- function(msg) {
-  if (msg == "File all fine") {
+  if (msg == "All fine") {
     class <- "alert alert-success"
     type <- "Success: "
   } else {
