@@ -34,9 +34,9 @@ dataWizardInput <- function(id) {
 }
 dataWizardOutput <- function(id) {
   shiny::tagList(
-    shiny::uiOutput({
-      shiny::NS(id, "report")
-    }),
+    # shiny::uiOutput({
+    #   shiny::NS(id, "report")
+    # }),
     shiny::tableOutput({
       shiny::NS(id, "tab")
     }),
@@ -141,6 +141,25 @@ dataWizardServer <- function(id, r) {
         readr::write_rds(x = r$network(), file = file)
       }
     )
+    output$ibd_status <- shiny::renderUI({
+      shiny::req(input$ibd_edge_file)
+      msg <- check_ibd_file(input$ibd_edge_file$datapath)
+      get_status(msg)
+    })
+    output$meta_status <- shiny::renderUI({
+      shiny::req(input$ibd_meta_file)
+      msg <- check_meta_file(input$ibd_meta_file$datapath)
+      get_status(msg)
+    })
+    output$network_status <- shiny::renderUI({
+      shiny::req(input$ibd_meta_file)
+      shiny::req(input$ibd_edge_file)
+      msg <- check_files(
+        input$ibd_edge_file$datapath,
+        input$ibd_meta_file$datapath
+      )
+      get_status(msg)
+    })
     output$report <- shiny::renderUI({
       conditional_section <- switch(
         input$data_type,

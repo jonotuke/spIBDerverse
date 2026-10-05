@@ -2,6 +2,8 @@
 
 export(abbreviate_terms)
 export(add_convert_bb_adj)
+export(check_ibd_file)
+export(check_meta_file)
 export(clean_models)
 export(clean_network)
 export(convert_pipe)

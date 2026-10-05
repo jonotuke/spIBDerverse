@@ -25,7 +25,7 @@ broken_ibd_3 <- fs::path_package(
 )
 broken_meta <- fs::path_package(
   "extdata",
-  "example-meta-data-sample-iid.tsv",
+  "meta-no-iid.tsv",
   package = "spIBDerverse"
 )
 test_that("IBD upload works", {
