@@ -36,6 +36,7 @@ check_columns <- function(df, cols) {
 #' @param label_size Label text size.
 #' @param label_inc Regular expression; only labels matching it are shown.
 #' @param label_exc Regular expression; labels matching it are hidden.
+#' @param label_col Colour of label
 #' @param fill Vertex attribute mapped to node fill.
 #' @param shape Vertex attribute mapped to node shape.
 #' @param size Vertex attribute mapped to node size.
@@ -63,6 +64,7 @@ plot_network <- function(
   label_size = 4,
   label_inc = "",
   label_exc = "",
+  label_col = "black",
   fill = "none",
   shape = "none",
   size = "none",
@@ -202,7 +204,7 @@ plot_network <- function(
     df$.label <- labels
     label_layer <- ggnetwork::geom_nodetext(
       ggplot2::aes(label = .data$.label, alpha = .data$.alpha),
-      colour = "black",
+      colour = label_col,
       size = label_size,
       na.rm = TRUE
     )
@@ -224,11 +226,11 @@ if (sys.nframe() == 5) {
   pacman::p_load(conflicted, tidyverse, targets)
   plot_network(
     example_network,
-    fill = "none",
+    fill = "site",
+    label = "name",
     connected = "Grey out",
-    lat = "lat",
-    long = "long",
-    node_size = 5
+    node_size = 10,
+    label_col = "white"
   ) |>
     print()
 }

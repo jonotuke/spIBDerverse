@@ -49,6 +49,7 @@ networkplotServer <- function(id, r) {
         label_size = input$label_size,
         label_inc = input$label_inc,
         label_exc = input$label_exc,
+        label_col = input$label_col,
         fill = input$fill,
         shape = input$shape,
         size = input$size,
@@ -135,6 +136,7 @@ networkplotApp <- function(network_input) {
   )
 
   ui <- shiny::fluidPage(
+    theme = bslib::bs_theme(version = 5),
     title = "Network plot",
     networkplotInput(
       "networkplot",

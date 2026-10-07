@@ -27,86 +27,93 @@ staticmapInput <- function(id, all_vars, cat_vars, edge_vars, num_vars) {
   ns <- shiny::NS(id)
 
   shiny::tagList(
-    shiny::sliderInput(
-      ns("jitter"),
-      label = "Add jitter to nodes",
-      min = 0,
-      max = 0.05,
-      step = 0.01,
-      value = 0
-    ) |>
-      hover_tooltip(
-        "Moves each node by a small random amount (in degrees) so that
-        nodes sharing the same location don't sit on top of each other."
-      ),
     network_ui(id, all_vars, cat_vars, edge_vars, num_vars),
-    shiny::sliderInput(
-      ns("zoom"),
-      label = "Map resolution",
-      min = 0,
-      max = 15,
-      value = 5,
-      step = 1
-    ) |>
-      hover_tooltip(
-        "The level of resolution of the background map details.
+    bslib::accordion(
+      open = FALSE,
+      bslib::accordion_panel(
+        title = "Map",
+        icon = shiny::icon("map"),
+        shiny::sliderInput(
+          ns("zoom"),
+          label = "Map resolution",
+          min = 0,
+          max = 15,
+          value = 5,
+          step = 1
+        ) |>
+          hover_tooltip(
+            "The level of resolution of the background map details.
         Higher values make the map more detailed, but take longer
         to download. We recommend leaving this value low while
         deciding on the ranges for the latitude and longitude, or
         the terrain type."
-      ),
-    shiny::selectInput(
-      ns("maptype"),
-      label = "Terrain type",
-      choices = STADIA_MAPTYPES
-    ) |>
-      hover_tooltip("The type of map that is used in the background."),
-    shiny::selectInput(
-      ns("theme"),
-      label = "Theme type",
-      choices = c("minimal", "black white", "void")
-    ) |>
-      hover_tooltip(
-        "The plotting theme for the map.
+          ),
+        shiny::selectInput(
+          ns("maptype"),
+          label = "Terrain type",
+          choices = STADIA_MAPTYPES
+        ) |>
+          hover_tooltip("The type of map that is used in the background."),
+        shiny::selectInput(
+          ns("theme"),
+          label = "Theme type",
+          choices = c("minimal", "black white", "void")
+        ) |>
+          hover_tooltip(
+            "The plotting theme for the map.
         Minimal allows you to see the latitude and longitude
         values, black white is similar but removes the grey
         background from the legend, and void removes all axis
         labels and latitude and longitude values."
-      ),
-    shiny::textInput(
-      ns("key"),
-      "Stadia API key",
-      value = "a7bf69ed-3e77-41ed-b1e2-52f9aa99ec19"
-    ) |>
-      hover_tooltip(
-        "This key is required to be able to download the map
+          ),
+        shiny::textInput(
+          ns("key"),
+          "Stadia API key",
+          value = "a7bf69ed-3e77-41ed-b1e2-52f9aa99ec19"
+        ) |>
+          hover_tooltip(
+            "This key is required to be able to download the map
         background. See this website for simple instructions on
         setting this up (https://docs.stadiamaps.com/authentication/#api-keys)."
-      ),
-    # Placeholder values: these are replaced with the network's extent as
-    # soon as latitude and longitude attributes are chosen.
-    shinyWidgets::numericRangeInput(
-      ns("lat_range"),
-      "Latitude range",
-      value = c(-90, 90)
-    ) |>
-      hover_tooltip(
-        "Set automatically to fit the network when the latitude and
+          ),
+        # Placeholder values: these are replaced with the network's extent as
+        # soon as latitude and longitude attributes are chosen.
+        shinyWidgets::numericRangeInput(
+          ns("lat_range"),
+          "Latitude range",
+          value = c(-90, 90)
+        ) |>
+          hover_tooltip(
+            "Set automatically to fit the network when the latitude and
         longitude attributes are chosen. Nodes outside the range are hidden."
-      ),
-    shinyWidgets::numericRangeInput(
-      ns("lon_range"),
-      "Longitude range",
-      value = c(-180, 180)
+          ),
+        shinyWidgets::numericRangeInput(
+          ns("lon_range"),
+          "Longitude range",
+          value = c(-180, 180)
+        ),
+        shiny::sliderInput(
+          ns("jitter"),
+          label = "Add jitter to nodes",
+          min = 0,
+          max = 0.05,
+          step = 0.01,
+          value = 0
+        ) |>
+          hover_tooltip(
+            "Moves each node by a small random amount (in degrees) so that
+        nodes sharing the same location don't sit on top of each other."
+          )
+      )
     )
   )
 }
-
 staticmapOutput <- function(id) {
   ns <- shiny::NS(id)
 
   shiny::tagList(
     shiny::plotOutput(ns("plot")),
+    shiny::verbatimTextOutput(ns("debug")),
     shiny::actionButton(ns("save"), "Set as export plot")
   )
 }
@@ -117,6 +124,11 @@ staticmapServer <- function(id, r) {
   shiny::moduleServer(id, function(input, output, session) {
     has_coords <- shiny::reactive({
       !is_none(input$lat) && !is_none(input$lon)
+    })
+
+    output$debug <- shiny::renderPrint({
+      print(r$network())
+      print(input$label_col)
     })
 
     # SELECT CHOICES ----
@@ -217,6 +229,7 @@ staticmapServer <- function(id, r) {
         label = input$label,
         label_inc = input$label_inc,
         label_exc = input$label_exc,
+        label_col = input$label_col,
         fill = input$fill,
         shape = input$shape,
         node_size = input$node_size,
@@ -242,6 +255,7 @@ staticmapApp <- function(network_input) {
   )
 
   ui <- shiny::fluidPage(
+    theme = bslib::bs_theme(version = 5),
     title = "Static map",
     staticmapInput(
       "staticmap",
@@ -261,5 +275,5 @@ staticmapApp <- function(network_input) {
 }
 
 if (sys.nframe() == 5) {
-  staticmapApp(example_network_2) |> print()
+  staticmapApp(example_network) |> print()
 }

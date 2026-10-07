@@ -18,6 +18,7 @@ plot_network(
   label_size = 4,
   label_inc = "",
   label_exc = "",
+  label_col = "black",
   fill = "none",
   shape = "none",
   size = "none",
@@ -56,6 +57,8 @@ matched against. Defaults to \code{label}.}
 \item{label_inc}{Regular expression; only labels matching it are shown.}
 
 \item{label_exc}{Regular expression; labels matching it are hidden.}
+
+\item{label_col}{Colour of label}
 
 \item{fill}{Vertex attribute mapped to node fill.}
 
