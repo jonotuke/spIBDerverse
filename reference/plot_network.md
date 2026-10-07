@@ -19,6 +19,7 @@ plot_network(
   label_size = 4,
   label_inc = "",
   label_exc = "",
+  label_col = "black",
   fill = "none",
   shape = "none",
   size = "none",
@@ -83,6 +84,10 @@ plot_network(
 - label_exc:
 
   Regular expression; labels matching it are hidden.
+
+- label_col:
+
+  Colour of label
 
 - fill:
 
