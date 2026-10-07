@@ -43,7 +43,6 @@ Imports:
     gt,
     shinyvalidate,
     forcats,
-    ggnewscale,
     dplyr,
     DT,
     farver,

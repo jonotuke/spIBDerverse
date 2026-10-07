@@ -14,6 +14,8 @@ plot_staticmap(
   lon_range = NULL,
   lat_range = NULL,
   pad = 0.05,
+  jitter = 0,
+  seed = 2026,
   theme = "minimal",
   ...
 )
@@ -35,6 +37,13 @@ to it.}
 
 \item{pad}{Fraction of the node extent added around the edges of the map
 when \code{lon_range}/\code{lat_range} are not supplied.}
+
+\item{jitter}{Maximum random shift (in degrees) applied to each node's
+position, so nodes in the same place don't overlap. Applied after
+filtering by \code{lon_range}/\code{lat_range}.}
+
+\item{seed}{Random seed used for the jitter (and passed to
+\code{\link[=plot_network]{plot_network()}}).}
 
 \item{theme}{Plot theme: "minimal", "black white", "void", or "blank"
 (keeps the theme from \code{plot_network()}).}
