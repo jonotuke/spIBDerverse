@@ -20,6 +20,8 @@ plot_staticmap(
   lon_range = NULL,
   lat_range = NULL,
   pad = 0.05,
+  jitter = 0,
+  seed = 2026,
   theme = "minimal",
   ...
 )
@@ -56,6 +58,17 @@ plot_staticmap(
 
   Fraction of the node extent added around the edges of the map when
   `lon_range`/`lat_range` are not supplied.
+
+- jitter:
+
+  Maximum random shift (in degrees) applied to each node's position, so
+  nodes in the same place don't overlap. Applied after filtering by
+  `lon_range`/`lat_range`.
+
+- seed:
+
+  Random seed used for the jitter (and passed to
+  [`plot_network()`](https://jonotuke.github.io/spIBDerverse/reference/plot_network.md)).
 
 - theme:
 

@@ -65,6 +65,8 @@ carry through automatically.</p>
 <span>  lon_range <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  lat_range <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  pad <span class="op">=</span> <span class="fl">0.05</span>,</span>
+<span>  jitter <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  seed <span class="op">=</span> <span class="fl">2026</span>,</span>
 <span>  theme <span class="op">=</span> <span class="st">"minimal"</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -103,6 +105,17 @@ to it.</p></dd>
 <dt id="arg-pad">pad<a class="anchor" aria-label="anchor" href="#arg-pad"></a></dt>
 <dd><p>Fraction of the node extent added around the edges of the map
 when <code>lon_range</code>/<code>lat_range</code> are not supplied.</p></dd>
+
+
+<dt id="arg-jitter">jitter<a class="anchor" aria-label="anchor" href="#arg-jitter"></a></dt>
+<dd><p>Maximum random shift (in degrees) applied to each node's
+position, so nodes in the same place don't overlap. Applied after
+filtering by <code>lon_range</code>/<code>lat_range</code>.</p></dd>
+
+
+<dt id="arg-seed">seed<a class="anchor" aria-label="anchor" href="#arg-seed"></a></dt>
+<dd><p>Random seed used for the jitter (and passed to
+<code><a href="plot_network.html">plot_network()</a></code>).</p></dd>
 
 
 <dt id="arg-theme">theme<a class="anchor" aria-label="anchor" href="#arg-theme"></a></dt>
