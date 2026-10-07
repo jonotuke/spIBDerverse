@@ -5,7 +5,7 @@ ergmInput <- function(id, all_vars, g) {
       "Select Predictors",
       choices = all_vars
     ) |>
-      bslib::tooltip(
+      hover_tooltip(
         htmltools::HTML(
           "Select the predictors to include in the model. For each variable you can choose which level of complexity to include. If a categorical value has only two levels, then nodematch(diff) and nodemix are equivalent, and nodemix is removed.
       <br><br>
@@ -28,7 +28,7 @@ ergmInput <- function(id, all_vars, g) {
       ),
       selected = "phi"
     ) |>
-      bslib::tooltip(
+      hover_tooltip(
         "Report model coefficients as just coefficients, or with the fold change effect of the variable."
       ),
     shiny::radioButtons(
@@ -40,7 +40,7 @@ ergmInput <- function(id, all_vars, g) {
       ),
       selected = "BIC"
     ) |>
-      bslib::tooltip(
+      hover_tooltip(
         "Use AIC or BIC for model selection. We suggest BIC based on a simulation study."
       ),
     shiny::checkboxInput(
@@ -62,14 +62,14 @@ ergmInput <- function(id, all_vars, g) {
       value = 90,
       step = 15
     ) |>
-      bslib::tooltip(
+      hover_tooltip(
         "Change the angle at which the x-axis model names appear. Useful when long names make the model selection plot too small."
       ),
     shiny::checkboxInput(
       shiny::NS(id, "abbr"),
       label = "Abbreviate models"
     ) |>
-      bslib::tooltip(
+      hover_tooltip(
         "Shorten the model names on the model selection plot."
       ),
     shiny::checkboxInput(

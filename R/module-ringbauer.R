@@ -14,7 +14,7 @@ ringbauerInput <- function(id, cat_vars) {
       step = 1,
       value = 1
     ) |>
-      bslib::tooltip(
+      hover_tooltip(
         "Change font size for axis labels and cell counts (matrix plot)."
       ),
     shiny::sliderInput(
@@ -25,7 +25,7 @@ ringbauerInput <- function(id, cat_vars) {
       step = 1,
       value = 4
     ) |>
-      bslib::tooltip(
+      hover_tooltip(
         "Increase or decrease the space around the edge of the plot (matrix plot). Useful when labels are too large to be seen properly."
       ),
     shiny::checkboxInput(
@@ -38,7 +38,7 @@ ringbauerInput <- function(id, cat_vars) {
       label = "Add size",
       value = FALSE
     ) |>
-      bslib::tooltip(
+      hover_tooltip(
         "Add the sample size to the axis labels (matrix plot)."
       ),
     shiny::checkboxInput(
@@ -46,7 +46,7 @@ ringbauerInput <- function(id, cat_vars) {
       label = "Add percent",
       value = FALSE
     ) |>
-      bslib::tooltip(
+      hover_tooltip(
         "Add the percentages to the cell counts (matrix plot)."
       ),
     shiny::checkboxInput(
@@ -54,7 +54,7 @@ ringbauerInput <- function(id, cat_vars) {
       "Show significance",
       value = FALSE
     ) |>
-      bslib::tooltip(
+      hover_tooltip(
         "Colours pairs of levels as significant (yellow) or not (black) compared to the average overall connectedness (connectivity plot)."
       ),
     shiny::checkboxInput(
@@ -62,7 +62,7 @@ ringbauerInput <- function(id, cat_vars) {
       "Filter out non-significant",
       value = FALSE
     ) |>
-      bslib::tooltip(
+      hover_tooltip(
         "Makes non-significant pairs transparent (connectivity plot)."
       )
   )

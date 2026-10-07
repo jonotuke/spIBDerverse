@@ -5,7 +5,7 @@ networkplotInput <- function(id, cat_vars, all_vars, edge_vars) {
       label = "Set seed",
       value = 1000
     ) |>
-      bslib::popover(
+      hover_tooltip(
         "Number to generate new network layout. Change this number to rearrange the nodes."
       ),
     network_ui(id, all_vars, cat_vars, edge_vars)

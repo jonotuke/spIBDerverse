@@ -34,15 +34,12 @@ dataWizardInput <- function(id) {
 }
 dataWizardOutput <- function(id) {
   shiny::tagList(
-    # shiny::uiOutput({
-    #   shiny::NS(id, "report")
-    # }),
     shiny::tableOutput({
       shiny::NS(id, "tab")
-    }),
-    shiny::verbatimTextOutput(
-      shiny::NS(id, "debug")
-    )
+    })
+    # shiny::verbatimTextOutput(
+    #   shiny::NS(id, "debug")
+    # )
   )
 }
 
@@ -154,11 +151,15 @@ dataWizardServer <- function(id, r) {
     output$network_status <- shiny::renderUI({
       shiny::req(input$ibd_meta_file)
       shiny::req(input$ibd_edge_file)
-      msg <- check_files(
+      msg <- check_ibd_files(
         input$ibd_edge_file$datapath,
         input$ibd_meta_file$datapath
       )
       get_status(msg)
+    })
+    output$tab <- shiny::renderTable({
+      shiny::req(r$full_network())
+      get_network_summary(r$full_network())
     })
   })
 }

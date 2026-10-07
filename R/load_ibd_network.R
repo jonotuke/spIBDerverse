@@ -67,6 +67,12 @@ load_ibd_network <- function(
       "frac_gp2" %in% colnames(ibd)
     )
   ) {
+    if ("frac_gp" %notin% colnames(node_df)) {
+      message(
+        "The metafile does not have a column called frac_gp"
+      )
+      return(NULL)
+    }
     frac_gp_df <- node_df |> dplyr::select(iid, frac_gp)
     ibd <- ibd |>
       dplyr::left_join(
@@ -129,24 +135,9 @@ load_ibd_network <- function(
 }
 
 if (sys.nframe() == 5) {
-  ibd_file <- fs::path_package(
-    "extdata",
-    "example-ibd-data.tsv",
-    package = "spIBDerverse"
-  )
-  meta_file <- fs::path_package(
-    "extdata",
-    "example-meta-data.tsv",
-    package = "spIBDerverse"
-  )
-  meta_file_2 <- fs::path_package(
-    "extdata",
-    "example-meta-data-sample-iid.tsv",
-    package = "spIBDerverse"
-  )
   load_ibd_network(
-    ibd_file = ibd_file,
-    meta_file = meta_file_2
+    ibd_file = "inst/extdata/example-ibd-data.tsv",
+    meta_file = "inst/extdata/meta-no-frac-gp.tsv"
   ) |>
     print()
 }

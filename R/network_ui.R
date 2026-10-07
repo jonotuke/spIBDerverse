@@ -32,7 +32,7 @@ network_ui <- function(id, all_vars, cat_vars, edge_vars) {
       ),
       selected = "identity"
     ) |>
-      bslib::popover(
+      hover_tooltip(
         "Method to scale the edge values and legend. Either \"None\" or a \"log10\"transformation."
       ),
     shiny::selectInput(
@@ -47,7 +47,7 @@ network_ui <- function(id, all_vars, cat_vars, edge_vars) {
       ),
       selected = "none"
     ) |>
-      bslib::popover(
+      hover_tooltip(
         htmltools::HTML(
           "Degree: the number of other individuals an individual is connected to. High values indicate an individual has more relatives.
     <br><br>
@@ -64,7 +64,7 @@ network_ui <- function(id, all_vars, cat_vars, edge_vars) {
       choices = c("Show", "Grey out", "Hide"),
       selected = "Show"
     ) |>
-      bslib::tooltip(
+      hover_tooltip(
         "How to treat the unconnected nodes in the network plot."
       ),
     shiny::numericInput(

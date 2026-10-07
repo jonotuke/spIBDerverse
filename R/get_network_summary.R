@@ -40,4 +40,6 @@ get_network_summary <- function(g) {
     )
   )
 }
-# get_network_summary(example_network) |> print()
+if (sys.nframe() == 5) {
+  get_network_summary(example_network) |> print()
+}

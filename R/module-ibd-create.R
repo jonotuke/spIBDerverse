@@ -4,14 +4,14 @@ ibdInput <- function(id) {
       shiny::NS(id, "ibd_file"),
       "Upload an IBD file (edges)"
     ) |>
-      bslib::tooltip(
+      hover_tooltip(
         "Upload pairwise IBD file. Each line should have two individuals, and how related that pair is. Additional columns can include pairwise information (like geographic distance for example). The first column should be called \"iid1\" and the second column \"iid2\"."
       ),
     shiny::fileInput(
       shiny::NS(id, "meta_file"),
       "Upload a meta data file (nodes)"
     ) |>
-      bslib::tooltip(
+      hover_tooltip(
         "Upload your meta data for the individuals. This can include any meta data you might like to plot or test. The first column should be called \"iid\"."
       ),
     shiny::checkboxInput(
@@ -19,7 +19,7 @@ ibdInput <- function(id) {
       "Filter edges to just nodes in metafile",
       value = TRUE
     ) |>
-      bslib::tooltip(
+      hover_tooltip(
         "Toggle this off to keep ALL IBD information. Will slow down analyses!"
       ),
     shiny::textInput(
@@ -27,7 +27,7 @@ ibdInput <- function(id) {
       label = "Please enter cutoffs with commas between",
       value = "0,2,1,0"
     ) |>
-      bslib::popover(
+      hover_tooltip(
         "This defines the definition of two individuals being \"connected\". A comma-separated description of the cut-off for the minimum number of blocks of IBD of length >=8cM, >=12cM, >=16cM and >=20cM."
       ),
     shiny::numericInput(
@@ -35,7 +35,7 @@ ibdInput <- function(id) {
       label = "Minimum Frac GP",
       value = 0.7
     ) |>
-      bslib::popover(
+      hover_tooltip(
         "Used for quality control. The fraction of genotype likelihoods that had posterior values of >=0.99, indicating high quality imputation. Recommended default is 0.7."
       )
   )
