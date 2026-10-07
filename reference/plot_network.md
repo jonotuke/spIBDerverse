@@ -9,6 +9,8 @@ plot_network(
   g,
   seed = 2026,
   connected = "Show",
+  lat = "none",
+  long = "none",
   edge = "none",
   edge_legend = TRUE,
   edge_trans = "identity",
@@ -19,6 +21,7 @@ plot_network(
   label_exc = "",
   fill = "none",
   shape = "none",
+  size = "none",
   node_size = 5,
   node_centrality = "none",
   pal = "ravenclaw"
@@ -39,6 +42,14 @@ plot_network(
 
   choice for how to deal with isolated nodes with choices Hide, Show,
   Grey out
+
+- lat:
+
+  vertex attribute to use for latitude
+
+- long:
+
+  vertex attribute to use for longitude
 
 - edge:
 
@@ -79,6 +90,10 @@ plot_network(
 - shape:
 
   vertex attribute for node shape
+
+- size:
+
+  vertex attribute for node size
 
 - node_size:
 
