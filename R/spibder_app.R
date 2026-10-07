@@ -15,6 +15,7 @@ spibder_app <- function(input_network = NULL) {
   cat_vars <- get_node_attributes(input_network, "cat")
   all_vars <- get_node_attributes(input_network)
   edge_vars <- igraph::edge_attr_names(input_network)
+  num_vars <- get_node_attributes(input_network, "num", exc_central = FALSE)
 
   r <- shiny::reactiveValues()
   r$export <- shiny::reactive({
@@ -49,7 +50,8 @@ spibder_app <- function(input_network = NULL) {
             "networkplot",
             cat_vars = cat_vars,
             all_vars = all_vars,
-            edge_vars = edge_vars
+            edge_vars = edge_vars,
+            num_vars = num_vars
           )
         ),
         shiny::conditionalPanel(
@@ -66,7 +68,8 @@ spibder_app <- function(input_network = NULL) {
             "staticmap",
             all_vars = all_vars,
             cat_vars = cat_vars,
-            edge_vars = edge_vars
+            edge_vars = edge_vars,
+            num_vars = num_vars
           )
         ),
         shiny::conditionalPanel(

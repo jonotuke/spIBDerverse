@@ -1,4 +1,4 @@
-network_ui <- function(id, all_vars, cat_vars, edge_vars) {
+network_ui <- function(id, all_vars, cat_vars, edge_vars, num_vars) {
   shiny::tagList(
     shiny::selectInput(
       shiny::NS(id, "fill"),
@@ -10,6 +10,24 @@ network_ui <- function(id, all_vars, cat_vars, edge_vars) {
       inputId = shiny::NS(id, "shape"),
       label = "Choose node shape column",
       choices = c("none", cat_vars),
+      selected = "none"
+    ),
+    shiny::selectInput(
+      inputId = shiny::NS(id, "size"),
+      label = "Choose node size column",
+      choices = c("none", num_vars),
+      selected = "none"
+    ),
+    shiny::selectInput(
+      shiny::NS(id, "lat"),
+      label = "Choose latitude column",
+      choices = c("none", all_vars),
+      selected = "none"
+    ),
+    shiny::selectInput(
+      shiny::NS(id, "lon"),
+      label = "Choose longitude column",
+      choices = c("none", all_vars),
       selected = "none"
     ),
     shiny::selectInput(
@@ -34,29 +52,6 @@ network_ui <- function(id, all_vars, cat_vars, edge_vars) {
     ) |>
       hover_tooltip(
         "Method to scale the edge values and legend. Either \"None\" or a \"log10\"transformation."
-      ),
-    shiny::selectInput(
-      shiny::NS(id, "node_centrality"),
-      label = "Show node centrality",
-      choices = c(
-        "none",
-        "degree" = ".degree",
-        "betweenness" = ".betweenness",
-        "closeness" = ".closeness",
-        "eigencentrality" = ".eigencentrality"
-      ),
-      selected = "none"
-    ) |>
-      hover_tooltip(
-        htmltools::HTML(
-          "Degree: the number of other individuals an individual is connected to. High values indicate an individual has more relatives.
-    <br><br>
-      Closeness: the inverse of the sum of the shortest paths to all other nodes. Low values indicate that an individual is relatively closely related to all others.
-    <br><br>
-      Betweeness: how frequently an individual appears on the shortest path between all pairs of individuals. High values indicate that an individual is important to connecting the network.
-    <br><br>
-      Eigencentrality: a measure of \"prestige\" on the network. High values indicate that an individual is connected to many highly-connected individuals.",
-        )
       ),
     shiny::radioButtons(
       shiny::NS(id, "connected"),

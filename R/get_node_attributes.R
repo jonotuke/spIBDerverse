@@ -4,13 +4,14 @@
 #'
 #' @param g network object
 #' @param type type to return
+#' @param exc_central boolean to remove centrality measures
 #'
 #' @returns list of attributes names
 #'
 #' @export
 #' @examples
 #' get_node_attributes(example_network)
-get_node_attributes <- function(g, type = "all") {
+get_node_attributes <- function(g, type = "all", exc_central = TRUE) {
   if (!methods::is(g, "igraph")) {
     return(NULL)
   }
@@ -27,10 +28,14 @@ get_node_attributes <- function(g, type = "all") {
       dplyr::select(dplyr::where(is.numeric)) |>
       colnames()
   }
-  vars <- vars |>
-    purrr::discard(\(x) {
-      stringr::str_detect(x, "^\\.")
-    })
+  if (exc_central) {
+    vars <- vars |>
+      purrr::discard(\(x) {
+        stringr::str_detect(x, "^\\.")
+      })
+  }
   vars
 }
-# get_node_attributes(example_network) |> print()
+if (sys.nframe() == 5) {
+  get_node_attributes(example_network, "num", exc_central = FALSE) |> print()
+}

@@ -8,6 +8,8 @@ plot_network(
   g,
   seed = 2026,
   connected = "Show",
+  lat = "none",
+  long = "none",
   edge = "none",
   edge_legend = TRUE,
   edge_trans = "identity",
@@ -18,6 +20,7 @@ plot_network(
   label_exc = "",
   fill = "none",
   shape = "none",
+  size = "none",
   node_size = 5,
   node_centrality = "none",
   pal = "ravenclaw"
@@ -30,6 +33,10 @@ plot_network(
 
 \item{connected}{choice for how to deal with isolated nodes with choices
 Hide, Show, Grey out}
+
+\item{lat}{vertex attribute to use for latitude}
+
+\item{long}{vertex attribute to use for longitude}
 
 \item{edge}{edge attribute for line colour}
 
@@ -50,6 +57,8 @@ Hide, Show, Grey out}
 \item{fill}{vertex attribute for node fill}
 
 \item{shape}{vertex attribute for node shape}
+
+\item{size}{vertex attribute for node size}
 
 \item{node_size}{node size}
 

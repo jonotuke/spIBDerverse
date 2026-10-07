@@ -1,4 +1,4 @@
-staticmapInput <- function(id, all_vars, cat_vars, edge_vars) {
+staticmapInput <- function(id, all_vars, cat_vars, edge_vars, num_vars) {
   shiny::tagList(
     shiny::selectInput(
       shiny::NS(id, "lat"),
@@ -20,7 +20,7 @@ staticmapInput <- function(id, all_vars, cat_vars, edge_vars) {
       step = 0.01,
       value = 0
     ),
-    network_ui(id, all_vars, cat_vars, edge_vars),
+    network_ui(id, all_vars, cat_vars, edge_vars, num_vars),
     shiny::sliderInput(
       shiny::NS(id, "zoom"),
       label = "Map resolution",

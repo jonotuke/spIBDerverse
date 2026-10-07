@@ -1,4 +1,4 @@
-networkplotInput <- function(id, cat_vars, all_vars, edge_vars) {
+networkplotInput <- function(id, cat_vars, all_vars, edge_vars, num_vars) {
   shiny::tagList(
     shiny::numericInput(
       shiny::NS(id, "seed"),
@@ -8,7 +8,7 @@ networkplotInput <- function(id, cat_vars, all_vars, edge_vars) {
       hover_tooltip(
         "Number to generate new network layout. Change this number to rearrange the nodes."
       ),
-    network_ui(id, all_vars, cat_vars, edge_vars)
+    network_ui(id, all_vars, cat_vars, edge_vars, num_vars)
   )
 }
 
@@ -37,6 +37,8 @@ networkplotServer <- function(id, r) {
       plot_network(
         r$network(),
         seed = input$seed,
+        lat = input$lat,
+        long = input$lon,
         connected = input$connected,
         edge = input$edge,
         node_size = input$node_size,
@@ -49,6 +51,7 @@ networkplotServer <- function(id, r) {
         label_exc = input$label_exc,
         fill = input$fill,
         shape = input$shape,
+        size = input$size,
         node_centrality = input$node_centrality,
         pal = input$pal
       )
@@ -70,6 +73,20 @@ networkplotServer <- function(id, r) {
         choices = c(
           "none",
           get_node_attributes(r$full_network())
+        )
+      )
+    })
+    shiny::observeEvent(r$full_network(), {
+      shiny::updateSelectInput(
+        session,
+        "size",
+        choices = c(
+          "none",
+          get_node_attributes(
+            r$full_network(),
+            "num",
+            exc_central = FALSE
+          )
         )
       )
     })
@@ -104,6 +121,7 @@ networkplotApp <- function(network_input) {
   cat_vars <- get_node_attributes(network_input, "cat")
   all_vars <- get_node_attributes(network_input)
   edge_vars <- igraph::edge_attr_names(network_input)
+  num_vars <- get_node_attributes(network_input, "num", exc_central = FALSE)
 
   r <- shiny::reactiveValues()
   r$export <- shiny::reactive({
@@ -122,7 +140,8 @@ networkplotApp <- function(network_input) {
       "networkplot",
       cat_vars = cat_vars,
       all_vars = all_vars,
-      edge_vars = edge_vars
+      edge_vars = edge_vars,
+      num_vars = num_vars
     ),
     networkplotOutput("networkplot"),
     shiny::plotOutput("export")
