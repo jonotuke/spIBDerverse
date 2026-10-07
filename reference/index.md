@@ -105,13 +105,13 @@
 - [`plot_leaflet()`](https://jonotuke.github.io/spIBDerverse/reference/plot_leaflet.md)
   : plot leaflet
 - [`plot_network()`](https://jonotuke.github.io/spIBDerverse/reference/plot_network.md)
-  : plot network
+  : Plot a network
 - [`plot_ringbauer()`](https://jonotuke.github.io/spIBDerverse/reference/plot_ringbauer.md)
   : Plot Ringbauer
 - [`plot_single_ergm_coef()`](https://jonotuke.github.io/spIBDerverse/reference/plot_single_ergm_coef.md)
   : Plot single ergm coefficients
 - [`plot_staticmap()`](https://jonotuke.github.io/spIBDerverse/reference/plot_staticmap.md)
-  : plot static-map
+  : Plot a network on a static Stadia map
 - [`remove_redundant_models()`](https://jonotuke.github.io/spIBDerverse/reference/remove_redundant_models.md)
   : remove redundant models
 - [`sort_label()`](https://jonotuke.github.io/spIBDerverse/reference/sort_label.md)

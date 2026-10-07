@@ -1,6 +1,6 @@
-# plot network
+# Plot a network
 
-plot network
+Plot a network
 
 ## Usage
 
@@ -32,89 +32,88 @@ plot_network(
 
 - g:
 
-  network
+  An igraph network.
 
 - seed:
 
-  seed to set node locations
+  Random seed used for the node layout.
 
 - connected:
 
-  choice for how to deal with isolated nodes with choices Hide, Show,
-  Grey out
+  How to treat unconnected (isolated) nodes: "Show" leaves them as they
+  are, "Hide" removes them from the plot, and "Grey out" draws them (and
+  their labels) with an alpha of 0.1. The layout is always computed on
+  the full network, so the other nodes don't move.
 
-- lat:
+- lat, long:
 
-  vertex attribute to use for latitude
-
-- long:
-
-  vertex attribute to use for longitude
+  Vertex attributes holding latitude and longitude. Supply both to use a
+  geographic layout, or neither for a force-directed layout.
 
 - edge:
 
-  edge attribute for line colour
+  Edge attribute mapped to line width (numeric) or line type (anything
+  else).
 
 - edge_legend:
 
-  boolean to control edge legend
+  Show the edge legend?
 
 - edge_trans:
 
-  transformation for edge mapping
+  Transformation applied to a numeric `edge` mapping.
 
 - label:
 
-  vertex attribute to use for labels
+  Vertex attribute used for node labels.
 
 - label_filter:
 
-  variable to filter on
+  Vertex attribute that `label_inc` / `label_exc` are matched against.
+  Defaults to `label`.
 
 - label_size:
 
-  label size
+  Label text size.
 
 - label_inc:
 
-  regular expression to include labels
+  Regular expression; only labels matching it are shown.
 
 - label_exc:
 
-  regular expression to exclude labels
+  Regular expression; labels matching it are hidden.
 
 - fill:
 
-  vertex attribute for node fill
+  Vertex attribute mapped to node fill.
 
 - shape:
 
-  vertex attribute for node shape
+  Vertex attribute mapped to node shape.
 
 - size:
 
-  vertex attribute for node size
+  Vertex attribute mapped to node size.
 
 - node_size:
 
-  node size
+  Base node size.
 
 - node_centrality:
 
-  vertex attribute for node alpha
+  Vertex attribute mapped to node transparency. (Not yet implemented.)
 
 - pal:
 
-  colour palette
+  Colour palette name.
 
 ## Value
 
-network plot
+A ggplot object.
 
 ## Examples
 
 ``` r
 plot_network(example_network)
-#> Warning: Removed 40 rows containing missing values or values outside the scale range
-#> (`geom_text()`).
 ```

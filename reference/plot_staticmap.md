@@ -1,125 +1,82 @@
-# plot static-map
+# Plot a network on a static Stadia map
 
-plot static-map
+Draws the network with
+[`plot_network()`](https://jonotuke.github.io/spIBDerverse/reference/plot_network.md)
+using a geographic layout, then places a Stadia map tile underneath it.
+All styling (edges, nodes, labels, palettes, ...) is handled by
+[`plot_network()`](https://jonotuke.github.io/spIBDerverse/reference/plot_network.md),
+so any changes made there carry through automatically.
 
 ## Usage
 
 ``` r
 plot_staticmap(
-  sf,
+  g,
   key = NULL,
+  lat = "lat",
+  long = "long",
   zoom = 5,
   maptype = "stamen_terrain",
   lon_range = NULL,
   lat_range = NULL,
-  fill = "none",
-  shape = "none",
-  node_size = 4,
-  node_centrality = "none",
-  connected = "Show",
-  edge = "none",
-  edge_legend = TRUE,
-  edge_trans = "identity",
-  label = "",
-  label_inc = "",
-  label_exc = "",
-  label_size = 3,
+  pad = 0.05,
   theme = "minimal",
-  pal = "ravenclaw"
+  ...
 )
 ```
 
 ## Arguments
 
-- sf:
+- g:
 
-  network sf object
+  An igraph network.
 
 - key:
 
-  stadia API key
+  Stadia API key. See <https://stadiamaps.com>.
+
+- lat, long:
+
+  Vertex attributes holding latitude and longitude.
 
 - zoom:
 
-  stadia tile zoom
+  Stadia tile zoom.
 
 - maptype:
 
-  stadia map tile
+  Stadia map tile type.
 
-- lon_range:
+- lon_range, lat_range:
 
-  range of lon to zoom to
+  Optional length-2 vectors. If both are supplied, the network is
+  filtered to nodes inside this box and the map is cropped to it.
 
-- lat_range:
+- pad:
 
-  range of lat to zoom to
-
-- fill:
-
-  vertex attribute for node fill
-
-- shape:
-
-  vertex attribute for node shape
-
-- node_size:
-
-  node size
-
-- node_centrality:
-
-  vertext attribute for node alpha
-
-- connected:
-
-  choice for how to deal with isolated nodes with choices Hide, Show,
-  Grey out
-
-- edge:
-
-  edge attribute for line colour
-
-- edge_legend:
-
-  boolean to control edge legend
-
-- edge_trans:
-
-  transformation for edge mapping
-
-- label:
-
-  vertex attribute to use for labels
-
-- label_inc:
-
-  regular expression to include labels
-
-- label_exc:
-
-  regular expression to exclude labels
-
-- label_size:
-
-  label size
+  Fraction of the node extent added around the edges of the map when
+  `lon_range`/`lat_range` are not supplied.
 
 - theme:
 
-  type of plot theme
+  Plot theme: "minimal", "black white", "void", or "blank" (keeps the
+  theme from
+  [`plot_network()`](https://jonotuke.github.io/spIBDerverse/reference/plot_network.md)).
 
-- pal:
+- ...:
 
-  colour palette
+  Further arguments passed to
+  [`plot_network()`](https://jonotuke.github.io/spIBDerverse/reference/plot_network.md),
+  e.g. `fill`, `shape`, `edge`, `label`, `node_size`, `pal`.
 
 ## Value
 
-network plot
+A ggplot object, or `NULL` (invisibly) if no key is given.
 
 ## Examples
 
 ``` r
-plot_network(example_network)
-#> Warning: Removed 40 rows containing missing values or values outside the scale range
-#> (`geom_text()`).
+if (FALSE) { # \dontrun{
+plot_staticmap(example_network, key = my_key, zoom = 11, fill = "site")
+} # }
 ```
