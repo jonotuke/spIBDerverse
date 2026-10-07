@@ -2,79 +2,57 @@
 % Please edit documentation in R/plot_staticmap.R
 \name{plot_staticmap}
 \alias{plot_staticmap}
-\title{plot static-map}
+\title{Plot a network on a static Stadia map}
 \usage{
 plot_staticmap(
-  sf,
+  g,
   key = NULL,
+  lat = "lat",
+  long = "long",
   zoom = 5,
   maptype = "stamen_terrain",
   lon_range = NULL,
   lat_range = NULL,
-  fill = "none",
-  shape = "none",
-  node_size = 4,
-  node_centrality = "none",
-  connected = "Show",
-  edge = "none",
-  edge_legend = TRUE,
-  edge_trans = "identity",
-  label = "",
-  label_inc = "",
-  label_exc = "",
-  label_size = 3,
+  pad = 0.05,
   theme = "minimal",
-  pal = "ravenclaw"
+  ...
 )
 }
 \arguments{
-\item{sf}{network sf object}
+\item{g}{An igraph network.}
 
-\item{key}{stadia API key}
+\item{key}{Stadia API key. See \url{https://stadiamaps.com}.}
 
-\item{zoom}{stadia tile zoom}
+\item{lat, long}{Vertex attributes holding latitude and longitude.}
 
-\item{maptype}{stadia map tile}
+\item{zoom}{Stadia tile zoom.}
 
-\item{lon_range}{range of lon to zoom to}
+\item{maptype}{Stadia map tile type.}
 
-\item{lat_range}{range of lat to zoom to}
+\item{lon_range, lat_range}{Optional length-2 vectors. If both are supplied,
+the network is filtered to nodes inside this box and the map is cropped
+to it.}
 
-\item{fill}{vertex attribute for node fill}
+\item{pad}{Fraction of the node extent added around the edges of the map
+when \code{lon_range}/\code{lat_range} are not supplied.}
 
-\item{shape}{vertex attribute for node shape}
+\item{theme}{Plot theme: "minimal", "black white", "void", or "blank"
+(keeps the theme from \code{plot_network()}).}
 
-\item{node_size}{node size}
-
-\item{node_centrality}{vertext attribute for node alpha}
-
-\item{connected}{choice for how to deal with isolated nodes with choices
-Hide, Show, Grey out}
-
-\item{edge}{edge attribute for line colour}
-
-\item{edge_legend}{boolean to control edge legend}
-
-\item{edge_trans}{transformation for edge mapping}
-
-\item{label}{vertex attribute to use for labels}
-
-\item{label_inc}{regular expression to include labels}
-
-\item{label_exc}{regular expression to exclude labels}
-
-\item{label_size}{label size}
-
-\item{theme}{type of plot theme}
-
-\item{pal}{colour palette}
+\item{...}{Further arguments passed to \code{\link[=plot_network]{plot_network()}}, e.g. \code{fill},
+\code{shape}, \code{edge}, \code{label}, \code{node_size}, \code{pal}.}
 }
 \value{
-network plot
+A ggplot object, or \code{NULL} (invisibly) if no key is given.
 }
 \description{
-plot static-map
+Draws the network with \code{\link[=plot_network]{plot_network()}} using a geographic layout, then
+places a Stadia map tile underneath it. All styling (edges, nodes, labels,
+palettes, ...) is handled by \code{plot_network()}, so any changes made there
+carry through automatically.
 }
 \examples{
-plot_network(example_network)
+\dontrun{
+plot_staticmap(example_network, key = my_key, zoom = 11, fill = "site")
+}
 }

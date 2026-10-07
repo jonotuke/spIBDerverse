@@ -1,17 +1,5 @@
 staticmapInput <- function(id, all_vars, cat_vars, edge_vars, num_vars) {
   shiny::tagList(
-    shiny::selectInput(
-      shiny::NS(id, "lat"),
-      label = "Choose latitude column",
-      choices = c("none", all_vars),
-      selected = "none"
-    ),
-    shiny::selectInput(
-      shiny::NS(id, "lon"),
-      label = "Choose longitude column",
-      choices = c("none", all_vars),
-      selected = "none"
-    ),
     shiny::sliderInput(
       shiny::NS(id, "jitter"),
       label = "Add jitter to nodes",
@@ -30,7 +18,11 @@ staticmapInput <- function(id, all_vars, cat_vars, edge_vars, num_vars) {
       step = 1
     ) |>
       hover_tooltip(
-        "The level of resolution of the background map details. Higher values make the map more detailed, but take longer to download. We recommend leaving this value low while deciding on the ranges for the latitude and longitude, or the terrain type."
+        "The level of resolution of the background map details. 
+        Higher values make the map more detailed, but take longer
+        to download. We recommend leaving this value low while 
+        deciding on the ranges for the latitude and longitude, or 
+        the terrain type."
       ),
     shiny::selectInput(
       shiny::NS(id, "maptype"),
@@ -63,7 +55,11 @@ staticmapInput <- function(id, all_vars, cat_vars, edge_vars, num_vars) {
       selected = 1
     ) |>
       hover_tooltip(
-        "The plotting theme for the map. Minimal allows you to see the latitude and longitude values, black white is similar but removes the grey background from the legend, and video removes all axis labels and latitude and longitude values."
+        "The plotting theme for the map. 
+        Minimal allows you to see the latitude and longitude 
+        values, black white is similar but removes the grey 
+        background from the legend, and video removes all axis 
+        labels and latitude and longitude values."
       ),
     shiny::textInput(
       shiny::NS(id, "key"),
@@ -72,7 +68,9 @@ staticmapInput <- function(id, all_vars, cat_vars, edge_vars, num_vars) {
       value = "a7bf69ed-3e77-41ed-b1e2-52f9aa99ec19"
     ) |>
       hover_tooltip(
-        "This key is required to be able to download the map background. See this website for simple instructions on setting this up (https://docs.stadiamaps.com/authentication/#api-keys)."
+        "This key is required to be able to download the map 
+        background. See this website for simple instructions on 
+        setting this up (https://docs.stadiamaps.com/authentication/#api-keys)."
       ),
     shinyWidgets::numericRangeInput(
       shiny::NS(id, "lat_range"),
@@ -92,6 +90,9 @@ staticmapOutput <- function(id) {
     shiny::plotOutput({
       shiny::NS(id, "plot")
     }),
+    shiny::verbatimTextOutput(
+      shiny::NS(id, "debug")
+    ),
     shiny::actionButton(
       shiny::NS(id, "save"),
       "Set as export plot"
@@ -120,7 +121,7 @@ staticmapServer <- function(id, network, r) {
         return(NULL)
       }
       plot_staticmap(
-        sf = network_sf(),
+        g = r$network(),
         zoom = input$zoom,
         key = input$key,
         fill = input$fill,
@@ -140,6 +141,10 @@ staticmapServer <- function(id, network, r) {
         label_exc = input$label_exc,
         pal = input$pal
       )
+    })
+    output$debug <- shiny::renderPrint({
+      print("Hello world")
+      print(r$network())
     })
     update_range <- function(id, type = "lat") {
       shinyWidgets::updateNumericRangeInput(
@@ -216,9 +221,13 @@ staticmapApp <- function(network_input) {
   all_vars <- get_node_attributes(network_input)
   cat_vars <- get_node_attributes(network_input, "cat")
   edge_vars <- igraph::edge_attr_names(network_input)
+  num_vars <- get_node_attributes(network_input, "num", exc_central = FALSE)
 
   r <- shiny::reactiveValues()
   r$network <- shiny::reactive({
+    network_input
+  })
+  r$full_network <- shiny::reactive({
     network_input
   })
 
@@ -228,7 +237,8 @@ staticmapApp <- function(network_input) {
       "staticmap",
       all_vars = all_vars,
       cat_vars = cat_vars,
-      edge_vars = edge_vars
+      edge_vars = edge_vars,
+      num_vars = num_vars
     ),
     staticmapOutput("staticmap")
   )
@@ -238,4 +248,6 @@ staticmapApp <- function(network_input) {
   shiny::shinyApp(ui, server)
 }
 
-# staticmapApp(example_network_2) |> print()
+if (sys.nframe() == 5) {
+  staticmapApp(example_network_2) |> print()
+}

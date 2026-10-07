@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_network.R
 \name{plot_network}
 \alias{plot_network}
-\title{plot network}
+\title{Plot a network}
 \usage{
 plot_network(
   g,
@@ -27,50 +27,54 @@ plot_network(
 )
 }
 \arguments{
-\item{g}{network}
+\item{g}{An igraph network.}
 
-\item{seed}{seed to set node locations}
+\item{seed}{Random seed used for the node layout.}
 
-\item{connected}{choice for how to deal with isolated nodes with choices
-Hide, Show, Grey out}
+\item{connected}{How to treat unconnected (isolated) nodes: "Show" leaves
+them as they are, "Hide" removes them from the plot, and "Grey out"
+draws them (and their labels) with an alpha of 0.1. The layout is always
+computed on the full network, so the other nodes don't move.}
 
-\item{lat}{vertex attribute to use for latitude}
+\item{lat, long}{Vertex attributes holding latitude and longitude. Supply
+both to use a geographic layout, or neither for a force-directed layout.}
 
-\item{long}{vertex attribute to use for longitude}
+\item{edge}{Edge attribute mapped to line width (numeric) or line type
+(anything else).}
 
-\item{edge}{edge attribute for line colour}
+\item{edge_legend}{Show the edge legend?}
 
-\item{edge_legend}{boolean to control edge legend}
+\item{edge_trans}{Transformation applied to a numeric \code{edge} mapping.}
 
-\item{edge_trans}{transformation for edge mapping}
+\item{label}{Vertex attribute used for node labels.}
 
-\item{label}{vertex attribute to use for labels}
+\item{label_filter}{Vertex attribute that \code{label_inc} / \code{label_exc} are
+matched against. Defaults to \code{label}.}
 
-\item{label_filter}{variable to filter on}
+\item{label_size}{Label text size.}
 
-\item{label_size}{label size}
+\item{label_inc}{Regular expression; only labels matching it are shown.}
 
-\item{label_inc}{regular expression to include labels}
+\item{label_exc}{Regular expression; labels matching it are hidden.}
 
-\item{label_exc}{regular expression to exclude labels}
+\item{fill}{Vertex attribute mapped to node fill.}
 
-\item{fill}{vertex attribute for node fill}
+\item{shape}{Vertex attribute mapped to node shape.}
 
-\item{shape}{vertex attribute for node shape}
+\item{size}{Vertex attribute mapped to node size.}
 
-\item{size}{vertex attribute for node size}
+\item{node_size}{Base node size.}
 
-\item{node_size}{node size}
+\item{node_centrality}{Vertex attribute mapped to node transparency.
+(Not yet implemented.)}
 
-\item{node_centrality}{vertex attribute for node alpha}
-
-\item{pal}{colour palette}
+\item{pal}{Colour palette name.}
 }
 \value{
-network plot
+A ggplot object.
 }
 \description{
-plot network
+Plot a network
 }
 \examples{
 plot_network(example_network)
