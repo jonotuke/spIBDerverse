@@ -111,6 +111,8 @@ ibd_network
   : Adjust BB for network work sf object
 - [`check_ibd_file()`](https://jonotuke.github.io/spIBDerverse/reference/check_ibd_file.md)
   : Check IBD file
+- [`check_ibd_files()`](https://jonotuke.github.io/spIBDerverse/reference/check_ibd_files.md)
+  : check IBD files
 - [`check_meta_file()`](https://jonotuke.github.io/spIBDerverse/reference/check_meta_file.md)
   : Check meta file
 - [`clean_models()`](https://jonotuke.github.io/spIBDerverse/reference/clean_models.md)
