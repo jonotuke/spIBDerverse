@@ -225,12 +225,14 @@ plot_network <- function(
 if (sys.nframe() == 5) {
   pacman::p_load(conflicted, tidyverse, targets)
   plot_network(
-    example_network,
+    example_network_2,
     fill = "site",
     label = "name",
     connected = "Grey out",
     node_size = 10,
-    label_col = "white"
+    label_col = "white",
+    lat = "Latitude",
+    long = "Longitude"
   ) |>
     print()
 }

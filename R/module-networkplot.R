@@ -58,58 +58,30 @@ networkplotServer <- function(id, r) {
       )
     })
     shiny::observeEvent(r$full_network(), {
+      net <- r$full_network()
+      all_vars <- c("none", get_node_attributes(net))
+
       shiny::updateSelectInput(
         session,
         "shape",
-        choices = c(
-          "none",
-          get_node_attributes(r$full_network(), "cat")
-        )
+        choices = c("none", get_node_attributes(net, "cat"))
       )
-    })
-    shiny::observeEvent(r$full_network(), {
-      shiny::updateSelectInput(
-        session,
-        "fill",
-        choices = c(
-          "none",
-          get_node_attributes(r$full_network())
-        )
-      )
-    })
-    shiny::observeEvent(r$full_network(), {
       shiny::updateSelectInput(
         session,
         "size",
         choices = c(
           "none",
-          get_node_attributes(
-            r$full_network(),
-            "num",
-            exc_central = FALSE
-          )
+          get_node_attributes(net, "num", exc_central = FALSE)
         )
       )
-    })
-    shiny::observeEvent(r$full_network(), {
       shiny::updateSelectInput(
         session,
         "edge",
-        choices = c(
-          "none",
-          igraph::edge_attr_names(r$full_network())
-        )
+        choices = c("none", igraph::edge_attr_names(net))
       )
-    })
-    shiny::observeEvent(r$full_network(), {
-      shiny::updateSelectInput(
-        session,
-        "label",
-        choices = c(
-          "none",
-          get_node_attributes(r$full_network())
-        )
-      )
+      for (id in c("fill", "label", "label_filter", "lat", "lon")) {
+        shiny::updateSelectInput(session, id, choices = all_vars)
+      }
     })
     shiny::observeEvent(input$save, {
       r$export <- shiny::reactive(
@@ -167,5 +139,5 @@ networkplotApp <- function(network_input) {
   shiny::shinyApp(ui, server)
 }
 if (sys.nframe() == 5) {
-  networkplotApp(example_network) |> print()
+  networkplotApp(example_network_2) |> print()
 }

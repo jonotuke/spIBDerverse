@@ -152,9 +152,7 @@ ibdServer <- function(id, input_network, r) {
     })
     network <- shiny::reactive({
       filter_network(
-        full_network(),
-        node_inc = input$node_inc,
-        node_exc = input$node_exc
+        full_network()
       )
     })
     output$debug <- shiny::renderPrint({

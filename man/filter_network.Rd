@@ -6,8 +6,6 @@
 \usage{
 filter_network(
   g,
-  node_inc = "",
-  node_exc = "",
   node_column = "none",
   node_cutoff = NULL,
   edge_column = "none",
@@ -16,10 +14,6 @@ filter_network(
 }
 \arguments{
 \item{g}{ibd network}
-
-\item{node_inc}{regular expression for inclusion}
-
-\item{node_exc}{regular expression for exclusion}
 
 \item{node_column}{node attribute to filter network on}
 
@@ -34,7 +28,4 @@ filtered IBD network
 }
 \description{
 Includes or excludes nodes based on regular expression
-}
-\examples{
-filter_network(example_network, node_exc = "1")
 }

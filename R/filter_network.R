@@ -3,8 +3,6 @@
 #' Includes or excludes nodes based on regular expression
 #'
 #' @param g ibd network
-#' @param node_inc regular expression for inclusion
-#' @param node_exc regular expression for exclusion
 #' @param node_column node attribute to filter network on
 #' @param node_cutoff cutoffs for node filter
 #' @param edge_column edge attributes to filter network on
@@ -12,13 +10,8 @@
 #'
 #' @return filtered IBD network
 #' @export
-#'
-#' @examples
-#' filter_network(example_network, node_exc = "1")
 filter_network <- function(
   g,
-  node_inc = "",
-  node_exc = "",
   node_column = "none",
   node_cutoff = NULL,
   edge_column = "none",
@@ -33,15 +26,6 @@ filter_network <- function(
     rlang::abort(
       "You must give a edge_cutoff if you filter on a edge attribute"
     )
-  }
-  id <- igraph::V(g)$name
-  if (node_inc != "") {
-    node_inc <- convert_pipe(node_inc)
-    id <- id |> purrr::keep(\(x) stringr::str_detect(x, node_inc))
-  }
-  if (node_exc != "") {
-    node_exc <- convert_pipe(node_exc)
-    id <- id |> purrr::keep(\(x) !stringr::str_detect(x, node_exc))
   }
   if (node_column != "none") {
     node_values <- igraph::vertex_attr(g, node_column)

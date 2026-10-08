@@ -41,7 +41,6 @@ Imports:
     ggmap,
     shinyWidgets,
     gt,
-    shinyvalidate,
     forcats,
     dplyr,
     DT,

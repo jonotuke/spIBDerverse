@@ -23,7 +23,7 @@ example_network <- simulate(
 example_network <- intergraph::asIgraph(example_network)
 
 # Add names
-V(example_network)$name <- V(example_network)$vertex.names
+V(example_network)$name <- as.character(V(example_network)$vertex.names)
 
 # Add degree
 example_network <- example_network |> add_centrality_measures()
