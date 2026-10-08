@@ -30,10 +30,10 @@ get_centrality_measures(example_network, c("site", "genetic_sex"))
 #> # A tibble: 6 × 7
 #>   site  genetic_sex nodes .degree .closeness .betweenness .eigencentrality
 #>   <chr> <chr>       <dbl>   <dbl>      <dbl>        <dbl>            <dbl>
-#> 1 A     F               5    2.8     0.00941         10.8            0.168
-#> 2 A     M              11    4.45    0.0101          21.7            0.316
-#> 3 B     F               8    6.12    0.0110          38.5            0.370
-#> 4 B     M               4    3.75    0.0101          16.8            0.268
-#> 5 C     F               6    7       0.0115          27.6            0.622
-#> 6 C     M               6    8.5     0.0122          47.6            0.829
+#> 1 A     F               8    3.25    0.00936        26.4             0.102
+#> 2 A     M               8    2.5     0.00891         9.90            0.127
+#> 3 B     F               4    5       0.0103         37.0             0.167
+#> 4 B     M               5    4.2     0.00975        23.3             0.158
+#> 5 C     F               7    7.43    0.0115         44.1             0.618
+#> 6 C     M               8    8.62    0.0117         44.3             0.762
 ```

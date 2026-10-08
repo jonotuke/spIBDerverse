@@ -44,10 +44,10 @@ get_ergm_fc(ergm[[1]])
 #> # A tibble: 6 × 3
 #>   term          theta   phi
 #>   <chr>         <dbl> <dbl>
-#> 1 edges        -1.80  1    
-#> 2 mix.site.A.B -0.741 0.515
-#> 3 mix.site.B.B  0.821 1.93 
-#> 4 mix.site.A.C -0.667 0.551
-#> 5 mix.site.B.C -0.427 0.686
-#> 6 mix.site.C.C  1.74  3.42 
+#> 1 edges        -2.11  1    
+#> 2 mix.site.A.B -0.725 0.513
+#> 3 mix.site.B.B  1.41  3.08 
+#> 4 mix.site.A.C -0.837 0.462
+#> 5 mix.site.B.C -0.531 0.615
+#> 6 mix.site.C.C  2.01  4.40 
 ```

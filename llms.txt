@@ -161,6 +161,8 @@ ibd_network
   : Filter SF object
 - [`get_all_models()`](https://jonotuke.github.io/spIBDerverse/reference/get_all_models.md)
   : get_all_models
+- [`get_attr_values()`](https://jonotuke.github.io/spIBDerverse/reference/get_attr_values.md)
+  : Get the observed values of a node or edge attribute
 - [`get_centrality_measures()`](https://jonotuke.github.io/spIBDerverse/reference/get_centrality_measures.md)
   : Get centrality measures
 - [`get_connected_graph()`](https://jonotuke.github.io/spIBDerverse/reference/get_connected_graph.md)
@@ -195,6 +197,8 @@ ibd_network
   : loads some example data
 - [`load_ibd_network()`](https://jonotuke.github.io/spIBDerverse/reference/load_ibd_network.md)
   : load_ibd_network
+- [`make_cutoff_ui()`](https://jonotuke.github.io/spIBDerverse/reference/make_cutoff_ui.md)
+  : Build the cutoff input for a node or edge attribute
 - [`plot_centrality()`](https://jonotuke.github.io/spIBDerverse/reference/plot_centrality.md)
   : plot centrality measures
 - [`plot_default_image()`](https://jonotuke.github.io/spIBDerverse/reference/plot_default_image.md)

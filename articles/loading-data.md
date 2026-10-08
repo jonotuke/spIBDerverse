@@ -17,17 +17,17 @@ can be loaded into the app using the `load_examples()` function.
 
 example <- load_example()
 example
-#> IGRAPH 22f3232 UN-- 40 110 -- 
-#> + attr: genetic_sex (v/c), site (v/c), name (v/n), .degree (v/n),
+#> IGRAPH 0987835 UN-- 40 104 -- 
+#> + attr: genetic_sex (v/c), site (v/c), name (v/c), .degree (v/n),
 #> | .closeness (v/n), .betweenness (v/n), .eigencentrality (v/n), lat
 #> | (v/n), long (v/n), wij (e/n), edge_type (e/c)
-#> + edges from 22f3232 (vertex names):
-#>  [1]  1-- 9  1--13  1--14  1--15  1--17  1--19  1--20  1--25  1--28  2-- 5
-#> [11]  2--14  2--24  2--26  2--28  2--36  3-- 4  3-- 6  3--16  3--24  3--34
-#> [21]  3--39  4-- 8  4--10  4--14  4--27  4--30  4--36  4--37  5-- 7  5-- 9
-#> [31]  5--11  5--15  5--20  5--25  5--31  5--33  7-- 9  7--12  7--13  7--23
-#> [41]  7--25  7--38  8--14  9--10  9--11  9--16  9--23  9--25  9--26  9--38
-#> [51] 10--34 10--38 10--40 11--12 11--29 11--33 11--40 12--29 12--32 12--33
+#> + edges from 0987835 (vertex names):
+#>  [1] 1 --4  1 --13 1 --19 1 --26 1 --30 1 --31 2 --6  2 --10 2 --22 2 --23
+#> [11] 2 --24 2 --28 2 --30 2 --33 2 --37 2 --39 3 --20 4 --18 4 --29 5 --9 
+#> [21] 5 --10 5 --14 5 --29 5 --30 5 --37 5 --40 6 --18 6 --30 7 --13 7 --28
+#> [31] 7 --30 7 --32 7 --34 7 --36 8 --18 9 --10 9 --17 9 --35 10--14 10--22
+#> [41] 10--25 10--28 10--29 10--32 10--37 10--39 11--17 11--19 12--22 13--25
+#> [51] 13--27 13--36 13--38 14--22 14--28 14--37 14--39 15--16 16--20 16--22
 #> + ... omitted several edges
 ```
 
@@ -108,7 +108,7 @@ create the IBD network, while the META file must have a column called
 ``` r
 
 load_ibd_network(ibd_file, meta_file)
-#> IGRAPH 8010f78 UN-- 328 1712 -- 
+#> IGRAPH b0f00dc UN-- 328 1712 -- 
 #> + attr: name (v/c), frac_gp (v/n), frac_missing (v/n), frac_het (v/n),
 #> | n_cov_snp (v/n), Archaeological_ID (v/c), Master_ID (v/c), Projects
 #> | (v/c), Locality (v/c), Province (v/c), Country (v/c), Latitude (v/n),
@@ -117,7 +117,7 @@ load_ibd_network(ibd_file, meta_file)
 #> | (v/n), frac_gp1 (e/n), frac_gp2 (e/n), max_ibd (e/n), sum_ibd_8
 #> | (e/n), n_ibd_8 (e/n), sum_ibd_12 (e/n), n_ibd_12 (e/n), sum_ibd_16
 #> | (e/n), n_ibd_16 (e/n), sum_ibd_20 (e/n), n_ibd_20 (e/n), wij (e/n)
-#> + edges from 8010f78 (vertex names):
+#> + edges from b0f00dc (vertex names):
 #> [1] KUP007--KUP023 RKC013--RKC029 RKC031--RKF238 RKF195--RKF196 RKC020--RKF142
 #> + ... omitted several edges
 ```

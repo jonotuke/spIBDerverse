@@ -72,18 +72,19 @@ inter- level density.</p>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">get_ringbauer_measures</span><span class="op">(</span><span class="va">example_network</span>, <span class="st">"site"</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Chi-squared approximation may be incorrect</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 9 × 11</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   grp1  grp2  n_edges    n1    n2 n_possible_edges density label overall_density</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;glu&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> A     A          17    16    16              120  0.142  17/1…           0.141</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> A     B          14    16    12              192  0.072<span style="text-decoration: underline;">9</span> 14/1…           0.141</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> A     C          15    16    12              192  0.078<span style="text-decoration: underline;">1</span> 15/1…           0.141</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> B     A          14    12    16              192  0.072<span style="text-decoration: underline;">9</span> 14/1…           0.141</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> B     B          18    12    12               66  0.273  18/66           0.141</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> B     C          14    12    12              144  0.097<span style="text-decoration: underline;">2</span> 14/1…           0.141</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">7</span> C     A          15    12    16              192  0.078<span style="text-decoration: underline;">1</span> 15/1…           0.141</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">8</span> C     B          14    12    12              144  0.097<span style="text-decoration: underline;">2</span> 14/1…           0.141</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">9</span> C     C          32    12    12               66  0.485  32/66           0.141</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> A     A          13    16    16              120  0.108  13/1…           0.133</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> A     C          12    16    15              240  0.05   12/2…           0.133</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> A     B           8    16     9              144  0.055<span style="text-decoration: underline;">6</span> 8/144           0.133</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> C     A          12    15    16              240  0.05   12/2…           0.133</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> C     C          50    15    15              105  0.476  50/1…           0.133</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> C     B           9    15     9              135  0.066<span style="text-decoration: underline;">7</span> 9/135           0.133</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">7</span> B     A           8     9    16              144  0.055<span style="text-decoration: underline;">6</span> 8/144           0.133</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">8</span> B     C           9     9    15              135  0.066<span style="text-decoration: underline;">7</span> 9/135           0.133</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">9</span> B     B          12     9     9               36  0.333  12/36           0.133</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 2 more variables: pv &lt;dbl&gt;, adj_pv &lt;dbl&gt;</span></span>
 </code></pre></div>
     </div>

@@ -30,4 +30,5 @@ Plot of homophily density
 
 ``` r
 get_ringbauer_measures(example_network, "site") |> plot_homophily()
+#> Warning: Chi-squared approximation may be incorrect
 ```
