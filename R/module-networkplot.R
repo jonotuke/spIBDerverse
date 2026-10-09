@@ -53,7 +53,6 @@ networkplotServer <- function(id, r) {
         fill = input$fill,
         shape = input$shape,
         size = input$size,
-        node_centrality = input$node_centrality,
         pal = input$pal
       )
     })

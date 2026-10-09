@@ -202,5 +202,6 @@ if (sys.nframe() == 5) {
     edge_trans = "log10",
     label = "site"
   ) |>
+    unname() |>
     print()
 }

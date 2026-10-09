@@ -23,6 +23,10 @@ centralityInput <- function(id, cat_vars) {
         "Eigencentrality" = ".eigencentrality"
       ),
       selected = ".degree"
+    ),
+    shiny::checkboxInput(
+      shiny::NS(id, "rotate"),
+      "Rotate x-axis"
     )
   )
 }
@@ -54,7 +58,12 @@ centralityServer <- function(id, r) {
         central_df()
       }) |>
         DT::formatRound(
-          c(".degree", ".closeness", ".betweenness", ".eigencentrality"),
+          c(
+            ".degree",
+            ".closeness",
+            ".betweenness",
+            ".eigencentrality"
+          ),
           input$places
         )
     })
@@ -76,7 +85,8 @@ centralityServer <- function(id, r) {
       plot_centrality(
         r$network(),
         measure = input$measure,
-        facets = input$strata
+        facets = input$strata,
+        rotate = input$rotate
       )
     })
     shiny::observeEvent(r$full_network(), {
@@ -110,4 +120,6 @@ centralityApp <- function(network_input) {
   }
   shiny::shinyApp(ui, server)
 }
-# centralityApp(example_network) |> print()
+if (sys.nframe() == 5) {
+  centralityApp(example_network) |> print()
+}

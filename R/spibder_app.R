@@ -41,7 +41,8 @@ spibder_app <- function(input_network = NULL) {
         shiny::conditionalPanel(
           condition = "input.tabs == 'Filter network' || 
             input.tabs == 'Edge info' || 
-            input.tabs == 'Node info'",
+            input.tabs == 'Node info' ||
+            input.tabs == 'Filtering the network'",
           networkFilterInput("filter", all_vars, edge_vars)
         ),
         shiny::conditionalPanel(
@@ -97,12 +98,18 @@ spibder_app <- function(input_network = NULL) {
             dataWizardOutput("data")
           ),
           shiny::tabPanel(
-            title = "Edge info",
-            edgeOutput("edge")
-          ),
-          shiny::tabPanel(
-            title = "Node info",
-            nodeOutput("node")
+            title = "Filtering the network",
+            shiny::tabsetPanel(
+              id = "filter_tabs",
+              shiny::tabPanel(
+                title = "Edges",
+                edgeOutput("edge")
+              ),
+              shiny::tabPanel(
+                title = "Nodes",
+                nodeOutput("node")
+              )
+            )
           ),
           shiny::tabPanel(
             title = "Network plot",
@@ -181,4 +188,8 @@ spibder_app <- function(input_network = NULL) {
     })
   }
   shiny::shinyApp(ui, server)
+}
+
+if (sys.nframe() == 5) {
+  spibder_app() |> print()
 }

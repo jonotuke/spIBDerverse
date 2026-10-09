@@ -23,7 +23,6 @@ plot_network(
   shape = "none",
   size = "none",
   node_size = 5,
-  node_centrality = "none",
   pal = "ravenclaw"
 )
 }
@@ -67,9 +66,6 @@ matched against. Defaults to \code{label}.}
 \item{size}{Vertex attribute mapped to node size.}
 
 \item{node_size}{Base node size.}
-
-\item{node_centrality}{Vertex attribute mapped to node transparency.
-(Not yet implemented.)}
 
 \item{pal}{Colour palette name.}
 }

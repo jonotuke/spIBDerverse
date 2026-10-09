@@ -2,23 +2,32 @@
 % Please edit documentation in R/plot_centrality.R
 \name{plot_centrality}
 \alias{plot_centrality}
-\title{plot centrality measures}
+\title{Plot centrality measures}
 \usage{
-plot_centrality(g, measure = ".degree", facets = NULL)
+plot_centrality(g, measure = ".degree", facets = NULL, rotate = FALSE)
 }
 \arguments{
-\item{g}{igraph obj}
+\item{g}{An igraph object.}
 
-\item{measure}{centrality measure to plot}
+\item{measure}{Name of the centrality measure to plot. Either a vertex
+attribute of \code{g} (e.g. \code{".degree"}) or one of the computed measures:
+\code{"closeness"}, \code{"betweenness"} or \code{"eigen_centrality"}.}
 
-\item{facets}{attributes to facet plot on}
+\item{facets}{Optional character vector of vertex attributes to group by.}
+
+\item{rotate}{If \code{TRUE}, rotate the x-axis labels by 90 degrees.}
 }
 \value{
-histogram or barchart
+A ggplot object: a histogram if \code{facets} is \code{NULL}, otherwise a
+boxplot.
 }
 \description{
-plot centrality measures
+Computes closeness, betweenness and eigenvector centrality for every vertex
+of \code{g} and plots the chosen measure. Without \code{facets} a histogram of the
+measure is drawn; with \code{facets} a boxplot is drawn for each combination of
+the facet attributes, ordered by the median of the measure.
 }
 \examples{
 plot_centrality(example_network)
+plot_centrality(example_network, "closeness", rotate = TRUE)
 }

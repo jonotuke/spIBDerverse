@@ -1,11 +1,13 @@
-utils::globalVariables(c(".data", "x", "y", "xend", "yend"))
+utils::globalVariables(
+  c(".data", "x", "y", "xend", "yend", ".isolated")
+)
 
 # HELPERS ----
 
 is_none <- function(x) is.null(x) || x %in% c("", "none")
 
 check_columns <- function(df, cols) {
-  cols <- cols[!vapply(cols, is_none, logical(1))]
+  cols <- purrr::discard(cols, is_none)
   missing_cols <- setdiff(cols, names(df))
   if (length(missing_cols) > 0) {
     stop(
@@ -41,8 +43,6 @@ check_columns <- function(df, cols) {
 #' @param shape Vertex attribute mapped to node shape.
 #' @param size Vertex attribute mapped to node size.
 #' @param node_size Base node size.
-#' @param node_centrality Vertex attribute mapped to node transparency.
-#'   (Not yet implemented.)
 #' @param pal Colour palette name.
 #'
 #' @return A ggplot object.
@@ -69,7 +69,6 @@ plot_network <- function(
   shape = "none",
   size = "none",
   node_size = 5,
-  node_centrality = "none",
   pal = "ravenclaw"
 ) {
   set.seed(seed)
@@ -111,7 +110,7 @@ plot_network <- function(
   # Unconnected nodes only have node rows (no edge rows), so dropping rows
   # flagged `.isolated` removes them without moving anything else.
   if (connected == "Hide") {
-    df <- df[!(df$.isolated %in% TRUE), , drop = FALSE]
+    df <- df |> dplyr::filter(.isolated != TRUE)
   }
 
   # Per-node transparency: 0.1 for greyed-out nodes, otherwise opaque.
@@ -225,14 +224,12 @@ plot_network <- function(
 if (sys.nframe() == 5) {
   pacman::p_load(conflicted, tidyverse, targets)
   plot_network(
-    example_network_2,
+    example_network,
     fill = "site",
-    label = "name",
-    connected = "Grey out",
-    node_size = 10,
-    label_col = "white",
-    lat = "Latitude",
-    long = "Longitude"
+    size = ".degree",
+    connected = "Hide",
+    edge = "edge_type",
+    node_size = 5
   ) |>
     print()
 }
