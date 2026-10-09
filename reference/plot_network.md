@@ -24,7 +24,6 @@ plot_network(
   shape = "none",
   size = "none",
   node_size = 5,
-  node_centrality = "none",
   pal = "ravenclaw"
 )
 ```
@@ -104,10 +103,6 @@ plot_network(
 - node_size:
 
   Base node size.
-
-- node_centrality:
-
-  Vertex attribute mapped to node transparency. (Not yet implemented.)
 
 - pal:
 
