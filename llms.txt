@@ -146,7 +146,9 @@ ibd_network
 - [`example_network_2`](https://jonotuke.github.io/spIBDerverse/reference/example_network_2.md)
   : example network 2
 - [`example_network_3`](https://jonotuke.github.io/spIBDerverse/reference/example_network_3.md)
-  : example network 2
+  : example network 3
+- [`example_network_4`](https://jonotuke.github.io/spIBDerverse/reference/example_network_4.md)
+  : example network 4
 - [`example_sf`](https://jonotuke.github.io/spIBDerverse/reference/example_sf.md)
   : example sf object
 - [`expand_line()`](https://jonotuke.github.io/spIBDerverse/reference/expand_line.md)

@@ -1,4 +1,4 @@
-# example network 2
+# example network 3
 
 An igraph example network This one has missing node attributes
 
