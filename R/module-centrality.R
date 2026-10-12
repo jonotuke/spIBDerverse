@@ -42,6 +42,9 @@ centralityOutput <- function(id) {
     shiny::plotOutput(
       shiny::NS(id, "hist")
     ),
+    gt::gt_output(
+      shiny::NS(id, "anova")
+    ),
     shiny::actionButton(
       shiny::NS(id, "save"),
       "Set as export plot"
@@ -102,6 +105,21 @@ centralityServer <- function(id, r) {
       r$export <- shiny::reactive(
         p()
       )
+    })
+    output$anova <- gt::render_gt({
+      shiny::req(input$strata)
+      test_centrality(
+        r$network(),
+        measure = input$measure,
+        predictor = input$strata
+      ) |>
+        gt::gt() |>
+        gt::tab_style_body(
+          columns = p.value,
+          style = gt::cell_fill(color = "lightblue"),
+          fn = function(x) x <= 0.05
+        ) |>
+        gt::fmt_scientific(p.value)
     })
   })
 }

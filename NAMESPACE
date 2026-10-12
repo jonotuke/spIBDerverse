@@ -48,7 +48,10 @@ export(remove_redundant_models)
 export(sort_label)
 export(spibder_app)
 export(tab_ergm_coef)
+export(test_centrality)
 export(transform_alpha)
 importFrom(graphics,lines)
-importFrom(rlang,"%||%")
-importFrom(rlang,.data)
+importFrom(rlang,
+  "%||%",
+  .data
+)
