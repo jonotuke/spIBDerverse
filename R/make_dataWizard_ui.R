@@ -10,7 +10,8 @@ make_dataWizard_ui <- function(x, id, edge_vars) {
         choices = c(
           "example_network",
           "example_network_2",
-          "example_network_3"
+          "example_network_3",
+          "example_network_4"
         )
       )
     )

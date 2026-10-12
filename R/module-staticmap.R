@@ -232,8 +232,8 @@ staticmapServer <- function(id, r) {
         label_col = input$label_col,
         fill = input$fill,
         shape = input$shape,
+        size = input$size,
         node_size = input$node_size,
-        node_centrality = input$node_centrality,
         pal = input$pal
       )
     })

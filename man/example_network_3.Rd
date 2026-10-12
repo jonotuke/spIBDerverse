@@ -3,7 +3,7 @@
 \docType{data}
 \name{example_network_3}
 \alias{example_network_3}
-\title{example network 2}
+\title{example network 3}
 \format{
 An igraph object
 \describe{
