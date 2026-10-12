@@ -227,6 +227,8 @@ ibd_network
   : spIBDerverse shiny app
 - [`tab_ergm_coef()`](https://jonotuke.github.io/spIBDerverse/reference/tab_ergm_coef.md)
   : Tab ergm coefficients
+- [`test_centrality()`](https://jonotuke.github.io/spIBDerverse/reference/test_centrality.md)
+  : Test centrality measures
 - [`transform_alpha()`](https://jonotuke.github.io/spIBDerverse/reference/transform_alpha.md)
   : Transform vector to (a,b)
 
