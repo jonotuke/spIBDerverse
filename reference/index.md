@@ -130,3 +130,5 @@
   : Test centrality measures
 - [`transform_alpha()`](https://jonotuke.github.io/spIBDerverse/reference/transform_alpha.md)
   : Transform vector to (a,b)
+- [`validate_try()`](https://jonotuke.github.io/spIBDerverse/reference/validate_try.md)
+  : helper function to pass stop messages into shiny
