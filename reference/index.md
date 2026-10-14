@@ -126,8 +126,10 @@
   : spIBDerverse shiny app
 - [`tab_ergm_coef()`](https://jonotuke.github.io/spIBDerverse/reference/tab_ergm_coef.md)
   : Tab ergm coefficients
+- [`test_centralities()`](https://jonotuke.github.io/spIBDerverse/reference/test_centralities.md)
+  : test centralities
 - [`test_centrality()`](https://jonotuke.github.io/spIBDerverse/reference/test_centrality.md)
-  : Test centrality measures
+  : Test centrality centralitys
 - [`transform_alpha()`](https://jonotuke.github.io/spIBDerverse/reference/transform_alpha.md)
   : Transform vector to (a,b)
 - [`validate_try()`](https://jonotuke.github.io/spIBDerverse/reference/validate_try.md)

@@ -1,15 +1,15 @@
 # Plot centrality measures
 
 Computes closeness, betweenness and eigenvector centrality for every
-vertex of `g` and plots the chosen measure. Without `facets` a histogram
-of the measure is drawn; with `facets` a boxplot is drawn for each
+vertex of `g` and plots the chosen measure. Without `preds` a histogram
+of the measure is drawn; with `preds` a boxplot is drawn for each
 combination of the facet attributes, ordered by the median of the
 measure.
 
 ## Usage
 
 ``` r
-plot_centrality(g, measure = ".degree", facets = NULL, rotate = FALSE)
+plot_centrality(g, centrality = ".degree", preds = NULL, rotate = FALSE)
 ```
 
 ## Arguments
@@ -18,15 +18,13 @@ plot_centrality(g, measure = ".degree", facets = NULL, rotate = FALSE)
 
   An igraph object.
 
-- measure:
+- centrality:
 
-  Name of the centrality measure to plot. Either a vertex attribute of
-  `g` (e.g. `".degree"`) or one of the computed measures: `"closeness"`,
-  `"betweenness"` or `"eigen_centrality"`.
+  centrality measures
 
-- facets:
+- preds:
 
-  Optional character vector of vertex attributes to group by.
+  Preditors for centrality
 
 - rotate:
 
@@ -34,7 +32,7 @@ plot_centrality(g, measure = ".degree", facets = NULL, rotate = FALSE)
 
 ## Value
 
-A ggplot object: a histogram if `facets` is `NULL`, otherwise a boxplot.
+A ggplot object: a histogram if `preds` is `NULL`, otherwise a boxplot.
 
 ## Examples
 
@@ -43,5 +41,5 @@ plot_centrality(example_network)
 #> `stat_bin()` using `bins = 30`. Pick better value `binwidth`.
 
 plot_centrality(example_network, "closeness", rotate = TRUE)
-#> `stat_bin()` using `bins = 30`. Pick better value `binwidth`.
+#> Error: Unknown centrality or preds: closeness
 ```
