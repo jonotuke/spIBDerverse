@@ -109,12 +109,12 @@ centralityServer <- function(id, r) {
       )
     })
     output$anova <- gt::render_gt({
-      shiny::req(input$preds)
+      shiny::req(input$strata)
       validate_try(
         test_centrality(
           r$network(),
-          measure = input$centrality,
-          predictor = input$preds
+          measure = input$measure,
+          predictor = input$strata
         ) |>
           gt::gt() |>
           gt::tab_style_body(
