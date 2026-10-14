@@ -12,8 +12,8 @@ check_meta_file(file)
 
 - file:
 
-  IBD TSV meta file
+  IBD meta file (TSV or CSV, optionally compressed)
 
 ## Value
 
-Message about whether TSV has correct columns
+Message about whether the file has the correct columns
