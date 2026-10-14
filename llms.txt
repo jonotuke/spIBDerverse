@@ -198,7 +198,7 @@ ibd_network
 - [`load_example()`](https://jonotuke.github.io/spIBDerverse/reference/load_example.md)
   : loads some example data
 - [`load_ibd_network()`](https://jonotuke.github.io/spIBDerverse/reference/load_ibd_network.md)
-  : load_ibd_network
+  : Load an IBD network
 - [`make_cutoff_ui()`](https://jonotuke.github.io/spIBDerverse/reference/make_cutoff_ui.md)
   : Build the cutoff input for a node or edge attribute
 - [`plot_centrality()`](https://jonotuke.github.io/spIBDerverse/reference/plot_centrality.md)
