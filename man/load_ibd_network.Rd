@@ -2,7 +2,7 @@
 % Please edit documentation in R/load_ibd_network.R
 \name{load_ibd_network}
 \alias{load_ibd_network}
-\title{load_ibd_network}
+\title{Load an IBD network}
 \usage{
 load_ibd_network(
   ibd_file,
@@ -13,21 +13,37 @@ load_ibd_network(
 )
 }
 \arguments{
-\item{ibd_file}{TSV file with IBD data}
+\item{ibd_file}{Path to a TSV or CSV file with pairwise IBD data. Must contain
+\code{iid1}, \code{iid2}, \code{n_ibd_8}, \code{n_ibd_12}, \code{n_ibd_16}, \code{n_ibd_20} and
+\code{sum_ibd_8} (after \code{\link[janitor:clean_names]{janitor::clean_names()}}).}
 
-\item{meta_file}{TSV with node metadata}
+\item{meta_file}{Path to a TSV or CSV file with node metadata. If there is no
+\code{iid} column, the first column is used as the node ID. Must contain
+\code{frac_gp} if the IBD file lacks \code{frac_gp1} and \code{frac_gp2}.}
 
-\item{ibd_co}{vector of cutoffs for defining an edge}
+\item{ibd_co}{Numeric vector of length 4: minimum values of \code{n_ibd_8},
+\code{n_ibd_12}, \code{n_ibd_16} and \code{n_ibd_20} required to define an edge.}
 
-\item{frac_co}{cutoff for quality control - default is 0.49}
+\item{frac_co}{Quality-control cutoff; both nodes of a pair must have
+\code{frac_gp >= frac_co}. Default is 0.7.}
 
-\item{filter_on_meta}{if true, only include edges that have nodes in meta df}
+\item{filter_on_meta}{If \code{TRUE}, only keep edges whose two nodes are both
+present in the metadata.}
 }
 \value{
-IBD network
+An undirected igraph object with centrality measures added, or
+\code{NULL} (with a message) if the inputs cannot be read or are invalid.
 }
 \description{
-load_ibd_network
+Reads pairwise IBD data and node metadata, keeps pairs that pass the
+\code{frac_gp} quality filter and the IBD segment-count cutoffs, and builds an
+undirected igraph object weighted by \code{sum_ibd_8}.
+}
+\details{
+Input files can be tab-separated (\code{.tsv}, \code{.tab}, \code{.txt}) or
+comma-separated (\code{.csv}), optionally compressed (e.g. \code{.csv.gz}). The
+format is chosen from the file extension; for any other extension the
+delimiter is guessed from the file contents.
 }
 \examples{
 ibd_file <- fs::path_package(
