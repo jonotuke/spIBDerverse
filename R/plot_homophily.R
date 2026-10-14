@@ -1,88 +1,96 @@
 utils::globalVariables(
-  c("type", "adj_pv", "pv", ".grp_label")
+  c(
+    "density",
+    "adj_pv",
+    "grp1",
+    "grp2",
+    "name",
+    "type",
+    "significant",
+    "faded",
+    ".grp_label"
+  )
 )
+
 #' Plot homophily
 #'
-#' @param RM Ringbauer tibble
-#' @param show_sign boolean on whether to colour by significance
-#' @param filter_sign boolean to show only significant edges
+#' Plots the mean connectivity (density) of each edge type, with a dashed
+#' reference line at the overall network density.
 #'
-#' @return Plot of homophily density
+#' @param RM A tibble of Ringbauer measures, as returned by
+#'   [get_ringbauer_measures()].
+#' @param show_sign Logical. If `TRUE`, colour points by significance
+#'   instead of by within/between-group edge type.
+#' @param filter_sign Logical. If `TRUE`, fade out non-significant edges.
+#' @param sig_level Significance threshold applied to the adjusted p-values.
+#'
+#' @return A ggplot object.
 #' @export
 #'
 #' @examples
 #' get_ringbauer_measures(example_network, "site") |> plot_homophily()
-plot_homophily <- function(RM, show_sign = FALSE, filter_sign = FALSE) {
+plot_homophily <- function(
+  RM,
+  show_sign = FALSE,
+  filter_sign = FALSE,
+  sig_level = 0.05
+) {
   overall_density <- RM$overall_density[1]
-  # Remove missing densities
-  RM <- RM |>
-    dplyr::filter(!is.nan(density))
-  # Add group labels so can remove repeated edges
-  RM <- RM |>
-    label_grp_duplicates(grp1, grp2)
-  # Get summary for each edge type
-  RM <- RM |>
+  edges <- RM |>
+    # Drop missing densities
+    dplyr::filter(!is.na(density)) |>
+    # Label groups so repeated (A-B / B-A) edges collapse together
+    label_grp_duplicates(grp1, grp2) |>
     dplyr::ungroup() |>
     dplyr::summarise(
       density = mean(density),
       adj_pv = mean(adj_pv),
       .by = .grp_label
-    )
-  # Get groups back
-  RM <- RM |>
-    tidyr::separate(
+    ) |>
+    tidyr::separate_wider_delim(
       .grp_label,
-      into = c("grp1", "grp2"),
-      sep = "=="
+      delim = "==",
+      names = c("grp1", "grp2")
+    ) |>
+    dplyr::mutate(
+      significant = adj_pv <= sig_level,
+      type = if (show_sign) {
+        dplyr::if_else(significant, "significant", "not significant")
+      } else {
+        dplyr::if_else(grp1 == grp2, "within", "between")
+      },
+      faded = filter_sign & !significant,
+      name = forcats::fct_reorder(stringr::str_glue("{grp1}-{grp2}"), density)
     )
-  RM <- RM |>
-    dplyr::mutate(
-      type = ifelse(grp1 == grp2, "within", "between")
-    ) |>
-    dplyr::mutate(
-      name = stringr::str_glue("{grp1}-{grp2}")
-    ) |>
-    dplyr::mutate(name = forcats::fct_reorder(name, density))
-  if (show_sign) {
-    RM <- RM |>
-      dplyr::mutate(
-        type = ifelse(
-          adj_pv <= 0.05,
-          "significant",
-          "not significant"
-        )
-      )
-  }
-  alpha <- 1
-  if (filter_sign) {
-    alpha <- ifelse(RM$adj_pv <= 0.05, 1, 0.2)
-  }
-  p <- RM |>
-    ggplot2::ggplot(
-      ggplot2::aes(name, density, fill = type)
-    ) +
-    ggplot2::geom_point(
-      pch = 21,
-      size = 5,
-      alpha = alpha
-    ) +
-    ggplot2::theme_bw() +
-    ggplot2::theme(
-      axis.text.x = ggplot2::element_text(angle = -90, hjust = 0)
-    ) +
-    harrypotter::scale_fill_hp_d("Ravenclaw") +
-    ggplot2::labs(y = "Connectivity", x = "Edge", fill = NULL) +
+
+  palette <- if (show_sign) "Hufflepuff" else "Ravenclaw"
+
+  ggplot2::ggplot(edges, ggplot2::aes(name, density, fill = type)) +
     ggplot2::geom_hline(
       yintercept = overall_density,
       linewidth = 1,
       linetype = "dashed"
+    ) +
+    ggplot2::geom_point(
+      ggplot2::aes(alpha = faded),
+      shape = 21,
+      size = 5
+    ) +
+    ggplot2::scale_alpha_manual(
+      values = c(`FALSE` = 1, `TRUE` = 0.2),
+      guide = "none"
+    ) +
+    harrypotter::scale_fill_hp_d(palette) +
+    ggplot2::labs(x = "Edge", y = "Connectivity", fill = NULL) +
+    ggplot2::theme_bw() +
+    ggplot2::theme(
+      axis.text.x = ggplot2::element_text(angle = -90, hjust = 0)
     )
-  if (show_sign) {
-    p <- p + harrypotter::scale_fill_hp_d("Hufflepuff")
-  }
-  p
 }
-# pacman::p_load(conflicted, tidyverse, targets, ggrepel, igraph)
-# get_ringbauer_measures(example_network, "site") |>
-#   plot_homophily(show_sign = TRUE, filter_sign = TRUE) |>
-#   print()
+
+if (sys.nframe() == 5) {
+  pacman::p_load(conflicted, tidyverse, targets)
+  get_ringbauer_measures(example_network, "site") |>
+    plot_homophily(show_sign = TRUE, filter_sign = TRUE) |>
+    print()
+}

@@ -52,7 +52,5 @@ export(test_centralities)
 export(test_centrality)
 export(transform_alpha)
 importFrom(graphics,lines)
-importFrom(rlang,
-  "%||%",
-  .data
-)
+importFrom(rlang,"%||%")
+importFrom(rlang,.data)
