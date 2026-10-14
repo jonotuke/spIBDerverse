@@ -4,27 +4,25 @@
 \alias{plot_centrality}
 \title{Plot centrality measures}
 \usage{
-plot_centrality(g, measure = ".degree", facets = NULL, rotate = FALSE)
+plot_centrality(g, centrality = ".degree", preds = NULL, rotate = FALSE)
 }
 \arguments{
 \item{g}{An igraph object.}
 
-\item{measure}{Name of the centrality measure to plot. Either a vertex
-attribute of \code{g} (e.g. \code{".degree"}) or one of the computed measures:
-\code{"closeness"}, \code{"betweenness"} or \code{"eigen_centrality"}.}
+\item{centrality}{centrality measures}
 
-\item{facets}{Optional character vector of vertex attributes to group by.}
+\item{preds}{Preditors for centrality}
 
 \item{rotate}{If \code{TRUE}, rotate the x-axis labels by 90 degrees.}
 }
 \value{
-A ggplot object: a histogram if \code{facets} is \code{NULL}, otherwise a
+A ggplot object: a histogram if \code{preds} is \code{NULL}, otherwise a
 boxplot.
 }
 \description{
 Computes closeness, betweenness and eigenvector centrality for every vertex
-of \code{g} and plots the chosen measure. Without \code{facets} a histogram of the
-measure is drawn; with \code{facets} a boxplot is drawn for each combination of
+of \code{g} and plots the chosen measure. Without \code{preds} a histogram of the
+measure is drawn; with \code{preds} a boxplot is drawn for each combination of
 the facet attributes, ordered by the median of the measure.
 }
 \examples{

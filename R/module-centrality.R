@@ -1,7 +1,7 @@
 centralityInput <- function(id, cat_vars) {
   shiny::tagList(
     shiny::checkboxGroupInput(
-      shiny::NS(id, "strata"),
+      shiny::NS(id, "preds"),
       "Choose attributes to stratify on",
       choices = cat_vars
     ),
@@ -13,8 +13,8 @@ centralityInput <- function(id, cat_vars) {
       step = 1,
       value = 2
     ),
-    shiny::radioButtons(
-      shiny::NS(id, "measure"),
+    shiny::checkboxGroupInput(
+      shiny::NS(id, "centrality"),
       "Centrality measure to plot",
       choices = c(
         "Degree" = ".degree",
@@ -54,7 +54,7 @@ centralityOutput <- function(id) {
 centralityServer <- function(id, r) {
   shiny::moduleServer(id, function(input, output, session) {
     central_df <- shiny::reactive({
-      get_centrality_measures(r$network(), input$strata)
+      get_centrality_measures(r$network(), input$preds)
     })
     output$tab <- DT::renderDataTable({
       DT::datatable({
@@ -85,17 +85,19 @@ centralityServer <- function(id, r) {
       p()
     })
     p <- shiny::reactive({
-      plot_centrality(
-        r$network(),
-        measure = input$measure,
-        facets = input$strata,
-        rotate = input$rotate
+      validate_try(
+        plot_centrality(
+          r$network(),
+          centrality = input$centrality,
+          preds = input$preds,
+          rotate = input$rotate
+        )
       )
     })
     shiny::observeEvent(r$full_network(), {
       shiny::updateCheckboxGroupInput(
         session,
-        "strata",
+        "preds",
         choices = c(
           get_node_attributes(r$full_network(), "cat")
         )
