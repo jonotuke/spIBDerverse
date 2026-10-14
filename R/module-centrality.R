@@ -109,20 +109,28 @@ centralityServer <- function(id, r) {
       )
     })
     output$anova <- gt::render_gt({
-      shiny::req(input$strata)
+      shiny::req(input$preds)
       validate_try(
-        test_centrality(
+        test_centralities(
           r$network(),
-          measure = input$measure,
-          predictor = input$strata
+          centrality = input$centrality,
+          preds = input$preds
         ) |>
+          dplyr::group_by(centrality) |>
           gt::gt() |>
           gt::tab_style_body(
             columns = p.value,
             style = gt::cell_fill(color = "lightblue"),
             fn = function(x) x <= 0.05
           ) |>
-          gt::fmt_scientific(p.value)
+          gt::fmt_scientific(p.value) |>
+          gt::tab_style(
+            style = list(
+              gt::cell_fill(color = "lightblue"),
+              gt::cell_text(weight = "bold")
+            ),
+            locations = gt::cells_row_groups()
+          )
       )
     })
   })
@@ -143,5 +151,5 @@ centralityApp <- function(network_input) {
   shiny::shinyApp(ui, server)
 }
 if (sys.nframe() == 5) {
-  centralityApp(example_network_2) |> print()
+  centralityApp(example_network) |> print()
 }

@@ -27,5 +27,5 @@ the facet attributes, ordered by the median of the measure.
 }
 \examples{
 plot_centrality(example_network)
-plot_centrality(example_network, "closeness", rotate = TRUE)
+plot_centrality(example_network, ".closeness", rotate = TRUE)
 }

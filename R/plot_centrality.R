@@ -1,5 +1,6 @@
-utils::globalVariables(".interaction")
-
+utils::globalVariables(
+  c(".interaction", "value", "centrality")
+)
 #' Plot centrality measures
 #'
 #' Computes closeness, betweenness and eigenvector centrality for every vertex
