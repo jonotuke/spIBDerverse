@@ -2,24 +2,24 @@
 % Please edit documentation in R/test_centrality.R
 \name{test_centrality}
 \alias{test_centrality}
-\title{Test centrality measures}
+\title{Test centrality centralitys}
 \usage{
-test_centrality(g, measure = ".degree", predictor = NULL)
+test_centrality(g, centrality = ".degree", preds = NULL)
 }
 \arguments{
 \item{g}{An igraph object.}
 
-\item{measure}{Name of the centrality measure to plot. Either a vertex
+\item{centrality}{Name of the centrality measure to plot. Either a vertex
 attribute of \code{g} (e.g. \code{".degree"}) or one of the computed measures:
 \code{"closeness"}, \code{"betweenness"} or \code{"eigen_centrality"}.}
 
-\item{predictor}{predictors to test}
+\item{preds}{predss to test}
 }
 \value{
 table indicating any significant predictors
 }
 \description{
-Tests using a linear model if any of the predictors are significantly associated with
+Tests using a linear model if any of the predss are significantly associated with
 a given centrality measure
 }
 \examples{
