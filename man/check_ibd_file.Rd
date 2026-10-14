@@ -7,10 +7,10 @@
 check_ibd_file(file)
 }
 \arguments{
-\item{file}{IBD TSV file}
+\item{file}{IBD file (TSV or CSV, optionally compressed)}
 }
 \value{
-Message about whether TSV has correct columns
+Message about whether the file has the correct columns
 }
 \description{
 Check IBD file

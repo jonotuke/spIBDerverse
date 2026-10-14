@@ -7,10 +7,10 @@
 check_meta_file(file)
 }
 \arguments{
-\item{file}{IBD TSV meta file}
+\item{file}{IBD meta file (TSV or CSV, optionally compressed)}
 }
 \value{
-Message about whether TSV has correct columns
+Message about whether the file has the correct columns
 }
 \description{
 Check meta file
