@@ -198,8 +198,8 @@ read_delimited_file <- function(path) {
 if (sys.nframe() == 5) {
   pacman::p_load(conflicted, tidyverse, targets)
   load_ibd_network(
-    ibd_file = "inst/extdata/example-ibd-data.tsv",
-    meta_file = "inst/extdata/example-meta-data.tsv"
+    ibd_file = "inst/extdata/example-ibd-data.csv",
+    meta_file = "inst/extdata/example-meta-data.csv"
   ) |>
     print()
 }
