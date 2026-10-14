@@ -40,6 +40,6 @@ A ggplot object: a histogram if `preds` is `NULL`, otherwise a boxplot.
 plot_centrality(example_network)
 #> `stat_bin()` using `bins = 30`. Pick better value `binwidth`.
 
-plot_centrality(example_network, "closeness", rotate = TRUE)
-#> Error: Unknown centrality or preds: closeness
+plot_centrality(example_network, ".closeness", rotate = TRUE)
+#> `stat_bin()` using `bins = 30`. Pick better value `binwidth`.
 ```
