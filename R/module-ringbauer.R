@@ -6,65 +6,80 @@ ringbauerInput <- function(id, cat_vars) {
       choices = c("none", cat_vars),
       selected = "none"
     ),
-    shiny::sliderInput(
-      shiny::NS(id, "font_size"),
-      label = "Font size",
-      min = 1,
-      max = 10,
-      step = 1,
-      value = 1
-    ) |>
-      hover_tooltip(
-        "Change font size for axis labels and cell counts (matrix plot)."
+    bslib::accordion(
+      bslib::accordion_panel(
+        "Matrix",
+        value = "matrix",
+        shiny::sliderInput(
+          shiny::NS(id, "font_size"),
+          label = "Font size",
+          min = 1,
+          max = 10,
+          step = 1,
+          value = 1
+        ) |>
+          hover_tooltip(
+            "Change font size for axis labels and cell counts (matrix plot)."
+          ),
+        shiny::sliderInput(
+          shiny::NS(id, "margin"),
+          label = "Heatmap margin",
+          min = 4,
+          max = 20,
+          step = 1,
+          value = 4
+        ) |>
+          hover_tooltip(
+            "Increase or decrease the space around the edge of the plot (matrix plot). Useful when labels are too large to be seen properly."
+          ),
+        shiny::checkboxInput(
+          shiny::NS(id, "abbr"),
+          label = "Abbreviate labels",
+          value = FALSE
+        ),
+        shiny::checkboxInput(
+          shiny::NS(id, "addSize"),
+          label = "Add size",
+          value = FALSE
+        ) |>
+          hover_tooltip(
+            "Add the sample size to the axis labels (matrix plot)."
+          ),
+        shiny::checkboxInput(
+          shiny::NS(id, "addPercent"),
+          label = "Add percent",
+          value = FALSE
+        ) |>
+          hover_tooltip(
+            "Add the percentages to the cell counts (matrix plot)."
+          )
       ),
-    shiny::sliderInput(
-      shiny::NS(id, "margin"),
-      label = "Heatmap margin",
-      min = 4,
-      max = 20,
-      step = 1,
-      value = 4
-    ) |>
-      hover_tooltip(
-        "Increase or decrease the space around the edge of the plot (matrix plot). Useful when labels are too large to be seen properly."
-      ),
-    shiny::checkboxInput(
-      shiny::NS(id, "abbr"),
-      label = "Abbreviate labels",
-      value = FALSE
-    ),
-    shiny::checkboxInput(
-      shiny::NS(id, "addSize"),
-      label = "Add size",
-      value = FALSE
-    ) |>
-      hover_tooltip(
-        "Add the sample size to the axis labels (matrix plot)."
-      ),
-    shiny::checkboxInput(
-      shiny::NS(id, "addPercent"),
-      label = "Add percent",
-      value = FALSE
-    ) |>
-      hover_tooltip(
-        "Add the percentages to the cell counts (matrix plot)."
-      ),
-    shiny::checkboxInput(
-      shiny::NS(id, "show_sign"),
-      "Show significance",
-      value = FALSE
-    ) |>
-      hover_tooltip(
-        "Colours pairs of levels as significant (yellow) or not (black) compared to the average overall connectedness (connectivity plot)."
-      ),
-    shiny::checkboxInput(
-      shiny::NS(id, "filter_sign"),
-      "Filter out non-significant",
-      value = FALSE
-    ) |>
-      hover_tooltip(
-        "Makes non-significant pairs transparent (connectivity plot)."
+      bslib::accordion_panel(
+        "Connectivity plot",
+        value = "connectivity",
+        shiny::checkboxInput(
+          shiny::NS(id, "show_sign"),
+          "Show significance",
+          value = FALSE
+        ) |>
+          hover_tooltip(
+            "Colours pairs of levels as significant (yellow) or not (black) compared to the average overall connectedness (connectivity plot)."
+          ),
+        shiny::checkboxInput(
+          shiny::NS(id, "filter_sign"),
+          "Filter out non-significant",
+          value = FALSE
+        ) |>
+          hover_tooltip(
+            "Makes non-significant pairs transparent (connectivity plot)."
+          ),
+        shiny::checkboxInput(
+          shiny::NS(id, "ci"),
+          "Add CI intervals",
+          value = FALSE
+        )
       )
+    )
   )
 }
 ringbauerOutput <- function(id) {
@@ -120,14 +135,18 @@ ringbauerServer <- function(id, r) {
       RM() |>
         plot_homophily(
           show_sign = input$show_sign,
-          filter_sign = input$filter_sign
+          filter_sign = input$filter_sign,
+          ci = input$ci
         )
     })
     shiny::observeEvent(r$full_network(), {
       shiny::updateSelectInput(
         session,
         "grp",
-        choices = c("none", get_node_attributes(r$full_network(), "cat"))
+        choices = c(
+          "none",
+          get_node_attributes(r$full_network(), "cat")
+        )
       )
     })
     shiny::observeEvent(input$homophily_save, {
@@ -148,11 +167,14 @@ ringbauerApp <- function(network_input) {
   r$network <- shiny::reactive({
     network_input
   })
+  r$full_network <- shiny::reactive({
+    network_input
+  })
   r$export <- shiny::reactive({
     plot_default_image()
   })
 
-  ui <- shiny::fluidPage(
+  ui <- bslib::page_fluid(
     ringbauerInput("ringbauer", cat_vars),
     ringbauerOutput("ringbauer"),
     shiny::plotOutput("debug")
@@ -165,4 +187,6 @@ ringbauerApp <- function(network_input) {
   }
   shiny::shinyApp(ui, server)
 }
-# ringbauerApp(example_network) |> print()
+if (sys.nframe() == 5) {
+  ringbauerApp(example_network) |> print()
+}

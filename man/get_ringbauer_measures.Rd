@@ -7,16 +7,25 @@
 get_ringbauer_measures(g, grp)
 }
 \arguments{
-\item{g}{igraph object}
+\item{g}{igraph object with a \code{name} vertex attribute}
 
 \item{grp}{a name of a categorical node variable}
 }
 \value{
-tibble with density measures
+tibble with one row per ordered pair of levels (\code{grp1}, \code{grp2})
+and columns \code{n_edges}, \code{n1}, \code{n2}, \code{n_possible_edges}, \code{density},
+\code{label}, \code{overall_density}, \code{lwr}, \code{upr}, \code{pv} and \code{adj_pv}
 }
 \description{
-This takes a network and a categorical node variable and calculate the intra- and
-inter- level density.
+Takes a network and a categorical node variable and calculates the intra-
+and inter-level edge density for every pair of levels. Each density is
+compared with the overall network density using a one-sample proportion
+test, with FDR-adjusted p-values. The 95\% confidence interval for each
+density (from the same \code{prop.test()} call) is returned as \code{lwr} and \code{upr}.
+}
+\details{
+Nodes with a missing value of \code{grp} are dropped, along with their edges.
+The network is treated as undirected.
 }
 \examples{
 get_ringbauer_measures(example_network, "site")
