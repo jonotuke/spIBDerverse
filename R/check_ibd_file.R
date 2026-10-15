@@ -78,7 +78,7 @@ check_ibd_files <- function(ibd, meta) {
   # Set up msg
   msg <- ""
   # If iid no in nodes, then set to first col
-  if ("iid" %notin% colnames(meta)) {
+  if (!"iid" %in% colnames(meta)) {
     colnames(meta)[1] <- "iid"
   }
   # Look for duplicated IDs
@@ -111,8 +111,8 @@ check_ibd_files <- function(ibd, meta) {
       )
     }
   }
-  if (any(c("frac_gp1", "frac_gp2") %notin% colnames(ibd))) {
-    if ("frac_gp" %notin% colnames(meta)) {
+  if (any(!c("frac_gp1", "frac_gp2") %in% colnames(ibd))) {
+    if (!"frac_gp" %in% colnames(meta)) {
       frac_msg <- "Missing frac_gp in both meta and ibd files"
       msg <- stringr::str_c(
         msg,

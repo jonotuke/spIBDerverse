@@ -103,7 +103,7 @@ load_ibd_network <- function(
     return(NULL)
   }
 
-  if ("iid" %notin% colnames(node_df)) {
+  if (!"iid" %in% colnames(node_df)) {
     message(
       "The column iid is not in the META file\nWe will use Column 1 as the iid"
     )
@@ -115,7 +115,7 @@ load_ibd_network <- function(
   # If the IBD file doesn't already carry frac_gp for both nodes, take it from
   # the metadata.
   if (!all(c("frac_gp1", "frac_gp2") %in% colnames(ibd))) {
-    if ("frac_gp" %notin% colnames(node_df)) {
+    if (!"frac_gp" %in% colnames(node_df)) {
       message("The metafile does not have a column called frac_gp")
       return(NULL)
     }

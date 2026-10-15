@@ -67,7 +67,7 @@ load_ibd_network <- function(
       "frac_gp2" %in% colnames(ibd)
     )
   ) {
-    if ("frac_gp" %notin% colnames(node_df)) {
+    if (!"frac_gp" %in% colnames(node_df)) {
       message(
         "The metafile does not have a column called frac_gp"
       )
