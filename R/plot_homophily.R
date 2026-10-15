@@ -2,6 +2,8 @@ utils::globalVariables(
   c(
     "density",
     "adj_pv",
+    "lwr",
+    "upr",
     "grp1",
     "grp2",
     "name",
@@ -23,6 +25,8 @@ utils::globalVariables(
 #'   instead of by within/between-group edge type.
 #' @param filter_sign Logical. If `TRUE`, fade out non-significant edges.
 #' @param sig_level Significance threshold applied to the adjusted p-values.
+#' @param ci Logical. If `TRUE`, add 95% CI error bars for the proportions
+#'   (requires `lwr` and `upr` columns in `RM`).
 #'
 #' @return A ggplot object.
 #' @export
@@ -33,9 +37,15 @@ plot_homophily <- function(
   RM,
   show_sign = FALSE,
   filter_sign = FALSE,
-  sig_level = 0.05
+  sig_level = 0.05,
+  ci = FALSE
 ) {
+  if (ci && !all(c("lwr", "upr") %in% names(RM))) {
+    stop("`ci = TRUE` requires `lwr` and `upr` columns in `RM`.", call. = FALSE)
+  }
+
   overall_density <- RM$overall_density[1]
+
   edges <- RM |>
     # Drop missing densities
     dplyr::filter(!is.na(density)) |>
@@ -43,8 +53,10 @@ plot_homophily <- function(
     label_grp_duplicates(grp1, grp2) |>
     dplyr::ungroup() |>
     dplyr::summarise(
-      density = mean(density),
-      adj_pv = mean(adj_pv),
+      dplyr::across(
+        dplyr::any_of(c("density", "adj_pv", "lwr", "upr")),
+        mean
+      ),
       .by = .grp_label
     ) |>
     tidyr::separate_wider_delim(
@@ -65,12 +77,22 @@ plot_homophily <- function(
 
   palette <- if (show_sign) "Hufflepuff" else "Ravenclaw"
 
-  ggplot2::ggplot(edges, ggplot2::aes(name, density, fill = type)) +
+  p <- ggplot2::ggplot(edges, ggplot2::aes(name, density, fill = type)) +
     ggplot2::geom_hline(
       yintercept = overall_density,
       linewidth = 1,
       linetype = "dashed"
-    ) +
+    )
+
+  if (ci) {
+    p <- p +
+      ggplot2::geom_errorbar(
+        ggplot2::aes(ymin = lwr, ymax = upr, alpha = faded),
+        width = 0.1
+      )
+  }
+
+  p +
     ggplot2::geom_point(
       ggplot2::aes(alpha = faded),
       shape = 21,
@@ -91,6 +113,6 @@ plot_homophily <- function(
 if (sys.nframe() == 5) {
   pacman::p_load(conflicted, tidyverse, targets)
   get_ringbauer_measures(example_network, "site") |>
-    plot_homophily(show_sign = TRUE, filter_sign = TRUE) |>
+    plot_homophily(show_sign = TRUE, filter_sign = TRUE, ci = TRUE) |>
     print()
 }

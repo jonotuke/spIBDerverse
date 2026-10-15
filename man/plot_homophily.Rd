@@ -4,7 +4,13 @@
 \alias{plot_homophily}
 \title{Plot homophily}
 \usage{
-plot_homophily(RM, show_sign = FALSE, filter_sign = FALSE, sig_level = 0.05)
+plot_homophily(
+  RM,
+  show_sign = FALSE,
+  filter_sign = FALSE,
+  sig_level = 0.05,
+  ci = FALSE
+)
 }
 \arguments{
 \item{RM}{A tibble of Ringbauer measures, as returned by
@@ -16,6 +22,9 @@ instead of by within/between-group edge type.}
 \item{filter_sign}{Logical. If \code{TRUE}, fade out non-significant edges.}
 
 \item{sig_level}{Significance threshold applied to the adjusted p-values.}
+
+\item{ci}{Logical. If \code{TRUE}, add 95\% CI error bars for the proportions
+(requires \code{lwr} and \code{upr} columns in \code{RM}).}
 }
 \value{
 A ggplot object.
