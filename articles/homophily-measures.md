@@ -33,6 +33,8 @@ p_{ij} = \frac{E}{{N \choose 2}}
 ``` r
 
 obs <- example_network |> get_ringbauer_measures("site")
-#> Warning in stats::prop.test(x = edge_count$n_edges[i], n =
-#> edge_count$n_possible_edges[i], : Chi-squared approximation may be incorrect
+#> Warning: There was 1 warning in `dplyr::mutate()`.
+#> ℹ In argument: `prop_test = purrr::map2(...)`.
+#> Caused by warning in `stats::prop.test()`:
+#> ! Chi-squared approximation may be incorrect
 ```

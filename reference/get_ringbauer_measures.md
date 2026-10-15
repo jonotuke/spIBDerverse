@@ -1,7 +1,12 @@
 # Get ringbauer measures
 
-This takes a network and a categorical node variable and calculate the
-intra- and inter- level density.
+Takes a network and a categorical node variable and calculates the
+intra- and inter-level edge density for every pair of levels. Each
+density is compared with the overall network density using a one-sample
+proportion test, with FDR-adjusted p-values. The 95% confidence interval
+for each density (from the same
+[`prop.test()`](https://rdrr.io/r/stats/prop.test.html) call) is
+returned as `lwr` and `upr`.
 
 ## Usage
 
@@ -13,7 +18,7 @@ get_ringbauer_measures(g, grp)
 
 - g:
 
-  igraph object
+  igraph object with a `name` vertex attribute
 
 - grp:
 
@@ -21,14 +26,24 @@ get_ringbauer_measures(g, grp)
 
 ## Value
 
-tibble with density measures
+tibble with one row per ordered pair of levels (`grp1`, `grp2`) and
+columns `n_edges`, `n1`, `n2`, `n_possible_edges`, `density`, `label`,
+`overall_density`, `lwr`, `upr`, `pv` and `adj_pv`
+
+## Details
+
+Nodes with a missing value of `grp` are dropped, along with their edges.
+The network is treated as undirected.
 
 ## Examples
 
 ``` r
 get_ringbauer_measures(example_network, "site")
-#> Warning: Chi-squared approximation may be incorrect
-#> # A tibble: 9 × 11
+#> Warning: There was 1 warning in `dplyr::mutate()`.
+#> ℹ In argument: `prop_test = purrr::map2(...)`.
+#> Caused by warning in `stats::prop.test()`:
+#> ! Chi-squared approximation may be incorrect
+#> # A tibble: 9 × 13
 #>   grp1  grp2  n_edges    n1    n2 n_possible_edges density label overall_density
 #>   <chr> <chr>   <dbl> <dbl> <dbl>            <dbl>   <dbl> <glu>           <dbl>
 #> 1 A     A          13    16    16              120  0.108  13/1…           0.133
@@ -40,5 +55,5 @@ get_ringbauer_measures(example_network, "site")
 #> 7 B     A           8     9    16              144  0.0556 8/144           0.133
 #> 8 B     C           9     9    15              135  0.0667 9/135           0.133
 #> 9 B     B          12     9     9               36  0.333  12/36           0.133
-#> # ℹ 2 more variables: pv <dbl>, adj_pv <dbl>
+#> # ℹ 4 more variables: lwr <dbl>, upr <dbl>, pv <dbl>, adj_pv <dbl>
 ```
