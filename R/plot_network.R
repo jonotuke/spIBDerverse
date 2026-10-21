@@ -48,6 +48,10 @@ check_columns <- function(df, cols) {
 #' @param fill_pal Fill palette name.
 #' @param col_pal Colour palette name.
 #' @param outline_width width of node outline
+#' @param legend_size Fixed size of the node symbols in the legend keys,
+#'   regardless of `node_size` or any `size` mapping.
+#' @param legend_stroke Fixed outline width of the node symbols in the legend
+#'   keys, regardless of `outline_width`.
 #'
 #' @return A ggplot object.
 #' @export
@@ -77,7 +81,9 @@ plot_network <- function(
   node_size = 5,
   fill_pal = "ravenclaw",
   col_pal = "default",
-  outline_width = 1
+  outline_width = 1,
+  legend_size = 4,
+  legend_stroke = 1
 ) {
   set.seed(seed)
   connected <- match.arg(connected, c("Show", "Hide", "Grey out"))
@@ -113,7 +119,10 @@ plot_network <- function(
     coord_layer <- ggplot2::coord_quickmap()
   }
 
-  check_columns(df, c(edge, label, label_filter, fill, shape, size))
+  check_columns(
+    df,
+    c(edge, label, label_filter, fill, shape, size, outline_col)
+  )
 
   # Unconnected nodes only have node rows (no edge rows), so dropping rows
   # flagged `.isolated` removes them without moving anything else.
@@ -132,7 +141,6 @@ plot_network <- function(
   edge_layers <- if (is_none(edge)) {
     ggnetwork::geom_edges()
   } else if (is.numeric(df[[edge]])) {
-    no_line <- ggplot2::guide_legend(override.aes = list(linetype = NA))
     list(
       ggnetwork::geom_edges(
         ggplot2::aes(linewidth = .data[[edge]]),
@@ -141,8 +149,7 @@ plot_network <- function(
       ggplot2::scale_linewidth_continuous(
         range = c(0.5, 2),
         transform = edge_trans
-      ),
-      ggplot2::guides(fill = no_line, shape = no_line)
+      )
     )
   } else {
     ggnetwork::geom_edges(
@@ -228,6 +235,30 @@ plot_network <- function(
     )
   }
 
+  # LEGEND KEYS ----
+  # Force every node legend key to the same size and stroke, whatever the
+  # plot itself uses. alpha = 1 stops greyed-out nodes fading the keys, and
+  # linetype = NA hides the edge line that `show.legend = TRUE` on the edge
+  # layer would otherwise draw through each key.
+  key_aes <- list(size = legend_size, stroke = legend_stroke, alpha = 1)
+  if (!is_none(edge) && isTRUE(edge_legend)) {
+    key_aes$linetype <- NA
+  }
+  key_guide <- ggplot2::guide_legend(override.aes = key_aes)
+
+  # Only discrete scales get point keys; continuous fill/colour use a
+  # colourbar, which has no points to resize.
+  legend_guides <- list(size = "none")
+  if (!is_none(fill) && !is.numeric(df[[fill]])) {
+    legend_guides$fill <- key_guide
+  }
+  if (!is_none(outline_col) && !is.numeric(df[[outline_col]])) {
+    legend_guides$colour <- key_guide
+  }
+  if (!is_none(shape)) {
+    legend_guides$shape <- key_guide
+  }
+
   # PLOT ----
   ggplot2::ggplot(df, ggplot2::aes(x = x, y = y, xend = xend, yend = yend)) +
     edge_layers +
@@ -236,10 +267,9 @@ plot_network <- function(
     label_layer +
     coord_layer +
     ggnetwork::theme_blank() +
-    ggplot2::guides(size = "none")
+    rlang::exec(ggplot2::guides, !!!legend_guides)
 }
 
-# Quick manual test when the file is sourced directly
 if (sys.nframe() == 5) {
   pacman::p_load(conflicted, tidyverse, targets)
   plot_network(
@@ -249,7 +279,9 @@ if (sys.nframe() == 5) {
     outline_col = "genetic_sex",
     fill_pal = "colourblind",
     col_pal = "ravenclaw",
-    outline_width = 1
+    outline_width = 1,
+    size = ".degree",
+    edge = "wij"
   ) |>
     print()
 }
