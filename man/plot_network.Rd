@@ -26,7 +26,8 @@ plot_network(
   alpha = "none",
   node_size = 5,
   fill_pal = "ravenclaw",
-  col_pal = "default"
+  col_pal = "default",
+  outline_width = 1
 )
 }
 \arguments{
@@ -70,11 +71,15 @@ matched against. Defaults to \code{label}.}
 
 \item{outline_col}{Vertex attribute mapped to node outline colour}
 
+\item{alpha}{Vertex attribute to use for mapping for node alpha}
+
 \item{node_size}{Base node size.}
 
 \item{fill_pal}{Fill palette name.}
 
 \item{col_pal}{Colour palette name.}
+
+\item{outline_width}{width of node outline}
 }
 \value{
 A ggplot object.
