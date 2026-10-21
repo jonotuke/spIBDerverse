@@ -42,8 +42,12 @@ check_columns <- function(df, cols) {
 #' @param fill Vertex attribute mapped to node fill.
 #' @param shape Vertex attribute mapped to node shape.
 #' @param size Vertex attribute mapped to node size.
+#' @param outline_col Vertex attribute mapped to node outline colour
 #' @param node_size Base node size.
-#' @param pal Colour palette name.
+#' @param alpha Vertex attribute to use for mapping for node alpha
+#' @param fill_pal Fill palette name.
+#' @param col_pal Colour palette name.
+#' @param outline_width width of node outline
 #'
 #' @return A ggplot object.
 #' @export
@@ -68,8 +72,12 @@ plot_network <- function(
   fill = "none",
   shape = "none",
   size = "none",
+  outline_col = "none",
+  alpha = "none",
   node_size = 5,
-  pal = "ravenclaw"
+  fill_pal = "ravenclaw",
+  col_pal = "default",
+  outline_width = 1
 ) {
   set.seed(seed)
   connected <- match.arg(connected, c("Show", "Hide", "Grey out"))
@@ -146,7 +154,7 @@ plot_network <- function(
   # NODES ----
   # Mapped aesthetics go in `node_aes`; fixed values go in `node_params`.
   node_aes <- list(alpha = rlang::sym(".alpha"))
-  node_params <- list()
+  node_params <- list(stroke = outline_width)
   node_scales <- list()
 
   if (is_none(fill)) {
@@ -154,9 +162,20 @@ plot_network <- function(
   } else {
     node_aes$fill <- rlang::sym(fill)
     node_scales$fill <- if (is.numeric(df[[fill]])) {
-      fill_continuous(pal = pal)
+      fill_continuous(pal = fill_pal)
     } else {
-      fill_discrete(pal = pal)
+      fill_discrete(pal = fill_pal)
+    }
+  }
+
+  if (is_none(outline_col)) {
+    node_params$colour <- "black"
+  } else {
+    node_aes$colour <- rlang::sym(outline_col)
+    node_scales$colour <- if (is.numeric(df[[outline_col]])) {
+      colour_continuous(pal = col_pal)
+    } else {
+      colour_discrete(pal = col_pal)
     }
   }
 
@@ -226,10 +245,11 @@ if (sys.nframe() == 5) {
   plot_network(
     example_network,
     fill = "site",
-    size = ".degree",
-    connected = "Hide",
-    edge = "edge_type",
-    node_size = 5
+    node_size = 5,
+    outline_col = "genetic_sex",
+    fill_pal = "colourblind",
+    col_pal = "ravenclaw",
+    outline_width = 1
   ) |>
     print()
 }
