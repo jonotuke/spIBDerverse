@@ -160,7 +160,7 @@ plot_network <- function(
 
   # NODES ----
   # Mapped aesthetics go in `node_aes`; fixed values go in `node_params`.
-  node_aes <- list(alpha = rlang::sym(".alpha"))
+  node_aes <- list()
   node_params <- list(stroke = outline_width)
   node_scales <- list()
 
@@ -205,12 +205,34 @@ plot_network <- function(
     )
   }
 
-  node_scales$alpha <- ggplot2::scale_alpha_identity()
+  if (is_none(alpha)) {
+    node_aes$alpha <- rlang::sym(".alpha")
+    node_scales$alpha <- ggplot2::scale_alpha_identity()
+  } else {
+    node_aes$alpha <- rlang::sym(alpha)
+  }
 
   node_layer <- rlang::exec(
     ggnetwork::geom_nodes,
     ggplot2::aes(!!!node_aes),
     !!!node_params
+  )
+
+  # Opaque underlay drawn between the edges and the nodes, so edges don't
+  # show through semi-transparent nodes. It copies the node size, shape and
+  # stroke (mapped or fixed) but is solid white with no legend.
+  underlay_aes <- node_aes[intersect(names(node_aes), c("size", "shape"))]
+  underlay_params <- node_params[
+    intersect(names(node_params), c("size", "shape", "stroke"))
+  ]
+  underlay_params$fill <- "white"
+  underlay_params$colour <- "white"
+  underlay_params$alpha <- 1
+  underlay_layer <- rlang::exec(
+    ggnetwork::geom_nodes,
+    ggplot2::aes(!!!underlay_aes),
+    !!!underlay_params,
+    show.legend = FALSE
   )
 
   # LABELS ----
@@ -262,6 +284,7 @@ plot_network <- function(
   # PLOT ----
   ggplot2::ggplot(df, ggplot2::aes(x = x, y = y, xend = xend, yend = yend)) +
     edge_layers +
+    underlay_layer +
     node_layer +
     node_scales +
     label_layer +
@@ -273,15 +296,11 @@ plot_network <- function(
 if (sys.nframe() == 5) {
   pacman::p_load(conflicted, tidyverse, targets)
   plot_network(
-    example_network,
-    fill = "site",
-    node_size = 5,
-    outline_col = "genetic_sex",
-    fill_pal = "colourblind",
-    col_pal = "ravenclaw",
-    outline_width = 1,
-    size = ".degree",
-    edge = "wij"
+    example_network_2,
+    fill = "Province",
+    connected = "Grey out",
+    node_size = 2,
+    alpha = ".degree"
   ) |>
     print()
 }
