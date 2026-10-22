@@ -85,10 +85,6 @@ spibder_app <- function(input_network = NULL) {
           condition = "input.tabs == 'Export plot'",
           exportplotInput("export")
         ),
-        shiny::downloadButton(
-          "bookmark",
-          "Save analysis state"
-        ),
         shinysnap::snap_download_button("save")
       ),
       shiny::mainPanel(
@@ -169,18 +165,8 @@ spibder_app <- function(input_network = NULL) {
     ringbauerServer("ringbauer", r = r)
     # ERGMs ----
     ergmServer("ergm", r = r)
-    # EXPORT ----
-    snapshot <- shiny::reactive({
-      shiny::reactiveValuesToList(input)
-    })
-    output$bookmark <- shiny::downloadHandler(
-      filename = function() {
-        paste0(lubridate::today(), ".rds")
-      },
-      content = function(file) {
-        readr::write_rds(snapshot(), file)
-      }
-    )
+    # SNAPSHOT ----
+
     exportplotServer("export", r = r)
     # DEBUG ----
     output$debug <- shiny::renderPrint({
