@@ -63,8 +63,14 @@
 <span>  fill <span class="op">=</span> <span class="st">"none"</span>,</span>
 <span>  shape <span class="op">=</span> <span class="st">"none"</span>,</span>
 <span>  size <span class="op">=</span> <span class="st">"none"</span>,</span>
+<span>  outline_col <span class="op">=</span> <span class="st">"none"</span>,</span>
+<span>  alpha <span class="op">=</span> <span class="st">"none"</span>,</span>
 <span>  node_size <span class="op">=</span> <span class="fl">5</span>,</span>
-<span>  pal <span class="op">=</span> <span class="st">"ravenclaw"</span></span>
+<span>  fill_pal <span class="op">=</span> <span class="st">"ravenclaw"</span>,</span>
+<span>  col_pal <span class="op">=</span> <span class="st">"default"</span>,</span>
+<span>  outline_width <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  legend_size <span class="op">=</span> <span class="fl">4</span>,</span>
+<span>  legend_stroke <span class="op">=</span> <span class="fl">1</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -142,12 +148,38 @@ matched against. Defaults to <code>label</code>.</p></dd>
 <dd><p>Vertex attribute mapped to node size.</p></dd>
 
 
+<dt id="arg-outline-col">outline_col<a class="anchor" aria-label="anchor" href="#arg-outline-col"></a></dt>
+<dd><p>Vertex attribute mapped to node outline colour</p></dd>
+
+
+<dt id="arg-alpha">alpha<a class="anchor" aria-label="anchor" href="#arg-alpha"></a></dt>
+<dd><p>Vertex attribute to use for mapping for node alpha</p></dd>
+
+
 <dt id="arg-node-size">node_size<a class="anchor" aria-label="anchor" href="#arg-node-size"></a></dt>
 <dd><p>Base node size.</p></dd>
 
 
-<dt id="arg-pal">pal<a class="anchor" aria-label="anchor" href="#arg-pal"></a></dt>
+<dt id="arg-fill-pal">fill_pal<a class="anchor" aria-label="anchor" href="#arg-fill-pal"></a></dt>
+<dd><p>Fill palette name.</p></dd>
+
+
+<dt id="arg-col-pal">col_pal<a class="anchor" aria-label="anchor" href="#arg-col-pal"></a></dt>
 <dd><p>Colour palette name.</p></dd>
+
+
+<dt id="arg-outline-width">outline_width<a class="anchor" aria-label="anchor" href="#arg-outline-width"></a></dt>
+<dd><p>width of node outline</p></dd>
+
+
+<dt id="arg-legend-size">legend_size<a class="anchor" aria-label="anchor" href="#arg-legend-size"></a></dt>
+<dd><p>Fixed size of the node symbols in the legend keys,
+regardless of <code>node_size</code> or any <code>size</code> mapping.</p></dd>
+
+
+<dt id="arg-legend-stroke">legend_stroke<a class="anchor" aria-label="anchor" href="#arg-legend-stroke"></a></dt>
+<dd><p>Fixed outline width of the node symbols in the legend
+keys, regardless of <code>outline_width</code>.</p></dd>
 
 </dl></div>
     <div class="section level2">

@@ -23,8 +23,14 @@ plot_network(
   fill = "none",
   shape = "none",
   size = "none",
+  outline_col = "none",
+  alpha = "none",
   node_size = 5,
-  pal = "ravenclaw"
+  fill_pal = "ravenclaw",
+  col_pal = "default",
+  outline_width = 1,
+  legend_size = 4,
+  legend_stroke = 1
 )
 ```
 
@@ -100,13 +106,39 @@ plot_network(
 
   Vertex attribute mapped to node size.
 
+- outline_col:
+
+  Vertex attribute mapped to node outline colour
+
+- alpha:
+
+  Vertex attribute to use for mapping for node alpha
+
 - node_size:
 
   Base node size.
 
-- pal:
+- fill_pal:
+
+  Fill palette name.
+
+- col_pal:
 
   Colour palette name.
+
+- outline_width:
+
+  width of node outline
+
+- legend_size:
+
+  Fixed size of the node symbols in the legend keys, regardless of
+  `node_size` or any `size` mapping.
+
+- legend_stroke:
+
+  Fixed outline width of the node symbols in the legend keys, regardless
+  of `outline_width`.
 
 ## Value
 

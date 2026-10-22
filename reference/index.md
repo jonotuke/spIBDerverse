@@ -16,6 +16,10 @@
   : clean model names
 - [`clean_network()`](https://jonotuke.github.io/spIBDerverse/reference/clean_network.md)
   : Clean network
+- [`colour_continuous()`](https://jonotuke.github.io/spIBDerverse/reference/colour_continuous.md)
+  : colour continuous
+- [`colour_discrete()`](https://jonotuke.github.io/spIBDerverse/reference/colour_discrete.md)
+  : colour discrete
 - [`convert_bb()`](https://jonotuke.github.io/spIBDerverse/reference/convert_bb.md)
   : Given a bounding box, increase the lat and long by given amounts
 - [`convert_bb_asp()`](https://jonotuke.github.io/spIBDerverse/reference/convert_bb_asp.md)
