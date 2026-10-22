@@ -65,7 +65,8 @@ Imports:
     grDevices,
     methods,
     bslib,
-    htmltools
+    htmltools,
+    shinysnap
 Suggests: 
     quarto,
     rmarkdown,
