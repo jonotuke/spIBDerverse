@@ -88,7 +88,8 @@ spibder_app <- function(input_network = NULL) {
         shiny::downloadButton(
           "bookmark",
           "Save analysis state"
-        )
+        ),
+        shinysnap::snap_download_button("save")
       ),
       shiny::mainPanel(
         shiny::tabsetPanel(
