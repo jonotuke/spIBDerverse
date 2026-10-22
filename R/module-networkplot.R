@@ -53,7 +53,11 @@ networkplotServer <- function(id, r) {
         fill = input$fill,
         shape = input$shape,
         size = input$size,
-        pal = input$pal
+        fill_pal = input$fill_pal,
+        outline_col = input$outline_col,
+        col_pal = input$col_pal,
+        outline_width = input$outline_width,
+        alpha = input$alpha
       )
     })
     shiny::observeEvent(r$full_network(), {
@@ -138,5 +142,5 @@ networkplotApp <- function(network_input) {
   shiny::shinyApp(ui, server)
 }
 if (sys.nframe() == 5) {
-  networkplotApp(example_network_2) |> print()
+  networkplotApp(example_network) |> print()
 }

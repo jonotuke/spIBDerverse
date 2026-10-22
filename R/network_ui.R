@@ -16,8 +16,19 @@ network_ui <- function(id, all_vars, cat_vars, edge_vars, num_vars) {
         selected = "none"
       ),
       shiny::selectInput(
-        ns("pal"),
+        ns("fill_pal"),
         label = "Fill palette",
+        choices = c("default", "ravenclaw", "colourblind")
+      ),
+      shiny::selectInput(
+        ns("outline_col"),
+        label = "Choose node outline colour column",
+        choices = c("none", all_vars),
+        selected = "none"
+      ),
+      shiny::selectInput(
+        ns("col_pal"),
+        label = "Outline colour palette",
         choices = c("default", "ravenclaw", "colourblind")
       ),
       shiny::selectInput(
@@ -32,12 +43,26 @@ network_ui <- function(id, all_vars, cat_vars, edge_vars, num_vars) {
         choices = c("none", num_vars),
         selected = "none"
       ),
+      shiny::selectInput(
+        ns("alpha"),
+        label = "Choose node alpha",
+        choices = c("none", num_vars),
+        selected = "none"
+      ),
       shiny::numericInput(
         ns("node_size"),
         "Node size",
         min = 1,
         max = 20,
         value = 10,
+        step = 1
+      ),
+      shiny::numericInput(
+        ns("outline_width"),
+        "Node outline width",
+        min = 1,
+        max = 5,
+        value = 1,
         step = 1
       ),
       shiny::radioButtons(

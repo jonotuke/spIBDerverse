@@ -22,8 +22,14 @@ plot_network(
   fill = "none",
   shape = "none",
   size = "none",
+  outline_col = "none",
+  alpha = "none",
   node_size = 5,
-  pal = "ravenclaw"
+  fill_pal = "ravenclaw",
+  col_pal = "default",
+  outline_width = 1,
+  legend_size = 4,
+  legend_stroke = 1
 )
 }
 \arguments{
@@ -65,9 +71,23 @@ matched against. Defaults to \code{label}.}
 
 \item{size}{Vertex attribute mapped to node size.}
 
+\item{outline_col}{Vertex attribute mapped to node outline colour}
+
+\item{alpha}{Vertex attribute to use for mapping for node alpha}
+
 \item{node_size}{Base node size.}
 
-\item{pal}{Colour palette name.}
+\item{fill_pal}{Fill palette name.}
+
+\item{col_pal}{Colour palette name.}
+
+\item{outline_width}{width of node outline}
+
+\item{legend_size}{Fixed size of the node symbols in the legend keys,
+regardless of \code{node_size} or any \code{size} mapping.}
+
+\item{legend_stroke}{Fixed outline width of the node symbols in the legend
+keys, regardless of \code{outline_width}.}
 }
 \value{
 A ggplot object.
