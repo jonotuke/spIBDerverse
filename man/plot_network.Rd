@@ -27,7 +27,9 @@ plot_network(
   node_size = 5,
   fill_pal = "ravenclaw",
   col_pal = "default",
-  outline_width = 1
+  outline_width = 1,
+  legend_size = 4,
+  legend_stroke = 1
 )
 }
 \arguments{
@@ -80,6 +82,12 @@ matched against. Defaults to \code{label}.}
 \item{col_pal}{Colour palette name.}
 
 \item{outline_width}{width of node outline}
+
+\item{legend_size}{Fixed size of the node symbols in the legend keys,
+regardless of \code{node_size} or any \code{size} mapping.}
+
+\item{legend_stroke}{Fixed outline width of the node symbols in the legend
+keys, regardless of \code{outline_width}.}
 }
 \value{
 A ggplot object.

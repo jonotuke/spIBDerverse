@@ -237,7 +237,8 @@ staticmapServer <- function(id, r) {
         fill_pal = input$fill_pal,
         outline_col = input$outline_col,
         col_pal = input$col_pal,
-        outline_width = input$outline_width
+        outline_width = input$outline_width,
+        alpha = input$alpha
       )
     })
 

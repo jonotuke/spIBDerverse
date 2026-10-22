@@ -43,6 +43,12 @@ network_ui <- function(id, all_vars, cat_vars, edge_vars, num_vars) {
         choices = c("none", num_vars),
         selected = "none"
       ),
+      shiny::selectInput(
+        ns("alpha"),
+        label = "Choose node alpha",
+        choices = c("none", num_vars),
+        selected = "none"
+      ),
       shiny::numericInput(
         ns("node_size"),
         "Node size",

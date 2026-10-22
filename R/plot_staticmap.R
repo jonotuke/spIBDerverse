@@ -200,7 +200,8 @@ if (sys.nframe() == 5) {
     fill = "site",
     edge = "edge_type",
     edge_trans = "log10",
-    label = "site"
+    label = "site",
+    alpha = ".degree"
   ) |>
     unname() |>
     print()

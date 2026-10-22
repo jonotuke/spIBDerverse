@@ -121,7 +121,7 @@ plot_network <- function(
 
   check_columns(
     df,
-    c(edge, label, label_filter, fill, shape, size, outline_col)
+    c(edge, label, label_filter, fill, shape, size, outline_col, alpha)
   )
 
   # Unconnected nodes only have node rows (no edge rows), so dropping rows
