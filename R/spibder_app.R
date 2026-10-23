@@ -85,7 +85,15 @@ spibder_app <- function(input_network = NULL) {
           condition = "input.tabs == 'Export plot'",
           exportplotInput("export")
         ),
-        shinysnap::snap_download_button("save")
+        bslib::accordion(
+          open = FALSE,
+          multiple = TRUE,
+          bslib::accordion_panel(
+            "Save/Load app status",
+            shinysnap::snap_download_button("save"),
+            shinysnap::snap_file_input("restore")
+          )
+        ),
       ),
       shiny::mainPanel(
         shiny::tabsetPanel(
@@ -166,7 +174,17 @@ spibder_app <- function(input_network = NULL) {
     # ERGMs ----
     ergmServer("ergm", r = r)
     # SNAPSHOT ----
-
+    shinysnap::snap_enable(
+      app = "spIBDerverse",
+      version = "0.0.0.9000"
+    )
+    shinysnap::snap_download_handler(
+      "save",
+      filename = stringr::str_glue(
+        "{lubridate::today()}-spIBDerverse-state"
+      )
+    )
+    shinysnap::snap_file_restore("restore")
     exportplotServer("export", r = r)
     # DEBUG ----
     output$debug <- shiny::renderPrint({
