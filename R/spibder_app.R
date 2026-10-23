@@ -85,9 +85,23 @@ spibder_app <- function(input_network = NULL) {
           condition = "input.tabs == 'Export plot'",
           exportplotInput("export")
         ),
-        shiny::downloadButton(
-          "bookmark",
-          "Save analysis state"
+        bslib::accordion(
+          open = FALSE,
+          multiple = TRUE,
+          bslib::accordion_panel(
+            "Save/Load app status",
+            icon = shiny::icon("file-export"),
+            shiny::downloadButton(
+              "save",
+              "Save state",
+              icon = shiny::icon("download")
+            ),
+            shiny::fileInput(
+              "restore",
+              "Restore state",
+              accept = c(".json", ".zip")
+            )
+          )
         )
       ),
       shiny::mainPanel(
@@ -168,18 +182,18 @@ spibder_app <- function(input_network = NULL) {
     ringbauerServer("ringbauer", r = r)
     # ERGMs ----
     ergmServer("ergm", r = r)
-    # EXPORT ----
-    snapshot <- shiny::reactive({
-      shiny::reactiveValuesToList(input)
-    })
-    output$bookmark <- shiny::downloadHandler(
-      filename = function() {
-        paste0(lubridate::today(), ".rds")
-      },
-      content = function(file) {
-        readr::write_rds(snapshot(), file)
-      }
+    # SNAPSHOT ----
+    shinysnap::snap_enable(
+      app = "spIBDerverse",
+      version = "0.0.0.9000"
     )
+    shinysnap::snap_download_handler(
+      "save",
+      filename = stringr::str_glue(
+        "{lubridate::today()}-spIBDerverse-state"
+      )
+    )
+    shinysnap::snap_file_restore("restore")
     exportplotServer("export", r = r)
     # DEBUG ----
     output$debug <- shiny::renderPrint({
