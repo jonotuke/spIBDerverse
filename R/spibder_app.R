@@ -90,10 +90,18 @@ spibder_app <- function(input_network = NULL) {
           multiple = TRUE,
           bslib::accordion_panel(
             "Save/Load app status",
-            shinysnap::snap_download_button("save"),
-            shinysnap::snap_file_input("restore")
+            shiny::downloadButton(
+              "save",
+              "Save state",
+              icon = shiny::icon("download")
+            ),
+            shiny::fileInput(
+              "restore",
+              "Restore state",
+              accept = c(".json", ".zip")
+            )
           )
-        ),
+        )
       ),
       shiny::mainPanel(
         shiny::tabsetPanel(
