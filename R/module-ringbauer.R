@@ -10,6 +10,7 @@ ringbauerInput <- function(id, cat_vars) {
       bslib::accordion_panel(
         "Matrix",
         value = "matrix",
+        icon = shiny::icon("table-cells"),
         shiny::sliderInput(
           shiny::NS(id, "font_size"),
           label = "Font size",
@@ -57,6 +58,7 @@ ringbauerInput <- function(id, cat_vars) {
       bslib::accordion_panel(
         "Connectivity plot",
         value = "connectivity",
+        icon = shiny::icon("diagram-project"),
         shiny::checkboxInput(
           shiny::NS(id, "show_sign"),
           "Show significance",
