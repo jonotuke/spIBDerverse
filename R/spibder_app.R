@@ -90,6 +90,7 @@ spibder_app <- function(input_network = NULL) {
           multiple = TRUE,
           bslib::accordion_panel(
             "Save/Load app status",
+            icon = shiny::icon("file-export"),
             shiny::downloadButton(
               "save",
               "Save state",
