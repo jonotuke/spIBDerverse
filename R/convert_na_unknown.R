@@ -16,9 +16,10 @@ convert_na_unknown <- function(g, name) {
     )
   }
   x <- igraph::vertex_attr(g, name)
-  if (!is.numeric(x) && !is.logical(x) && anyNA(x)) {
+  print(is.numeric(x))
+  if (!is.numeric(x)) {
     x[is.na(x)] <- "Unknown"
-    igraph::set_vertex_attr(g, name, value = x)
+    g <- igraph::set_vertex_attr(g, name, value = x)
   }
   g
 }
