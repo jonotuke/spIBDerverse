@@ -115,7 +115,7 @@
 - [`plot_homophily()`](https://jonotuke.github.io/spIBDerverse/reference/plot_homophily.md)
   : Plot homophily
 - [`plot_leaflet()`](https://jonotuke.github.io/spIBDerverse/reference/plot_leaflet.md)
-  : plot leaflet
+  : Plot an igraph network on a leaflet map
 - [`plot_network()`](https://jonotuke.github.io/spIBDerverse/reference/plot_network.md)
   : Plot a network
 - [`plot_ringbauer()`](https://jonotuke.github.io/spIBDerverse/reference/plot_ringbauer.md)
