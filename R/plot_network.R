@@ -53,6 +53,7 @@ check_columns <- function(df, cols) {
 #'   regardless of `node_size` or any `size` mapping.
 #' @param legend_stroke Fixed outline width of the node symbols in the legend
 #'   keys, regardless of `outline_width`.
+#' @param convert_nas boolean to convert missing nodes attr from NA to unknown
 #'
 #' @return A ggplot object.
 #' @export
@@ -85,7 +86,8 @@ plot_network <- function(
   col_pal = "default",
   outline_width = 1,
   legend_size = 4,
-  legend_stroke = 1
+  legend_stroke = 1,
+  convert_nas = TRUE
 ) {
   set.seed(seed)
   connected <- match.arg(connected, c("Show", "Hide", "Grey out"))
@@ -100,6 +102,11 @@ plot_network <- function(
     stop("No connected nodes left to plot after hiding.", call. = FALSE)
   }
   g <- igraph::set_vertex_attr(g, ".isolated", value = isolated)
+
+  # MISSING ----
+  if (convert_nas) {
+    g <- convert_nas_unknown(g)
+  }
 
   # LAYOUT ----
   if (is_none(lat) != is_none(long)) {

@@ -30,7 +30,8 @@ plot_network(
   col_pal = "default",
   outline_width = 1,
   legend_size = 4,
-  legend_stroke = 1
+  legend_stroke = 1,
+  convert_nas = TRUE
 )
 }
 \arguments{
@@ -91,6 +92,8 @@ regardless of \code{node_size} or any \code{size} mapping.}
 
 \item{legend_stroke}{Fixed outline width of the node symbols in the legend
 keys, regardless of \code{outline_width}.}
+
+\item{convert_nas}{boolean to convert missing nodes attr from NA to unknown}
 }
 \value{
 A ggplot object.
