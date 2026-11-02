@@ -147,6 +147,8 @@ ibd_network
   : dist network
 - [`edges_to_sf()`](https://jonotuke.github.io/spIBDerverse/reference/edges_to_sf.md)
   : edges to sf
+- [`europe_network`](https://jonotuke.github.io/spIBDerverse/reference/europe_network.md)
+  : Example network of 20 European cities
 - [`example_network`](https://jonotuke.github.io/spIBDerverse/reference/example_network.md)
   : example network
 - [`example_network_2`](https://jonotuke.github.io/spIBDerverse/reference/example_network_2.md)

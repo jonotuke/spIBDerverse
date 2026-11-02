@@ -22,6 +22,7 @@ plot_staticmap(
   pad = 0.05,
   jitter = 0,
   seed = 2026,
+  country_lines = FALSE,
   theme = "minimal",
   ...
 )
@@ -70,6 +71,12 @@ plot_staticmap(
   Random seed used for the jitter (and passed to
   [`plot_network()`](https://jonotuke.github.io/spIBDerverse/reference/plot_network.md)).
 
+- country_lines:
+
+  Add country lines `FALSE` (default) adds none, `TRUE` adds the
+  `"stamen_toner_lines"` layer, or give a lines layer by name:
+  `"stamen_toner_lines"` or `"stamen_terrain_lines"`.
+
 - theme:
 
   Plot theme: "minimal", "black white", "void", or "blank" (keeps the
@@ -91,5 +98,15 @@ A ggplot object, or `NULL` (invisibly) if no key is given.
 ``` r
 if (FALSE) { # \dontrun{
 plot_staticmap(example_network, key = my_key, zoom = 11, fill = "site")
+
+# Continental scale, with country boundaries
+plot_staticmap(
+  europe_network,
+  key = my_key,
+  zoom = 4,
+  country_lines = TRUE,
+  fill = "region",
+  label = "site"
+)
 } # }
 ```
