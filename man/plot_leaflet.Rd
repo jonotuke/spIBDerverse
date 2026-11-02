@@ -2,29 +2,41 @@
 % Please edit documentation in R/plot_leaflet.R
 \name{plot_leaflet}
 \alias{plot_leaflet}
-\title{plot leaflet}
+\title{Plot an igraph network on a leaflet map}
 \usage{
 plot_leaflet(g, lat, lon, col = "site", label = "none", tile = "Default")
 }
 \arguments{
-\item{g}{igraph object}
+\item{g}{An igraph object.}
 
-\item{lat}{vertex attribute that gives latitude}
+\item{lat}{Name of the vertex attribute holding latitude.}
 
-\item{lon}{vertex attribute that gives longitude}
+\item{lon}{Name of the vertex attribute holding longitude.}
 
-\item{col}{vertex attribute to give marker colour}
+\item{col}{Name of the vertex attribute used to colour markers, or \code{"none"}
+to draw every marker in black. Colours are recycled if there are more
+than 19 groups.}
 
-\item{label}{vertex attribute to give marker label}
+\item{label}{Name(s) of the vertex attribute(s) shown in marker labels,
+each on its own line as \code{attribute: value}, or \code{"none"} to label markers
+with the vertex name.}
 
-\item{tile}{background tile}
+\item{tile}{Background tiles: \code{"Default"} (OpenStreetMap), \code{"Terrain"}
+(Stadia Stamen Terrain), or any other value for Stadia Stamen Terrain
+Background.}
 }
 \value{
-leaflet plot
+A leaflet htmlwidget.
 }
 \description{
-plot leaflet
+Draws each vertex as a clustered marker at its coordinates and each edge
+as a grey line between the vertices it connects.
 }
 \examples{
 plot_leaflet(example_network, "lat", "long", col = "site")
+plot_leaflet(example_network, "lat", "long", col = "site", label = "site")
+plot_leaflet(
+  example_network, "lat", "long",
+  col = "site", label = c("name", "site")
+)
 }
