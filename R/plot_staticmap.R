@@ -77,6 +77,10 @@ node_coord_range <- function(
 #'   filtering by `lon_range`/`lat_range`.
 #' @param seed Random seed used for the jitter (and passed to
 #'   [plot_network()]).
+#' @param country_lines Add country lines
+#'   `FALSE` (default) adds none, `TRUE` adds the `"stamen_toner_lines"`
+#'   layer, or give a lines layer by name: `"stamen_toner_lines"` or
+#'   `"stamen_terrain_lines"`.
 #' @param theme Plot theme: "minimal", "black white", "void", or "blank"
 #'   (keeps the theme from `plot_network()`).
 #' @param ... Further arguments passed to [plot_network()], e.g. `fill`,
@@ -88,6 +92,16 @@ node_coord_range <- function(
 #' @examples
 #' \dontrun{
 #' plot_staticmap(example_network, key = my_key, zoom = 11, fill = "site")
+#'
+#' # Continental scale, with country boundaries
+#' plot_staticmap(
+#'   europe_network,
+#'   key = my_key,
+#'   zoom = 4,
+#'   country_lines = TRUE,
+#'   fill = "region",
+#'   label = "site"
+#' )
 #' }
 plot_staticmap <- function(
   g,
@@ -101,6 +115,7 @@ plot_staticmap <- function(
   pad = 0.05,
   jitter = 0,
   seed = 2026,
+  country_lines = FALSE,
   theme = "minimal",
   ...
 ) {
@@ -108,6 +123,16 @@ plot_staticmap <- function(
   if (is_none(key)) {
     message("You need a stadia map key to use this. See https://stadiamaps.com")
     return(invisible(NULL))
+  }
+
+  # COUNTRY LINES ----
+  lines_types <- c("stamen_toner_lines", "stamen_terrain_lines")
+  if (isTRUE(country_lines)) {
+    country_lines <- lines_types[1]
+  } else if (isFALSE(country_lines) || is.null(country_lines)) {
+    country_lines <- NULL
+  } else {
+    country_lines <- match.arg(country_lines, lines_types)
   }
 
   # FILTER ----
@@ -157,12 +182,19 @@ plot_staticmap <- function(
   # TILES ----
   ggmap::register_stadiamaps(key = key, write = FALSE)
   tile <- ggmap::get_stadiamap(BB, zoom = zoom, maptype = maptype)
+  map_layers <- list(ggmap::inset_ggmap(tile))
+
+  if (!is.null(country_lines)) {
+    lines_tile <- ggmap::get_stadiamap(BB, zoom = zoom, maptype = country_lines)
+    map_layers <- c(map_layers, list(ggmap::inset_ggmap(lines_tile)))
+  }
 
   # NETWORK ----
   p <- plot_network(g, seed = seed, lat = lat, long = long, ...)
 
-  # Put the map underneath every layer plot_network() created
-  p$layers <- c(list(ggmap::inset_ggmap(tile)), p$layers)
+  # Put the map (and any boundary lines) underneath every layer
+  # plot_network() created
+  p$layers <- c(map_layers, p$layers)
 
   # Crop to the bounding box (replaces plot_network's coord_quickmap)
   p <- suppressMessages(
@@ -192,17 +224,13 @@ plot_staticmap <- function(
 if (sys.nframe() == 5) {
   my_key <- "a7bf69ed-3e77-41ed-b1e2-52f9aa99ec19"
   plot_staticmap(
-    example_network,
+    europe_network,
     key = my_key,
     lat = "lat",
     long = "long",
-    zoom = 11,
-    fill = "site",
-    edge = "edge_type",
-    edge_trans = "log10",
-    label = "site",
-    alpha = ".degree"
+    zoom = 5,
+    country_lines = TRUE,
+    fill = "region"
   ) |>
-    unname() |>
     print()
 }

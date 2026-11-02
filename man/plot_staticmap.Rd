@@ -16,6 +16,7 @@ plot_staticmap(
   pad = 0.05,
   jitter = 0,
   seed = 2026,
+  country_lines = FALSE,
   theme = "minimal",
   ...
 )
@@ -45,6 +46,11 @@ filtering by \code{lon_range}/\code{lat_range}.}
 \item{seed}{Random seed used for the jitter (and passed to
 \code{\link[=plot_network]{plot_network()}}).}
 
+\item{country_lines}{Add country lines
+\code{FALSE} (default) adds none, \code{TRUE} adds the \code{"stamen_toner_lines"}
+layer, or give a lines layer by name: \code{"stamen_toner_lines"} or
+\code{"stamen_terrain_lines"}.}
+
 \item{theme}{Plot theme: "minimal", "black white", "void", or "blank"
 (keeps the theme from \code{plot_network()}).}
 
@@ -63,5 +69,15 @@ carry through automatically.
 \examples{
 \dontrun{
 plot_staticmap(example_network, key = my_key, zoom = 11, fill = "site")
+
+# Continental scale, with country boundaries
+plot_staticmap(
+  europe_network,
+  key = my_key,
+  zoom = 4,
+  country_lines = TRUE,
+  fill = "region",
+  label = "site"
+)
 }
 }
