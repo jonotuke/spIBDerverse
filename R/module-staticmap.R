@@ -22,7 +22,14 @@ staticmapInput <- function(id, all_vars, cat_vars, edge_vars, num_vars) {
   ns <- shiny::NS(id)
 
   shiny::tagList(
-    network_ui(id, all_vars, cat_vars, edge_vars, num_vars),
+    network_ui(
+      id,
+      all_vars,
+      cat_vars,
+      edge_vars,
+      num_vars,
+      first_panel = "Location"
+    ),
     bslib::accordion(
       open = FALSE,
       bslib::accordion_panel(
@@ -98,7 +105,12 @@ staticmapInput <- function(id, all_vars, cat_vars, edge_vars, num_vars) {
           hover_tooltip(
             "Moves each node by a small random amount (in degrees) so that
         nodes sharing the same location don't sit on top of each other."
-          )
+          ),
+        shiny::checkboxInput(
+          ns("country_lines"),
+          label = "Add country lines",
+          value = TRUE
+        )
       )
     )
   )
@@ -201,6 +213,7 @@ staticmapServer <- function(id, r) {
         lon_range = input$lon_range,
         jitter = input$jitter,
         theme = input$theme,
+        country_lines = input$country_lines,
         # passed on to plot_network()
         !!!network_plot_args(input)
       )

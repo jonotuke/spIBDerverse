@@ -1,12 +1,17 @@
-network_ui <- function(id, all_vars, cat_vars, edge_vars, num_vars) {
+network_ui <- function(
+  id,
+  all_vars,
+  cat_vars,
+  edge_vars,
+  num_vars,
+  first_panel = c("Nodes", "Location")
+) {
   ns <- shiny::NS(id)
+  first_panel <- match.arg(first_panel)
 
-  bslib::accordion(
-    open = "Nodes",
-    multiple = TRUE,
-
+  panels <- list(
     # NODES ----
-    bslib::accordion_panel(
+    Nodes = bslib::accordion_panel(
       "Nodes",
       icon = shiny::icon("circle"),
       shiny::selectInput(
@@ -91,7 +96,7 @@ network_ui <- function(id, all_vars, cat_vars, edge_vars, num_vars) {
     ),
 
     # EDGES ----
-    bslib::accordion_panel(
+    Edges = bslib::accordion_panel(
       "Edges",
       icon = shiny::icon("arrows-left-right"),
       shiny::selectInput(
@@ -117,7 +122,7 @@ network_ui <- function(id, all_vars, cat_vars, edge_vars, num_vars) {
     ),
 
     # LABELS ----
-    bslib::accordion_panel(
+    Labels = bslib::accordion_panel(
       "Labels",
       icon = shiny::icon("tag"),
       shiny::selectInput(
@@ -150,7 +155,7 @@ network_ui <- function(id, all_vars, cat_vars, edge_vars, num_vars) {
     ),
 
     # LOCATION ----
-    bslib::accordion_panel(
+    Location = bslib::accordion_panel(
       "Location",
       icon = shiny::icon("location-dot"),
       shiny::selectInput(
@@ -165,6 +170,17 @@ network_ui <- function(id, all_vars, cat_vars, edge_vars, num_vars) {
         choices = c("none", all_vars),
         selected = "none"
       )
+    )
+  )
+
+  # Put the chosen panel first, keep the rest in their original order
+  panel_order <- c(first_panel, setdiff(names(panels), first_panel))
+
+  do.call(
+    bslib::accordion,
+    c(
+      unname(panels[panel_order]),
+      list(open = first_panel, multiple = TRUE)
     )
   )
 }
