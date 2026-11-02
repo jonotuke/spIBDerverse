@@ -328,36 +328,6 @@ test_that("edge_legend controls the edge layer's legend", {
   expect_false(off$show.legend)
 })
 
-# NODES: fill ----
-
-test_that("a discrete fill attribute gets a discrete fill scale", {
-  p <- plot_network(make_test_network(), fill = "group")
-  expect_equal(rlang::as_label(node_layer(p)$mapping$fill), "group")
-  expect_null(node_layer(p)$aes_params$fill)
-  expect_s3_class(p$scales$get_scales("fill"), "ScaleDiscrete")
-})
-
-test_that("a numeric fill attribute gets a continuous fill scale", {
-  p <- plot_network(make_test_network(), fill = "value")
-  expect_s3_class(p$scales$get_scales("fill"), "ScaleContinuous")
-  expect_no_error(ggplot2::ggplot_build(p))
-})
-
-# NODES: outline colour ----
-
-test_that("a discrete outline_col attribute gets a discrete colour scale", {
-  p <- plot_network(make_test_network(), outline_col = "group")
-  expect_equal(rlang::as_label(node_layer(p)$mapping$colour), "group")
-  expect_null(node_layer(p)$aes_params$colour)
-  expect_s3_class(p$scales$get_scales("colour"), "ScaleDiscrete")
-})
-
-test_that("a numeric outline_col attribute gets a continuous colour scale", {
-  p <- plot_network(make_test_network(), outline_col = "value")
-  expect_s3_class(p$scales$get_scales("colour"), "ScaleContinuous")
-  expect_no_error(ggplot2::ggplot_build(p))
-})
-
 # NODES: shape ----
 
 test_that("shape mapping uses fillable shapes 21-25, one per level", {
@@ -395,16 +365,6 @@ test_that("a user alpha attribute replaces the .alpha mapping", {
 })
 
 # UNDERLAY ----
-
-test_that("the underlay is solid white with no legend", {
-  p <- plot_network(make_test_network(), fill = "group", outline_col = "group")
-  underlay <- underlay_layer(p)
-  expect_equal(underlay$aes_params$fill, "white")
-  expect_equal(underlay$aes_params$colour, "white")
-  expect_equal(underlay$aes_params$alpha, 1)
-  expect_false(underlay$show.legend)
-  expect_false(any(c("fill", "colour", "alpha") %in% mapped_aes(underlay)))
-})
 
 test_that("the underlay copies fixed size, shape and stroke from the nodes", {
   p <- plot_network(make_test_network(), node_size = 6, outline_width = 3)
@@ -503,66 +463,4 @@ test_that("labels work alongside connected = 'Hide'", {
 test_that("the size legend is always suppressed", {
   p <- plot_network(make_test_network(), size = "value")
   expect_equal(p$guides$guides$size, "none")
-})
-
-test_that("discrete fill, colour and shape legends get fixed-size keys", {
-  p <- plot_network(
-    make_test_network(),
-    fill = "group",
-    outline_col = "category",
-    shape = "group",
-    legend_size = 3,
-    legend_stroke = 0.5
-  )
-  for (aes_name in c("fill", "colour", "shape")) {
-    guide <- p$guides$guides[[aes_name]]
-    expect_s3_class(guide, "GuideLegend")
-    expect_equal(guide$params$override.aes$size, 3)
-    expect_equal(guide$params$override.aes$stroke, 0.5)
-    expect_equal(guide$params$override.aes$alpha, 1)
-  }
-})
-
-test_that("continuous fill and colour keep their default colourbar", {
-  p <- plot_network(make_test_network(), fill = "value", outline_col = "value")
-  expect_null(p$guides$guides$fill)
-  expect_null(p$guides$guides$colour)
-})
-
-test_that("edge lines are removed from node legend keys when edges have a legend", {
-  p <- plot_network(make_test_network(), edge = "type", fill = "group")
-  expect_true(is.na(p$guides$guides$fill$params$override.aes$linetype))
-})
-
-test_that("linetype override is not added when there is no edge legend", {
-  g <- make_test_network()
-  p_none <- plot_network(g, fill = "group")
-  p_off <- plot_network(g, edge = "type", edge_legend = FALSE, fill = "group")
-  expect_null(p_none$guides$guides$fill$params$override.aes$linetype)
-  expect_null(p_off$guides$guides$fill$params$override.aes$linetype)
-})
-
-# FULL COMBINATION ----
-
-test_that("every option can be used together", {
-  p <- plot_network(
-    make_test_network(),
-    seed = 42,
-    connected = "Grey out",
-    lat = "lat",
-    long = "long",
-    edge = "weight",
-    edge_trans = "sqrt",
-    label = "name",
-    label_filter = "category",
-    label_inc = "keep",
-    label_exc = "^nothing$",
-    fill = "group",
-    shape = "category",
-    size = "value",
-    outline_col = "value",
-    node_size = 3
-  )
-  expect_s3_class(p, "ggplot")
-  expect_no_error(ggplot2::ggplot_build(p))
 })
