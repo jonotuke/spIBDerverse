@@ -16,10 +16,6 @@
   : clean model names
 - [`clean_network()`](https://jonotuke.github.io/spIBDerverse/reference/clean_network.md)
   : Clean network
-- [`colour_continuous()`](https://jonotuke.github.io/spIBDerverse/reference/colour_continuous.md)
-  : colour continuous
-- [`colour_discrete()`](https://jonotuke.github.io/spIBDerverse/reference/colour_discrete.md)
-  : colour discrete
 - [`convert_bb()`](https://jonotuke.github.io/spIBDerverse/reference/convert_bb.md)
   : Given a bounding box, increase the lat and long by given amounts
 - [`convert_bb_asp()`](https://jonotuke.github.io/spIBDerverse/reference/convert_bb_asp.md)
@@ -54,10 +50,6 @@
   : example sf object
 - [`expand_line()`](https://jonotuke.github.io/spIBDerverse/reference/expand_line.md)
   : Expand a line by given amount
-- [`fill_continuous()`](https://jonotuke.github.io/spIBDerverse/reference/fill_continuous.md)
-  : fill continuous
-- [`fill_discrete()`](https://jonotuke.github.io/spIBDerverse/reference/fill_discrete.md)
-  : fill discrete
 - [`filter_network()`](https://jonotuke.github.io/spIBDerverse/reference/filter_network.md)
   : Filter network
 - [`filter_sf()`](https://jonotuke.github.io/spIBDerverse/reference/filter_sf.md)
@@ -88,6 +80,8 @@
   : get node attributes
 - [`get_node_info()`](https://jonotuke.github.io/spIBDerverse/reference/get_node_info.md)
   : Get network node information
+- [`get_palettes()`](https://jonotuke.github.io/spIBDerverse/reference/get_palettes.md)
+  : List ggsci palettes
 - [`get_ringbauer_measures()`](https://jonotuke.github.io/spIBDerverse/reference/get_ringbauer_measures.md)
   : Get ringbauer measures
 - [`get_text_font()`](https://jonotuke.github.io/spIBDerverse/reference/get_text_font.md)
@@ -102,6 +96,8 @@
   : Load an IBD network
 - [`make_cutoff_ui()`](https://jonotuke.github.io/spIBDerverse/reference/make_cutoff_ui.md)
   : Build the cutoff input for a node or edge attribute
+- [`pal_scale()`](https://jonotuke.github.io/spIBDerverse/reference/pal_scale.md)
+  : Build a ggsci scale by name
 - [`plot_centrality()`](https://jonotuke.github.io/spIBDerverse/reference/plot_centrality.md)
   : Plot centrality measures
 - [`plot_default_image()`](https://jonotuke.github.io/spIBDerverse/reference/plot_default_image.md)
