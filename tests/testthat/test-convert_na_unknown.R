@@ -5,7 +5,7 @@ make_test_graph <- function() {
   g <- igraph::set_vertex_attr(g, "complete", value = c("x", "y", "z", "w"))
   g
 }
-
+make_test_graph()
 test_that("NAs in the named attribute become 'unknown'", {
   g <- convert_na_unknown(make_test_graph(), "site")
 
