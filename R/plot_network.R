@@ -333,12 +333,10 @@ plot_network <- function(
 if (sys.nframe() == 5) {
   pacman::p_load(conflicted, tidyverse, targets)
   plot_network(
-    example_network,
-    layout = "circle",
+    example_network_3,
     fill = "site",
-    outline_col = "site",
     connected = "Grey out",
-    node_size = 2
+    node_size = 5
   ) |>
     print()
 }
