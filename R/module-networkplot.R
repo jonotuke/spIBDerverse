@@ -137,6 +137,14 @@ networkplotServer <- function(id, r) {
       )
       shiny::updateSelectInput(
         session,
+        "alpha",
+        choices = c(
+          "none",
+          get_node_attributes(net, "num", exc_central = FALSE)
+        )
+      )
+      shiny::updateSelectInput(
+        session,
         "edge",
         choices = c("none", igraph::edge_attr_names(net))
       )
