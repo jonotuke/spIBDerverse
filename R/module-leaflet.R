@@ -18,11 +18,10 @@ leafletInput <- function(id, all_vars) {
       choices = c("none", all_vars),
       selected = "none"
     ),
-    shiny::selectInput(
+    shiny::checkboxGroupInput(
       shiny::NS(id, "label"),
       label = "Choose node label column",
-      choices = c("none", all_vars),
-      selected = "none"
+      choices = all_vars
     ),
     shiny::radioButtons(
       shiny::NS(id, "tile"),
@@ -47,6 +46,12 @@ leafletOutput <- function(id) {
 leafletServer <- function(id, r) {
   shiny::moduleServer(id, function(input, output, session) {
     output$map <- leaflet::renderLeaflet({
+      shiny::validate(
+        shiny::need(
+          input$lat != "none" & input$lon != "none",
+          "Choose latitude and longitude attributes to draw the map."
+        )
+      )
       if (input$lat != "none" & input$lon != "none") {
         plot_leaflet(
           r$network(),
@@ -83,13 +88,10 @@ leafletServer <- function(id, r) {
       )
     })
     shiny::observeEvent(r$full_network(), {
-      shiny::updateSelectInput(
+      shiny::updateCheckboxGroupInput(
         session,
         "label",
-        choices = c(
-          "none",
-          get_node_attributes(r$full_network())
-        )
+        choices = get_node_attributes(r$full_network())
       )
     })
   })
@@ -97,6 +99,9 @@ leafletServer <- function(id, r) {
 leafletApp <- function(network_input) {
   all_vars <- get_node_attributes(network_input)
   r <- shiny::reactiveValues()
+  r$full_network <- shiny::reactive({
+    network_input
+  })
   r$network <- shiny::reactive({
     network_input
   })
@@ -113,4 +118,7 @@ leafletApp <- function(network_input) {
   }
   shiny::shinyApp(ui, server)
 }
-# leafletApp(example_network) |> print()
+
+if (sys.nframe() == 5) {
+  leafletApp(example_network) |> print()
+}
