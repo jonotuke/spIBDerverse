@@ -11,7 +11,8 @@ make_dataWizard_ui <- function(x, id, edge_vars) {
           "example_network",
           "example_network_2",
           "example_network_3",
-          "example_network_4"
+          "example_network_4",
+          "europe_network"
         )
       )
     )

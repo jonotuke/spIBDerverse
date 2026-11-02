@@ -16,8 +16,11 @@ convert_na_unknown <- function(g, name) {
     )
   }
   x <- igraph::vertex_attr(g, name)
-  x[is.na(x)] <- "Unknown"
-  igraph::set_vertex_attr(g, name, value = x)
+  if (!is.numeric(x) && !is.logical(x) && anyNA(x)) {
+    x[is.na(x)] <- "Unknown"
+    igraph::set_vertex_attr(g, name, value = x)
+  }
+  g
 }
 #' converts all NAs in node attributes
 #'
