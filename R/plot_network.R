@@ -340,8 +340,8 @@ plot_network <- function(
 if (sys.nframe() == 5) {
   pacman::p_load(conflicted, tidyverse, targets)
   plot_network(
-    example_network_3,
-    fill = "site",
+    europe_network,
+    fill = "population",
     connected = "Grey out",
     node_size = 5
   ) |>

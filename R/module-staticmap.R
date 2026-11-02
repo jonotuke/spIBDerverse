@@ -16,18 +16,20 @@ is_valid_range <- function(x) {
   length(x) == 2 && !anyNA(x) && diff(range(x)) > 0
 }
 
-# Keep the current selection if it is still one of the choices.
-keep_selected <- function(current, choices) {
-  if (isTRUE(current %in% choices)) current else choices[1]
-}
-
 # UI ----
 
 staticmapInput <- function(id, all_vars, cat_vars, edge_vars, num_vars) {
   ns <- shiny::NS(id)
 
   shiny::tagList(
-    network_ui(id, all_vars, cat_vars, edge_vars, num_vars),
+    network_ui(
+      id,
+      all_vars,
+      cat_vars,
+      edge_vars,
+      num_vars,
+      first_panel = "Location"
+    ),
     bslib::accordion(
       open = FALSE,
       bslib::accordion_panel(
@@ -103,7 +105,12 @@ staticmapInput <- function(id, all_vars, cat_vars, edge_vars, num_vars) {
           hover_tooltip(
             "Moves each node by a small random amount (in degrees) so that
         nodes sharing the same location don't sit on top of each other."
-          )
+          ),
+        shiny::checkboxInput(
+          ns("country_lines"),
+          label = "Add country lines",
+          value = TRUE
+        )
       )
     )
   )
@@ -132,24 +139,10 @@ staticmapServer <- function(id, r) {
     })
 
     # SELECT CHOICES ----
-    shiny::observeEvent(r$full_network(), {
-      g <- r$full_network()
-      coord_vars <- get_node_attributes(g, "num")
-      choices <- list(
-        lat = c("", coord_vars),
-        lon = c("", coord_vars),
-        fill = c("none", get_node_attributes(g)),
-        shape = c("none", get_node_attributes(g, "cat")),
-        edge = c("none", igraph::edge_attr_names(g))
-      )
-      for (nm in names(choices)) {
-        shiny::updateSelectInput(
-          session,
-          nm,
-          choices = choices[[nm]],
-          selected = keep_selected(input[[nm]], choices[[nm]])
-        )
-      }
+    # Shared network_ui() logic; the map only offers numeric lat/lon choices.
+    network_ui_server(input, session, r, choices = function(net) {
+      coord_vars <- c("", get_node_attributes(net, "num"))
+      list(lat = coord_vars, lon = coord_vars)
     })
 
     # LAT / LON RANGES ----
@@ -210,35 +203,19 @@ staticmapServer <- function(id, r) {
         )
       )
 
-      plot_staticmap(
+      rlang::exec(
+        plot_staticmap,
         g = r$network(),
         key = input$key,
-        lat = input$lat,
-        long = input$lon,
         zoom = input$zoom,
         maptype = input$maptype,
         lat_range = input$lat_range,
         lon_range = input$lon_range,
         jitter = input$jitter,
         theme = input$theme,
+        country_lines = input$country_lines,
         # passed on to plot_network()
-        connected = input$connected,
-        edge = input$edge,
-        edge_legend = input$edge_legend,
-        edge_trans = input$edge_trans,
-        label = input$label,
-        label_inc = input$label_inc,
-        label_exc = input$label_exc,
-        label_col = input$label_col,
-        fill = input$fill,
-        shape = input$shape,
-        size = input$size,
-        node_size = input$node_size,
-        fill_pal = input$fill_pal,
-        outline_col = input$outline_col,
-        col_pal = input$col_pal,
-        outline_width = input$outline_width,
-        alpha = input$alpha
+        !!!network_plot_args(input)
       )
     })
 
