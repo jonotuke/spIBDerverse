@@ -8,7 +8,13 @@ networkplotInput <- function(id, cat_vars, all_vars, edge_vars, num_vars) {
       hover_tooltip(
         "Number to generate new network layout. Change this number to rearrange the nodes."
       ),
-    network_ui(id, all_vars, cat_vars, edge_vars, num_vars)
+    network_ui(
+      id,
+      all_vars,
+      cat_vars,
+      edge_vars,
+      num_vars
+    )
   )
 }
 
@@ -25,8 +31,59 @@ networkplotOutput <- function(id) {
   )
 }
 
+
 networkplotServer <- function(id, r) {
   shiny::moduleServer(id, function(input, output, session) {
+    # Palette list only changes when ggsci does, so compute once
+    palettes <- get_palettes()
+
+    # "continuous" for numeric node attributes, "discrete" otherwise,
+    # NA when nothing is selected
+    attr_type <- function(var) {
+      net <- r$full_network()
+      if (is.null(net) || is.null(var) || var == "none") {
+        return(NA_character_)
+      }
+      x <- igraph::vertex_attr(net, var)
+      if (is.numeric(x)) "continuous" else "discrete"
+    }
+
+    pal_choices <- function(type) {
+      if (is.na(type)) {
+        return("default")
+      }
+      c(
+        "default",
+        palettes |>
+          dplyr::filter(type == !!type) |>
+          dplyr::pull(name) |>
+          sort()
+      )
+    }
+
+    # Link a column input to its palette input. Returns the type reactive
+    # so it can be used elsewhere (e.g. passed to plot_network)
+    link_palette <- function(var_id, pal_id) {
+      type <- shiny::reactive(attr_type(input[[var_id]]))
+
+      shiny::observeEvent(type(), {
+        choices <- pal_choices(type())
+        current <- input[[pal_id]]
+        selected <- if (isTRUE(current %in% choices)) current else "default"
+        shiny::updateSelectInput(
+          session,
+          pal_id,
+          choices = choices,
+          selected = selected
+        )
+      })
+
+      type
+    }
+
+    fill_type <- link_palette("fill", "fill_pal")
+    col_type <- link_palette("outline_col", "col_pal")
+
     output$plot <- shiny::renderPlot({
       p()
     })
@@ -82,7 +139,14 @@ networkplotServer <- function(id, r) {
         "edge",
         choices = c("none", igraph::edge_attr_names(net))
       )
-      for (id in c("fill", "label", "label_filter", "lat", "lon")) {
+      for (id in c(
+        "fill",
+        "outline_col",
+        "label",
+        "label_filter",
+        "lat",
+        "lon"
+      )) {
         shiny::updateSelectInput(session, id, choices = all_vars)
       }
     })
@@ -93,6 +157,7 @@ networkplotServer <- function(id, r) {
     })
   })
 }
+
 networkplotApp <- function(network_input) {
   cat_vars <- get_node_attributes(network_input, "cat")
   all_vars <- get_node_attributes(network_input)

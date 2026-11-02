@@ -79,7 +79,7 @@ plot_network <- function(
   outline_col = "none",
   alpha = "none",
   node_size = 5,
-  fill_pal = "ravenclaw",
+  fill_pal = "default",
   col_pal = "default",
   outline_width = 1,
   legend_size = 4,
@@ -169,9 +169,23 @@ plot_network <- function(
   } else {
     node_aes$fill <- rlang::sym(fill)
     node_scales$fill <- if (is.numeric(df[[fill]])) {
-      fill_continuous(pal = fill_pal)
+      if (fill_pal == "default") {
+        fill_pal <- "gsea"
+      }
+      pal_scale(
+        aesthetic = "fill",
+        pal = fill_pal,
+        type = "continuous"
+      )
     } else {
-      fill_discrete(pal = fill_pal)
+      if (fill_pal == "default") {
+        fill_pal <- "npg"
+      }
+      pal_scale(
+        aesthetic = "fill",
+        pal = fill_pal,
+        "discrete"
+      )
     }
   }
 
@@ -180,9 +194,23 @@ plot_network <- function(
   } else {
     node_aes$colour <- rlang::sym(outline_col)
     node_scales$colour <- if (is.numeric(df[[outline_col]])) {
-      colour_continuous(pal = col_pal)
+      if (col_pal == "default") {
+        col_pal <- "gsea"
+      }
+      pal_scale(
+        aesthetic = "colour",
+        pal = col_pal,
+        type = "continuous"
+      )
     } else {
-      colour_discrete(pal = col_pal)
+      if (col_pal == "default") {
+        col_pal <- "npg"
+      }
+      pal_scale(
+        aesthetic = "colour",
+        pal = col_pal,
+        type = "discrete"
+      )
     }
   }
 
@@ -262,11 +290,17 @@ plot_network <- function(
   # plot itself uses. alpha = 1 stops greyed-out nodes fading the keys, and
   # linetype = NA hides the edge line that `show.legend = TRUE` on the edge
   # layer would otherwise draw through each key.
-  key_aes <- list(size = legend_size, stroke = legend_stroke, alpha = 1)
+  key_aes <- list(
+    size = legend_size,
+    stroke = legend_stroke,
+    alpha = 1
+  )
   if (!is_none(edge) && isTRUE(edge_legend)) {
     key_aes$linetype <- NA
   }
-  key_guide <- ggplot2::guide_legend(override.aes = key_aes)
+  key_guide <- ggplot2::guide_legend(
+    override.aes = key_aes
+  )
 
   # Only discrete scales get point keys; continuous fill/colour use a
   # colourbar, which has no points to resize.
@@ -298,9 +332,9 @@ if (sys.nframe() == 5) {
   plot_network(
     example_network_2,
     fill = "Province",
+    outline_col = "Province",
     connected = "Grey out",
-    node_size = 2,
-    alpha = ".degree"
+    node_size = 2
   ) |>
     print()
 }

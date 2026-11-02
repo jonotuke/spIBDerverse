@@ -18,7 +18,7 @@ network_ui <- function(id, all_vars, cat_vars, edge_vars, num_vars) {
       shiny::selectInput(
         ns("fill_pal"),
         label = "Fill palette",
-        choices = c("default", "ravenclaw", "colourblind")
+        choices = "default"
       ),
       shiny::selectInput(
         ns("outline_col"),
@@ -29,7 +29,7 @@ network_ui <- function(id, all_vars, cat_vars, edge_vars, num_vars) {
       shiny::selectInput(
         ns("col_pal"),
         label = "Outline colour palette",
-        choices = c("default", "ravenclaw", "colourblind")
+        choices = "default"
       ),
       shiny::selectInput(
         ns("shape"),

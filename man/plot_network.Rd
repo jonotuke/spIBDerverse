@@ -25,7 +25,7 @@ plot_network(
   outline_col = "none",
   alpha = "none",
   node_size = 5,
-  fill_pal = "ravenclaw",
+  fill_pal = "default",
   col_pal = "default",
   outline_width = 1,
   legend_size = 4,
