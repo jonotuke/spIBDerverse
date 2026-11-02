@@ -14,10 +14,14 @@ get_ergms(network, preds = NULL, types = NULL)
 \item{types}{vector of ergm term types}
 }
 \value{
-list of ergm models
+list of ergm models. The removed vertices are stored in
+\code{attr(result, "removed_nodes")}.
 }
 \description{
-Given node attributes and a network, fits all possible ergms
+Given node attributes and a network, fits all possible ergms. Nodes with
+missing values in any of \code{preds} are removed first (see
+\code{\link[=drop_missing_nodes]{drop_missing_nodes()}}), and all models are fitted to the same reduced
+network so they remain comparable.
 }
 \examples{
 get_ergms(example_network, c("site", "genetic_sex"), c("nodematch", "nodemix"))
