@@ -8,6 +8,7 @@ plot_network(
   g,
   seed = 2026,
   connected = "Show",
+  layout = "nicely",
   lat = "none",
   long = "none",
   edge = "none",
@@ -41,6 +42,8 @@ plot_network(
 them as they are, "Hide" removes them from the plot, and "Grey out"
 draws them (and their labels) with an alpha of 0.1. The layout is always
 computed on the full network, so the other nodes don't move.}
+
+\item{layout}{node layout}
 
 \item{lat, long}{Vertex attributes holding latitude and longitude. Supply
 both to use a geographic layout, or neither for a force-directed layout.}

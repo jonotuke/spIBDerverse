@@ -94,6 +94,7 @@ networkplotServer <- function(id, r) {
       plot_network(
         r$network(),
         seed = input$seed,
+        layout = input$layout,
         lat = input$lat,
         long = input$lon,
         connected = input$connected,
