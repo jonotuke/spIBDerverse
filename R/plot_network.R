@@ -22,6 +22,7 @@ check_columns <- function(df, cols) {
 #'
 #' @param g An igraph network.
 #' @param seed Random seed used for the node layout.
+#' @param layout node layout
 #' @param connected How to treat unconnected (isolated) nodes: "Show" leaves
 #'   them as they are, "Hide" removes them from the plot, and "Grey out"
 #'   draws them (and their labels) with an alpha of 0.1. The layout is always
@@ -62,6 +63,7 @@ plot_network <- function(
   g,
   seed = 2026,
   connected = "Show",
+  layout = "nicely",
   lat = "none",
   long = "none",
   edge = "none",
@@ -105,7 +107,8 @@ plot_network <- function(
   }
 
   if (is_none(lat)) {
-    df <- ggnetwork::ggnetwork(g)
+    coords <- add_layout(g, name = layout)
+    df <- ggnetwork::ggnetwork(g, layout = coords)
     coord_layer <- NULL
   } else {
     coords <- cbind(
@@ -330,9 +333,10 @@ plot_network <- function(
 if (sys.nframe() == 5) {
   pacman::p_load(conflicted, tidyverse, targets)
   plot_network(
-    example_network_2,
-    fill = "Province",
-    outline_col = "Province",
+    example_network,
+    layout = "circle",
+    fill = "site",
+    outline_col = "site",
     connected = "Grey out",
     node_size = 2
   ) |>

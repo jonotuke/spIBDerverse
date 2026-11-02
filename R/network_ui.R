@@ -10,6 +10,20 @@ network_ui <- function(id, all_vars, cat_vars, edge_vars, num_vars) {
       "Nodes",
       icon = shiny::icon("circle"),
       shiny::selectInput(
+        ns("layout"),
+        label = "Choose node layout",
+        choices = c(
+          "nicely",
+          "circle",
+          "sphere",
+          "dh",
+          "fr",
+          "kk",
+          "mds"
+        ),
+        selected = "nicely"
+      ),
+      shiny::selectInput(
         ns("fill"),
         label = "Choose node fill column",
         choices = c("none", all_vars),

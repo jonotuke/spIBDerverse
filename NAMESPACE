@@ -2,6 +2,7 @@
 
 export(abbreviate_terms)
 export(add_convert_bb_adj)
+export(add_layout)
 export(check_ibd_file)
 export(check_ibd_files)
 export(check_meta_file)
