@@ -31,7 +31,8 @@ plot_network(
   col_pal = "default",
   outline_width = 1,
   legend_size = 4,
-  legend_stroke = 1
+  legend_stroke = 1,
+  convert_nas = TRUE
 )
 ```
 
@@ -144,6 +145,10 @@ plot_network(
 
   Fixed outline width of the node symbols in the legend keys, regardless
   of `outline_width`.
+
+- convert_nas:
+
+  boolean to convert missing nodes attr from NA to unknown
 
 ## Value
 

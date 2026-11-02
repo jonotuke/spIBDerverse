@@ -22,6 +22,10 @@
   : Given a bounding box, increase the lat and long by given amounts
 - [`convert_bb_asp()`](https://jonotuke.github.io/spIBDerverse/reference/convert_bb_asp.md)
   : convert bb to be square
+- [`convert_na_unknown()`](https://jonotuke.github.io/spIBDerverse/reference/convert_na_unknown.md)
+  : converts NA to unknown
+- [`convert_nas_unknown()`](https://jonotuke.github.io/spIBDerverse/reference/convert_nas_unknown.md)
+  : converts all NAs in node attributes
 - [`convert_pipe()`](https://jonotuke.github.io/spIBDerverse/reference/convert_pipe.md)
   : convert pipe
 - [`convert_pred_ergmterm()`](https://jonotuke.github.io/spIBDerverse/reference/convert_pred_ergmterm.md)
