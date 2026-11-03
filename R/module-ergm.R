@@ -31,6 +31,10 @@ ergmInput <- function(id, all_vars, g) {
       hover_tooltip(
         "Report model coefficients as just coefficients, or with the fold change effect of the variable."
       ),
+    shiny::actionButton(
+      shiny::NS(id, "fit_models"),
+      "Fit models"
+    ),
     shiny::radioButtons(
       shiny::NS(id, "measure"),
       label = "Measure",
@@ -108,9 +112,20 @@ ergmOutput <- function(id) {
 }
 ergmServer <- function(id, r) {
   shiny::moduleServer(id, function(input, output, session) {
-    ergm <- shiny::reactive(
-      get_ergms(r$network(), input$preds, pred_type_vec())
-    )
+    ergm <- shiny::reactive({
+      withCallingHandlers(
+        get_ergms(r$network(), input$preds, pred_type_vec()),
+        ergm_missing_nodes_warning = function(w) {
+          shiny::showNotification(
+            conditionMessage(w),
+            type = "warning",
+            duration = 10
+          )
+          invokeRestart("muffleWarning")
+        }
+      )
+    }) |>
+      shiny::bindEvent(input$fit_models)
     output$ergm_aic_tab <- DT::renderDataTable({
       DT::datatable(ergm_bic()) |>
         DT::formatRound(
@@ -241,6 +256,9 @@ ergmApp <- function(network_input) {
   r$network <- shiny::reactive({
     network_input
   })
+  r$full_network <- shiny::reactive({
+    network_input
+  })
   r$export <- shiny::reactive({
     plot_default_image()
   })
@@ -261,4 +279,6 @@ ergmApp <- function(network_input) {
   }
   shiny::shinyApp(ui, server)
 }
-# ergmApp(example_network) |> print()
+if (sys.nframe() == 5) {
+  ergmApp(example_network) |> print()
+}
