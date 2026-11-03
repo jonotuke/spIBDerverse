@@ -42,6 +42,8 @@
   : default image
 - [`dist_network`](https://jonotuke.github.io/spIBDerverse/reference/dist_network.md)
   : dist network
+- [`drop_missing_nodes()`](https://jonotuke.github.io/spIBDerverse/reference/drop_missing_nodes.md)
+  : drop_missing_nodes
 - [`edges_to_sf()`](https://jonotuke.github.io/spIBDerverse/reference/edges_to_sf.md)
   : edges to sf
 - [`europe_network`](https://jonotuke.github.io/spIBDerverse/reference/europe_network.md)

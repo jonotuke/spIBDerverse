@@ -1,6 +1,10 @@
 # get_ergms
 
-Given node attributes and a network, fits all possible ergms
+Given node attributes and a network, fits all possible ergms. Nodes with
+missing values in any of `preds` are removed first (see
+[`drop_missing_nodes()`](https://jonotuke.github.io/spIBDerverse/reference/drop_missing_nodes.md)),
+and all models are fitted to the same reduced network so they remain
+comparable.
 
 ## Usage
 
@@ -24,7 +28,8 @@ get_ergms(network, preds = NULL, types = NULL)
 
 ## Value
 
-list of ergm models
+list of ergm models. The removed vertices are stored in
+`attr(result, "removed_nodes")`.
 
 ## Examples
 
@@ -96,4 +101,6 @@ get_ergms(example_network, c("site", "genetic_sex"), c("nodematch", "nodemix"))
 #>  edges  
 #> -1.872  
 #> 
+#> attr(,"removed_nodes")
+#> character(0)
 ```
