@@ -18,13 +18,13 @@ network_ui <- function(
         ns("layout"),
         label = "Choose node layout",
         choices = c(
-          "nicely",
-          "circle",
-          "sphere",
-          "dh",
-          "fr",
-          "kk",
-          "mds"
+          "Nicely" = "nicely",
+          "Circle" = "circle",
+          "Sphere" = "sphere",
+          "Davidson-Harel" = "dh",
+          "Fruchterman-Reingold" = "fr",
+          "Kamada-Kawai" = "kk",
+          "multidimensional scaling" = "mds"
         ),
         selected = "nicely"
       ),
