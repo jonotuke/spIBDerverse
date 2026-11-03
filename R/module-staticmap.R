@@ -119,6 +119,12 @@ staticmapOutput <- function(id) {
   ns <- shiny::NS(id)
 
   shiny::tagList(
+    shiny::actionButton(
+      ns("draw"),
+      "Draw map",
+      icon = shiny::icon("arrows-rotate"),
+      class = "btn-primary"
+    ),
     shiny::plotOutput(ns("plot")),
     shiny::verbatimTextOutput(ns("debug")),
     shiny::actionButton(ns("save"), "Set as export plot")
@@ -164,8 +170,8 @@ staticmapServer <- function(id, r) {
     })
 
     # Reset the range inputs whenever the network or the lat/lon attributes
-    # change. Freezing the inputs stops the plot from rendering (and
-    # downloading tiles) with the old range while the new one is on its way.
+    # change. Freezing the inputs stops a redraw from using the old range
+    # while the new one is on its way.
     shiny::observeEvent(
       coord_range(),
       {
@@ -187,6 +193,8 @@ staticmapServer <- function(id, r) {
     )
 
     # PLOT ----
+    # Only redrawn when the "Draw map" button is pressed, so changing the
+    # settings doesn't trigger a slow tile download on every edit.
     p <- shiny::reactive({
       shiny::validate(
         shiny::need(
@@ -217,9 +225,18 @@ staticmapServer <- function(id, r) {
         # passed on to plot_network()
         !!!network_plot_args(input)
       )
-    })
+    }) |>
+      shiny::bindEvent(input$draw)
 
-    output$plot <- shiny::renderPlot(p())
+    output$plot <- shiny::renderPlot({
+      shiny::validate(
+        shiny::need(
+          input$draw > 0,
+          "Choose your settings, then press \"Draw map\"."
+        )
+      )
+      p()
+    })
 
     shiny::observeEvent(input$save, {
       r$export <- p
