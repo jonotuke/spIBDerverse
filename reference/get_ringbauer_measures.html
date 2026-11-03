@@ -87,22 +87,18 @@ The network is treated as undirected.</p>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">get_ringbauer_measures</span><span class="op">(</span><span class="va">example_network</span>, <span class="st">"site"</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>There was 1 warning in `dplyr::mutate()`.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> In argument: `prop_test = purrr::map2(...)`.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> Caused by warning in `stats::prop.test()`:</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> Chi-squared approximation may be incorrect</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 9 × 13</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   grp1  grp2  n_edges    n1    n2 n_possible_edges density label overall_density</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;glu&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> A     A          13    16    16              120  0.108  13/1…           0.133</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> A     C          12    16    15              240  0.05   12/2…           0.133</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> A     B           8    16     9              144  0.055<span style="text-decoration: underline;">6</span> 8/144           0.133</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> C     A          12    15    16              240  0.05   12/2…           0.133</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> C     C          50    15    15              105  0.476  50/1…           0.133</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> C     B           9    15     9              135  0.066<span style="text-decoration: underline;">7</span> 9/135           0.133</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">7</span> B     A           8     9    16              144  0.055<span style="text-decoration: underline;">6</span> 8/144           0.133</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">8</span> B     C           9     9    15              135  0.066<span style="text-decoration: underline;">7</span> 9/135           0.133</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">9</span> B     B          12     9     9               36  0.333  12/36           0.133</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> A     A          21    14    14               91  0.231  21/91           0.171</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> A     B          17    14    12              168  0.101  17/1…           0.171</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> A     C          18    14    14              196  0.091<span style="text-decoration: underline;">8</span> 18/1…           0.171</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> B     A          17    12    14              168  0.101  17/1…           0.171</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> B     B          24    12    12               66  0.364  24/66           0.171</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> B     C          11    12    14              168  0.065<span style="text-decoration: underline;">5</span> 11/1…           0.171</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">7</span> C     A          18    14    14              196  0.091<span style="text-decoration: underline;">8</span> 18/1…           0.171</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">8</span> C     B          11    14    12              168  0.065<span style="text-decoration: underline;">5</span> 11/1…           0.171</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">9</span> C     C          42    14    14               91  0.462  42/91           0.171</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 4 more variables: lwr &lt;dbl&gt;, upr &lt;dbl&gt;, pv &lt;dbl&gt;, adj_pv &lt;dbl&gt;</span></span>
 </code></pre></div>
     </div>

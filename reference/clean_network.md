@@ -26,16 +26,16 @@ cleaned IBD igraph obj
 
 ``` r
 clean_network(example_network_3, "site")
-#> IGRAPH 2fe57c0 UN-- 37 96 -- 
-#> + attr: genetic_sex (v/c), site (v/c), name (v/n), .degree (v/n),
-#> | .closeness (v/n), .betweenness (v/n), .eigencentrality (v/n), lat
-#> | (v/n), long (v/n), wij (e/n), edge_type (e/c)
-#> + edges from 2fe57c0 (vertex names):
-#>  [1]  1-- 9  1--14  1--15  1--17  1--19  1--20  1--25  1--28  2-- 5  2--14
-#> [11]  2--24  2--26  2--28  3-- 4  3-- 6  3--16  3--24  3--34  3--39  4-- 8
-#> [21]  4--10  4--14  4--27  4--30  4--37  5-- 7  5-- 9  5--11  5--15  5--20
-#> [31]  5--25  5--31  5--33  7-- 9  7--23  7--25  7--38  8--14  9--10  9--11
-#> [41]  9--16  9--23  9--25  9--26  9--38 10--34 10--38 10--40 11--29 11--33
-#> [51] 11--40 14--16 14--24 14--27 15--18 15--21 15--25 16--24 16--30 16--33
+#> IGRAPH 76b890c UN-- 37 113 -- 
+#> + attr: genetic_sex (v/c), site (v/c), name (v/c), .degree (v/n),
+#> | .closeness (v/n), .betweenness (v/n), .eigencentrality (v/n),
+#> | .louvain (v/c), .louvain_weighted (v/c), .eigen (v/c),
+#> | .eigen_weighted (v/c), .label_prop (v/c), .label_prop_weighted (v/c),
+#> | lat (v/n), long (v/n), wij (e/n), edge_type (e/c)
+#> + edges from 76b890c (vertex names):
+#>  [1] 1--4  1--25 1--29 1--33 1--38 2--4  2--9  2--10 2--15 2--27 3--8  3--35
+#> [13] 3--37 4--5  4--6  4--10 4--14 5--6  5--8  5--25 5--26 5--32 5--40 6--8 
+#> [25] 6--9  6--16 6--30 6--37 6--40 7--19 7--22 7--38 8--9  8--15 8--16 8--18
+#> [37] 8--37 8--40 9--10 9--19 9--21 9--39 9--40
 #> + ... omitted several edges
 ```

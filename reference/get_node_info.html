@@ -64,21 +64,23 @@
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">get_node_info</span><span class="op">(</span><span class="va">example_network</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 40 × 9</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 40 × 15</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    genetic_sex site  name  .degree .closeness .betweenness .eigencentrality</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> F           A     1           6    0.011<span style="text-decoration: underline;">8</span>          85.7          0.181  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> M           C     2          10    0.012<span style="text-decoration: underline;">7</span>          64.3          0.865  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> M           A     3           1    0.007<span style="text-decoration: underline;">41</span>          0            0.061<span style="text-decoration: underline;">0</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> F           A     4           3    0.009<span style="text-decoration: underline;">62</span>         18.8          0.059<span style="text-decoration: underline;">4</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> M           C     5           7    0.011<span style="text-decoration: underline;">5</span>          57.9          0.517  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> F           A     6           3    0.010<span style="text-decoration: underline;">5</span>          23.8          0.248  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> F           C     7           6    0.011<span style="text-decoration: underline;">5</span>          22.6          0.455  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> F           A     8           1    0.007<span style="text-decoration: underline;">04</span>          0            0.009<span style="text-decoration: underline;">61</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> M           B     9           4    0.010<span style="text-decoration: underline;">1</span>          29.1          0.205  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> M           C     10         11    0.012<span style="text-decoration: underline;">7</span>          75.1          0.887  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> F           A     1           5     0.011<span style="text-decoration: underline;">2</span>        18.2             0.225</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> F           B     2           7     0.011<span style="text-decoration: underline;">8</span>        29.1             0.256</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> M           A     3           3     0.010<span style="text-decoration: underline;">2</span>         3.27            0.183</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> F           A     4           6     0.011<span style="text-decoration: underline;">8</span>        27.9             0.258</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> M           A     5           7     0.013<span style="text-decoration: underline;">2</span>        34.6             0.415</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> M           B     6           9     0.012<span style="text-decoration: underline;">7</span>        39.9             0.457</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> M           A     7           3     0.010<span style="text-decoration: underline;">2</span>         2.73            0.186</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> M           B     8           9     0.012<span style="text-decoration: underline;">0</span>        28.5             0.497</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> F           B     9           8     0.012<span style="text-decoration: underline;">2</span>        53.2             0.360</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> F           B     10          5     0.01           6.91            0.153</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 30 more rows</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 2 more variables: lat &lt;dbl&gt;, long &lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 8 more variables: .louvain &lt;chr&gt;, .louvain_weighted &lt;chr&gt;, .eigen &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   .eigen_weighted &lt;chr&gt;, .label_prop &lt;chr&gt;, .label_prop_weighted &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   lat &lt;dbl&gt;, long &lt;dbl&gt;</span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

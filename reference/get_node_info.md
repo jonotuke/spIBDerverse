@@ -22,19 +22,21 @@ tibble of node information
 
 ``` r
 get_node_info(example_network)
-#> # A tibble: 40 × 9
+#> # A tibble: 40 × 15
 #>    genetic_sex site  name  .degree .closeness .betweenness .eigencentrality
 #>    <chr>       <chr> <chr>   <dbl>      <dbl>        <dbl>            <dbl>
-#>  1 F           A     1           6    0.0118          85.7          0.181  
-#>  2 M           C     2          10    0.0127          64.3          0.865  
-#>  3 M           A     3           1    0.00741          0            0.0610 
-#>  4 F           A     4           3    0.00962         18.8          0.0594 
-#>  5 M           C     5           7    0.0115          57.9          0.517  
-#>  6 F           A     6           3    0.0105          23.8          0.248  
-#>  7 F           C     7           6    0.0115          22.6          0.455  
-#>  8 F           A     8           1    0.00704          0            0.00961
-#>  9 M           B     9           4    0.0101          29.1          0.205  
-#> 10 M           C     10         11    0.0127          75.1          0.887  
+#>  1 F           A     1           5     0.0112        18.2             0.225
+#>  2 F           B     2           7     0.0118        29.1             0.256
+#>  3 M           A     3           3     0.0102         3.27            0.183
+#>  4 F           A     4           6     0.0118        27.9             0.258
+#>  5 M           A     5           7     0.0132        34.6             0.415
+#>  6 M           B     6           9     0.0127        39.9             0.457
+#>  7 M           A     7           3     0.0102         2.73            0.186
+#>  8 M           B     8           9     0.0120        28.5             0.497
+#>  9 F           B     9           8     0.0122        53.2             0.360
+#> 10 F           B     10          5     0.01           6.91            0.153
 #> # ℹ 30 more rows
-#> # ℹ 2 more variables: lat <dbl>, long <dbl>
+#> # ℹ 8 more variables: .louvain <chr>, .louvain_weighted <chr>, .eigen <chr>,
+#> #   .eigen_weighted <chr>, .label_prop <chr>, .label_prop_weighted <chr>,
+#> #   lat <dbl>, long <dbl>
 ```

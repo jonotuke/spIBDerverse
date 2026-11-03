@@ -31,16 +31,16 @@ the igraph object with incomplete vertices removed. The removed vertices
 
 ``` r
 drop_missing_nodes(example_network, c("site", "genetic_sex"))
-#> IGRAPH 0987835 UN-- 40 104 -- 
+#> IGRAPH f978838 UN-- 40 133 -- 
 #> + attr: genetic_sex (v/c), site (v/c), name (v/c), .degree (v/n),
-#> | .closeness (v/n), .betweenness (v/n), .eigencentrality (v/n), lat
-#> | (v/n), long (v/n), wij (e/n), edge_type (e/c)
-#> + edges from 0987835 (vertex names):
-#>  [1] 1 --4  1 --13 1 --19 1 --26 1 --30 1 --31 2 --6  2 --10 2 --22 2 --23
-#> [11] 2 --24 2 --28 2 --30 2 --33 2 --37 2 --39 3 --20 4 --18 4 --29 5 --9 
-#> [21] 5 --10 5 --14 5 --29 5 --30 5 --37 5 --40 6 --18 6 --30 7 --13 7 --28
-#> [31] 7 --30 7 --32 7 --34 7 --36 8 --18 9 --10 9 --17 9 --35 10--14 10--22
-#> [41] 10--25 10--28 10--29 10--32 10--37 10--39 11--17 11--19 12--22 13--25
-#> [51] 13--27 13--36 13--38 14--22 14--28 14--37 14--39 15--16 16--20 16--22
+#> | .closeness (v/n), .betweenness (v/n), .eigencentrality (v/n),
+#> | .louvain (v/c), .louvain_weighted (v/c), .eigen (v/c),
+#> | .eigen_weighted (v/c), .label_prop (v/c), .label_prop_weighted (v/c),
+#> | lat (v/n), long (v/n), wij (e/n), edge_type (e/c)
+#> + edges from f978838 (vertex names):
+#>  [1] 1--4  1--25 1--29 1--33 1--38 2--4  2--9  2--10 2--12 2--15 2--27 2--36
+#> [13] 3--8  3--35 3--37 4--5  4--6  4--10 4--14 5--6  5--8  5--25 5--26 5--32
+#> [25] 5--40 6--8  6--9  6--12 6--16 6--30 6--37 6--40 7--19 7--22 7--38 8--9 
+#> [37] 8--15 8--16 8--18 8--37 8--40 9--10 9--19 9--21 9--39 9--40
 #> + ... omitted several edges
 ```

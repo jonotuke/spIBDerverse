@@ -70,6 +70,8 @@
   : Get the observed values of a node or edge attribute
 - [`get_centrality_measures()`](https://jonotuke.github.io/spIBDerverse/reference/get_centrality_measures.md)
   : Get centrality measures
+- [`get_clustering_measures()`](https://jonotuke.github.io/spIBDerverse/reference/get_clustering_measures.md)
+  : get clustering measures
 - [`get_connected_graph()`](https://jonotuke.github.io/spIBDerverse/reference/get_connected_graph.md)
   : get_connected_graph
 - [`get_edge_info()`](https://jonotuke.github.io/spIBDerverse/reference/get_edge_info.md)

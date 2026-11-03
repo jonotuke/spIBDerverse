@@ -39,21 +39,17 @@ The network is treated as undirected.
 
 ``` r
 get_ringbauer_measures(example_network, "site")
-#> Warning: There was 1 warning in `dplyr::mutate()`.
-#> ℹ In argument: `prop_test = purrr::map2(...)`.
-#> Caused by warning in `stats::prop.test()`:
-#> ! Chi-squared approximation may be incorrect
 #> # A tibble: 9 × 13
 #>   grp1  grp2  n_edges    n1    n2 n_possible_edges density label overall_density
 #>   <chr> <chr>   <dbl> <dbl> <dbl>            <dbl>   <dbl> <glu>           <dbl>
-#> 1 A     A          13    16    16              120  0.108  13/1…           0.133
-#> 2 A     C          12    16    15              240  0.05   12/2…           0.133
-#> 3 A     B           8    16     9              144  0.0556 8/144           0.133
-#> 4 C     A          12    15    16              240  0.05   12/2…           0.133
-#> 5 C     C          50    15    15              105  0.476  50/1…           0.133
-#> 6 C     B           9    15     9              135  0.0667 9/135           0.133
-#> 7 B     A           8     9    16              144  0.0556 8/144           0.133
-#> 8 B     C           9     9    15              135  0.0667 9/135           0.133
-#> 9 B     B          12     9     9               36  0.333  12/36           0.133
+#> 1 A     A          21    14    14               91  0.231  21/91           0.171
+#> 2 A     B          17    14    12              168  0.101  17/1…           0.171
+#> 3 A     C          18    14    14              196  0.0918 18/1…           0.171
+#> 4 B     A          17    12    14              168  0.101  17/1…           0.171
+#> 5 B     B          24    12    12               66  0.364  24/66           0.171
+#> 6 B     C          11    12    14              168  0.0655 11/1…           0.171
+#> 7 C     A          18    14    14              196  0.0918 18/1…           0.171
+#> 8 C     B          11    14    12              168  0.0655 11/1…           0.171
+#> 9 C     C          42    14    14               91  0.462  42/91           0.171
 #> # ℹ 4 more variables: lwr <dbl>, upr <dbl>, pv <dbl>, adj_pv <dbl>
 ```

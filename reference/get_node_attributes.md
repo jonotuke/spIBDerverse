@@ -5,7 +5,7 @@ Remove centrality measures and can filter on cat or num
 ## Usage
 
 ``` r
-get_node_attributes(g, type = "all", exc_central = TRUE)
+get_node_attributes(g, type = "all", inc_internals = FALSE)
 ```
 
 ## Arguments
@@ -18,9 +18,9 @@ get_node_attributes(g, type = "all", exc_central = TRUE)
 
   type to return
 
-- exc_central:
+- inc_internals:
 
-  boolean to remove centrality measures
+  boolean to include internals - clusters and centrality
 
 ## Value
 
