@@ -23,9 +23,9 @@ igraph object
 ``` r
 g <- igraph::sample_gnp(10, 0.5)
 get_connected_graph(g)
-#> IGRAPH 5d7bac3 U--- 10 19 -- Erdos-Renyi (gnp) graph
+#> IGRAPH d2ec1b0 U--- 10 19 -- Erdos-Renyi (gnp) graph
 #> + attr: name (g/c), type (g/c), loops (g/l), p (g/n)
-#> + edges from 5d7bac3:
+#> + edges from d2ec1b0:
 #>  [1] 1-- 2 1-- 3 2-- 3 3-- 5 4-- 5 1-- 6 2-- 6 3-- 6 5-- 7 2-- 8 3-- 8 5-- 8
 #> [13] 1-- 9 4-- 9 8-- 9 3--10 4--10 6--10 8--10
 ```
