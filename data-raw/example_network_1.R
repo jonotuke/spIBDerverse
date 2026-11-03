@@ -36,6 +36,9 @@ E(example_network)$edge_type <- sample(
   replace = TRUE
 )
 
+# Add cluster
+example_network <- example_network |> add_clustering()
+
 # Add lat and long
 V(example_network)$lat <- case_when(
   V(example_network)$site == "A" ~ -34.91870870371196,

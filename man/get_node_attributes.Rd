@@ -4,14 +4,14 @@
 \alias{get_node_attributes}
 \title{get node attributes}
 \usage{
-get_node_attributes(g, type = "all", exc_central = TRUE)
+get_node_attributes(g, type = "all", exc_internals = FALSE)
 }
 \arguments{
 \item{g}{network object}
 
 \item{type}{type to return}
 
-\item{exc_central}{boolean to remove centrality measures}
+\item{exc_internals}{boolean to remove centrality measures}
 }
 \value{
 list of attributes names

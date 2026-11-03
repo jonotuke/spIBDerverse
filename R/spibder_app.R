@@ -15,7 +15,7 @@ spibder_app <- function(input_network = NULL) {
   cat_vars <- get_node_attributes(input_network, "cat")
   all_vars <- get_node_attributes(input_network)
   edge_vars <- igraph::edge_attr_names(input_network)
-  num_vars <- get_node_attributes(input_network, "num", exc_central = FALSE)
+  num_vars <- get_node_attributes(input_network, "num", exc_internals = FALSE)
 
   r <- shiny::reactiveValues()
   r$export <- shiny::reactive({
