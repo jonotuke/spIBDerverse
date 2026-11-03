@@ -47,7 +47,10 @@ network_ui_server <- function(input, session, r, choices = NULL) {
   shiny::observeEvent(r$full_network(), {
     net <- r$full_network()
     all_vars <- c("none", get_node_attributes(net))
-    num_vars <- c("none", get_node_attributes(net, "num", exc_central = FALSE))
+    num_vars <- c(
+      "none",
+      get_node_attributes(net, "num")
+    )
 
     new_choices <- list(
       fill = all_vars,

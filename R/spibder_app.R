@@ -14,8 +14,14 @@ spibder_app <- function(input_network = NULL) {
 
   cat_vars <- get_node_attributes(input_network, "cat")
   all_vars <- get_node_attributes(input_network)
+  all_no_int_vars <- get_node_attributes(
+    input_network
+  )
   edge_vars <- igraph::edge_attr_names(input_network)
-  num_vars <- get_node_attributes(input_network, "num", exc_central = FALSE)
+  num_vars <- get_node_attributes(
+    input_network,
+    "num"
+  )
 
   r <- shiny::reactiveValues()
   r$export <- shiny::reactive({
@@ -58,6 +64,10 @@ spibder_app <- function(input_network = NULL) {
         shiny::conditionalPanel(
           condition = "input.tabs == 'Centrality measures'",
           centralityInput("central", cat_vars)
+        ),
+        shiny::conditionalPanel(
+          condition = "input.tabs == 'Clustering'",
+          clusteringInput("cluster", all_no_int_vars)
         ),
         shiny::conditionalPanel(
           condition = "input.tabs == 'Dynamic map'",
@@ -134,6 +144,10 @@ spibder_app <- function(input_network = NULL) {
             centralityOutput("central")
           ),
           shiny::tabPanel(
+            title = "Clustering",
+            clusteringOutput("cluster")
+          ),
+          shiny::tabPanel(
             title = "Dynamic map",
             leafletOutput("leaflet")
           ),
@@ -174,6 +188,8 @@ spibder_app <- function(input_network = NULL) {
     networkplotServer("networkplot", r = r)
     # Centrality measures
     centralityServer("central", r = r)
+    # Clustering
+    clusteringServer("cluster", r = r)
     # Leaflet plot ----
     leafletServer("leaflet", r = r)
     # Static map

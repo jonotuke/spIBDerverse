@@ -37,12 +37,24 @@ get_centrality_measures <- function(g, var = NULL) {
       dplyr::across(dplyr::any_of(var))
     ) |>
     dplyr::reframe(
-      dplyr::across(c(dplyr::starts_with(".")), \(x) {
-        mean(x, na.rm = TRUE)
-      }),
+      dplyr::across(
+        c(dplyr::all_of(
+          c(
+            ".degree",
+            ".closeness",
+            ".betweenness",
+            ".eigencentrality"
+          )
+        )),
+        \(x) {
+          mean(x, na.rm = TRUE)
+        }
+      ),
       dplyr::across(nodes, sum),
     ) |>
     dplyr::relocate(nodes, .before = .degree)
 }
-# pacman::p_load(conflicted, tidyverse, targets)
-# get_centrality_measures(example_network) |> print()
+if (sys.nframe() == 5) {
+  pacman::p_load(conflicted, tidyverse, targets)
+  get_centrality_measures(example_network) |> gt()
+}

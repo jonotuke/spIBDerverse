@@ -167,7 +167,9 @@ load_ibd_network <- function(
     return(NULL)
   }
 
-  add_centrality_measures(g)
+  g <- g |>
+    add_centrality_measures() |>
+    add_clustering()
 }
 
 #' Read a CSV or TSV file

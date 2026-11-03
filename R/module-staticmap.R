@@ -243,7 +243,10 @@ staticmapApp <- function(network_input) {
       all_vars = get_node_attributes(network_input),
       cat_vars = get_node_attributes(network_input, "cat"),
       edge_vars = igraph::edge_attr_names(network_input),
-      num_vars = get_node_attributes(network_input, "num", exc_central = FALSE)
+      num_vars = get_node_attributes(
+        network_input,
+        "num"
+      )
     ),
     staticmapOutput("staticmap")
   )
