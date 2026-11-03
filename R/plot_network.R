@@ -308,21 +308,23 @@ plot_network <- function(
   if (!is_none(edge) && isTRUE(edge_legend)) {
     key_aes$linetype <- NA
   }
-  key_guide <- ggplot2::guide_legend(
-    override.aes = key_aes
-  )
+  key_guide <- function(...) {
+    ggplot2::guide_legend(override.aes = utils::modifyList(key_aes, list(...)))
+  }
 
   # Only discrete scales get point keys; continuous fill/colour use a
   # colourbar, which has no points to resize.
+  # When `shape` is mapped there is no fixed shape on the layer, so the
+  # fill/colour keys would fall back to shape 19 (no fill). Pin them to 21.
   legend_guides <- list(size = "none")
   if (!is_none(fill) && !is.numeric(df[[fill]])) {
-    legend_guides$fill <- key_guide
+    legend_guides$fill <- key_guide(shape = 21)
   }
   if (!is_none(outline_col) && !is.numeric(df[[outline_col]])) {
-    legend_guides$colour <- key_guide
+    legend_guides$colour <- key_guide(shape = 21, fill = "white")
   }
   if (!is_none(shape)) {
-    legend_guides$shape <- key_guide
+    legend_guides$shape <- key_guide(fill = "white")
   }
 
   # PLOT ----
@@ -340,10 +342,9 @@ plot_network <- function(
 if (sys.nframe() == 5) {
   pacman::p_load(conflicted, tidyverse, targets)
   plot_network(
-    europe_network,
-    fill = "population",
-    connected = "Grey out",
-    node_size = 5
+    example_network,
+    fill = "site",
+    shape = "genetic_sex"
   ) |>
     print()
 }
