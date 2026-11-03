@@ -4,14 +4,14 @@
 \alias{get_node_attributes}
 \title{get node attributes}
 \usage{
-get_node_attributes(g, type = "all", exc_internals = FALSE)
+get_node_attributes(g, type = "all", inc_internals = FALSE)
 }
 \arguments{
 \item{g}{network object}
 
 \item{type}{type to return}
 
-\item{exc_internals}{boolean to remove centrality measures}
+\item{inc_internals}{boolean to include internals - clusters and centrality}
 }
 \value{
 list of attributes names

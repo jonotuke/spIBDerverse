@@ -4,14 +4,14 @@
 #'
 #' @param g network object
 #' @param type type to return
-#' @param exc_internals boolean to remove centrality measures
+#' @param inc_internals boolean to include internals - clusters and centrality
 #'
 #' @returns list of attributes names
 #'
 #' @export
 #' @examples
 #' get_node_attributes(example_network)
-get_node_attributes <- function(g, type = "all", exc_internals = FALSE) {
+get_node_attributes <- function(g, type = "all", inc_internals = FALSE) {
   if (!methods::is(g, "igraph")) {
     return(NULL)
   }
@@ -28,7 +28,7 @@ get_node_attributes <- function(g, type = "all", exc_internals = FALSE) {
       dplyr::select(dplyr::where(is.numeric)) |>
       colnames()
   }
-  if (exc_internals) {
+  if (!inc_internals) {
     vars <- vars |>
       purrr::discard(\(x) {
         stringr::str_detect(x, "^\\.")
@@ -37,5 +37,5 @@ get_node_attributes <- function(g, type = "all", exc_internals = FALSE) {
   vars
 }
 if (sys.nframe() == 5) {
-  get_node_attributes(example_network, "all", exc_internals = FALSE) |> print()
+  get_node_attributes(example_network, "all") |> print()
 }
