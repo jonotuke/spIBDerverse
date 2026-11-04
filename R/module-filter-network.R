@@ -159,7 +159,7 @@ networkFilterServer <- function(id, r) {
       shiny::updateSelectInput(
         session,
         "node_column",
-        choices = c("none", get_node_attributes(g))
+        choices = c("none", get_node_attributes(g, inc_internals = TRUE))
       )
       shiny::updateSelectInput(
         session,
