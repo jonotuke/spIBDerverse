@@ -21,6 +21,14 @@ clusteringInput <- function(id, all_vars) {
       min = 0,
       max = 10,
       step = 1
+    ),
+    shiny::numericInput(
+      shiny::NS(id, "font"),
+      "Font size",
+      min = 5,
+      max = 30,
+      value = 20,
+      step = 1
     )
   )
 }
@@ -28,6 +36,9 @@ clusteringOutput <- function(id) {
   shiny::tagList(
     DT::dataTableOutput(
       shiny::NS(id, "tab")
+    ),
+    shiny::plotOutput(
+      shiny::NS(id, "conf_mat")
     )
   )
 }
@@ -50,6 +61,23 @@ clusteringServer <- function(id, r) {
         tab <- DT::formatRound(tab, columns = num_cols, digits = digits)
       }
       tab
+    })
+    output$conf_mat <- shiny::renderPlot({
+      shiny::req(input$pred != "none")
+      tryCatch(
+        plot_clustering_confusion(
+          r$network(),
+          input$pred,
+          n_levels = 20,
+          base_size = input$font
+        ),
+        clustering_confusion_too_many_levels = function(w) {
+          shiny::validate(shiny::need(FALSE, conditionMessage(w)))
+        },
+        clustering_confusion_not_categorical = function(e) {
+          shiny::validate(shiny::need(FALSE, conditionMessage(e)))
+        }
+      )
     })
     shiny::observeEvent(r$full_network(), {
       shiny::updateRadioButtons(

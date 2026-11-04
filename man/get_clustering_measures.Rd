@@ -23,3 +23,7 @@ get clustering measures
 \examples{
 get_clustering_measures(example_network)
 }
+\seealso{
+\code{\link[=plot_clustering_confusion]{plot_clustering_confusion()}} for a heatmap of the
+categorical-predictor table.
+}
