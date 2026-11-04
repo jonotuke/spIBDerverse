@@ -69,53 +69,64 @@
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">add_convert_bb_adj</span><span class="op">(</span><span class="va">example_sf</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $nodes_sf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 40 features and 7 fields</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 40 features and 13 fields</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: POINT</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: 138.4383 ymin: -35.01514 xmax: 138.7724 ymax: -34.71853</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Geodetic CRS:  WGS 84</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: 138.4402 ymin: -35.00961 xmax: 138.7721 ymax: -34.7206</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Projected CRS: WGS 84 / Pseudo-Mercator</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> First 10 features:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    genetic_sex site name degree   closeness betweenness eigencentrality</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1            F    C    1      4 0.009433962   14.215476      0.18812328</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2            F    C    2      4 0.010309278   23.279004      0.27848501</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3            F    C    3      3 0.009009009   13.356349      0.14823893</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4            F    A    4      2 0.007751938    2.190079      0.05408051</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5            F    B    5      4 0.010204082   26.004365      0.23768274</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6            M    A    6      6 0.011494253   51.930098      0.50835983</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7            F    A    7      3 0.010204082   22.986447      0.19207611</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8            F    A    8      4 0.009433962   29.492460      0.11981775</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9            M    B    9      6 0.011235955   26.283825      0.60139785</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10           M    B   10      4 0.010752688   13.987807      0.43258544</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                      geometry</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  POINT (138.6163 -34.80808)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2  POINT (138.6161 -34.80641)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3  POINT (138.6219 -34.80756)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4  POINT (138.6036 -34.92339)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5  POINT (138.5908 -34.91942)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6  POINT (138.6068 -34.92064)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7  POINT (138.6054 -34.91428)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8  POINT (138.6067 -34.91773)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9  POINT (138.5951 -34.91846)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10 POINT (138.5872 -34.92574)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    genetic_sex site name .degree  .closeness .betweenness .eigencentrality</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1            F    C    1       9 0.012195122    24.035512        0.7484435</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2            F    C    2       9 0.012658228    25.096138        0.8405598</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3            F    B    3       5 0.010989011    15.124866        0.2677023</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4            M    A    4       2 0.009345794     1.211111        0.1215062</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5            F    C    5      10 0.013157895    31.130300        0.8803313</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6            F    B    6       6 0.012048193    17.992134        0.3899440</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7            M    C    7      13 0.013698630    88.679146        0.9998877</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8            M    A    8       3 0.010204082     3.499889        0.2176486</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9            M    B    9       4 0.010204082     6.617410        0.1421484</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10           F    A   10       4 0.010638298    14.226476        0.1658163</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    .louvain .louvain_weighted .eigen .eigen_weighted .label_prop</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1        L1               Lw1     E1             Ew1         LP1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2        L1               Lw2     E3             Ew2         LP1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3        L2               Lw1     E2             Ew3         LP1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4        L3               Lw2     E3             Ew2         LP1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5        L1               Lw1     E1             Ew3         LP1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6        L2               Lw1     E4             Ew5         LP1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7        L4               Lw3     E3             Ew2         LP1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8        L5               Lw3     E2             Ew2         LP1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9        L5               Lw3     E2             Ew5         LP1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10       L3               Lw3     E4             Ew5         LP1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    .label_prop_weighted                   geometry</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1                  LPw1  POINT (138.6175 -34.8066)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2                  LPw1 POINT (138.6233 -34.81226)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3                  LPw1  POINT (138.588 -34.92225)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4                  LPw1  POINT (138.601 -34.92303)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5                  LPw1  POINT (138.6182 -34.8142)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6                  LPw1 POINT (138.5952 -34.92296)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7                  LPw1 POINT (138.6176 -34.80578)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8                  LPw1 POINT (138.6028 -34.91406)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9                  LPw1 POINT (138.5952 -34.92114)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10                 LPw1 POINT (138.6071 -34.91425)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $edges_sf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 99 features and 4 fields</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 123 features and 4 fields</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: LINESTRING</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: 138.4383 ymin: -35.01514 xmax: 138.7724 ymax: -34.71853</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Geodetic CRS:  WGS 84</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: 138.4402 ymin: -35.00961 xmax: 138.7721 ymax: -34.7206</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Projected CRS: WGS 84 / Pseudo-Mercator</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> First 10 features:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    from to       wij edge_type                       geometry</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1     1 21 0.4073892         C LINESTRING (138.6163 -34.80...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2     1 26 0.4753938         B LINESTRING (138.6163 -34.80...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3     1 31 0.1535906         C LINESTRING (138.6163 -34.80...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4     1 39 0.5229230         A LINESTRING (138.6163 -34.80...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5     2  3 0.4245830         A LINESTRING (138.6161 -34.80...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6     2 16 0.5748161         B LINESTRING (138.6161 -34.80...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7     2 20 0.3075784         C LINESTRING (138.6161 -34.80...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8     2 31 0.9981113         B LINESTRING (138.6161 -34.80...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9     3  8 0.6680249         C LINESTRING (138.6219 -34.80...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10    3 16 0.8685398         A LINESTRING (138.6219 -34.80...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1     1  2 0.1693656         C LINESTRING (138.6175 -34.80...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2     1  5 0.4976975         C LINESTRING (138.6175 -34.80...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3     1  6 0.9625171         C LINESTRING (138.6175 -34.80...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4     1 11 0.3828377         C LINESTRING (138.6175 -34.80...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5     1 15 0.7598141         A LINESTRING (138.6175 -34.80...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6     1 26 0.6994359         A LINESTRING (138.6175 -34.80...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7     1 29 0.3892637         A LINESTRING (138.6175 -34.80...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8     1 31 0.3483325         B LINESTRING (138.6175 -34.80...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9     1 39 0.4365325         A LINESTRING (138.6175 -34.80...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10    2  7 0.4226868         A LINESTRING (138.6233 -34.81...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 </code></pre></div>
     </div>

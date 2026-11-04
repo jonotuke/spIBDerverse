@@ -10,6 +10,7 @@
 <url><loc>https://jonotuke.github.io/spIBDerverse/authors.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/index.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/abbreviate_terms.html</loc></url>
+<url><loc>https://jonotuke.github.io/spIBDerverse/reference/add_clustering.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/add_convert_bb_adj.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/add_layout.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/check_ibd_file.html</loc></url>
@@ -65,6 +66,7 @@
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/make_cutoff_ui.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/pal_scale.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/plot_centrality.html</loc></url>
+<url><loc>https://jonotuke.github.io/spIBDerverse/reference/plot_clustering_confusion.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/plot_default_image.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/plot_ergm_bic.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/plot_ergm_coef.html</loc></url>

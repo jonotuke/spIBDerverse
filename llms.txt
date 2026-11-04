@@ -107,6 +107,8 @@ ibd_network
 
 - [`abbreviate_terms()`](https://jonotuke.github.io/spIBDerverse/reference/abbreviate_terms.md)
   : abbreviate labels
+- [`add_clustering()`](https://jonotuke.github.io/spIBDerverse/reference/add_clustering.md)
+  : Add clusters
 - [`add_convert_bb_adj()`](https://jonotuke.github.io/spIBDerverse/reference/add_convert_bb_adj.md)
   : Adjust BB for network work sf object
 - [`add_layout()`](https://jonotuke.github.io/spIBDerverse/reference/add_layout.md)
@@ -215,6 +217,8 @@ ibd_network
   : Build a ggsci scale by name
 - [`plot_centrality()`](https://jonotuke.github.io/spIBDerverse/reference/plot_centrality.md)
   : Plot centrality measures
+- [`plot_clustering_confusion()`](https://jonotuke.github.io/spIBDerverse/reference/plot_clustering_confusion.md)
+  : Plot cluster membership against a categorical predictor
 - [`plot_default_image()`](https://jonotuke.github.io/spIBDerverse/reference/plot_default_image.md)
   : Plots a default image
 - [`plot_ergm_bic()`](https://jonotuke.github.io/spIBDerverse/reference/plot_ergm_bic.md)
