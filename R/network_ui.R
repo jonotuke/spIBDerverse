@@ -14,6 +14,11 @@ network_ui <- function(
     Nodes = bslib::accordion_panel(
       "Nodes",
       icon = shiny::icon("circle"),
+      shiny::checkboxInput(
+        ns("internals"),
+        label = "Include centrality and clustering",
+        value = FALSE
+      ),
       shiny::selectInput(
         ns("layout"),
         label = "Choose node layout",

@@ -1,5 +1,17 @@
 keep_selected <- function(current, choices) {
-  if (isTRUE(current %in% choices)) current else choices[1]
+  if (isTRUE(current %in% choices)) current else unname(choices[1])
+}
+
+label_choices <- function(x) {
+  lookup <- internal_df()
+  labels <- lookup$full_name[match(x, lookup$name)]
+  labels <- ifelse(is.na(labels), x, labels)
+  existing <- names(x)
+  if (!is.null(existing)) {
+    keep <- !is.na(existing) & nzchar(existing)
+    labels[keep] <- existing[keep]
+  }
+  stats::setNames(x, labels)
 }
 
 network_ui_server <- function(input, session, r, choices = NULL) {
@@ -44,12 +56,20 @@ network_ui_server <- function(input, session, r, choices = NULL) {
   }
 
   # Attribute choices for a new network
-  shiny::observeEvent(r$full_network(), {
+  shiny::observeEvent(list(r$full_network(), input$internals), {
     net <- r$full_network()
-    all_vars <- c("none", get_node_attributes(net))
+    shiny::req(net)
+    all_vars <- c(
+      "none",
+      get_node_attributes(net, inc_internals = input$internals)
+    )
     num_vars <- c(
       "none",
-      get_node_attributes(net, "num")
+      get_node_attributes(net, "num", inc_internals = input$internals)
+    )
+    cat_vars <- c(
+      "none",
+      get_node_attributes(net, "cat", inc_internals = input$internals)
     )
 
     new_choices <- list(
@@ -59,7 +79,7 @@ network_ui_server <- function(input, session, r, choices = NULL) {
       label_filter = all_vars,
       lat = all_vars,
       lon = all_vars,
-      shape = c("none", get_node_attributes(net, "cat")),
+      shape = cat_vars,
       size = num_vars,
       alpha = num_vars,
       edge = c("none", igraph::edge_attr_names(net))
@@ -67,6 +87,8 @@ network_ui_server <- function(input, session, r, choices = NULL) {
     if (is.function(choices)) {
       new_choices <- utils::modifyList(new_choices, choices(net))
     }
+
+    new_choices <- lapply(new_choices, label_choices)
 
     for (nm in names(new_choices)) {
       shiny::updateSelectInput(
