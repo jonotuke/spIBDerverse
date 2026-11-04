@@ -296,10 +296,6 @@ plot_network <- function(
   }
 
   # LEGEND KEYS ----
-  # Force every node legend key to the same size and stroke, whatever the
-  # plot itself uses. alpha = 1 stops greyed-out nodes fading the keys, and
-  # linetype = NA hides the edge line that `show.legend = TRUE` on the edge
-  # layer would otherwise draw through each key.
   key_aes <- list(
     size = legend_size,
     stroke = legend_stroke,
@@ -312,19 +308,34 @@ plot_network <- function(
     ggplot2::guide_legend(override.aes = utils::modifyList(key_aes, list(...)))
   }
 
-  # Only discrete scales get point keys; continuous fill/colour use a
-  # colourbar, which has no points to resize.
-  # When `shape` is mapped there is no fixed shape on the layer, so the
-  # fill/colour keys would fall back to shape 19 (no fill). Pin them to 21.
+  same_var <- function(a, b) !is_none(a) && !is_none(b) && identical(a, b)
+  fill_legend <- !is_none(fill) && !is.numeric(df[[fill]])
+  colour_legend <- !is_none(outline_col) && !is.numeric(df[[outline_col]])
+
   legend_guides <- list(size = "none")
-  if (!is_none(fill) && !is.numeric(df[[fill]])) {
-    legend_guides$fill <- key_guide(shape = 21)
+  if (fill_legend) {
+    legend_guides$fill <- if (same_var(fill, shape)) {
+      key_guide()
+    } else {
+      key_guide(shape = 21)
+    }
   }
-  if (!is_none(outline_col) && !is.numeric(df[[outline_col]])) {
-    legend_guides$colour <- key_guide(shape = 21, fill = "white")
+  if (colour_legend) {
+    colour_over <- list()
+    if (!same_var(outline_col, shape)) {
+      colour_over$shape <- 21
+    }
+    if (!(fill_legend && same_var(outline_col, fill))) {
+      colour_over$fill <- "white"
+    }
+    legend_guides$colour <- rlang::exec(key_guide, !!!colour_over)
   }
   if (!is_none(shape)) {
-    legend_guides$shape <- key_guide(fill = "white")
+    legend_guides$shape <- if (fill_legend && same_var(shape, fill)) {
+      key_guide()
+    } else {
+      key_guide(fill = "white")
+    }
   }
 
   # PLOT ----
@@ -342,9 +353,11 @@ plot_network <- function(
 if (sys.nframe() == 5) {
   pacman::p_load(conflicted, tidyverse, targets)
   plot_network(
-    example_network,
-    fill = "site",
-    shape = "genetic_sex"
+    example_network_2,
+    fill = ".louvain_weighted",
+    outline_col = ".louvain_weighted",
+    fill_pal = "ucscgb",
+    shape = ".louvain_weighted"
   ) |>
     print()
 }
