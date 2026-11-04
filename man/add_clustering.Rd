@@ -15,7 +15,9 @@ add_clustering(g, weight = "wij")
 adds clusters to igraph object
 }
 \description{
-Add clusters
+Nodes with no connections to other nodes (isolates) are assigned to a
+single cluster called "disconnected" for every clustering method, instead
+of each being placed in its own singleton cluster.
 }
 \examples{
 add_clustering(example_network)
