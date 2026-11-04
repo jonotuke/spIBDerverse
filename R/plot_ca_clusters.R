@@ -1,133 +1,135 @@
+#' plot CA for clusters
+#'
+#'
+#' @param g An igraph object.
+#' @param pred Name of the vertex attribute to compare clusters against.
+#' @param cluster Name of the vertex attribute holding cluster membership.
+#' @param jitter_scale level to scale
+#'
+#' @return A ggplot object, or `NULL` with a warning if `pred` is not given.
 plot_ca_clusters <- function(
   g,
-  pred = "none",
+  pred = NULL,
   cluster = ".louvain",
-  factor = 10
+  jitter_scale = 10
 ) {
-  if (pred == "none") {
-    rlang::warn("Need a predictor")
+  if (is.null(pred)) {
+    rlang::warn(
+      "`pred` must name a vertex attribute to compare clusters against."
+    )
     return(NULL)
   }
-  df <- igraph::as_data_frame(g, what = "vertices") |>
-    as_tibble()
-  tab <- table(df[[cluster]], df[[pred]])
+
+  vertices <- igraph::as_data_frame(g, what = "vertices")
+  tab <- table(vertices[[cluster]], vertices[[pred]])
+
   ca <- FactoMineR::CA(tab, graph = FALSE)
-  pv <- round(fisher.test(tab, simulate.p.value = TRUE)$p.value, 4)
-  title <- stringr::str_glue("Fisher Exact Test: {pv}")
-  ca_clusters <- ca$row$coord |>
-    as.data.frame() |>
-    rownames_to_column('cluster') |>
-    janitor::clean_names() |>
-    as_tibble()
-  ca_var <- ca$col$coord |>
-    as.data.frame() |>
-    rownames_to_column('variable') |>
-    janitor::clean_names() |>
-    as_tibble()
-  if (ncol(ca_clusters) == 2) {
-    ca_clusters |>
-      ggplot(aes(x = ca_row_coord, y = 0)) +
-      theme_bw() +
-      geom_hline(
-        yintercept = 0,
-        linetype = "dashed",
-        color = "darkgrey"
-      ) +
-      geom_point(
-        color = "black",
-        size = 2,
-        pch = 4
-      ) +
-      ggrepel::geom_text_repel(
-        aes(label = cluster),
-        direction = "y",
-        nudge_y = 0.1,
-        box.padding = 0.15,
-        point.padding = 0,
-        segment.size = 0.2,
-        segment.color = "gray80",
-        force = 0.5,
-        color = "black",
-        size = 4
-      ) +
-      geom_point(
-        data = ca_var,
-        aes(x = v1, y = 0),
-        color = "darkblue",
-        size = 2,
-        pch = 19
-      ) +
-      ggrepel::geom_text_repel(
-        data = ca_var,
-        aes(x = v1, y = 0, label = variable),
-        direction = "y",
-        nudge_y = -0.1,
-        box.padding = 0.15,
-        point.padding = 0,
-        segment.size = 0.2,
-        segment.color = "darkblue",
-        force = 0.5,
-        color = "darkblue",
-        fontface = "bold",
-        size = 4
-      ) +
-      ggtitle(title) +
-      theme(plot.title = element_text(hjust = 0.5)) +
-      labs(x = "Dimension 1 (100.00%)", y = NULL) +
-      theme(
-        axis.text.y = element_blank(),
-        axis.ticks.y = element_blank(),
-        panel.grid.major.y = element_blank(),
-        panel.grid.minor.y = element_blank()
-      ) +
-      ylim(-0.5, 0.5)
+  ca_clusters <- ca_coords(ca$row$coord, "cluster")
+  ca_vars <- ca_coords(ca$col$coord, "variable")
+  pct_var <- ca$eig[, 2]
+
+  p_value <- stats::fisher.test(tab, simulate.p.value = TRUE)$p.value
+
+  plot <- if (ncol(ca_clusters) == 2) {
+    plot_ca_1d(ca_clusters, ca_vars, pct_var)
   } else {
-    ca_var |>
-      ggplot(
-        aes(
-          x = dim_1,
-          y = dim_2
-        )
-      ) +
-      theme_bw() +
-      geom_hline(
-        yintercept = 0,
-        col = 'darkgrey',
-        linetype = 'dashed'
-      ) +
-      geom_vline(
-        xintercept = 0,
-        col = 'darkgrey',
-        linetype = 'dashed'
-      ) +
-      geom_point(
-        col = 'darkblue',
-      ) +
-      ggrepel::geom_label_repel(
-        aes(label = variable),
-        col = 'darkblue',
-        box.padding = 1,
-      ) +
-      geom_text(
-        aes(label = cluster),
-        position = position_jitter(
-          height = diff(range(ca_clusters$dim_1)) / factor,
-          width = diff(range(ca_clusters$dim_2)) / factor
-        ),
-        alpha = 0.5,
-        data = ca_clusters
-      ) +
-      ggtitle(title) +
-      theme(plot.title = element_text(hjust = 0.5)) +
-      scale_x_continuous(
-        name = sprintf('Dimension 1 (%.2f%%)', ca$eig[1, 2])
-      ) +
-      scale_y_continuous(
-        name = sprintf('Dimension 1 (%.2f%%)', ca$eig[2, 2])
-      )
+    plot_ca_2d(ca_clusters, ca_vars, pct_var, jitter_scale)
   }
+
+  plot +
+    ggplot2::ggtitle(sprintf("Fisher Exact Test: %.4f", p_value)) +
+    ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5))
 }
 
+ca_coords <- function(coord, id_col) {
+  coord <- as.matrix(coord)
+  colnames(coord) <- paste0("dim_", seq_len(ncol(coord)))
+  tibble::as_tibble(coord, rownames = id_col)
+}
+
+dim_label <- function(pct_var, i) {
+  sprintf("Dimension %d (%.2f%%)", i, pct_var[i])
+}
+
+# Single dimension: clusters above the line, predictor levels below it.
+plot_ca_1d <- function(ca_clusters, ca_vars, pct_var) {
+  ggplot(ca_clusters, aes(x = dim_1, y = 0)) +
+    theme_bw() +
+    geom_hline(
+      yintercept = 0,
+      linetype = "dashed",
+      colour = "darkgrey"
+    ) +
+    geom_point(colour = "black", size = 2, shape = 4) +
+    ggrepel::geom_text_repel(
+      aes(label = cluster),
+      direction = "y",
+      nudge_y = 0.1,
+      box.padding = 0.15,
+      point.padding = 0,
+      segment.size = 0.2,
+      segment.color = "gray80",
+      force = 0.5,
+      colour = "black",
+      size = 4
+    ) +
+    geom_point(
+      data = ca_vars,
+      colour = "darkblue",
+      size = 2,
+      shape = 19
+    ) +
+    ggrepel::geom_text_repel(
+      data = ca_vars,
+      aes(label = variable),
+      direction = "y",
+      nudge_y = -0.1,
+      box.padding = 0.15,
+      point.padding = 0,
+      segment.size = 0.2,
+      segment.color = "darkblue",
+      force = 0.5,
+      colour = "darkblue",
+      fontface = "bold",
+      size = 4
+    ) +
+    ylim(-0.5, 0.5) +
+    labs(x = dim_label(pct_var, 1), y = NULL) +
+    theme(
+      axis.text.y = element_blank(),
+      axis.ticks.y = element_blank(),
+      panel.grid.major.y = element_blank(),
+      panel.grid.minor.y = element_blank()
+    )
+}
+
+# Two or more dimensions: biplot of the first two.
+plot_ca_2d <- function(ca_clusters, ca_vars, pct_var, jitter_scale) {
+  label_jitter <- position_jitter(
+    width = diff(range(ca_clusters$dim_1)) / jitter_scale,
+    height = diff(range(ca_clusters$dim_2)) / jitter_scale
+  )
+
+  ggplot(ca_vars, aes(x = dim_1, y = dim_2)) +
+    theme_bw() +
+    geom_hline(yintercept = 0, colour = "darkgrey", linetype = "dashed") +
+    geom_vline(xintercept = 0, colour = "darkgrey", linetype = "dashed") +
+    geom_point(colour = "darkblue") +
+    ggrepel::geom_label_repel(
+      aes(label = variable),
+      colour = "darkblue",
+      box.padding = 1
+    ) +
+    geom_text(
+      data = ca_clusters,
+      aes(label = cluster),
+      position = label_jitter,
+      alpha = 0.5
+    ) +
+    labs(x = dim_label(pct_var, 1), y = dim_label(pct_var, 2))
+}
+
+# Quick check when the file is sourced directly (e.g. RStudio's Source button).
 if (sys.nframe() == 5) {
   pacman::p_load(conflicted, tidyverse, targets)
   plot_ca_clusters(example_network, "site") |> print()
