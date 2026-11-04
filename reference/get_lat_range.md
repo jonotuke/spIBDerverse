@@ -26,7 +26,7 @@ get_lat_range(network_sf, type = "lat")
 
 ``` r
 get_lat_range(example_sf, "lon")
-#> [1] 138.4678 138.7444
+#> [1] 138.4643 138.7481
 get_lat_range(example_sf, "lat")
-#> [1] -34.93630 -34.79391
+#> [1] -34.93962 -34.79257
 ```

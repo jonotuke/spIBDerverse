@@ -52,5 +52,4 @@ than `n_levels` levels.
 
 ``` r
 plot_clustering_confusion(example_network_2, "Province")
-#> Warning: Too many levels to plot (maximum 20): 'Province' has 3 levels and 'Louvain' has 87 levels.
 ```

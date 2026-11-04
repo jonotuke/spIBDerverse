@@ -39,15 +39,15 @@ get_clustering_measures(example_network)
 #>    genetic_sex site  name    lat  long Louvain `Weighted Louvain`
 #>    <chr>       <chr> <chr> <dbl> <dbl> <chr>   <chr>             
 #>  1 F           C     1     -34.8  139. L1      Lw1               
-#>  2 F           C     2     -34.8  139. L1      Lw2               
-#>  3 F           B     3     -34.9  139. L2      Lw1               
-#>  4 M           A     4     -34.9  139. L3      Lw2               
+#>  2 M           C     2     -34.8  139. L2      Lw2               
+#>  3 M           B     3     -34.9  139. L2      Lw2               
+#>  4 F           C     4     -34.8  139. L1      Lw1               
 #>  5 F           C     5     -34.8  139. L1      Lw1               
-#>  6 F           B     6     -34.9  139. L2      Lw1               
-#>  7 M           C     7     -34.8  139. L4      Lw3               
-#>  8 M           A     8     -34.9  139. L5      Lw3               
-#>  9 M           B     9     -34.9  139. L5      Lw3               
-#> 10 F           A     10    -34.9  139. L3      Lw3               
+#>  6 F           B     6     -34.9  139. L2      Lw2               
+#>  7 F           B     7     -34.9  139. L3      Lw3               
+#>  8 M           A     8     -34.9  139. L4      Lw2               
+#>  9 F           C     9     -34.8  139. L1      Lw1               
+#> 10 M           A     10    -34.9  139. L4      Lw4               
 #> # ℹ 30 more rows
 #> # ℹ 4 more variables: `Leading eigenvalue` <chr>,
 #> #   `Weighted leading eigenvalue` <chr>, `Label propagation` <chr>,

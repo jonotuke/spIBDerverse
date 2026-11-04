@@ -70,7 +70,7 @@ get_ergms(example_network, c("site", "genetic_sex"), c("nodematch", "nodemix"))
 #> 
 #> Maximum Likelihood Coefficients:
 #>          edges  nodematch.site  
-#>         -2.531           1.844  
+#>         -2.429           1.877  
 #> 
 #> $`network ~ edges + nodemix('genetic_sex')`
 #> 
@@ -79,7 +79,7 @@ get_ergms(example_network, c("site", "genetic_sex"), c("nodematch", "nodemix"))
 #> 
 #> Maximum Likelihood Coefficients:
 #>               edges  mix.genetic_sex.F.M  mix.genetic_sex.M.M  
-#>             -1.2598              -1.1381               0.1612  
+#>            -0.79766             -2.20070             -0.07483  
 #> 
 #> $`network ~ edges + nodematch('site') + nodemix('genetic_sex')`
 #> 
@@ -88,9 +88,9 @@ get_ergms(example_network, c("site", "genetic_sex"), c("nodematch", "nodemix"))
 #> 
 #> Maximum Likelihood Coefficients:
 #>               edges       nodematch.site  mix.genetic_sex.F.M  
-#>             -2.1170               2.0216              -1.3676  
+#>             -1.7032               2.1274              -2.4216  
 #> mix.genetic_sex.M.M  
-#>              0.2158  
+#>             -0.0239  
 #> 
 #> $`network ~ edges`
 #> 
@@ -99,7 +99,7 @@ get_ergms(example_network, c("site", "genetic_sex"), c("nodematch", "nodemix"))
 #> 
 #> Maximum Likelihood Coefficients:
 #>  edges  
-#> -1.675  
+#> -1.573  
 #> 
 #> attr(,"removed_nodes")
 #> character(0)
