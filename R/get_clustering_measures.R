@@ -60,5 +60,5 @@ get_clustering_measures <- function(g, pred = "none", cluster = ".louvain") {
 }
 
 if (sys.nframe() == 5) {
-  get_clustering_measures(example_network, "lat") |> print()
+  get_clustering_measures(example_network_2, "genetic_sex") |> print()
 }

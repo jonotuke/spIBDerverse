@@ -54,7 +54,7 @@ clusteringServer <- function(id, r) {
     shiny::observeEvent(r$full_network(), {
       shiny::updateRadioButtons(
         session,
-        "preds",
+        "pred",
         choices = c(
           "none",
           get_node_attributes(
