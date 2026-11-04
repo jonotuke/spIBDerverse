@@ -11,6 +11,7 @@ utils::globalVariables(
 #' @returns table of clustering
 #'
 #' @export
+#' @importFrom rlang := .data
 #' @examples
 #' get_clustering_measures(example_network)
 get_clustering_measures <- function(g, pred = "none", cluster = ".louvain") {
@@ -25,6 +26,12 @@ get_clustering_measures <- function(g, pred = "none", cluster = ".louvain") {
   if (pred != "none") {
     if (is.character(df[[pred]])) {
       df <- df |>
+        dplyr::mutate(
+          "{cluster}" := forcats::fct_relevel(
+            as.character(.data[[cluster]]),
+            \(lvls) stringr::str_sort(lvls, numeric = TRUE)
+          )
+        ) |>
         dplyr::count(
           .data[[pred]],
           .data[[cluster]]
@@ -32,7 +39,8 @@ get_clustering_measures <- function(g, pred = "none", cluster = ".louvain") {
         tidyr::pivot_wider(
           names_from = tidyr::all_of(cluster),
           values_from = n,
-          values_fill = 0
+          values_fill = 0,
+          names_sort = TRUE
         )
     } else {
       df <- df |>
@@ -60,5 +68,5 @@ get_clustering_measures <- function(g, pred = "none", cluster = ".louvain") {
 }
 
 if (sys.nframe() == 5) {
-  get_clustering_measures(example_network_2, "genetic_sex") |> print()
+  get_clustering_measures(example_network_2, "Province") |> print()
 }
