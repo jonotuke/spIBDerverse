@@ -103,5 +103,8 @@ europe_network <- igraph::graph_from_data_frame(
   directed = FALSE,
   vertices = nodes
 )
+europe_network <- europe_network |>
+  add_centrality_measures() |>
+  add_clustering()
 
 usethis::use_data(europe_network, overwrite = TRUE)
