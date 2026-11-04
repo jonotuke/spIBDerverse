@@ -23,6 +23,14 @@ clusteringInput <- function(id, all_vars) {
       step = 1
     ),
     shiny::numericInput(
+      shiny::NS(id, "n_levels"),
+      "Number of levels allowed",
+      value = 10,
+      min = 3,
+      max = 30,
+      step = 1
+    ),
+    shiny::numericInput(
       shiny::NS(id, "font"),
       "Font size",
       min = 5,
@@ -66,9 +74,10 @@ clusteringServer <- function(id, r) {
       shiny::req(input$pred != "none")
       tryCatch(
         plot_clustering_confusion(
-          r$network(),
-          input$pred,
-          n_levels = 20,
+          g = r$network(),
+          pred = input$pred,
+          cluster = input$cluster,
+          n_levels = input$n_levels,
           base_size = input$font
         ),
         clustering_confusion_too_many_levels = function(w) {
