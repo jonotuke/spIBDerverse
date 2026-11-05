@@ -45,7 +45,7 @@ get_ergm_fc(ergm[[1]])
 #>   term          theta   phi
 #>   <chr>         <dbl> <dbl>
 #> 1 edges        -1.52  1    
-#> 2 mix.site.A.B -0.797 0.500
+#> 2 mix.site.A.B -0.797 0.5  
 #> 3 mix.site.B.B  0.827 1.86 
 #> 4 mix.site.A.C -1.30  0.314
 #> 5 mix.site.B.C -0.677 0.557
