@@ -9,7 +9,9 @@
 #' get_node_info(example_network)
 get_node_info <- function(g) {
   igraph::as_data_frame(g, what = "vertices") |>
-    tibble::as_tibble()
+    tibble::as_tibble() |>
+    pretty_col()
 }
-# pacman::p_load(conflicted, tidyverse, targets)
-# get_node_info(example_network) |> print()
+if (sys.nframe() == 5) {
+  get_node_info(example_network) |> print()
+}

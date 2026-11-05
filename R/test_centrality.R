@@ -67,7 +67,7 @@ test_centrality_emp <- function(
   g,
   centrality = ".degree",
   preds = NULL,
-  n_sims = 100
+  n_sims = 999
 ) {
   df <- igraph::as_data_frame(g, what = "vertices") |>
     tibble::as_tibble()

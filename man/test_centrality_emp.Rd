@@ -4,7 +4,7 @@
 \alias{test_centrality_emp}
 \title{Test centrality empirical}
 \usage{
-test_centrality_emp(g, centrality = ".degree", preds = NULL, n_sims = 100)
+test_centrality_emp(g, centrality = ".degree", preds = NULL, n_sims = 999)
 }
 \arguments{
 \item{g}{An igraph object.}

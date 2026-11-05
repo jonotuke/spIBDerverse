@@ -26,5 +26,11 @@ pretty_col <- function(df) {
 }
 if (sys.nframe() == 5) {
   pretty_var_name(c(".degree", NA, "bob", ".louvain")) |> print()
-  label_choices(c(".degree", "bob", ".louvain")) |> print()
+  pretty_choices(c(".degree", "bob", ".louvain")) |> print()
+  df <- tibble::tibble(
+    .degree = 1:5,
+    bob = 1:5,
+    .louvain = 1:5
+  )
+  pretty_col(df) |> print()
 }
