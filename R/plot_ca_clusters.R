@@ -22,8 +22,18 @@ plot_ca_clusters <- function(
     )
     return(NULL)
   }
-
   vertices <- igraph::as_data_frame(g, what = "vertices")
+  if (!is.character(vertices[[pred]]) && !is.factor(vertices[[pred]])) {
+    rlang::abort(
+      sprintf(
+        "'%s' must be a categorical node attribute.",
+        pretty_var_name(pred)
+      ),
+      class = "not_cat",
+      pred = pred
+    )
+  }
+
   tab <- table(vertices[[cluster]], vertices[[pred]])
 
   ca <- FactoMineR::CA(tab, graph = FALSE)
