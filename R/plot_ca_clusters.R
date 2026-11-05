@@ -1,3 +1,6 @@
+utils::globalVariables(
+  c("cluster", "dim_1", "dim_2", "variable")
+)
 #' plot CA for clusters
 #'
 #'
@@ -53,16 +56,16 @@ dim_label <- function(pct_var, i) {
 
 # Single dimension: clusters above the line, predictor levels below it.
 plot_ca_1d <- function(ca_clusters, ca_vars, pct_var) {
-  ggplot(ca_clusters, aes(x = dim_1, y = 0)) +
-    theme_bw() +
-    geom_hline(
+  ggplot2::ggplot(ca_clusters, ggplot2::aes(x = dim_1, y = 0)) +
+    ggplot2::theme_bw() +
+    ggplot2::geom_hline(
       yintercept = 0,
       linetype = "dashed",
       colour = "darkgrey"
     ) +
-    geom_point(colour = "black", size = 2, shape = 4) +
+    ggplot2::geom_point(colour = "black", size = 2, shape = 4) +
     ggrepel::geom_text_repel(
-      aes(label = cluster),
+      ggplot2::aes(label = cluster),
       direction = "y",
       nudge_y = 0.1,
       box.padding = 0.15,
@@ -73,7 +76,7 @@ plot_ca_1d <- function(ca_clusters, ca_vars, pct_var) {
       colour = "black",
       size = 4
     ) +
-    geom_point(
+    ggplot2::geom_point(
       data = ca_vars,
       colour = "darkblue",
       size = 2,
@@ -81,7 +84,7 @@ plot_ca_1d <- function(ca_clusters, ca_vars, pct_var) {
     ) +
     ggrepel::geom_text_repel(
       data = ca_vars,
-      aes(label = variable),
+      ggplot2::aes(label = variable),
       direction = "y",
       nudge_y = -0.1,
       box.padding = 0.15,
@@ -93,40 +96,48 @@ plot_ca_1d <- function(ca_clusters, ca_vars, pct_var) {
       fontface = "bold",
       size = 4
     ) +
-    ylim(-0.5, 0.5) +
-    labs(x = dim_label(pct_var, 1), y = NULL) +
-    theme(
-      axis.text.y = element_blank(),
-      axis.ticks.y = element_blank(),
-      panel.grid.major.y = element_blank(),
-      panel.grid.minor.y = element_blank()
+    ggplot2::ylim(-0.5, 0.5) +
+    ggplot2::labs(x = dim_label(pct_var, 1), y = NULL) +
+    ggplot2::theme(
+      axis.text.y = ggplot2::element_blank(),
+      axis.ticks.y = ggplot2::element_blank(),
+      panel.grid.major.y = ggplot2::element_blank(),
+      panel.grid.minor.y = ggplot2::element_blank()
     )
 }
 
 # Two or more dimensions: biplot of the first two.
 plot_ca_2d <- function(ca_clusters, ca_vars, pct_var, jitter_scale) {
-  label_jitter <- position_jitter(
+  label_jitter <- ggplot2::position_jitter(
     width = diff(range(ca_clusters$dim_1)) / jitter_scale,
     height = diff(range(ca_clusters$dim_2)) / jitter_scale
   )
 
-  ggplot(ca_vars, aes(x = dim_1, y = dim_2)) +
-    theme_bw() +
-    geom_hline(yintercept = 0, colour = "darkgrey", linetype = "dashed") +
-    geom_vline(xintercept = 0, colour = "darkgrey", linetype = "dashed") +
-    geom_point(colour = "darkblue") +
+  ggplot2::ggplot(ca_vars, ggplot2::aes(x = dim_1, y = dim_2)) +
+    ggplot2::theme_bw() +
+    ggplot2::geom_hline(
+      yintercept = 0,
+      colour = "darkgrey",
+      linetype = "dashed"
+    ) +
+    ggplot2::geom_vline(
+      xintercept = 0,
+      colour = "darkgrey",
+      linetype = "dashed"
+    ) +
+    ggplot2::geom_point(colour = "darkblue") +
     ggrepel::geom_label_repel(
-      aes(label = variable),
+      ggplot2::aes(label = variable),
       colour = "darkblue",
       box.padding = 1
     ) +
-    geom_text(
+    ggplot2::geom_text(
       data = ca_clusters,
-      aes(label = cluster),
+      ggplot2::aes(label = cluster),
       position = label_jitter,
       alpha = 0.5
     ) +
-    labs(x = dim_label(pct_var, 1), y = dim_label(pct_var, 2))
+    ggplot2::labs(x = dim_label(pct_var, 1), y = dim_label(pct_var, 2))
 }
 
 # Quick check when the file is sourced directly (e.g. RStudio's Source button).
