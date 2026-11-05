@@ -24,6 +24,12 @@ centralityInput <- function(id, cat_vars) {
       ),
       selected = ".degree"
     ),
+    shiny::actionButton(
+      shiny::NS(id, "run_sim"),
+      "Run test sims",
+      icon = shiny::icon("arrows-rotate"),
+      class = "btn-primary"
+    ),
     shiny::checkboxInput(
       shiny::NS(id, "rotate"),
       "Rotate x-axis"
@@ -43,7 +49,7 @@ centralityOutput <- function(id) {
       shiny::NS(id, "hist")
     ),
     gt::gt_output(
-      shiny::NS(id, "anova")
+      shiny::NS(id, "test")
     ),
     shiny::actionButton(
       shiny::NS(id, "save"),
@@ -108,7 +114,7 @@ centralityServer <- function(id, r) {
         p()
       )
     })
-    output$anova <- gt::render_gt({
+    output$test <- gt::render_gt({
       shiny::req(input$preds)
       validate_try(
         test_centralities(
@@ -132,7 +138,8 @@ centralityServer <- function(id, r) {
             locations = gt::cells_row_groups()
           )
       )
-    })
+    }) |>
+      shiny::bindEvent(input$run_sim)
   })
 }
 centralityApp <- function(network_input) {
@@ -151,5 +158,5 @@ centralityApp <- function(network_input) {
   shiny::shinyApp(ui, server)
 }
 if (sys.nframe() == 5) {
-  centralityApp(g) |> print()
+  centralityApp(example_network) |> print()
 }

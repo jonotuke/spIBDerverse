@@ -2,19 +2,22 @@
 % Please edit documentation in R/add_palettes.R
 \name{pal_scale}
 \alias{pal_scale}
-\title{Build a ggsci scale by name}
+\title{Build a palette scale by name}
 \usage{
 pal_scale(aesthetic, pal, type = "discrete", ...)
 }
 \arguments{
-\item{aesthetic}{"fill" or "color"}
+\item{aesthetic}{"fill" or "colour"/"color"}
 
-\item{pal}{ggsci palette name, e.g. "npg", "lancet", "gsea"}
+\item{pal}{ggsci palette name, e.g. "npg", "lancet", "gsea", or "default"
+for the ggplot2 default}
 
-\item{type}{"discrete" or "continuous" (used for validation only)}
+\item{type}{"discrete" or "continuous". For ggsci palettes this is used for
+validation only; for \code{pal = "default"} it picks which ggplot2 scale to use.}
 
-\item{...}{passed on to the ggsci scale (e.g. \code{palette = "category20"},
-\code{alpha = 0.8}, \code{reverse = TRUE})}
+\item{...}{passed on to the scale (e.g. \code{palette = "category20"},
+\code{alpha = 0.8}, \code{reverse = TRUE} for ggsci; any ggplot2 scale argument
+such as \code{name} or \code{limits} for the default)}
 }
 \value{
 a ggplot2 scale
@@ -22,4 +25,6 @@ a ggplot2 scale
 \description{
 Internal helper that looks up \verb{scale_<aesthetic>_<pal>()} in ggsci and
 calls it, so any palette in your installed version of ggsci can be used.
+Use \code{pal = "default"} to get ggplot2's default discrete or continuous
+scale instead.
 }

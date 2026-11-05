@@ -2,15 +2,17 @@
 % Please edit documentation in R/add_palettes.R
 \name{get_palettes}
 \alias{get_palettes}
-\title{List ggsci palettes}
+\title{List available palettes}
 \usage{
 get_palettes()
 }
 \value{
 a data frame with the palette name (the value to pass as \code{pal}),
-whether it is discrete or continuous
+whether it is discrete, continuous or both
 }
 \description{
 Finds every \verb{scale_fill_*()} function exported by the installed version of
-ggsci, so the list stays current when ggsci is updated.
+ggsci, so the list stays current when ggsci is updated. Also includes
+\code{"default"}, which gives ggplot2's own default scale and works for both
+discrete and continuous data.
 }

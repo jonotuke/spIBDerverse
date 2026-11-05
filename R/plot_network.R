@@ -179,18 +179,18 @@ plot_network <- function(
   } else {
     node_aes$fill <- rlang::sym(fill)
     node_scales$fill <- if (is.numeric(df[[fill]])) {
-      if (fill_pal == "default") {
-        fill_pal <- "gsea"
-      }
+      # if (fill_pal == "default") {
+      #   fill_pal <- "gsea"
+      # }
       pal_scale(
         aesthetic = "fill",
         pal = fill_pal,
         type = "continuous"
       )
     } else {
-      if (fill_pal == "default") {
-        fill_pal <- "npg"
-      }
+      # if (fill_pal == "default") {
+      #   fill_pal <- "npg"
+      # }
       pal_scale(
         aesthetic = "fill",
         pal = fill_pal,
@@ -204,18 +204,18 @@ plot_network <- function(
   } else {
     node_aes$colour <- rlang::sym(outline_col)
     node_scales$colour <- if (is.numeric(df[[outline_col]])) {
-      if (col_pal == "default") {
-        col_pal <- "gsea"
-      }
+      # if (col_pal == "default") {
+      #   col_pal <- "gsea"
+      # }
       pal_scale(
         aesthetic = "colour",
         pal = col_pal,
         type = "continuous"
       )
     } else {
-      if (col_pal == "default") {
-        col_pal <- "npg"
-      }
+      # if (col_pal == "default") {
+      #   col_pal <- "npg"
+      # }
       pal_scale(
         aesthetic = "colour",
         pal = col_pal,
