@@ -251,6 +251,8 @@ ibd_network
   : test centralities
 - [`test_centrality()`](https://jonotuke.github.io/spIBDerverse/reference/test_centrality.md)
   : Test centrality centralitys
+- [`test_centrality_emp()`](https://jonotuke.github.io/spIBDerverse/reference/test_centrality_emp.md)
+  : Test centrality empirical
 - [`transform_alpha()`](https://jonotuke.github.io/spIBDerverse/reference/transform_alpha.md)
   : Transform vector to (a,b)
 - [`validate_try()`](https://jonotuke.github.io/spIBDerverse/reference/validate_try.md)
