@@ -198,7 +198,7 @@ ibd_network
 - [`get_node_info()`](https://jonotuke.github.io/spIBDerverse/reference/get_node_info.md)
   : Get network node information
 - [`get_palettes()`](https://jonotuke.github.io/spIBDerverse/reference/get_palettes.md)
-  : List ggsci palettes
+  : List available palettes
 - [`get_ringbauer_measures()`](https://jonotuke.github.io/spIBDerverse/reference/get_ringbauer_measures.md)
   : Get ringbauer measures
 - [`get_text_font()`](https://jonotuke.github.io/spIBDerverse/reference/get_text_font.md)
@@ -214,7 +214,7 @@ ibd_network
 - [`make_cutoff_ui()`](https://jonotuke.github.io/spIBDerverse/reference/make_cutoff_ui.md)
   : Build the cutoff input for a node or edge attribute
 - [`pal_scale()`](https://jonotuke.github.io/spIBDerverse/reference/pal_scale.md)
-  : Build a ggsci scale by name
+  : Build a palette scale by name
 - [`plot_ca_clusters()`](https://jonotuke.github.io/spIBDerverse/reference/plot_ca_clusters.md)
   : plot CA for clusters
 - [`plot_centrality()`](https://jonotuke.github.io/spIBDerverse/reference/plot_centrality.md)

@@ -1,7 +1,9 @@
-# Build a ggsci scale by name
+# Build a palette scale by name
 
 Internal helper that looks up `scale_<aesthetic>_<pal>()` in ggsci and
 calls it, so any palette in your installed version of ggsci can be used.
+Use `pal = "default"` to get ggplot2's default discrete or continuous
+scale instead.
 
 ## Usage
 
@@ -13,20 +15,24 @@ pal_scale(aesthetic, pal, type = "discrete", ...)
 
 - aesthetic:
 
-  "fill" or "color"
+  "fill" or "colour"/"color"
 
 - pal:
 
-  ggsci palette name, e.g. "npg", "lancet", "gsea"
+  ggsci palette name, e.g. "npg", "lancet", "gsea", or "default" for the
+  ggplot2 default
 
 - type:
 
-  "discrete" or "continuous" (used for validation only)
+  "discrete" or "continuous". For ggsci palettes this is used for
+  validation only; for `pal = "default"` it picks which ggplot2 scale to
+  use.
 
 - ...:
 
-  passed on to the ggsci scale (e.g. `palette = "category20"`,
-  `alpha = 0.8`, `reverse = TRUE`)
+  passed on to the scale (e.g. `palette = "category20"`, `alpha = 0.8`,
+  `reverse = TRUE` for ggsci; any ggplot2 scale argument such as `name`
+  or `limits` for the default)
 
 ## Value
 
