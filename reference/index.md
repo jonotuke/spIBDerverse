@@ -112,6 +112,8 @@
   : Build the cutoff input for a node or edge attribute
 - [`pal_scale()`](https://jonotuke.github.io/spIBDerverse/reference/pal_scale.md)
   : Build a ggsci scale by name
+- [`plot_ca_clusters()`](https://jonotuke.github.io/spIBDerverse/reference/plot_ca_clusters.md)
+  : plot CA for clusters
 - [`plot_centrality()`](https://jonotuke.github.io/spIBDerverse/reference/plot_centrality.md)
   : Plot centrality measures
 - [`plot_clustering_confusion()`](https://jonotuke.github.io/spIBDerverse/reference/plot_clustering_confusion.md)
