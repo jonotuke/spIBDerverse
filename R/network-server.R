@@ -88,7 +88,7 @@ network_ui_server <- function(input, session, r, choices = NULL) {
       new_choices <- utils::modifyList(new_choices, choices(net))
     }
 
-    new_choices <- lapply(new_choices, label_choices)
+    new_choices <- lapply(new_choices, pretty_choices)
 
     for (nm in names(new_choices)) {
       shiny::updateSelectInput(

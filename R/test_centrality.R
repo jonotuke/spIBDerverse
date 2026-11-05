@@ -138,15 +138,6 @@ test_centralities <- function(g, centrality, preds) {
 }
 
 if (sys.nframe() == 5) {
-  test_centrality_emp(
-    example_network,
-    preds = c("site", "genetic_sex")
-  ) |>
-    print()
-  test_centralities(
-    example_network,
-    centrality = c(".degree", ".closeness"),
-    preds = c("genetic_sex")
-  ) |>
-    print()
+  g <- readr::read_rds("~/Desktop/MIB_issuesWithCentralitySex.rds")
+  test_centralities(g, ".degree", "Genetic Sex") |> print()
 }

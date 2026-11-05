@@ -27,12 +27,6 @@ clustering_vertex_df <- function(g) {
     dplyr::select(dplyr::all_of(c(node_vars, cluster_vars)))
 }
 
-# Internal: internal variable name -> display name (falls back to x).
-pretty_var_name <- function(x) {
-  idf <- internal_df()
-  if (x %in% idf$name) idf$full_name[match(x, idf$name)] else x
-}
-
 #' get clustering measures
 #'
 #' @param g igraph object with clustering
@@ -217,6 +211,7 @@ plot_clustering_confusion <- function(
 }
 
 if (sys.nframe() == 5) {
+  get_clustering_measures(example_network) |> print()
   get_clustering_measures(example_network, "site") |> print()
   plot_clustering_confusion(example_network, "site") |> print()
   plot_clustering_confusion(

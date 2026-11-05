@@ -151,5 +151,5 @@ centralityApp <- function(network_input) {
   shiny::shinyApp(ui, server)
 }
 if (sys.nframe() == 5) {
-  centralityApp(example_network) |> print()
+  centralityApp(g) |> print()
 }
