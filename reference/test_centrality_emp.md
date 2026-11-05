@@ -5,7 +5,7 @@ Tests using empirical method
 ## Usage
 
 ``` r
-test_centrality_emp(g, centrality = ".degree", preds = NULL, n_sims = 100)
+test_centrality_emp(g, centrality = ".degree", preds = NULL, n_sims = 999)
 ```
 
 ## Arguments
@@ -39,5 +39,5 @@ test_centrality_emp(example_network, ".degree", "genetic_sex")
 #> # A tibble: 1 × 3
 #>   predictor   centrality    pv
 #>   <chr>       <chr>      <dbl>
-#> 1 genetic_sex .degree    0.842
+#> 1 genetic_sex .degree    0.775
 ```
