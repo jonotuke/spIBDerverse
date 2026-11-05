@@ -1,4 +1,6 @@
-utils::globalVariables(".interaction")
+utils::globalVariables(
+  c(".interaction", "sim", "stat", "predictor", "data")
+)
 
 #' Test centrality centralitys
 #'
@@ -53,6 +55,7 @@ test_centrality <- function(
 #'   attribute of `g` (e.g. `".degree"`) or one of the computed measures:
 #'   `"closeness"`, `"betweenness"` or `"eigen_centrality"`.
 #' @param preds preds to test
+#' @param n_sims number of sims
 #'
 #' @returns table indicating any significant predictors
 #'

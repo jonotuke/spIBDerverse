@@ -57,6 +57,7 @@ export(spibder_app)
 export(tab_ergm_coef)
 export(test_centralities)
 export(test_centrality)
+export(test_centrality_emp)
 export(transform_alpha)
 importFrom(graphics,lines)
 importFrom(rlang,

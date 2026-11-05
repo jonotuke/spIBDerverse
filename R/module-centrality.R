@@ -119,11 +119,11 @@ centralityServer <- function(id, r) {
           dplyr::group_by(centrality) |>
           gt::gt() |>
           gt::tab_style_body(
-            columns = p.value,
+            columns = pv,
             style = gt::cell_fill(color = "lightblue"),
             fn = function(x) x <= 0.05
           ) |>
-          gt::fmt_scientific(p.value) |>
+          gt::fmt_scientific(pv) |>
           gt::tab_style(
             style = list(
               gt::cell_fill(color = "lightblue"),
