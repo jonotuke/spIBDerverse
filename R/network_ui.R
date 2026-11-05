@@ -4,7 +4,8 @@ network_ui <- function(
   cat_vars,
   edge_vars,
   num_vars,
-  first_panel = c("Nodes", "Location")
+  first_panel = c("Nodes", "Location"),
+  open = FALSE
 ) {
   ns <- shiny::NS(id)
   first_panel <- match.arg(first_panel)
@@ -181,11 +182,10 @@ network_ui <- function(
   # Put the chosen panel first, keep the rest in their original order
   panel_order <- c(first_panel, setdiff(names(panels), first_panel))
 
-  do.call(
+  rlang::exec(
     bslib::accordion,
-    c(
-      unname(panels[panel_order]),
-      list(open = first_panel, multiple = TRUE)
-    )
+    !!!unname(panels[panel_order]),
+    open = open,
+    multiple = TRUE
   )
 }

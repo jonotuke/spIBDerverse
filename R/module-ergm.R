@@ -33,7 +33,9 @@ ergmInput <- function(id, all_vars, g) {
       ),
     shiny::actionButton(
       shiny::NS(id, "fit_models"),
-      "Fit models"
+      "Fit models",
+      icon = shiny::icon("arrows-rotate"),
+      class = "btn-primary"
     ),
     shiny::radioButtons(
       shiny::NS(id, "measure"),

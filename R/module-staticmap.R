@@ -28,7 +28,8 @@ staticmapInput <- function(id, all_vars, cat_vars, edge_vars, num_vars) {
       cat_vars,
       edge_vars,
       num_vars,
-      first_panel = "Location"
+      first_panel = "Location",
+      open = NULL
     ),
     bslib::accordion(
       open = FALSE,
@@ -119,14 +120,14 @@ staticmapOutput <- function(id) {
   ns <- shiny::NS(id)
 
   shiny::tagList(
+    shiny::plotOutput(ns("plot")),
     shiny::actionButton(
       ns("draw"),
       "Draw map",
       icon = shiny::icon("arrows-rotate"),
       class = "btn-primary"
     ),
-    shiny::plotOutput(ns("plot")),
-    shiny::verbatimTextOutput(ns("debug")),
+    # shiny::verbatimTextOutput(ns("debug")),
     shiny::actionButton(ns("save"), "Set as export plot")
   )
 }

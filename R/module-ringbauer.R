@@ -7,6 +7,7 @@ ringbauerInput <- function(id, cat_vars) {
       selected = "none"
     ),
     bslib::accordion(
+      open = FALSE,
       bslib::accordion_panel(
         "Matrix",
         value = "matrix",
