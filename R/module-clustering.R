@@ -47,6 +47,9 @@ clusteringOutput <- function(id) {
     ),
     shiny::plotOutput(
       shiny::NS(id, "conf_mat")
+    ),
+    shiny::plotOutput(
+      shiny::NS(id, "ca_plot")
     )
   )
 }
@@ -84,6 +87,19 @@ clusteringServer <- function(id, r) {
           shiny::validate(shiny::need(FALSE, conditionMessage(w)))
         },
         clustering_confusion_not_categorical = function(e) {
+          shiny::validate(shiny::need(FALSE, conditionMessage(e)))
+        }
+      )
+    })
+    output$ca_plot <- shiny::renderPlot({
+      shiny::req(input$pred != "none")
+      tryCatch(
+        plot_ca_clusters(
+          g = r$network(),
+          pred = input$pred,
+          cluster = input$cluster
+        ),
+        not_cat = function(e) {
           shiny::validate(shiny::need(FALSE, conditionMessage(e)))
         }
       )

@@ -67,7 +67,9 @@ Imports:
     bslib,
     htmltools,
     shinysnap, 
-    scales
+    scales,
+    ggrepel,
+    FactoMineR
 Suggests: 
     quarto,
     rmarkdown,
