@@ -277,5 +277,5 @@ staticmapApp <- function(network_input) {
 }
 
 if (sys.nframe() == 5) {
-  staticmapApp(example_network) |> print()
+  staticmapApp(example_network_2) |> print()
 }

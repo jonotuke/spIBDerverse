@@ -83,10 +83,10 @@ clusteringServer <- function(id, r) {
           n_levels = input$n_levels,
           base_size = input$font
         ),
-        clustering_confusion_too_many_levels = function(w) {
+        error = function(w) {
           shiny::validate(shiny::need(FALSE, conditionMessage(w)))
         },
-        clustering_confusion_not_categorical = function(e) {
+        warning = function(e) {
           shiny::validate(shiny::need(FALSE, conditionMessage(e)))
         }
       )

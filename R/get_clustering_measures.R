@@ -59,7 +59,7 @@ get_clustering_measures <- function(g, pred = "none", cluster = ".louvain") {
           mean = mean(.data[[pred]]),
           sd = stats::sd(.data[[pred]]),
           n = dplyr::n(),
-          .by = .data[[cluster]]
+          .by = dplyr::all_of(cluster)
         ) |>
         dplyr::mutate(
           lwr = mean -
@@ -105,12 +105,9 @@ plot_clustering_confusion <- function(
   df <- clustering_vertex_df(g)
   if (!is.character(df[[pred]]) && !is.factor(df[[pred]])) {
     rlang::abort(
-      sprintf(
-        "'%s' must be a categorical node attribute.",
-        pretty_var_name(pred)
-      ),
-      class = "clustering_confusion_not_categorical",
-      pred = pred
+      stringr::str_glue(
+        "{pred} must be a categorical node attribute."
+      )
     )
   }
 
@@ -119,8 +116,6 @@ plot_clustering_confusion <- function(
   n_pred <- nlevels(counts[[pred]])
   n_cluster <- nlevels(counts[[cluster]])
   if (n_pred > n_levels || n_cluster > n_levels) {
-    # Plain-text message (no cli/ANSI formatting) so it displays cleanly in
-    # shiny notifications; classed and carrying data so apps can catch it.
     rlang::warn(
       sprintf(
         paste(
@@ -135,7 +130,6 @@ plot_clustering_confusion <- function(
         n_cluster,
         if (n_cluster == 1) "" else "s"
       ),
-      class = "clustering_confusion_too_many_levels",
       n_levels = n_levels,
       n_pred = n_pred,
       n_cluster = n_cluster
@@ -143,14 +137,6 @@ plot_clustering_confusion <- function(
     return(invisible(NULL))
   }
 
-  # The variable with more levels goes on the rows (ties: pred on rows)
-  # if (n_cluster > n_pred) {
-  #   row_var <- cluster
-  #   col_var <- pred
-  # } else {
-  #   row_var <- pred
-  #   col_var <- cluster
-  # }
   row_var <- pred
   col_var <- cluster
 
