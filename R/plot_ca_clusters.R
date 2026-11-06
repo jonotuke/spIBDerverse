@@ -25,12 +25,9 @@ plot_ca_clusters <- function(
   vertices <- igraph::as_data_frame(g, what = "vertices")
   if (!is.character(vertices[[pred]]) && !is.factor(vertices[[pred]])) {
     rlang::abort(
-      sprintf(
-        "'%s' must be a categorical node attribute.",
-        pretty_var_name(pred)
-      ),
-      class = "not_cat",
-      pred = pred
+      stringr::str_glue(
+        "{pretty_var_name(pred)} must be a categorical node attribute.",
+      )
     )
   }
 

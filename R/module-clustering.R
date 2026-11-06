@@ -99,7 +99,7 @@ clusteringServer <- function(id, r) {
           pred = input$pred,
           cluster = input$cluster
         ),
-        not_cat = function(e) {
+        error = function(e) {
           shiny::validate(shiny::need(FALSE, conditionMessage(e)))
         }
       )
