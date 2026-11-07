@@ -119,6 +119,8 @@ ibd_network
   : check IBD files
 - [`check_meta_file()`](https://jonotuke.github.io/spIBDerverse/reference/check_meta_file.md)
   : Check meta file
+- [`check_node_attributes()`](https://jonotuke.github.io/spIBDerverse/reference/check_node_attributes.md)
+  : checks that vector of names are node attributes in a given network
 - [`clean_models()`](https://jonotuke.github.io/spIBDerverse/reference/clean_models.md)
   : clean model names
 - [`clean_network()`](https://jonotuke.github.io/spIBDerverse/reference/clean_network.md)
@@ -161,6 +163,8 @@ ibd_network
   : example network 3
 - [`example_network_4`](https://jonotuke.github.io/spIBDerverse/reference/example_network_4.md)
   : example network 4
+- [`example_network_5`](https://jonotuke.github.io/spIBDerverse/reference/example_network_5.md)
+  : example network 5
 - [`example_sf`](https://jonotuke.github.io/spIBDerverse/reference/example_sf.md)
   : example sf object
 - [`expand_line()`](https://jonotuke.github.io/spIBDerverse/reference/expand_line.md)
@@ -169,6 +173,8 @@ ibd_network
   : Filter network
 - [`filter_sf()`](https://jonotuke.github.io/spIBDerverse/reference/filter_sf.md)
   : Filter SF object
+- [`fit_spatial_ergm()`](https://jonotuke.github.io/spIBDerverse/reference/fit_spatial_ergm.md)
+  : Fit spatial ergm
 - [`get_all_models()`](https://jonotuke.github.io/spIBDerverse/reference/get_all_models.md)
   : get_all_models
 - [`get_attr_values()`](https://jonotuke.github.io/spIBDerverse/reference/get_attr_values.md)
@@ -179,6 +185,8 @@ ibd_network
   : get clustering measures
 - [`get_connected_graph()`](https://jonotuke.github.io/spIBDerverse/reference/get_connected_graph.md)
   : get_connected_graph
+- [`get_dist()`](https://jonotuke.github.io/spIBDerverse/reference/get_dist.md)
+  : Get geodistance for points in network
 - [`get_edge_info()`](https://jonotuke.github.io/spIBDerverse/reference/get_edge_info.md)
   : Get network edge information
 - [`get_ergm_bic()`](https://jonotuke.github.io/spIBDerverse/reference/get_ergm_bic.md)
@@ -237,8 +245,12 @@ ibd_network
   : Plot Ringbauer
 - [`plot_single_ergm_coef()`](https://jonotuke.github.io/spIBDerverse/reference/plot_single_ergm_coef.md)
   : Plot single ergm coefficients
+- [`plot_spatial_ergm()`](https://jonotuke.github.io/spIBDerverse/reference/plot_spatial_ergm.md)
+  : plot spatial ergm
 - [`plot_staticmap()`](https://jonotuke.github.io/spIBDerverse/reference/plot_staticmap.md)
   : Plot a network on a static Stadia map
+- [`predict_spatial_ergm()`](https://jonotuke.github.io/spIBDerverse/reference/predict_spatial_ergm.md)
+  : Predicts probability for an edge for given distances
 - [`remove_redundant_models()`](https://jonotuke.github.io/spIBDerverse/reference/remove_redundant_models.md)
   : remove redundant models
 - [`sort_label()`](https://jonotuke.github.io/spIBDerverse/reference/sort_label.md)
