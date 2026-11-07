@@ -72,7 +72,8 @@ Imports:
     FactoMineR,
     geosphere,
     checkmate,
-    network
+    network,
+    ggsci
 Suggests: 
     quarto,
     rmarkdown,

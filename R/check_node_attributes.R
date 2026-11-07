@@ -13,7 +13,7 @@ check_node_attributes <- function(g, preds) {
   checkmate::assert_character(preds)
   missing <- setdiff(
     preds,
-    igraph::vertex_attr_names(example_network)
+    igraph::vertex_attr_names(g)
   )
   if (length(missing) > 0) {
     rlang::abort(

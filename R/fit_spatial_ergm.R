@@ -72,9 +72,8 @@ fit_spatial_ergm <- function(g, lat, long, pred = NULL) {
     dplyr::mutate(
       BIC = purrr::map_dbl(model, BIC)
     ) |>
-    tidyr::unnest(BIC) |>
-    dplyr::filter(BIC == min(BIC))
-  models$model[[1]]
+    tidyr::unnest(BIC)
+  return(models)
 }
 if (sys.nframe() == 5) {
   pacman::p_load(conflicted, tidyverse, targets)

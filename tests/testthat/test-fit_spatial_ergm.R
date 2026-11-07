@@ -12,7 +12,7 @@ test_that("spatial ergm args", {
     fit_spatial_ergm(example_network, "lat", "long", "bob")
   )
   expect_equal(
-    fit_spatial_ergm(example_network, "lat", "long", "site") |>
+    fit_spatial_ergm(example_network, "lat", "long", "site")$model[[4]] |>
       broom::tidy() |>
       dplyr::pull(estimate),
     c(-2.32, -0.0120, 0.806, 1.63, 2.42),

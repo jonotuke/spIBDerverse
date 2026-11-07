@@ -15,7 +15,7 @@ test_that("args", {
 })
 
 test_that("values", {
-  ergm <- fit_spatial_ergm(example_network, "lat", "long", "site")
+  ergm <- fit_spatial_ergm(example_network, "lat", "long", "site")$model[[2]]
   df <- ergm |> predict_spatial_ergm(N = 10)
   expect_equal(
     nrow(df),

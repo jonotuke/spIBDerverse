@@ -12,7 +12,7 @@ utils::globalVariables(
 #'
 #' @export
 #' @examples
-#' fit_spatial_ergm(example_network, "lat", "long", "site") |>
+#' fit_spatial_ergm(example_network, "lat", "long", "site")$model[[1]] |>
 #'  predict_spatial_ergm(N = 100)
 predict_spatial_ergm <- function(fit, N, level = 0.95, distance_term = NULL) {
   checkmate::assert_class(fit, "ergm")
@@ -93,6 +93,6 @@ predict_spatial_ergm <- function(fit, N, level = 0.95, distance_term = NULL) {
   return(out.tibble)
 }
 if (sys.nframe() == 5) {
-  ergm <- fit_spatial_ergm(example_network, "lat", "long", "site")
-  ergm |> predict_spatial_ergm(N = 10) |> print()
+  ergms <- fit_spatial_ergm(example_network, "lat", "long", "site")
+  ergms$model[[2]] |> predict_spatial_ergm(N = 10) |> print()
 }
