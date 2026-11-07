@@ -49,21 +49,3 @@ convert_sf <- function(
   }
   network_sf
 }
-# pacman::p_load(
-#   conflicted,
-#   tidyverse,
-#   targets,
-#   leaflet,
-#   sp,
-#   igraph
-# )
-# example_network
-# jono_key <- "a7bf69ed-3e77-41ed-b1e2-52f9aa99ec19"
-# convert_sf(
-#   example_network,
-#   "lat",
-#   "long",
-#   jitter = 0.01
-# ) |>
-#   plot_staticmap(key = jono_key) |>
-#   print()

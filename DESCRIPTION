@@ -61,7 +61,6 @@ Imports:
     viridis,
     broom,
     colourvalues,
-    fs,
     grDevices,
     methods,
     bslib,
@@ -80,7 +79,8 @@ Suggests:
     knitr,
     testthat (>= 3.0.0),
     shinipsum, 
-    withr
+    withr, 
+    fs
 VignetteBuilder: knitr
 Depends: 
     R (>= 4.1.0)

@@ -50,8 +50,6 @@ convert_bb_asp <- function(bb, asp = 1) {
 #' @returns same network sf with adjusted aspect ration
 #'
 #' @export
-#' @examples
-#' add_convert_bb_adj(example_sf)
 add_convert_bb_adj <- function(network_sf, asp = 1) {
   nodes_sf <- network_sf$nodes_sf
   bb <- sf::st_bbox(network_sf$nodes_sf)

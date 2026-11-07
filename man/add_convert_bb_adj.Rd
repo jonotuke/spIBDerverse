@@ -17,6 +17,3 @@ same network sf with adjusted aspect ration
 \description{
 Adjust BB for network work sf object
 }
-\examples{
-add_convert_bb_adj(example_sf)
-}

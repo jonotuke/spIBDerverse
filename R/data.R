@@ -118,14 +118,16 @@
 #' @source Example IBD datasets from Dr Adam Rohrlach
 "example_network_5"
 
-#' example sf object
+#' dist network
 #'
-#' The example network as an sf object
+#' An igraph example network that is used to test create_network function
 #'
-#' @format Two SF objects
+#' @format An igraph object
 #' \describe{
-#' \item{nodes_sf}{SF object for nodes}
-#' \item{ndges_sf}{SF object for edges}
+#' \item{name}{Name for each node}
+#' \dots
+#' \item{degree}{Degree for each node}
+#' \item{wij}{Weight for each edge}
 #' }
-#' @source Simulation via ergm package
-"example_sf"
+#' @source simulated using erdos-renyi
+"dist_network"
