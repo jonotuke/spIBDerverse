@@ -38,10 +38,6 @@
   : convert_pred_terms
 - [`convert_ringbauer_measures()`](https://jonotuke.github.io/spIBDerverse/reference/convert_ringbauer_measures.md)
   : Convert ringbauer measures
-- [`convert_sf()`](https://jonotuke.github.io/spIBDerverse/reference/convert_sf.md)
-  : Convert to SF
-- [`copy_files()`](https://jonotuke.github.io/spIBDerverse/reference/copy_files.md)
-  : Copy files
 - [`dataWizardInput()`](https://jonotuke.github.io/spIBDerverse/reference/dataWizardInput.md)
   : dataWizardInput
 - [`default_image`](https://jonotuke.github.io/spIBDerverse/reference/default_image.md)
@@ -64,8 +60,6 @@
   : example network 4
 - [`example_network_5`](https://jonotuke.github.io/spIBDerverse/reference/example_network_5.md)
   : example network 5
-- [`example_sf`](https://jonotuke.github.io/spIBDerverse/reference/example_sf.md)
-  : example sf object
 - [`expand_line()`](https://jonotuke.github.io/spIBDerverse/reference/expand_line.md)
   : Expand a line by given amount
 - [`filter_network()`](https://jonotuke.github.io/spIBDerverse/reference/filter_network.md)
@@ -96,8 +90,6 @@
   : Convert ergm coefficients to fold changes
 - [`get_ergms()`](https://jonotuke.github.io/spIBDerverse/reference/get_ergms.md)
   : get_ergms
-- [`get_lat_range()`](https://jonotuke.github.io/spIBDerverse/reference/get_lat_range.md)
-  : get lat or lon from network sf object
 - [`get_network_summary()`](https://jonotuke.github.io/spIBDerverse/reference/get_network_summary.md)
   : Get network summary
 - [`get_node_attributes()`](https://jonotuke.github.io/spIBDerverse/reference/get_node_attributes.md)
