@@ -10,6 +10,8 @@
   : Adjust BB for network work sf object
 - [`add_layout()`](https://jonotuke.github.io/spIBDerverse/reference/add_layout.md)
   : add layout
+- [`add_stars()`](https://jonotuke.github.io/spIBDerverse/reference/add_stars.md)
+  : add stars to p-values
 - [`check_ibd_file()`](https://jonotuke.github.io/spIBDerverse/reference/check_ibd_file.md)
   : Check IBD file
 - [`check_ibd_files()`](https://jonotuke.github.io/spIBDerverse/reference/check_ibd_files.md)
@@ -108,6 +110,8 @@
   : Get ringbauer measures
 - [`get_text_font()`](https://jonotuke.github.io/spIBDerverse/reference/get_text_font.md)
   : Get text font
+- [`internal_df()`](https://jonotuke.github.io/spIBDerverse/reference/internal_df.md)
+  : internal df
 - [`label_grp_duplicates()`](https://jonotuke.github.io/spIBDerverse/reference/label_grp_duplicates.md)
   : label_grp_duplicates
 - [`load_dist_network()`](https://jonotuke.github.io/spIBDerverse/reference/load_dist_network.md)
