@@ -66,10 +66,13 @@ Imports:
     methods,
     bslib,
     htmltools,
-    shinysnap, 
+    shinysnap,
     scales,
     ggrepel,
-    FactoMineR
+    FactoMineR,
+    geosphere,
+    checkmate,
+    network
 Suggests: 
     quarto,
     rmarkdown,
