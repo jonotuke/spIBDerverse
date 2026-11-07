@@ -60,8 +60,3 @@ add_convert_bb_adj <- function(network_sf, asp = 1) {
   attr(sf::st_geometry(network_sf$edges_sf), "bbox") <- new_bb
   network_sf
 }
-# example_network_2 |>
-#   convert_sf("Latitude", "Longitude") |>
-#   add_convert_bb_adj() |>
-#   plot_static_map(key = "a7bf69ed-3e77-41ed-b1e2-52f9aa99ec19") |>
-#   print()

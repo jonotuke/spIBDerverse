@@ -90,37 +90,3 @@ pal_scale <- function(aesthetic, pal, type = "discrete", ...) {
   }
   getExportedValue("ggsci", fn_name)(...)
 }
-
-
-if (sys.nframe() == 5) {
-  pacman::p_load(conflicted, tidyverse, targets, ggsci)
-  get_palettes() |> print()
-  p <- mpg |>
-    ggplot(aes(displ, cty, colour = drv)) +
-    geom_point(size = 4) +
-    pal_scale(aesthetic = "colour", "lancet", type = "discrete")
-  p |> print()
-
-  p2 <- mpg |>
-    ggplot(aes(displ, cty, colour = hwy)) +
-    geom_point(size = 4) +
-    pal_scale(
-      aesthetic = "colour",
-      "material",
-      type = "continuous",
-      palette = "cyan"
-    )
-  p2 |> print()
-
-  p3 <- mpg |>
-    ggplot(aes(displ, cty, colour = drv)) +
-    geom_point(size = 4) +
-    pal_scale(aesthetic = "colour", "default", type = "discrete")
-  p3 |> print()
-
-  p4 <- mpg |>
-    ggplot(aes(displ, cty, colour = hwy)) +
-    geom_point(size = 4) +
-    pal_scale(aesthetic = "colour", "default", type = "continuous")
-  p4 |> print()
-}

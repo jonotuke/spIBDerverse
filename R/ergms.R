@@ -21,3 +21,21 @@ clean_models <- function(x) {
     stringr::str_replace_all('absdiff', 'diff') |>
     stringr::str_replace_all("nodematch\\((.*),diff=TRUE\\)", "nodediff(\\1)")
 }
+#' Clean network
+#'
+#' Removes all nodes with NAs for a given attribute
+#' so can fit ERGM models
+#'
+#' @param g IBD igraph obj
+#' @param col node attribute
+#'
+#' @return cleaned IBD igraph obj
+#' @export
+#'
+#' @examples
+#' clean_network(example_network_3, "site")
+clean_network <- function(g, col) {
+  index <- which(is.na(igraph::vertex_attr(g, col)))
+  g <- igraph::delete_vertices(g, igraph::V(g)[index])
+  g
+}

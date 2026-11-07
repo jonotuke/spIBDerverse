@@ -150,12 +150,3 @@ read_for_check <- function(path, clean = FALSE) {
     error = function(e) NULL
   )
 }
-
-if (sys.nframe() == 5) {
-  pacman::p_load(conflicted, tidyverse, targets)
-  check_ibd_files(
-    "inst/extdata/example-ibd-data.csv",
-    "inst/extdata/example-meta-data.csv"
-  ) |>
-    print()
-}

@@ -18,3 +18,9 @@ test_that("abbreviate works with brackets", {
     "A"
   )
 })
+test_that("add stars", {
+  expect_equal(
+    add_stars(c(0, 0.01, 0.05, 0.1, 0.5, 1)),
+    c("***", "**", "*", ".", "", "")
+  )
+})
