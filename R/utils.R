@@ -164,3 +164,21 @@ pretty_col <- function(df) {
 hover_tooltip <- function(trigger, ...) {
   bslib::tooltip(trigger, ..., options = list(trigger = "hover"))
 }
+utils::globalVariables(
+  c("pixel")
+)
+#' Plots a default image
+#'
+#' @returns an ASCII image
+#'
+#' @export
+plot_default_image <- function() {
+  spIBDerverse::default_image |>
+    ggplot2::ggplot(
+      ggplot2::aes(col, row, label = pixel)
+    ) +
+    ggplot2::geom_text() +
+    ggplot2::scale_y_reverse() +
+    ggplot2::theme_void() +
+    ggplot2::coord_equal(ratio = 2)
+}

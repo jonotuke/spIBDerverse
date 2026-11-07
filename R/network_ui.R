@@ -18,7 +18,7 @@ network_ui <- function(
       shiny::checkboxInput(
         ns("internals"),
         label = "Include centrality and clustering",
-        value = FALSE
+        value = TRUE
       ),
       shiny::selectInput(
         ns("layout"),

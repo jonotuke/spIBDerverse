@@ -16,4 +16,3 @@ plot_default_image <- function() {
     ggplot2::theme_void() +
     ggplot2::coord_equal(ratio = 2)
 }
-# plot_default_image()
