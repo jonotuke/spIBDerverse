@@ -18,6 +18,7 @@ check_columns <- function(df, cols) {
   }
 }
 
+# PLOT ----
 #' Plot a network
 #'
 #' @param g An igraph network.
