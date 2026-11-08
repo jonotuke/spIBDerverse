@@ -25,34 +25,6 @@ ergms <- example_network |>
   get_ergms(c("site", "genetic_sex"), c("nodemix", "nodematch")) |>
   purrr::map(broom::glance) |>
   purrr::list_rbind(names_to = "model")
-#> Starting maximum pseudolikelihood estimation (MPLE):
-#> Obtaining the responsible dyads.
-#> Evaluating the predictor and response matrix.
-#> Maximizing the pseudolikelihood.
-#> Finished MPLE.
-#> Evaluating log-likelihood at the estimate. 
-#> 
-#> Starting maximum pseudolikelihood estimation (MPLE):
-#> Obtaining the responsible dyads.
-#> Evaluating the predictor and response matrix.
-#> Maximizing the pseudolikelihood.
-#> Finished MPLE.
-#> Evaluating log-likelihood at the estimate. 
-#> 
-#> Starting maximum pseudolikelihood estimation (MPLE):
-#> Obtaining the responsible dyads.
-#> Evaluating the predictor and response matrix.
-#> Maximizing the pseudolikelihood.
-#> Finished MPLE.
-#> Evaluating log-likelihood at the estimate. 
-#> 
-#> Starting maximum pseudolikelihood estimation (MPLE):
-#> Obtaining the responsible dyads.
-#> Evaluating the predictor and response matrix.
-#> Maximizing the pseudolikelihood.
-#> Finished MPLE.
-#> Evaluating log-likelihood at the estimate. 
-#> 
 clean_models(ergms$model) |> print()
 #> [1] "nodemix(site)"                       
 #> [2] "nodematch(genetic_sex)"              

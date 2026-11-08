@@ -26,34 +26,6 @@ ergms <- get_ergms(
   preds = c("site", "genetic_sex"),
   types = c("nodematch", "nodemix")
 )
-#> Starting maximum pseudolikelihood estimation (MPLE):
-#> Obtaining the responsible dyads.
-#> Evaluating the predictor and response matrix.
-#> Maximizing the pseudolikelihood.
-#> Finished MPLE.
-#> Evaluating log-likelihood at the estimate. 
-#> 
-#> Starting maximum pseudolikelihood estimation (MPLE):
-#> Obtaining the responsible dyads.
-#> Evaluating the predictor and response matrix.
-#> Maximizing the pseudolikelihood.
-#> Finished MPLE.
-#> Evaluating log-likelihood at the estimate. 
-#> 
-#> Starting maximum pseudolikelihood estimation (MPLE):
-#> Obtaining the responsible dyads.
-#> Evaluating the predictor and response matrix.
-#> Maximizing the pseudolikelihood.
-#> Finished MPLE.
-#> Evaluating log-likelihood at the estimate. 
-#> 
-#> Starting maximum pseudolikelihood estimation (MPLE):
-#> Obtaining the responsible dyads.
-#> Evaluating the predictor and response matrix.
-#> Maximizing the pseudolikelihood.
-#> Finished MPLE.
-#> Evaluating log-likelihood at the estimate. 
-#> 
 ergms |> get_ergm_bic()
 #> # A tibble: 4 × 3
 #>   Model                                                          AIC   BIC

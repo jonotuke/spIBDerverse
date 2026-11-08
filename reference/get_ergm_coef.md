@@ -26,34 +26,6 @@ example_network,
 preds = c("site", "genetic_sex"),
 types = c("nodematch", "nodematch")
 )
-#> Starting maximum pseudolikelihood estimation (MPLE):
-#> Obtaining the responsible dyads.
-#> Evaluating the predictor and response matrix.
-#> Maximizing the pseudolikelihood.
-#> Finished MPLE.
-#> Evaluating log-likelihood at the estimate. 
-#> 
-#> Starting maximum pseudolikelihood estimation (MPLE):
-#> Obtaining the responsible dyads.
-#> Evaluating the predictor and response matrix.
-#> Maximizing the pseudolikelihood.
-#> Finished MPLE.
-#> Evaluating log-likelihood at the estimate. 
-#> 
-#> Starting maximum pseudolikelihood estimation (MPLE):
-#> Obtaining the responsible dyads.
-#> Evaluating the predictor and response matrix.
-#> Maximizing the pseudolikelihood.
-#> Finished MPLE.
-#> Evaluating log-likelihood at the estimate. 
-#> 
-#> Starting maximum pseudolikelihood estimation (MPLE):
-#> Obtaining the responsible dyads.
-#> Evaluating the predictor and response matrix.
-#> Maximizing the pseudolikelihood.
-#> Finished MPLE.
-#> Evaluating log-likelihood at the estimate. 
-#> 
 ergms[[1]] |> get_ergm_coef()
 #> # A tibble: 2 × 6
 #>   term            coef fold_change std.error statistic  p.value

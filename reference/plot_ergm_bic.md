@@ -2,9 +2,20 @@
 
 Final version is based on BR's version
 
+Final version is based on BR's version
+
 ## Usage
 
 ``` r
+plot_ergm_bic(
+  ergms,
+  text_size = 10,
+  text_angle = 90,
+  abbr = FALSE,
+  measure = "BIC",
+  top_5 = FALSE
+)
+
 plot_ergm_bic(
   ergms,
   text_size = 10,
@@ -45,6 +56,8 @@ plot_ergm_bic(
 
 plot
 
+plot
+
 ## Examples
 
 ``` r
@@ -52,33 +65,11 @@ ergms <- example_network |>
   get_ergms(
     preds = c("site", "genetic_sex"),
     types = c("nodematch", "nodemix"))
-#> Starting maximum pseudolikelihood estimation (MPLE):
-#> Obtaining the responsible dyads.
-#> Evaluating the predictor and response matrix.
-#> Maximizing the pseudolikelihood.
-#> Finished MPLE.
-#> Evaluating log-likelihood at the estimate. 
-#> 
-#> Starting maximum pseudolikelihood estimation (MPLE):
-#> Obtaining the responsible dyads.
-#> Evaluating the predictor and response matrix.
-#> Maximizing the pseudolikelihood.
-#> Finished MPLE.
-#> Evaluating log-likelihood at the estimate. 
-#> 
-#> Starting maximum pseudolikelihood estimation (MPLE):
-#> Obtaining the responsible dyads.
-#> Evaluating the predictor and response matrix.
-#> Maximizing the pseudolikelihood.
-#> Finished MPLE.
-#> Evaluating log-likelihood at the estimate. 
-#> 
-#> Starting maximum pseudolikelihood estimation (MPLE):
-#> Obtaining the responsible dyads.
-#> Evaluating the predictor and response matrix.
-#> Maximizing the pseudolikelihood.
-#> Finished MPLE.
-#> Evaluating log-likelihood at the estimate. 
-#> 
+plot_ergm_bic(ergms) |> print()
+
+ergms <- example_network |>
+  get_ergms(
+    preds = c("site", "genetic_sex"),
+    types = c("nodematch", "nodemix"))
 plot_ergm_bic(ergms) |> print()
 ```

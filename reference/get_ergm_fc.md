@@ -26,20 +26,6 @@ tibble of fold changes
 
 ``` r
 ergm <- get_ergms(example_network, preds = "site", types = "nodemix")
-#> Starting maximum pseudolikelihood estimation (MPLE):
-#> Obtaining the responsible dyads.
-#> Evaluating the predictor and response matrix.
-#> Maximizing the pseudolikelihood.
-#> Finished MPLE.
-#> Evaluating log-likelihood at the estimate. 
-#> 
-#> Starting maximum pseudolikelihood estimation (MPLE):
-#> Obtaining the responsible dyads.
-#> Evaluating the predictor and response matrix.
-#> Maximizing the pseudolikelihood.
-#> Finished MPLE.
-#> Evaluating log-likelihood at the estimate. 
-#> 
 get_ergm_fc(ergm[[1]])
 #> # A tibble: 6 × 3
 #>   term          theta   phi
