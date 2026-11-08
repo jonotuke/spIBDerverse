@@ -164,3 +164,76 @@ pretty_col <- function(df) {
 hover_tooltip <- function(trigger, ...) {
   bslib::tooltip(trigger, ..., options = list(trigger = "hover"))
 }
+utils::globalVariables(
+  c("pixel")
+)
+#' Plots a default image
+#'
+#' @returns an ASCII image
+#'
+#' @export
+plot_default_image <- function() {
+  spIBDerverse::default_image |>
+    ggplot2::ggplot(
+      ggplot2::aes(col, row, label = pixel)
+    ) +
+    ggplot2::geom_text() +
+    ggplot2::scale_y_reverse() +
+    ggplot2::theme_void() +
+    ggplot2::coord_equal(ratio = 2)
+}
+#' get_connected_graph
+#'
+#' @param g igraph object
+#'
+#' @return igraph object
+#' @export
+#'
+#' @examples
+#' g <- igraph::sample_gnp(10, 0.5)
+#' get_connected_graph(g)
+get_connected_graph <- function(g) {
+  components <- igraph::components(g, mode = "weak")
+  connected_cluster_id <- which(components$csize > 1)
+  node_id <- igraph::V(g)[components$membership %in% connected_cluster_id]
+  igraph::induced_subgraph(g, node_id)
+}
+#' Get text font
+#'
+#' @description
+#' Used to get contrasting text to a fill.
+#'
+#' @param x numeric vector to convert to colour
+#' @param type whether to return the colour, or black / white for text
+#'
+#'
+#' @returns vector of colours
+#'
+#' @export
+#' @examples
+#' get_text_font(1:10)
+#' get_text_font(1:10, "text")
+get_text_font <- function(x, type = "fill") {
+  fill <- colourvalues::colour_values(x)
+  fill_hcl <- farver::decode_colour(fill, "rgb", "hcl")
+  text <- ifelse(fill_hcl[, "l"] > 50, "black", "white")
+  if (type == "fill") {
+    return(fill)
+  } else {
+    text
+  }
+}
+get_status <- function(msg) {
+  if (msg == "All fine") {
+    class <- "alert alert-success"
+    type <- "Success: "
+  } else {
+    class <- "alert alert-danger"
+    type <- "Warning: "
+  }
+  shiny::tags$div(
+    class = class,
+    shiny::tags$strong(type),
+    shiny::tags$p(msg)
+  )
+}

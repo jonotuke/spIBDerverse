@@ -167,7 +167,11 @@ get_ergms <- function(network, preds = NULL, types = NULL) {
   network <- intergraph::asNetwork(network)
   fits <- models |>
     purrr::set_names() |>
-    purrr::map(\(x) ergm::ergm(stats::as.formula(x)))
+    purrr::map(\(x) {
+      suppressMessages(
+        ergm::ergm(stats::as.formula(x))
+      )
+    })
   attr(fits, "removed_nodes") <- removed_nodes
   fits
 }

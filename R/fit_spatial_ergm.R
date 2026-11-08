@@ -67,7 +67,11 @@ fit_spatial_ergm <- function(g, lat, long, pred = NULL) {
   g <- intergraph::asNetwork(g)
   models <- models |>
     purrr::set_names() |>
-    purrr::map(\(x) ergm::ergm(stats::as.formula(x))) |>
+    purrr::map(\(x) {
+      suppressMessages(
+        ergm::ergm(stats::as.formula(x))
+      )
+    }) |>
     tibble::enframe(name = "formula", value = "model") |>
     dplyr::mutate(
       BIC = purrr::map_dbl(model, BIC)
