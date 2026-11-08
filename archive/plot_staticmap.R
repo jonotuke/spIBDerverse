@@ -1,282 +1,236 @@
-utils::globalVariables(
-  c("label_colour")
-)
-#' plot static-map
+# HELPERS ----
+
+# Numeric longitude/latitude of every node.
+get_node_coords <- function(g, lat = "lat", long = "long") {
+  check_columns(
+    stats::setNames(nm = igraph::vertex_attr_names(g)),
+    c(long, lat)
+  )
+  list(
+    lon = as.numeric(igraph::vertex_attr(g, long)),
+    lat = as.numeric(igraph::vertex_attr(g, lat))
+  )
+}
+
+# Widen a range by `pad` (a fraction of its width), optionally round it
+# outwards to `digits` decimals, and clamp it to `limits`.
+pad_range <- function(r, pad = 0.05, digits = NULL, limits = c(-Inf, Inf)) {
+  d <- diff(r)
+  r <- if (d == 0) {
+    r + c(-0.01, 0.01) # single point / all nodes in one spot
+  } else {
+    r + c(-1, 1) * d * pad
+  }
+  if (!is.null(digits)) {
+    m <- 10^digits
+    r <- c(floor(r[1] * m), ceiling(r[2] * m)) / m
+  }
+  c(max(r[1], limits[1]), min(r[2], limits[2]))
+}
+
+#' Longitude and latitude extent of a network
 #'
-#' @param sf network sf object
-#' @param key stadia API key
-#' @param zoom stadia tile zoom
-#' @param maptype stadia map tile
-#' @param lat_range range of lat to zoom to
-#' @param lon_range range of lon to zoom to
-#' @param fill vertex attribute for node fill
-#' @param shape vertex attribute for node shape
-#' @param node_size node size
-#' @param node_centrality vertext attribute for node alpha
-#' @param connected choice for how to deal with isolated nodes with choices
-#' Hide, Show, Grey out
-#' @param edge edge attribute for line colour
-#' @param edge_legend boolean to control edge legend
-#' @param edge_trans transformation for edge mapping
-#' @param label vertex attribute to use for labels
-#' @param label_size label size
-#' @param label_inc regular expression to include labels
-#' @param label_exc regular expression to exclude labels
-#' @param theme type of plot theme
-#' @param pal colour palette
+#' The box plot_staticmap() draws when no ranges are supplied. Used by the
+#' Shiny module to fill in the range inputs.
 #'
-#' @return network plot
+#' @inheritParams plot_staticmap
+#' @param digits If not `NULL`, round the range outwards to this many
+#'   decimals, so no node falls outside it.
+#' @return A list with length-2 numeric vectors `lon` and `lat`.
+#' @noRd
+node_coord_range <- function(
+  g,
+  lat = "lat",
+  long = "long",
+  pad = 0.05,
+  digits = NULL
+) {
+  xy <- get_node_coords(g, lat, long)
+  if (all(is.na(xy$lon)) || all(is.na(xy$lat))) {
+    stop("`lat`/`long` contain no numeric values.", call. = FALSE)
+  }
+  list(
+    lon = pad_range(range(xy$lon, na.rm = TRUE), pad, digits, c(-180, 180)),
+    lat = pad_range(range(xy$lat, na.rm = TRUE), pad, digits, c(-90, 90))
+  )
+}
+
+#' Plot a network on a static Stadia map
+#'
+#' Draws the network with [plot_network()] using a geographic layout, then
+#' places a Stadia map tile underneath it. All styling (edges, nodes, labels,
+#' palettes, ...) is handled by `plot_network()`, so any changes made there
+#' carry through automatically.
+#'
+#' @param g An igraph network.
+#' @param key Stadia API key. See <https://stadiamaps.com>.
+#' @param lat,long Vertex attributes holding latitude and longitude.
+#' @param zoom Stadia tile zoom.
+#' @param maptype Stadia map tile type.
+#' @param lon_range,lat_range Optional length-2 vectors. If both are supplied,
+#'   the network is filtered to nodes inside this box and the map is cropped
+#'   to it.
+#' @param pad Fraction of the node extent added around the edges of the map
+#'   when `lon_range`/`lat_range` are not supplied.
+#' @param jitter Maximum random shift (in degrees) applied to each node's
+#'   position, so nodes in the same place don't overlap. Applied after
+#'   filtering by `lon_range`/`lat_range`.
+#' @param seed Random seed used for the jitter (and passed to
+#'   [plot_network()]).
+#' @param country_lines Add country lines
+#'   `FALSE` (default) adds none, `TRUE` adds the `"stamen_toner_lines"`
+#'   layer, or give a lines layer by name: `"stamen_toner_lines"` or
+#'   `"stamen_terrain_lines"`.
+#' @param theme Plot theme: "minimal", "black white", "void", or "blank"
+#'   (keeps the theme from `plot_network()`).
+#' @param ... Further arguments passed to [plot_network()], e.g. `fill`,
+#'   `shape`, `edge`, `label`, `node_size`, `pal`.
+#'
+#' @return A ggplot object, or `NULL` (invisibly) if no key is given.
 #' @export
 #'
 #' @examples
-#' plot_network(example_network)
+#' \dontrun{
+#' plot_staticmap(example_network, key = my_key, zoom = 11, fill = "site")
+#'
+#' # Continental scale, with country boundaries
+#' plot_staticmap(
+#'   europe_network,
+#'   key = my_key,
+#'   zoom = 4,
+#'   country_lines = TRUE,
+#'   fill = "region",
+#'   label = "site"
+#' )
+#' }
 plot_staticmap <- function(
-  sf,
+  g,
   key = NULL,
+  lat = "lat",
+  long = "long",
   zoom = 5,
   maptype = "stamen_terrain",
   lon_range = NULL,
   lat_range = NULL,
-  fill = "none",
-  shape = "none",
-  node_size = 4,
-  node_centrality = "none",
-  connected = "Show",
-  edge = "none",
-  edge_legend = TRUE,
-  edge_trans = "identity",
-  label = "",
-  label_inc = "",
-  label_exc = "",
-  label_size = 3,
+  pad = 0.05,
+  jitter = 0,
+  seed = 2026,
+  country_lines = FALSE,
   theme = "minimal",
-  pal = "ravenclaw"
+  ...
 ) {
-  # SETUP ----
-  ggplot2::update_geom_defaults(
-    "point",
-    list(shape = 21, fill = "white")
-  )
   # KEY ----
-  if (is.null(key)) {
-    message(
-      "You need a stadia map key to use this
-      See https://stadiamaps.com"
-    )
-    return(NULL)
+  if (is_none(key)) {
+    message("You need a stadia map key to use this. See https://stadiamaps.com")
+    return(invisible(NULL))
   }
-  ggmap::register_stadiamaps(
-    key = key
-  )
-  # FILTER
-  if (!is.null(lat_range) & !is.null(lon_range)) {
-    sf <- sf |>
-      filter_sf(
-        xmin = lon_range[1],
-        xmax = lon_range[2],
-        ymin = lat_range[1],
-        ymax = lat_range[2]
-      )
-  }
-  # BOUNDING BOX ----
-  nodes_sf <- sf$nodes_sf
-  if (is.null(lat_range) | is.null(lon_range)) {
-    BB <- sf::st_bbox(nodes_sf)
-    names(BB) <- c("left", "bottom", "right", "top")
+
+  # COUNTRY LINES ----
+  lines_types <- c("stamen_toner_lines", "stamen_terrain_lines")
+  if (isTRUE(country_lines)) {
+    country_lines <- lines_types[1]
+  } else if (isFALSE(country_lines) || is.null(country_lines)) {
+    country_lines <- NULL
   } else {
-    BB <- c(
-      left = lon_range[1],
-      bottom = lat_range[1],
-      right = lon_range[2],
-      top = lat_range[2]
+    country_lines <- match.arg(country_lines, lines_types)
+  }
+
+  # FILTER ----
+  use_ranges <- !is.null(lat_range) && !is.null(lon_range)
+  if (use_ranges) {
+    xy <- get_node_coords(g, lat, long)
+    keep <- xy$lon >= min(lon_range) &
+      xy$lon <= max(lon_range) &
+      xy$lat >= min(lat_range) &
+      xy$lat <= max(lat_range)
+    g <- igraph::induced_subgraph(g, which(keep %in% TRUE))
+    if (igraph::vcount(g) == 0) {
+      stop("No nodes fall inside `lon_range` / `lat_range`.", call. = FALSE)
+    }
+  }
+
+  # JITTER ----
+  if (jitter > 0) {
+    set.seed(seed)
+    xy <- get_node_coords(g, lat, long)
+    n <- igraph::vcount(g)
+    g <- igraph::set_vertex_attr(
+      g,
+      long,
+      value = xy$lon + stats::runif(n, -jitter, jitter)
+    )
+    g <- igraph::set_vertex_attr(
+      g,
+      lat,
+      value = xy$lat + stats::runif(n, -jitter, jitter)
     )
   }
 
-  # TILES ----
-  tile <- ggmap::get_stadiamap(
-    BB,
-    zoom = zoom,
-    maptype = maptype
+  # BOUNDING BOX ----
+  if (!use_ranges) {
+    rng <- node_coord_range(g, lat, long, pad = pad)
+    lon_range <- rng$lon
+    lat_range <- rng$lat
+  }
+  BB <- c(
+    left = min(lon_range),
+    bottom = min(lat_range),
+    right = max(lon_range),
+    top = max(lat_range)
   )
-  p <- ggmap::ggmap(tile)
-  p
-  # NODE ALPHA ----
-  nodes_sf$alpha <- 1
-  if (connected == "Hide") {
-    nodes_sf <- nodes_sf |>
-      dplyr::filter(.degree >= 1)
-  } else if (connected == "Grey out") {
-    nodes_sf <- nodes_sf |>
-      dplyr::mutate(
-        alpha = ifelse(.degree >= 1, 1, 0.1)
+
+  # TILES ----
+  ggmap::register_stadiamaps(key = key, write = FALSE)
+  tile <- ggmap::get_stadiamap(BB, zoom = zoom, maptype = maptype)
+  map_layers <- list(ggmap::inset_ggmap(tile))
+
+  if (!is.null(country_lines)) {
+    lines_tile <- ggmap::get_stadiamap(BB, zoom = zoom, maptype = country_lines)
+    map_layers <- c(map_layers, list(ggmap::inset_ggmap(lines_tile)))
+  }
+
+  # NETWORK ----
+  p <- plot_network(g, seed = seed, lat = lat, long = long, ...)
+
+  # Put the map (and any boundary lines) underneath every layer
+  # plot_network() created
+  p$layers <- c(map_layers, p$layers)
+
+  # Crop to the bounding box (replaces plot_network's coord_quickmap)
+  p <- suppressMessages(
+    p +
+      ggplot2::coord_quickmap(
+        xlim = unname(BB[c("left", "right")]),
+        ylim = unname(BB[c("bottom", "top")]),
+        expand = FALSE
       )
-  }
-  if (node_centrality != "none") {
-    nodes_sf <- nodes_sf |>
-      dplyr::mutate(
-        alpha = transform_alpha(
-          .data[[node_centrality]],
-          a = 0.1
-        )
-      )
-  }
-  # EDGES ----
-  edges_sf <- sf$edges_sf
-  if (edge %in% c("", "none")) {
-    p <- p +
-      ggplot2::geom_sf(
-        data = edges_sf,
-        inherit.aes = FALSE
-      )
-  } else {
-    if (is.character(edges_sf[[edge]])) {
-      p <- p +
-        ggplot2::geom_sf(
-          ggplot2::aes(
-            linetype = .data[[edge]]
-          ),
-          show.legend = edge_legend,
-          data = edges_sf,
-          inherit.aes = FALSE
-        )
-    } else {
-      p <- p +
-        ggplot2::geom_sf(
-          ggplot2::aes(
-            colour = .data[[edge]],
-            linewidth = .data[[edge]]
-          ),
-          show.legend = edge_legend,
-          data = edges_sf,
-          inherit.aes = FALSE,
-        ) +
-        ggplot2::scale_linewidth_continuous(
-          range = c(0.5, 2),
-          transform = edge_trans
-        ) +
-        ggplot2::scale_color_gradient2(
-          low = "grey90",
-          mid = "grey50",
-          high = "black"
-        ) +
-        ggplot2::guides(colour = "none")
-    }
-  }
-  # LABELS ----
-  nodes_sf$label <- NA
-  if (!label %in% c("", "none")) {
-    label_sym <- get_sym(label)
-    nodes_sf <- nodes_sf |>
-      dplyr::mutate(label = {{ label_sym }})
-    if (label_inc != "") {
-      label_inc <- convert_pipe(label_inc)
-      nodes_sf <- nodes_sf |>
-        dplyr::mutate(
-          label = dplyr::case_when(
-            stringr::str_detect(label, label_inc) ~ name,
-            TRUE ~ NA
-          )
-        )
-    }
-    if (label_exc != "") {
-      label_exc <- convert_pipe(label_exc)
-      nodes_sf <- nodes_sf |>
-        dplyr::mutate(
-          label = dplyr::case_when(
-            stringr::str_detect(label, label_exc) ~ NA,
-            TRUE ~ label
-          )
-        )
-    }
-  }
-  if (fill %in% c("", "none")) {
-    nodes_sf$label_colour <- "black"
-  } else {
-    nodes_sf$label_colour <- get_text_font(
-      nodes_sf[[fill]],
-      type = "text"
-    )
-  }
-  # NODES ----
-  fill_sym <- get_sym(fill)
-  shape_sym <- get_sym(shape)
-  p <- p +
-    ggplot2::geom_sf(
-      ggplot2::aes(
-        shape = {{ shape_sym }}
-      ),
-      fill = "white",
-      size = node_size,
-      data = nodes_sf,
-      inherit.aes = FALSE
-    ) +
-    ggplot2::geom_sf(
-      ggplot2::aes(
-        fill = {{ fill_sym }},
-        shape = {{ shape_sym }},
-        alpha = alpha
-      ),
-      size = node_size,
-      data = nodes_sf,
-      inherit.aes = FALSE
-    ) +
-    ggplot2::scale_alpha_identity() +
-    ggplot2::scale_shape_manual(
-      values = rep(21:25, 1e4)
-    )
-  if (methods::is(nodes_sf[[fill]], "character")) {
-    p <- p + fill_discrete(pal)
-  } else {
-    p <- p + fill_continuous(pal)
-  }
-  # LABELS ----
-  p <- p + ggnewscale::new_scale_colour()
-  p <- p +
-    ggplot2::geom_sf_text(
-      ggplot2::aes(
-        label = label,
-        colour = label_colour
-      ),
-      size = label_size,
-      show.legend = FALSE,
-      data = nodes_sf,
-      inherit.aes = FALSE
-    ) +
-    ggplot2::scale_colour_identity()
+  )
+
   # EXTRAS ----
-  p <- p + ggplot2::labs(x = "Longitude", y = "Latitude")
-  p <- p + ggplot2::coord_sf(datum = sf::st_crs(3857))
-  selected_theme <- dplyr::case_when(
-    theme == "black white" ~ list(ggplot2::theme_bw()),
-    theme == "void" ~ list(ggplot2::theme_void()),
-    TRUE ~ list(ggplot2::theme_minimal())
-  )[[1]]
-  p <- p + selected_theme
-  p <- p +
-    ggplot2::guides(
-      colour = "none",
-      alpha = "none",
-      fill = ggplot2::guide_legend(
-        override.aes = list(linetype = NA)
-      ),
-      shape = ggplot2::guide_legend(
-        override.aes = list(linetype = NA)
-      )
-    )
+  if (theme != "blank") {
+    p <- p +
+      switch(
+        theme,
+        "black white" = ggplot2::theme_bw(),
+        "void" = ggplot2::theme_void(),
+        ggplot2::theme_minimal()
+      ) +
+      ggplot2::labs(x = "Longitude", y = "Latitude")
+  }
+
   p
 }
-# jono_key <- "a7bf69ed-3e77-41ed-b1e2-52f9aa99ec19"
-# plot_staticmap(
-#   example_sf,
-#   key = jono_key,
-#   zoom = 11,
-#   fill = "site",
-#   node_centrality = "degree",
-#   edge = "edge_type",
-#   edge_trans = "log10",
-#   label = "site",
-#   pal = "ravenclaw",
-#   lon_range = c(138.55, 138.65),
-#   lat_range = c(-34.94, -34.9)
-# ) |>
-#   print()
+
+if (sys.nframe() == 5) {
+  my_key <- "a7bf69ed-3e77-41ed-b1e2-52f9aa99ec19"
+  plot_staticmap(
+    europe_network,
+    key = my_key,
+    lat = "lat",
+    long = "long",
+    zoom = 5,
+    country_lines = TRUE,
+    fill = "region"
+  ) |>
+    print()
+}
