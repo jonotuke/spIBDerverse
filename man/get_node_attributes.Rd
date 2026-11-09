@@ -4,7 +4,7 @@
 \alias{get_node_attributes}
 \title{get node attributes}
 \usage{
-get_node_attributes(g, type = "all", inc_internals = FALSE)
+get_node_attributes(g, type = "all", inc_internals = FALSE, max_levels = Inf)
 }
 \arguments{
 \item{g}{network object}
@@ -12,13 +12,19 @@ get_node_attributes(g, type = "all", inc_internals = FALSE)
 \item{type}{type to return}
 
 \item{inc_internals}{boolean to include internals - clusters and centrality}
+
+\item{max_levels}{maximum number of distinct values a categorical attribute
+can have and still be returned. Defaults to \code{Inf} (no upper limit).}
 }
 \value{
 list of attributes names
 }
 \description{
-Remove centrality measures and can filter on cat or num
+Remove centrality measures and can filter on cat or num. Attributes with
+only one distinct value are dropped, as are categorical attributes with
+more than \code{max_levels} distinct values.
 }
 \examples{
 get_node_attributes(example_network)
+get_node_attributes(example_network, "cat", max_levels = 10)
 }
