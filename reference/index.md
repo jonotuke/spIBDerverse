@@ -38,6 +38,8 @@
   : convert_pred_terms
 - [`convert_ringbauer_measures()`](https://jonotuke.github.io/spIBDerverse/reference/convert_ringbauer_measures.md)
   : Convert ringbauer measures
+- [`convert_to_network()`](https://jonotuke.github.io/spIBDerverse/reference/convert_to_network.md)
+  : Convert to network from igraph, but keep original names
 - [`dataWizardInput()`](https://jonotuke.github.io/spIBDerverse/reference/dataWizardInput.md)
   : dataWizardInput
 - [`default_image`](https://jonotuke.github.io/spIBDerverse/reference/default_image.md)
@@ -60,6 +62,8 @@
   : example network 4
 - [`example_network_5`](https://jonotuke.github.io/spIBDerverse/reference/example_network_5.md)
   : example network 5
+- [`example_network_6`](https://jonotuke.github.io/spIBDerverse/reference/example_network_6.md)
+  : example network 6
 - [`example_spatial_ergms`](https://jonotuke.github.io/spIBDerverse/reference/example_spatial_ergms.md)
   : example spatial ergms
 - [`expand_line()`](https://jonotuke.github.io/spIBDerverse/reference/expand_line.md)
