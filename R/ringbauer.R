@@ -185,7 +185,20 @@ plot_ringbauer <- function(
       axis.text = ggplot2::element_text(size = text_pt),
       axis.text.x = ggplot2::element_text(angle = 90, hjust = 1, vjust = 0.5),
       legend.text = ggplot2::element_text(size = text_pt),
-      legend.title = ggplot2::element_text(size = text_pt)
+      # Title runs down the right of the bar, centred, as in the figure
+      legend.title = ggplot2::element_text(
+        size = text_pt,
+        angle = -90,
+        hjust = 0.5
+      ),
+      legend.title.position = "right",
+      # Stretch the bar to the panel height
+      legend.key.height = ggplot2::unit(1, "null"),
+      legend.key.width = ggplot2::unit(4, "mm"),
+      # No padding around the legend, so the bar ends line up with the
+      # panel edges, and only a small gap between panel and bar
+      legend.margin = ggplot2::margin(0, 0, 0, 0),
+      legend.box.spacing = ggplot2::unit(2, "mm")
     )
 
   if (!show_dendrogram) {
