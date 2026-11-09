@@ -330,3 +330,9 @@ get_ringbauer_measures <- function(g, grp) {
     dplyr::mutate(adj_pv = stats::p.adjust(pv, method = "fdr")) |>
     dplyr::relocate(n_edges, .after = grp2)
 }
+# DRIVER ----
+if (sys.nframe() == 5) {
+  get_ringbauer_measures(example_network, "site") |>
+    plot_ringbauer() |>
+    print()
+}
