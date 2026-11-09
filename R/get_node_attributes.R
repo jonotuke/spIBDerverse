@@ -20,7 +20,7 @@ get_node_attributes <- function(
   g,
   type = "all",
   inc_internals = FALSE,
-  max_levels = Inf
+  max_levels = 10
 ) {
   if (!methods::is(g, "igraph")) {
     return(NULL)
@@ -48,7 +48,6 @@ get_node_attributes <- function(
   n_levels <- purrr::map_int(node_df[vars], \(x) {
     dplyr::n_distinct(x, na.rm = TRUE)
   })
-  print(n_levels)
   is_cat <- purrr::map_lgl(
     node_df[vars],
     \(x) is.character(x) || is.factor(x)
