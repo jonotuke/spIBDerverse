@@ -1,5 +1,5 @@
 utils::globalVariables(
-  c("distance", "p", "se_logit", "lower", "upper")
+  c("p", "se_logit", "lower", "upper", "dist", "head", "tail", "formula")
 )
 #' Get geodistance for points in network
 #'
@@ -29,25 +29,26 @@ get_dist <- function(g, lat, long) {
 #' @param g igraph object
 #' @param lat node attribute for lat
 #' @param long node attribute for long
-#' @param pred extra predictor for spatial relationship
+#' @param pred node attribute for non-dist predictor
 #'
 #' @returns lowest BIC model
 #'
 #' @export
 #' @examples
 #' fit_spatial_ergm(example_network, "lat", "long", "site")
-fit_spatial_ergm <- function(g, lat, long, pred = NULL) {
+fit_spatial_ergm <- function(g, lat, long, pred = "none") {
   if (!igraph::is_igraph(g)) {
     rlang::abort(
       "Network is not an igraph"
     )
   }
-  check_node_attributes(g, c(lat, long, pred))
+  check_node_attributes(g, c(lat, long))
   D <- get_dist(g, lat, long)
   models <- list()
   models[["dist"]] <- "g ~ edges + edgecov(D)"
 
-  if (!is.null(pred)) {
+  if (pred != "none") {
+    check_node_attributes(g, pred)
     if (inherits(igraph::vertex_attr(g, pred), "numeric")) {
       models[["cov"]] <- stringr::str_glue(
         "g ~ edges + edgecov(D) + nodecov('{pred}')"
@@ -80,105 +81,146 @@ fit_spatial_ergm <- function(g, lat, long, pred = NULL) {
       BIC = purrr::map_dbl(model, BIC)
     ) |>
     tidyr::unnest(BIC)
-  return(models)
+  if (pred == "none") {
+    model <- models$model[[1]]
+  } else {
+    models <- models |>
+      dplyr::filter(formula != "g ~ edges + edgecov(D)") |>
+      dplyr::filter(BIC == min(BIC))
+    model <- models$model[[1]]
+  }
+  model
 }
 
 #' Predicts probability for an edge for given distances
 #'
-#' @param fit a model from the ERGM package which must have the distance as a predictor
+#' @param fit a model from the ERGM package which must
+#' have the distance as a predictor
 #' @param N the grid density of the fitted distance
 #' @param level the confidence level for the error bars
-#' @param distance_term name for the distance variable
 #'
 #' @returns tibble of predicted values
 #'
 #' @export
 #' @examples
-#' fit_spatial_ergm(example_network, "lat", "long", "site")$model[[1]] |>
+#' fit_spatial_ergm(example_network, "lat", "long", "site") |>
 #'  predict_spatial_ergm(N = 100)
-predict_spatial_ergm <- function(fit, N, level = 0.95, distance_term = NULL) {
+predict_spatial_ergm <- function(
+  fit,
+  N,
+  level = 0.95
+) {
   checkmate::assert_class(fit, "ergm")
-  checkmate::assert_numeric(N)
-  checkmate::assert_numeric(level)
+  checkmate::assert_count(N, positive = TRUE)
+  checkmate::assert_number(level, lower = 0, upper = 1)
+
   # Extract model information
   theta <- stats::coef(fit)
   V <- stats::vcov(fit)
   z <- stats::qnorm(p = 1 - (1 - level) / 2)
-  net <- fit$network
+  g <- fit$network
 
-  edge_cols <- grep(
-    pattern = "^edgecov",
-    x = names(theta),
-    value = TRUE
-  )
+  dist_pred <- names(theta) |>
+    purrr::keep(\(x) stringr::str_detect(x, "^edgecov"))
 
-  # Get distance variable name
-  if (is.null(distance_term)) {
-    dist_col <- edge_cols[1]
-  } else {
-    checkmate::assert_character(distance_term)
-    dist_col <- stringr::str_subset(edge_cols, distance_term)
+  if (length(dist_pred) == 0) {
+    rlang::abort("Model must contain an edgecov (distance) term")
+  }
+  if (length(dist_pred) > 1) {
+    rlang::abort("Can only deal with one distance function")
   }
 
-  # list remaining edge and node variable names to get required column names
-  held_cols <- setdiff(x = edge_cols, y = dist_col)
-  other_cols <- setdiff(x = names(theta), y = dist_col)
-  attrs <- stringr::str_extract_all(
-    string = deparse1(fit$formula[[3]]),
-    pattern = '"[^"]*"'
-  )[[1]] |>
-    stringr::str_remove_all(pattern = '"') |>
-    intersect(y = network::list.vertex.attributes(net))
+  other_terms <- setdiff(names(theta), dist_pred)
+
+  # Quoted strings in the formula that are actual vertex attributes
+  preds <- as.character(fit$formula)[3] |>
+    stringr::str_extract_all('"[^"]*"') |>
+    purrr::pluck(1) |>
+    stringr::str_remove_all('"') |>
+    unique() |>
+    intersect(network::list.vertex.attributes(g))
 
   # Make matrix of model terms
-  X <- ergm::ergmMPLE(formula = fit$formula, output = "dyadlist")$predictor |>
+  X <- ergm::ergmMPLE(
+    formula = fit$formula,
+    output = "dyadlist"
+  )$predictor |>
     tibble::as_tibble()
 
-  # Produce variable levels for combined matrix terms
-  labels <- purrr::map(
-    .x = purrr::set_names(attrs),
-    .f = function(a) {
-      v <- network::get.vertex.attribute(x = net, attrname = a)
-      paste(pmin(v[X$tail], v[X$head]), pmax(v[X$tail], v[X$head]), sep = "/")
-    }
-  ) |>
-    tibble::as_tibble(.rows = nrow(X))
-  combos <- dplyr::bind_cols(labels, X) |>
-    dplyr::mutate(dplyr::across(
-      .cols = dplyr::all_of(held_cols),
-      .fns = mean
-    )) |>
-    dplyr::select(dplyr::all_of(c(attrs, other_cols))) |>
-    dplyr::distinct()
-
-  # merge variable levels with distance grid
-  grid <- tidyr::expand_grid(
-    combos,
-    distance = seq(from = 0, to = max(X[[dist_col]]), length.out = N)
+  dist_seq <- seq(
+    from = 0,
+    to = max(X[[dist_pred]]),
+    length.out = N
   )
-  M <- as.matrix(grid[, other_cols])
-  M <- cbind(M, grid$distance)
-  colnames(M) <- c(other_cols, dist_col)
-  M <- M[, names(theta)]
 
-  # calculate point estimate and error bars and return
+  if (length(preds) > 0) {
+    # Produce variable levels for combined matrix terms
+    labels <- purrr::map(
+      .x = purrr::set_names(preds),
+      .f = function(a) {
+        v <- network::get.vertex.attribute(x = g, attrname = a)
+        paste(
+          pmin(v[X$tail], v[X$head]),
+          pmax(v[X$tail], v[X$head]),
+          sep = "/"
+        )
+      }
+    ) |>
+      tibble::as_tibble(.rows = nrow(X))
+
+    combos <- dplyr::bind_cols(labels, X) |>
+      dplyr::select(-tail, -head, -dplyr::all_of(dist_pred)) |>
+      dplyr::distinct()
+  } else {
+    # Only edgecov (plus e.g. edges): one row of the non-distance terms
+    combos <- X |>
+      dplyr::select(dplyr::all_of(other_terms)) |>
+      dplyr::distinct()
+
+    if (nrow(combos) > 1) {
+      rlang::warn(paste(
+        "Non-distance terms vary across dyads;",
+        "predicting for each observed combination."
+      ))
+    }
+  }
+
+  # Build prediction grid
+  if (ncol(combos) == 0) {
+    # Model has edgecov only (no edges term)
+    grid <- tibble::tibble("{dist_pred}" := dist_seq)
+  } else {
+    grid <- tidyr::expand_grid(combos, "{dist_pred}" := dist_seq)
+  }
+
+  M <- grid |>
+    dplyr::select(dplyr::all_of(names(theta))) |>
+    as.matrix()
+
+  # Calculate point estimate and error bars and return
   eta <- as.vector(M %*% theta)
   se <- sqrt(rowSums((M %*% V) * M))
-  out.tibble <- grid |>
+
+  grid |>
     dplyr::mutate(
       p = stats::plogis(eta),
       se_logit = se,
       lower = stats::plogis(eta - z * se),
       upper = stats::plogis(eta + z * se)
     ) |>
-    dplyr::select(dplyr::all_of(attrs), distance, p, se_logit, lower, upper)
-  return(out.tibble)
+    dplyr::select(
+      dplyr::all_of(preds),
+      dist = dplyr::all_of(dist_pred),
+      p,
+      se_logit,
+      lower,
+      upper
+    )
 }
 
 #' plot spatial ergm
 #'
 #' @param spatial_pred predict tibble from spatial ergm
-#' @param pred predictor to colour by
 #'
 #' @returns ggplot
 #'
@@ -190,41 +232,71 @@ predict_spatial_ergm <- function(fit, N, level = 0.95, distance_term = NULL) {
 #' "Longitude",
 #' "period"
 #' )
-#' ergms$model[[3]] |>
+#' ergms |>
 #'  predict_spatial_ergm(N = 100) |>
-#'  plot_spatial_ergm("period")
-plot_spatial_ergm <- function(spatial_pred, pred = NULL) {
-  spatial_pred |>
-    ggplot2::ggplot(
-      mapping = ggplot2::aes(
-        x = distance,
-        y = p,
-        col = .data[[pred]],
-        fill = .data[[pred]]
-      )
-    ) +
+#'  plot_spatial_ergm()
+plot_spatial_ergm <- function(spatial_pred) {
+  fixed_cols <- c("dist", "p", "se_logit", "lower", "upper")
+  group_cols <- setdiff(names(spatial_pred), fixed_cols)
+
+  # Combine several grouping columns into one, e.g. "A/B : X/Y"
+  if (length(group_cols) > 1) {
+    pred <- paste(group_cols, collapse = " : ")
+    spatial_pred <- spatial_pred |>
+      tidyr::unite(col = !!pred, dplyr::all_of(group_cols), sep = " : ")
+  } else if (length(group_cols) == 1) {
+    pred <- group_cols
+  } else {
+    pred <- NULL
+  }
+
+  single_col <- ggsci::pal_startrek()(1)
+
+  plt <- spatial_pred |>
+    ggplot2::ggplot(mapping = ggplot2::aes(x = dist, y = p)) +
     ggplot2::theme_bw() +
-    ggplot2::geom_ribbon(
-      mapping = ggplot2::aes(ymin = lower, ymax = upper),
-      alpha = 0.5
-    ) +
-    ggplot2::geom_line(linetype = 'dashed') +
-    ggplot2::scale_x_continuous(name = 'Distance (km)') +
-    ggplot2::scale_y_continuous(name = 'Probability of Connectedness') +
-    ggsci::scale_colour_startrek(name = pred) +
-    ggsci::scale_fill_startrek(name = pred)
+    ggplot2::scale_x_continuous(name = "Distance (km)") +
+    ggplot2::scale_y_continuous(name = "Probability of Connectedness")
+
+  if (!is.null(pred)) {
+    plt +
+      ggplot2::aes(col = .data[[pred]], fill = .data[[pred]]) +
+      ggplot2::geom_ribbon(
+        mapping = ggplot2::aes(ymin = lower, ymax = upper),
+        alpha = 0.5
+      ) +
+      ggplot2::geom_line(linetype = "dashed") +
+      ggsci::scale_colour_startrek(name = pred) +
+      ggsci::scale_fill_startrek(name = pred)
+  } else {
+    plt +
+      ggplot2::geom_ribbon(
+        mapping = ggplot2::aes(ymin = lower, ymax = upper),
+        alpha = 0.5,
+        fill = single_col,
+        colour = single_col
+      ) +
+      ggplot2::geom_line(linetype = "dashed", colour = single_col)
+  }
 }
 
+# DRIVER ----
 if (sys.nframe() == 5) {
-  pacman::p_load(conflicted, tidyverse, targets)
-  ergms <- fit_spatial_ergm(
+  fit_spatial_ergm(
     example_network_5,
     "Latitude",
     "Longitude",
     "period"
-  )
-  ergms$model[[3]] |>
+  ) |>
     predict_spatial_ergm(N = 100) |>
-    plot_spatial_ergm("period") |>
+    plot_spatial_ergm() |>
+    print()
+  fit_spatial_ergm(
+    example_network_5,
+    "Latitude",
+    "Longitude"
+  ) |>
+    predict_spatial_ergm(N = 100) |>
+    plot_spatial_ergm() |>
     print()
 }

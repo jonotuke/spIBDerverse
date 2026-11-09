@@ -4,7 +4,7 @@
 \alias{fit_spatial_ergm}
 \title{Fit spatial ergm}
 \usage{
-fit_spatial_ergm(g, lat, long, pred = NULL)
+fit_spatial_ergm(g, lat, long, pred = "none")
 }
 \arguments{
 \item{g}{igraph object}
@@ -13,7 +13,7 @@ fit_spatial_ergm(g, lat, long, pred = NULL)
 
 \item{long}{node attribute for long}
 
-\item{pred}{extra predictor for spatial relationship}
+\item{pred}{node attribute for non-dist predictor}
 }
 \value{
 lowest BIC model

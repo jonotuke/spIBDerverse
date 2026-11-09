@@ -131,3 +131,15 @@
 #' }
 #' @source simulated using erdos-renyi
 "dist_network"
+
+#' example spatial ergms
+#'
+#' A list of fitted ergms with a spatial predictor
+#'
+#' @format A list
+#' \describe{
+#' \item{formula}{Ergm formula}
+#' \item{model}{ERGMs}
+#' \item{BIC}{BIC}
+#' }
+"example_spatial_ergms"

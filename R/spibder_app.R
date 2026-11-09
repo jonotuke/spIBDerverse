@@ -92,6 +92,14 @@ spibder_app <- function(input_network = NULL) {
           ergmInput("ergm", all_vars)
         ),
         shiny::conditionalPanel(
+          condition = "input.tabs == 'Distance relationship'",
+          spatialergmInput(
+            "spatialergm",
+            all_vars = all_vars,
+            cat_vars = cat_vars
+          )
+        ),
+        shiny::conditionalPanel(
           condition = "input.tabs == 'Export plot'",
           exportplotInput("export")
         ),
@@ -164,6 +172,10 @@ spibder_app <- function(input_network = NULL) {
             ergmOutput("ergm")
           ),
           shiny::tabPanel(
+            title = "Distance relationship",
+            spatialergmOutput("spatialergm")
+          ),
+          shiny::tabPanel(
             title = "Export plot",
             exportplotOutput("export")
           ),
@@ -198,6 +210,8 @@ spibder_app <- function(input_network = NULL) {
     ringbauerServer("ringbauer", r = r)
     # ERGMs ----
     ergmServer("ergm", r = r)
+    # Spatial ERGMs ----
+    spatialergmServer("spatialergm", r = r)
     # SNAPSHOT ----
     shinysnap::snap_enable(
       app = "spIBDerverse",
