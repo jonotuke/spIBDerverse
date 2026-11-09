@@ -153,8 +153,6 @@ ibd_network
   : drop_missing_nodes
 - [`edges_to_sf()`](https://jonotuke.github.io/spIBDerverse/reference/edges_to_sf.md)
   : edges to sf
-- [`europe_network`](https://jonotuke.github.io/spIBDerverse/reference/europe_network.md)
-  : Example network of 20 European cities
 - [`example_network`](https://jonotuke.github.io/spIBDerverse/reference/example_network.md)
   : example network
 - [`example_network_2`](https://jonotuke.github.io/spIBDerverse/reference/example_network_2.md)
@@ -167,6 +165,8 @@ ibd_network
   : example network 5
 - [`example_network_6`](https://jonotuke.github.io/spIBDerverse/reference/example_network_6.md)
   : example network 6
+- [`example_network_7`](https://jonotuke.github.io/spIBDerverse/reference/example_network_7.md)
+  : Example network of 20 European cities
 - [`example_spatial_ergms`](https://jonotuke.github.io/spIBDerverse/reference/example_spatial_ergms.md)
   : example spatial ergms
 - [`expand_line()`](https://jonotuke.github.io/spIBDerverse/reference/expand_line.md)
