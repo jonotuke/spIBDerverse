@@ -19,7 +19,7 @@ spatialergmInput <- function(id, all_vars, cat_vars) {
     shiny::selectInput(
       ns("pred"),
       label = "Select predictor",
-      choices = c("none", cat_vars),
+      choices = c("none", all_vars),
       selected = "none"
     )
   )
@@ -46,7 +46,7 @@ spatialergmServer <- function(id, r) {
 
       shiny::updateSelectInput(session, "lat", choices = all_vars)
       shiny::updateSelectInput(session, "long", choices = all_vars)
-      shiny::updateSelectInput(session, "pred", choices = cat_vars)
+      shiny::updateSelectInput(session, "pred", choices = all_vars)
     })
 
     ergm <- shiny::reactive({

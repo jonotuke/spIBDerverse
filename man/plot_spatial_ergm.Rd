@@ -10,7 +10,10 @@ plot_spatial_ergm(spatial_pred)
 \item{spatial_pred}{predict tibble from spatial ergm}
 }
 \value{
-ggplot
+ggplot. If the predictor is numeric (a \code{nodecov()} term) this is
+a tile plot with distance on the x-axis, the predictor on the y-axis and
+fill showing the probability of an edge; otherwise a line plot of
+probability against distance with confidence ribbons.
 }
 \description{
 plot spatial ergm
