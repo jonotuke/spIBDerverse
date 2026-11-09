@@ -245,7 +245,8 @@ get_ergms <- function(network, preds = NULL, types = NULL) {
     models <- get_all_models(terms, "network")
     models <- remove_redundant_models(models, preds)
   }
-  network <- intergraph::asNetwork(network)
+  # network <- intergraph::asNetwork(network)
+  network <- convert_to_network(network)
   fits <- models |>
     purrr::set_names() |>
     purrr::map(\(x) {
@@ -686,4 +687,37 @@ remove_redundant_models <- function(models, vars) {
       purrr::discard(\(x) stringr::str_count(x, var) > 1)
   }
   models
+}
+#' Convert to network from igraph, but keep original names
+#'
+#' @param g igraph object
+#'
+#' @returns network object
+#'
+#' @export
+#' @examples
+#' convert_to_network(example_network_6)
+convert_to_network <- function(g) {
+  checkmate::assert_class(g, "igraph")
+  net <- intergraph::asNetwork(g)
+  net
+
+  orig <- igraph::vertex_attr_names(g)
+
+  mangled <- make.names(orig)
+
+  for (i in seq_along(orig)) {
+    if (orig[i] != mangled[i]) {
+      network::set.vertex.attribute(
+        net,
+        orig[i],
+        network::get.vertex.attribute(net, mangled[i])
+      )
+      network::delete.vertex.attribute(net, mangled[i])
+    }
+  }
+  net
+}
+if (sys.nframe() == 5) {
+  convert_to_network(example_network_6) |> print()
 }

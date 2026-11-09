@@ -118,6 +118,20 @@
 #' @source Example IBD datasets from Dr Adam Rohrlach
 "example_network_5"
 
+#' example network 6
+#'
+#' An igraph example network with attribute Genetic Sex
+#'
+#' @format An igraph object
+#' \describe{
+#' \item{name}{Name for each node}
+#' \dots
+#' \item{degree}{Degree for each node}
+#' \item{wij}{Weight for each edge}
+#' }
+#' @source Based on example_network
+"example_network_6"
+
 #' dist network
 #'
 #' An igraph example network that is used to test create_network function

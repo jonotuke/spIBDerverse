@@ -30,3 +30,12 @@ test_that("clean-models works", {
     "nodediff(A)"
   )
 })
+
+test_that("convert works", {
+  expect_error(convert_to_network(list()))
+  node_attr <- convert_to_network(example_network_6) |>
+    network::list.vertex.attributes()
+  expect_true(
+    "Genetic Sex" %in% node_attr
+  )
+})
