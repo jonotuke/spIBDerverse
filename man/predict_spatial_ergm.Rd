@@ -4,16 +4,15 @@
 \alias{predict_spatial_ergm}
 \title{Predicts probability for an edge for given distances}
 \usage{
-predict_spatial_ergm(fit, N, level = 0.95, distance_term = NULL)
+predict_spatial_ergm(fit, N, level = 0.95)
 }
 \arguments{
-\item{fit}{a model from the ERGM package which must have the distance as a predictor}
+\item{fit}{a model from the ERGM package which must
+have the distance as a predictor}
 
 \item{N}{the grid density of the fitted distance}
 
 \item{level}{the confidence level for the error bars}
-
-\item{distance_term}{name for the distance variable}
 }
 \value{
 tibble of predicted values
