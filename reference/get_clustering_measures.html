@@ -78,23 +78,22 @@ categorical-predictor table.</p></div>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">get_clustering_measures</span><span class="op">(</span><span class="va">example_network</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 40 × 11</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    genetic_sex site  name    lat  long Louvain `Weighted Louvain`</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> F           C     1     -<span style="color: #BB0000;">34.8</span>  139. L1      Lw1               </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> M           C     2     -<span style="color: #BB0000;">34.8</span>  139. L2      Lw2               </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> M           B     3     -<span style="color: #BB0000;">34.9</span>  139. L2      Lw2               </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> F           C     4     -<span style="color: #BB0000;">34.8</span>  139. L1      Lw1               </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> F           C     5     -<span style="color: #BB0000;">34.8</span>  139. L1      Lw1               </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> F           B     6     -<span style="color: #BB0000;">34.9</span>  139. L2      Lw2               </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> F           B     7     -<span style="color: #BB0000;">34.9</span>  139. L3      Lw3               </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> M           A     8     -<span style="color: #BB0000;">34.9</span>  139. L4      Lw2               </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> F           C     9     -<span style="color: #BB0000;">34.8</span>  139. L1      Lw1               </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> M           A     10    -<span style="color: #BB0000;">34.9</span>  139. L4      Lw4               </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 40 × 10</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    genetic_sex site    lat  long Louvain `Weighted Louvain` `Leading eigenvalue`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> F           C     -<span style="color: #BB0000;">34.8</span>  139. L1      Lw1                E1                  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> M           C     -<span style="color: #BB0000;">34.8</span>  139. L2      Lw2                E2                  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> M           B     -<span style="color: #BB0000;">34.9</span>  139. L2      Lw2                E2                  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> F           C     -<span style="color: #BB0000;">34.8</span>  139. L1      Lw1                E1                  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> F           C     -<span style="color: #BB0000;">34.8</span>  139. L1      Lw1                E1                  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> F           B     -<span style="color: #BB0000;">34.9</span>  139. L2      Lw2                E3                  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> F           B     -<span style="color: #BB0000;">34.9</span>  139. L3      Lw3                E3                  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> M           A     -<span style="color: #BB0000;">34.9</span>  139. L4      Lw2                E5                  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> F           C     -<span style="color: #BB0000;">34.8</span>  139. L1      Lw1                E1                  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> M           A     -<span style="color: #BB0000;">34.9</span>  139. L4      Lw4                E5                  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 30 more rows</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 4 more variables: `Leading eigenvalue` &lt;chr&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   `Weighted leading eigenvalue` &lt;chr&gt;, `Label propagation` &lt;chr&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   `Weighted label propagation` &lt;chr&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 3 more variables: `Weighted leading eigenvalue` &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   `Label propagation` &lt;chr&gt;, `Weighted label propagation` &lt;chr&gt;</span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
