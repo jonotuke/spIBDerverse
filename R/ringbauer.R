@@ -124,8 +124,17 @@ plot_ringbauer <- function(
   show_dendrogram = TRUE
 ) {
   if (is.data.frame(RM)) {
-    RM <- prepare_ringbauer_labels(RM, abbr, addSize, addPercent)
-  } else if (all(c("density", "labels", "text_colour") %in% names(RM))) {
+    RM <- prepare_ringbauer_labels(
+      RM,
+      abbr,
+      addSize,
+      addPercent
+    )
+  } else if (
+    all(
+      c("density", "labels", "text_colour") %in% names(RM)
+    )
+  ) {
     m <- RM$density
     RM <- data.frame(
       grp1 = rownames(m)[row(m)],
@@ -195,7 +204,12 @@ plot_ringbauer <- function(
     ) +
     ggplot2::theme_void()
 
-  patchwork::wrap_plots(dendrogram, heatmap, ncol = 1, heights = c(1, 4))
+  patchwork::wrap_plots(
+    dendrogram,
+    heatmap,
+    ncol = 1,
+    heights = c(1, 4)
+  )
 }
 utils::globalVariables(
   c(
