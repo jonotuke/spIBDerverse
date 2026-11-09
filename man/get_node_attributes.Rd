@@ -4,7 +4,7 @@
 \alias{get_node_attributes}
 \title{get node attributes}
 \usage{
-get_node_attributes(g, type = "all", inc_internals = FALSE, max_levels = Inf)
+get_node_attributes(g, type = "all", inc_internals = FALSE, max_levels = 10)
 }
 \arguments{
 \item{g}{network object}
