@@ -15,15 +15,28 @@ label_crawl <- function(g, nodes, k = 2, mode = "all") {
   igraph::V(g)$crawl[seeds] <- "seed"
   g
 }
+names_to_ids <- function(g, node_names) {
+  ids <- match(node_names, igraph::V(g)$name)
+  missing <- node_names[is.na(ids)]
+  if (length(missing) > 0) {
+    rlang::abort(
+      stringr::str_c(
+        "Not found in graph: ",
+        stringr::str_c(missing, collapse = ", ")
+      )
+    )
+  }
+  ids
+}
 
 if (sys.nframe() == 5) {
   example_network |> print()
-  g <- label_crawl(example_network, nodes = c(1, 2))
+  ids <- names_to_ids(example_network_2, c("RKF099", "RKC001"))
+  g <- label_crawl(example_network_2, nodes = c("RKF099", "RKC001"))
   g |> print()
   plot_network(
     g,
-    fill = "crawl",
-    label = "name"
+    fill = "crawl"
   ) |>
     print()
 }
