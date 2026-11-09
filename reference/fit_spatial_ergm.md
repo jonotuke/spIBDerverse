@@ -6,7 +6,7 @@ spatial distance between nodes
 ## Usage
 
 ``` r
-fit_spatial_ergm(g, lat, long, pred = NULL)
+fit_spatial_ergm(g, lat, long, pred = "none")
 ```
 
 ## Arguments
@@ -25,7 +25,7 @@ fit_spatial_ergm(g, lat, long, pred = NULL)
 
 - pred:
 
-  extra predictor for spatial relationship
+  node attribute for non-dist predictor
 
 ## Value
 
@@ -35,11 +35,13 @@ lowest BIC model
 
 ``` r
 fit_spatial_ergm(example_network, "lat", "long", "site")
-#> # A tibble: 4 × 3
-#>   formula                                                 model    BIC
-#>   <chr>                                                   <list> <dbl>
-#> 1 g ~ edges + edgecov(D)                                  <ergm>  676.
-#> 2 g ~ edges + edgecov(D) + nodemix('site')                <ergm>  645.
-#> 3 g ~ edges + edgecov(D) + nodematch('site')              <ergm>  645.
-#> 4 g ~ edges + edgecov(D) + nodematch('site', diff = TRUE) <ergm>  634.
+#> 
+#> Call:
+#> ergm::ergm(formula = stats::as.formula(x))
+#> 
+#> Maximum Likelihood Coefficients:
+#>            edges         edgecov.D  nodematch.site.A  nodematch.site.B  
+#>         -2.32044          -0.01203           0.80602           1.63435  
+#> nodematch.site.C  
+#>          2.42168  
 ```

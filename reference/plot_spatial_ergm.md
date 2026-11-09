@@ -5,7 +5,7 @@ plot spatial ergm
 ## Usage
 
 ``` r
-plot_spatial_ergm(spatial_pred, pred = NULL)
+plot_spatial_ergm(spatial_pred)
 ```
 
 ## Arguments
@@ -13,10 +13,6 @@ plot_spatial_ergm(spatial_pred, pred = NULL)
 - spatial_pred:
 
   predict tibble from spatial ergm
-
-- pred:
-
-  predictor to colour by
 
 ## Value
 
@@ -31,7 +27,7 @@ example_network_5,
 "Longitude",
 "period"
 )
-ergms$model[[3]] |>
+ergms |>
  predict_spatial_ergm(N = 100) |>
- plot_spatial_ergm("period")
+ plot_spatial_ergm()
 ```

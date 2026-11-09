@@ -5,7 +5,7 @@ Predicts probability for an edge for given distances
 ## Usage
 
 ``` r
-predict_spatial_ergm(fit, N, level = 0.95, distance_term = NULL)
+predict_spatial_ergm(fit, N, level = 0.95)
 ```
 
 ## Arguments
@@ -23,10 +23,6 @@ predict_spatial_ergm(fit, N, level = 0.95, distance_term = NULL)
 
   the confidence level for the error bars
 
-- distance_term:
-
-  name for the distance variable
-
 ## Value
 
 tibble of predicted values
@@ -34,20 +30,20 @@ tibble of predicted values
 ## Examples
 
 ``` r
-fit_spatial_ergm(example_network, "lat", "long", "site")$model[[1]] |>
+fit_spatial_ergm(example_network, "lat", "long", "site") |>
  predict_spatial_ergm(N = 100)
-#> # A tibble: 100 × 5
-#>    distance     p se_logit lower upper
-#>       <dbl> <dbl>    <dbl> <dbl> <dbl>
-#>  1    0     0.285    0.122 0.239 0.336
-#>  2    0.140 0.281    0.120 0.236 0.331
-#>  3    0.279 0.277    0.119 0.233 0.326
-#>  4    0.419 0.274    0.117 0.231 0.322
-#>  5    0.558 0.270    0.116 0.228 0.317
-#>  6    0.698 0.267    0.114 0.225 0.313
-#>  7    0.837 0.263    0.113 0.222 0.308
-#>  8    0.977 0.260    0.111 0.220 0.304
-#>  9    1.12  0.256    0.110 0.217 0.299
-#> 10    1.26  0.253    0.109 0.214 0.295
-#> # ℹ 90 more rows
+#> # A tibble: 600 × 6
+#>    site   dist     p se_logit lower upper
+#>    <chr> <dbl> <dbl>    <dbl> <dbl> <dbl>
+#>  1 C/C   0     0.525    0.196 0.430 0.619
+#>  2 C/C   0.140 0.525    0.196 0.429 0.618
+#>  3 C/C   0.279 0.524    0.196 0.429 0.618
+#>  4 C/C   0.419 0.524    0.195 0.429 0.618
+#>  5 C/C   0.558 0.524    0.195 0.428 0.617
+#>  6 C/C   0.698 0.523    0.196 0.428 0.617
+#>  7 C/C   0.837 0.523    0.196 0.427 0.617
+#>  8 C/C   0.977 0.522    0.196 0.427 0.616
+#>  9 C/C   1.12  0.522    0.196 0.426 0.616
+#> 10 C/C   1.26  0.522    0.197 0.426 0.616
+#> # ℹ 590 more rows
 ```

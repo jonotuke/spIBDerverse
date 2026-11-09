@@ -163,6 +163,8 @@ ibd_network
   : example network 4
 - [`example_network_5`](https://jonotuke.github.io/spIBDerverse/reference/example_network_5.md)
   : example network 5
+- [`example_spatial_ergms`](https://jonotuke.github.io/spIBDerverse/reference/example_spatial_ergms.md)
+  : example spatial ergms
 - [`expand_line()`](https://jonotuke.github.io/spIBDerverse/reference/expand_line.md)
   : Expand a line by given amount
 - [`filter_network()`](https://jonotuke.github.io/spIBDerverse/reference/filter_network.md)
