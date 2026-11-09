@@ -39,8 +39,8 @@
 #'   are invented for illustration. See `data-raw/europe_network.R`.
 #'
 #' @examples
-#' igraph::vertex_attr(europe_network, "site")
-"europe_network"
+#' igraph::vertex_attr(example_network_7, "site")
+"example_network_7"
 
 #' example network
 #'

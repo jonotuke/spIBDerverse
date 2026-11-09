@@ -192,7 +192,17 @@ networkFilterApp <- function(network_input) {
   ui <- shiny::fluidPage(
     networkFilterInput("networkFilter", all_vars, edge_vars),
     networkFilterOutput("networkFilter"),
-    nodeOutput("node")
+    shiny::tabsetPanel(
+      id = "filter_tabs",
+      shiny::tabPanel(
+        title = "Edges",
+        edgeOutput("edge")
+      ),
+      shiny::tabPanel(
+        title = "Nodes",
+        nodeOutput("node")
+      )
+    )
   )
 
   server <- function(input, output, session) {
@@ -204,5 +214,5 @@ networkFilterApp <- function(network_input) {
 }
 
 if (sys.nframe() == 5) {
-  networkFilterApp(example_network) |> print()
+  networkFilterApp(example_network_7) |> print()
 }

@@ -26,7 +26,7 @@ centralityInput <- function(id, cat_vars) {
     ),
     shiny::actionButton(
       shiny::NS(id, "run_sim"),
-      "Run test sims",
+      "Run permutation test",
       icon = shiny::icon("arrows-rotate"),
       class = "btn-primary"
     ),

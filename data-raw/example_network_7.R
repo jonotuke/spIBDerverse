@@ -87,7 +87,7 @@ edges <- data.frame(
   # Made-up connections per week, spread over a wide range so a log scale
   # is useful
   # fmt: skip
-  weight = c(
+  wij = c(
     120, 150, 90, 60, 25, 70,
     15, 40, 80, 55, 45, 50,
     35, 110, 30, 65, 20, 28,
@@ -98,13 +98,13 @@ edges <- data.frame(
   stringsAsFactors = FALSE
 )
 
-europe_network <- igraph::graph_from_data_frame(
+example_network_7 <- igraph::graph_from_data_frame(
   edges,
   directed = FALSE,
   vertices = nodes
 )
-europe_network <- europe_network |>
+example_network_7 <- example_network_7 |>
   add_centrality_measures() |>
   add_clustering()
 
-usethis::use_data(europe_network, overwrite = TRUE)
+usethis::use_data(example_network_7, overwrite = TRUE)
