@@ -4,7 +4,7 @@
 \alias{predict_spatial_ergm}
 \title{Predicts probability for an edge for given distances}
 \usage{
-predict_spatial_ergm(fit, N, level = 0.95)
+predict_spatial_ergm(fit, N, level = 0.95, N_cov = 100)
 }
 \arguments{
 \item{fit}{a model from the ERGM package which must
@@ -13,6 +13,11 @@ have the distance as a predictor}
 \item{N}{the grid density of the fitted distance}
 
 \item{level}{the confidence level for the error bars}
+
+\item{N_cov}{number of evenly spaced values to predict over for each
+\code{nodecov()} term. A \code{nodecov()} term for a dyad is the sum of the two
+nodes' attribute values, so the sequence runs from the smallest to the
+largest observed sum and is returned in a column named \verb{<attribute>_sum}.}
 }
 \value{
 tibble of predicted values

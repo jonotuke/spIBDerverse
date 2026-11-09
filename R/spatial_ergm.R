@@ -29,7 +29,9 @@ get_dist <- function(g, lat, long) {
 #' @param g igraph object
 #' @param lat node attribute for lat
 #' @param long node attribute for long
-#' @param pred node attribute for non-dist predictor
+#' @param pred node attribute for non-dist predictor. If the attribute is
+#'   numeric (integer or double) it is fitted with `nodecov()`; otherwise it
+#'   is treated as categorical and fitted with `nodematch()`/`nodemix()`.
 #'
 #' @returns lowest BIC model
 #'
@@ -49,12 +51,15 @@ fit_spatial_ergm <- function(g, lat, long, pred = "none") {
 
   if (pred != "none") {
     check_node_attributes(g, pred)
-    if (inherits(igraph::vertex_attr(g, pred), "numeric")) {
+    pred_values <- igraph::vertex_attr(g, pred)
+    if (is.numeric(pred_values)) {
+      # Numeric predictor (integer or double): main effect via nodecov
       models[["cov"]] <- stringr::str_glue(
         "g ~ edges + edgecov(D) + nodecov('{pred}')"
       )
     } else {
-      n_levels <- nlevels(factor(igraph::vertex_attr(g, pred)))
+      # Categorical predictor: nodemix / nodematch models
+      n_levels <- nlevels(factor(pred_values))
       if (n_levels > 2) {
         models[["mix"]] <- stringr::str_glue(
           "g ~ edges + edgecov(D) + nodemix('{pred}')"
@@ -98,6 +103,10 @@ fit_spatial_ergm <- function(g, lat, long, pred = "none") {
 #' have the distance as a predictor
 #' @param N the grid density of the fitted distance
 #' @param level the confidence level for the error bars
+#' @param N_cov number of evenly spaced values to predict over for each
+#' `nodecov()` term. A `nodecov()` term for a dyad is the sum of the two
+#' nodes' attribute values, so the sequence runs from the smallest to the
+#' largest observed sum and is returned in a column named `<attribute>_sum`.
 #'
 #' @returns tibble of predicted values
 #'
@@ -108,11 +117,13 @@ fit_spatial_ergm <- function(g, lat, long, pred = "none") {
 predict_spatial_ergm <- function(
   fit,
   N,
-  level = 0.95
+  level = 0.95,
+  N_cov = 100
 ) {
   checkmate::assert_class(fit, "ergm")
   checkmate::assert_count(N, positive = TRUE)
   checkmate::assert_number(level, lower = 0, upper = 1)
+  checkmate::assert_count(N_cov, positive = TRUE)
 
   # Extract model information
   theta <- stats::coef(fit)
@@ -140,6 +151,13 @@ predict_spatial_ergm <- function(
     unique() |>
     intersect(network::list.vertex.attributes(g))
 
+  # Numeric predictors fitted with nodecov are predicted over a sequence;
+  # the remaining (categorical) predictors use observed level combinations
+  cov_terms <- other_terms[stringr::str_detect(other_terms, "^nodecov\\.")]
+  cov_preds <- stringr::str_remove(cov_terms, "^nodecov\\.")
+  cov_labels <- paste0(cov_preds, "_sum")
+  cat_preds <- setdiff(preds, cov_preds)
+
   # Make matrix of model terms
   X <- ergm::ergmMPLE(
     formula = fit$formula,
@@ -153,10 +171,22 @@ predict_spatial_ergm <- function(
     length.out = N
   )
 
-  if (length(preds) > 0) {
+  cov_seqs <- purrr::map(
+    .x = purrr::set_names(cov_terms),
+    .f = \(term) {
+      seq(
+        from = min(X[[term]]),
+        to = max(X[[term]]),
+        length.out = N_cov
+      ) |>
+        unique()
+    }
+  )
+
+  if (length(cat_preds) > 0) {
     # Produce variable levels for combined matrix terms
     labels <- purrr::map(
-      .x = purrr::set_names(preds),
+      .x = purrr::set_names(cat_preds),
       .f = function(a) {
         v <- network::get.vertex.attribute(x = g, attrname = a)
         paste(
@@ -169,12 +199,16 @@ predict_spatial_ergm <- function(
       tibble::as_tibble(.rows = nrow(X))
 
     combos <- dplyr::bind_cols(labels, X) |>
-      dplyr::select(-tail, -head, -dplyr::all_of(dist_pred)) |>
+      dplyr::select(
+        -tail,
+        -head,
+        -dplyr::all_of(c(dist_pred, cov_terms))
+      ) |>
       dplyr::distinct()
   } else {
-    # Only edgecov (plus e.g. edges): one row of the non-distance terms
+    # No categorical terms (e.g. just edges): one row of the remaining terms
     combos <- X |>
-      dplyr::select(dplyr::all_of(other_terms)) |>
+      dplyr::select(dplyr::all_of(setdiff(other_terms, cov_terms))) |>
       dplyr::distinct()
 
     if (nrow(combos) > 1) {
@@ -185,12 +219,11 @@ predict_spatial_ergm <- function(
     }
   }
 
-  # Build prediction grid
-  if (ncol(combos) == 0) {
-    # Model has edgecov only (no edges term)
-    grid <- tibble::tibble("{dist_pred}" := dist_seq)
-  } else {
-    grid <- tidyr::expand_grid(combos, "{dist_pred}" := dist_seq)
+  # Build prediction grid: nodecov sequences crossed with distance
+  grid <- tidyr::expand_grid(!!!cov_seqs, "{dist_pred}" := dist_seq)
+  if (ncol(combos) > 0) {
+    # Cross with observed combinations of the other terms (e.g. edges)
+    grid <- tidyr::expand_grid(combos, grid)
   }
 
   M <- grid |>
@@ -209,7 +242,8 @@ predict_spatial_ergm <- function(
       upper = stats::plogis(eta + z * se)
     ) |>
     dplyr::select(
-      dplyr::all_of(preds),
+      dplyr::all_of(cat_preds),
+      dplyr::all_of(purrr::set_names(cov_terms, cov_labels)),
       dist = dplyr::all_of(dist_pred),
       p,
       se_logit,
@@ -222,7 +256,10 @@ predict_spatial_ergm <- function(
 #'
 #' @param spatial_pred predict tibble from spatial ergm
 #'
-#' @returns ggplot
+#' @returns ggplot. If the predictor is numeric (a `nodecov()` term) this is
+#' a tile plot with distance on the x-axis, the predictor on the y-axis and
+#' fill showing the probability of an edge; otherwise a line plot of
+#' probability against distance with confidence ribbons.
 #'
 #' @export
 #' @examples
@@ -238,6 +275,34 @@ predict_spatial_ergm <- function(
 plot_spatial_ergm <- function(spatial_pred) {
   fixed_cols <- c("dist", "p", "se_logit", "lower", "upper")
   group_cols <- setdiff(names(spatial_pred), fixed_cols)
+
+  # Numeric predictor (e.g. nodecov sequence): heatmap of probability
+  num_cols <- group_cols[purrr::map_lgl(spatial_pred[group_cols], is.numeric)]
+
+  if (length(num_cols) > 1) {
+    rlang::abort("Can only plot one numeric predictor")
+  }
+
+  if (length(num_cols) == 1) {
+    facet_cols <- setdiff(group_cols, num_cols)
+
+    plt <- spatial_pred |>
+      ggplot2::ggplot(
+        mapping = ggplot2::aes(x = dist, y = .data[[num_cols]], fill = p)
+      ) +
+      ggplot2::geom_tile() +
+      ggplot2::theme_bw() +
+      ggplot2::scale_x_continuous(name = "Distance (km)", expand = c(0, 0)) +
+      ggplot2::scale_y_continuous(name = num_cols, expand = c(0, 0)) +
+      ggplot2::scale_fill_viridis_c(name = "Probability of\nConnectedness")
+
+    # Any categorical predictors are shown as facets
+    if (length(facet_cols) > 0) {
+      plt <- plt +
+        ggplot2::facet_wrap(ggplot2::vars(!!!rlang::syms(facet_cols)))
+    }
+    return(plt)
+  }
 
   # Combine several grouping columns into one, e.g. "A/B : X/Y"
   if (length(group_cols) > 1) {
@@ -294,7 +359,8 @@ if (sys.nframe() == 5) {
   fit_spatial_ergm(
     example_network_5,
     "Latitude",
-    "Longitude"
+    "Longitude",
+    pred = "n_cov_snp"
   ) |>
     predict_spatial_ergm(N = 100) |>
     plot_spatial_ergm() |>

@@ -13,7 +13,9 @@ fit_spatial_ergm(g, lat, long, pred = "none")
 
 \item{long}{node attribute for long}
 
-\item{pred}{node attribute for non-dist predictor}
+\item{pred}{node attribute for non-dist predictor. If the attribute is
+numeric (integer or double) it is fitted with \code{nodecov()}; otherwise it
+is treated as categorical and fitted with \code{nodematch()}/\code{nodemix()}.}
 }
 \value{
 lowest BIC model
