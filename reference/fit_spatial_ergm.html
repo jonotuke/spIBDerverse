@@ -68,7 +68,9 @@ spatial distance between nodes</p>
 
 
 <dt id="arg-pred">pred<a class="anchor" aria-label="anchor" href="#arg-pred"></a></dt>
-<dd><p>node attribute for non-dist predictor</p></dd>
+<dd><p>node attribute for non-dist predictor. If the attribute is
+numeric (integer or double) it is fitted with <code>nodecov()</code>; otherwise it
+is treated as categorical and fitted with <code>nodematch()</code>/<code>nodemix()</code>.</p></dd>
 
 </dl></div>
     <div class="section level2">

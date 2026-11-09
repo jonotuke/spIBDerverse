@@ -25,7 +25,9 @@ fit_spatial_ergm(g, lat, long, pred = "none")
 
 - pred:
 
-  node attribute for non-dist predictor
+  node attribute for non-dist predictor. If the attribute is numeric
+  (integer or double) it is fitted with `nodecov()`; otherwise it is
+  treated as categorical and fitted with `nodematch()`/`nodemix()`.
 
 ## Value
 

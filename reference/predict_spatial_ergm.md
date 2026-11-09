@@ -5,7 +5,7 @@ Predicts probability for an edge for given distances
 ## Usage
 
 ``` r
-predict_spatial_ergm(fit, N, level = 0.95)
+predict_spatial_ergm(fit, N, level = 0.95, N_cov = 100)
 ```
 
 ## Arguments
@@ -22,6 +22,14 @@ predict_spatial_ergm(fit, N, level = 0.95)
 - level:
 
   the confidence level for the error bars
+
+- N_cov:
+
+  number of evenly spaced values to predict over for each `nodecov()`
+  term. A `nodecov()` term for a dyad is the sum of the two nodes'
+  attribute values, so the sequence runs from the smallest to the
+  largest observed sum and is returned in a column named
+  `<attribute>_sum`.
 
 ## Value
 

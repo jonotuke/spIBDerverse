@@ -45,7 +45,7 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">predict_spatial_ergm</span><span class="op">(</span><span class="va">fit</span>, <span class="va">N</span>, level <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">predict_spatial_ergm</span><span class="op">(</span><span class="va">fit</span>, <span class="va">N</span>, level <span class="op">=</span> <span class="fl">0.95</span>, N_cov <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -63,6 +63,13 @@ have the distance as a predictor</p></dd>
 
 <dt id="arg-level">level<a class="anchor" aria-label="anchor" href="#arg-level"></a></dt>
 <dd><p>the confidence level for the error bars</p></dd>
+
+
+<dt id="arg-n-cov">N_cov<a class="anchor" aria-label="anchor" href="#arg-n-cov"></a></dt>
+<dd><p>number of evenly spaced values to predict over for each
+<code>nodecov()</code> term. A <code>nodecov()</code> term for a dyad is the sum of the two
+nodes' attribute values, so the sequence runs from the smallest to the
+largest observed sum and is returned in a column named <code>&lt;attribute&gt;_sum</code>.</p></dd>
 
 </dl></div>
     <div class="section level2">
