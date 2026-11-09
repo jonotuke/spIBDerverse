@@ -1,7 +1,10 @@
 # Convert ringbauer measures
 
-This converts the ringbauer measures into matrices of the correct form
-for the plot function.
+Converts the ringbauer measures into matrices.
+[`plot_ringbauer()`](https://jonotuke.github.io/spIBDerverse/reference/plot_ringbauer.md)
+no longer needs this step, as it takes the output of
+[`get_ringbauer_measures()`](https://jonotuke.github.io/spIBDerverse/reference/get_ringbauer_measures.md)
+directly; this is kept for code that uses the matrices themselves.
 
 ## Usage
 
@@ -40,7 +43,7 @@ a list of three matrices: density, labels, and text colour
 
 ``` r
 get_ringbauer_measures(example_network, "site") |>
-convert_ringbauer_measures()
+  convert_ringbauer_measures()
 #> $density
 #>            C          B          A
 #> C 0.52380952 0.10000000 0.05641026

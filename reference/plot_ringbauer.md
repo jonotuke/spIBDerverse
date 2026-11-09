@@ -1,37 +1,66 @@
 # Plot Ringbauer
 
-Takes the Ringbauer matrix and plots it. This was based on the Ringbauer
-paper and also the heatmap.2 function from gplots
+Plots ringbauer measures as a heatmap of edge densities, with groups
+ordered by hierarchical clustering (distance = 1 - density) and the
+dendrogram drawn above. Based on the Ringbauer paper and the layout of
+`gplots::heatmap.2()`.
 
 ## Usage
 
 ``` r
-plot_ringbauer(RM, label_margin = 2, label_size = 3)
+plot_ringbauer(
+  RM,
+  abbr = FALSE,
+  addSize = FALSE,
+  addPercent = FALSE,
+  label_size = 3,
+  show_dendrogram = TRUE
+)
 ```
 
 ## Arguments
 
 - RM:
 
-  a Ringbauer matrix object
+  a ringbauer measure tibble from
+  [`get_ringbauer_measures()`](https://jonotuke.github.io/spIBDerverse/reference/get_ringbauer_measures.md).
+  The list of matrices from
+  [`convert_ringbauer_measures()`](https://jonotuke.github.io/spIBDerverse/reference/convert_ringbauer_measures.md)
+  is also accepted, for backward compatibility; in that case `abbr`,
+  `addSize` and `addPercent` are ignored, as the labels are already
+  made.
 
-- label_margin:
+- abbr:
 
-  the margin around the heatmap - adjust to get enough space for labels
+  a boolean that when true will shorten the group names
+
+- addSize:
+
+  adds size to group labels
+
+- addPercent:
+
+  add percent to labels
 
 - label_size:
 
-  adjust label and axis text
+  size of the cell labels, in mm (as in
+  [`ggplot2::geom_text()`](https://ggplot2.tidyverse.org/reference/geom_text.html)).
+  The row and column labels and the legend text are set to the same
+  size.
+
+- show_dendrogram:
+
+  if `TRUE`, draw the dendrogram above the heatmap
 
 ## Value
 
-Ringbauer plot
+a ggplot, or a patchwork if `show_dendrogram = TRUE`; either can be
+modified further, e.g. with `& ggplot2::theme(...)`
 
 ## Examples
 
 ``` r
 get_ringbauer_measures(example_network, "site") |>
-convert_ringbauer_measures() |>
-plot_ringbauer(label_margin = 10, label_size = 3)
-#> Warning: "padj" is not a graphical parameter
+  plot_ringbauer(addSize = TRUE)
 ```
