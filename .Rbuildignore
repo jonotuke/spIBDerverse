@@ -15,3 +15,4 @@ vignettes/.quarto
 ^rosm.cache/
 ^archive/
 makefile
+^app\.R$

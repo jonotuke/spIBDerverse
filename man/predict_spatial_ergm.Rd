@@ -21,6 +21,6 @@ tibble of predicted values
 Predicts probability for an edge for given distances
 }
 \examples{
-fit_spatial_ergm(example_network, "lat", "long", "site")$model[[1]] |>
+fit_spatial_ergm(example_network, "lat", "long", "site") |>
  predict_spatial_ergm(N = 100)
 }

@@ -22,7 +22,7 @@ example_network_5,
 "Longitude",
 "period"
 )
-ergms$model[[3]] |>
+ergms |>
  predict_spatial_ergm(N = 100) |>
  plot_spatial_ergm()
 }

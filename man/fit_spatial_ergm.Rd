@@ -4,7 +4,7 @@
 \alias{fit_spatial_ergm}
 \title{Fit spatial ergm}
 \usage{
-fit_spatial_ergm(g, lat, long, pred = NULL)
+fit_spatial_ergm(g, lat, long, pred = "none")
 }
 \arguments{
 \item{g}{igraph object}

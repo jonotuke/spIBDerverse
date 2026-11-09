@@ -1,5 +1,5 @@
 utils::globalVariables(
-  c("p", "se_logit", "lower", "upper", "dist", "head", "tail")
+  c("p", "se_logit", "lower", "upper", "dist", "head", "tail", "formula")
 )
 #' Get geodistance for points in network
 #'
@@ -36,18 +36,19 @@ get_dist <- function(g, lat, long) {
 #' @export
 #' @examples
 #' fit_spatial_ergm(example_network, "lat", "long", "site")
-fit_spatial_ergm <- function(g, lat, long, pred = NULL) {
+fit_spatial_ergm <- function(g, lat, long, pred = "none") {
   if (!igraph::is_igraph(g)) {
     rlang::abort(
       "Network is not an igraph"
     )
   }
-  check_node_attributes(g, c(lat, long, pred))
+  check_node_attributes(g, c(lat, long))
   D <- get_dist(g, lat, long)
   models <- list()
   models[["dist"]] <- "g ~ edges + edgecov(D)"
 
-  if (!is.null(pred)) {
+  if (pred != "none") {
+    check_node_attributes(g, pred)
     if (inherits(igraph::vertex_attr(g, pred), "numeric")) {
       models[["cov"]] <- stringr::str_glue(
         "g ~ edges + edgecov(D) + nodecov('{pred}')"
@@ -80,7 +81,15 @@ fit_spatial_ergm <- function(g, lat, long, pred = NULL) {
       BIC = purrr::map_dbl(model, BIC)
     ) |>
     tidyr::unnest(BIC)
-  return(models)
+  if (pred == "none") {
+    model <- models$model[[1]]
+  } else {
+    models <- models |>
+      dplyr::filter(formula != "g ~ edges + edgecov(D)") |>
+      dplyr::filter(BIC == min(BIC))
+    model <- models$model[[1]]
+  }
+  model
 }
 
 #' Predicts probability for an edge for given distances
@@ -94,7 +103,7 @@ fit_spatial_ergm <- function(g, lat, long, pred = NULL) {
 #'
 #' @export
 #' @examples
-#' fit_spatial_ergm(example_network, "lat", "long", "site")$model[[1]] |>
+#' fit_spatial_ergm(example_network, "lat", "long", "site") |>
 #'  predict_spatial_ergm(N = 100)
 predict_spatial_ergm <- function(
   fit,
@@ -223,7 +232,7 @@ predict_spatial_ergm <- function(
 #' "Longitude",
 #' "period"
 #' )
-#' ergms$model[[3]] |>
+#' ergms |>
 #'  predict_spatial_ergm(N = 100) |>
 #'  plot_spatial_ergm()
 plot_spatial_ergm <- function(spatial_pred) {
@@ -270,15 +279,23 @@ plot_spatial_ergm <- function(spatial_pred) {
       ggplot2::geom_line(linetype = "dashed", colour = single_col)
   }
 }
+
 # DRIVER ----
 if (sys.nframe() == 5) {
-  ergms <- fit_spatial_ergm(
+  fit_spatial_ergm(
     example_network_5,
     "Latitude",
     "Longitude",
     "period"
-  )
-  ergms$model[[2]] |>
+  ) |>
+    predict_spatial_ergm(N = 100) |>
+    plot_spatial_ergm() |>
+    print()
+  fit_spatial_ergm(
+    example_network_5,
+    "Latitude",
+    "Longitude"
+  ) |>
     predict_spatial_ergm(N = 100) |>
     plot_spatial_ergm() |>
     print()

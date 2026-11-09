@@ -18,7 +18,7 @@ test_that("predict args", {
 
 test_that("predict values", {
   ergm <- suppressMessages(
-    fit_spatial_ergm(example_network, "lat", "long", "site")$model[[2]]
+    fit_spatial_ergm(example_network, "lat", "long", "site")
   )
   df <- ergm |> predict_spatial_ergm(N = 10)
   expect_equal(
@@ -71,32 +71,5 @@ test_that("fit args", {
       "long",
       "bob"
     )
-  )
-})
-test_that("fit values", {
-  ergms <- fit_spatial_ergm(
-    example_network,
-    "lat",
-    "long",
-    "site"
-  )
-  expect_equal(
-    ergms$formula,
-    c(
-      "g ~ edges + edgecov(D)",
-      "g ~ edges + edgecov(D) + nodemix('site')",
-      "g ~ edges + edgecov(D) + nodematch('site')",
-      "g ~ edges + edgecov(D) + nodematch('site', diff = TRUE)"
-    )
-  )
-  expect_equal(
-    ergms$BIC,
-    c(
-      676.2316,
-      645.2296,
-      645.3603,
-      634.4920
-    ),
-    tolerance = 0.001
   )
 })
