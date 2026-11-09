@@ -58,7 +58,6 @@ Imports:
     sf,
     stats,
     tidytext,
-    viridis,
     broom,
     colourvalues,
     grDevices,
@@ -72,7 +71,9 @@ Imports:
     geosphere,
     checkmate,
     network,
-    ggsci
+    ggsci,
+    ggdendro,
+    patchwork
 Suggests: 
     quarto,
     rmarkdown,

@@ -24,10 +24,12 @@ convert_ringbauer_measures(
 a list of three matrices: density, labels, and text colour
 }
 \description{
-This converts the ringbauer measures into matrices of the correct form
-for the plot function.
+Converts the ringbauer measures into matrices. \code{\link[=plot_ringbauer]{plot_ringbauer()}} no
+longer needs this step, as it takes the output of
+\code{\link[=get_ringbauer_measures]{get_ringbauer_measures()}} directly; this is kept for code that uses the
+matrices themselves.
 }
 \examples{
 get_ringbauer_measures(example_network, "site") |>
-convert_ringbauer_measures()
+  convert_ringbauer_measures()
 }

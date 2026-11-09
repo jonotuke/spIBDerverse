@@ -1,10 +1,70 @@
 utils::globalVariables(
-  c("grp1", "grp2", "density", "label", "text")
+  c("grp1", "grp2", "density", "label", "text", "x", "y", "xend", "yend")
 )
+
+#' Add display labels to ringbauer measures
+#'
+#' Internal helper shared by [plot_ringbauer()] and
+#' [convert_ringbauer_measures()]: optionally abbreviates group names, adds
+#' group sizes and percentages to the labels, and adds a `text` column with
+#' a legible text colour for each cell.
+#'
+#' @inheritParams convert_ringbauer_measures
+#' @return `RM` with `grp1`, `grp2` and `label` as character, plus `text`
+#' @noRd
+prepare_ringbauer_labels <- function(
+  RM,
+  abbr = FALSE,
+  addSize = FALSE,
+  addPercent = FALSE
+) {
+  if (abbr) {
+    RM <- dplyr::mutate(
+      RM,
+      grp1 = abbreviate_terms(grp1),
+      grp2 = abbreviate_terms(grp2)
+    )
+  }
+  if (addSize) {
+    RM <- dplyr::mutate(
+      RM,
+      grp1 = stringr::str_glue("{grp1} (n = {n1})"),
+      grp2 = stringr::str_glue("{grp2} (n = {n2})")
+    )
+  }
+  if (addPercent) {
+    RM <- dplyr::mutate(
+      RM,
+      label = stringr::str_glue("{label} ({round(density * 100, 2)}%)")
+    )
+  }
+  dplyr::mutate(
+    RM,
+    dplyr::across(c(grp1, grp2, label), as.character),
+    text = get_text_font(density, "text")
+  )
+}
+
+#' Square matrix of one ringbauer column
+#'
+#' @param RM a ringbauer measure tibble (one row per ordered pair of groups)
+#' @param value name of the column to put in the cells
+#' @param fill value for pairs missing from `RM`
+#' @return a matrix with groups as row and column names
+#' @noRd
+ringbauer_matrix <- function(RM, value, fill) {
+  grps <- unique(c(RM$grp1, RM$grp2))
+  m <- matrix(fill, length(grps), length(grps), dimnames = list(grps, grps))
+  m[cbind(RM$grp1, RM$grp2)] <- RM[[value]]
+  m
+}
+
 #' Convert ringbauer measures
 #'
-#' This converts the ringbauer measures into matrices of the correct form
-#' for the plot function.
+#' Converts the ringbauer measures into matrices. [plot_ringbauer()] no
+#' longer needs this step, as it takes the output of
+#' [get_ringbauer_measures()] directly; this is kept for code that uses the
+#' matrices themselves.
 #'
 #' @param RM A ringbauer measure tibble
 #' @param abbr a boolean that when true will shorten the group names
@@ -16,197 +76,153 @@ utils::globalVariables(
 #'
 #' @examples
 #' get_ringbauer_measures(example_network, "site") |>
-#' convert_ringbauer_measures()
+#'   convert_ringbauer_measures()
 convert_ringbauer_measures <- function(
   RM,
   abbr = FALSE,
   addSize = FALSE,
   addPercent = FALSE
 ) {
-  if (abbr) {
-    RM <- RM |>
-      dplyr::mutate(
-        grp1 = abbreviate_terms(grp1),
-        grp2 = abbreviate_terms(grp2)
-      )
-  }
-  if (addSize) {
-    RM <- RM |>
-      dplyr::mutate(
-        grp1 = stringr::str_glue("{grp1} (n = {n1})"),
-        grp2 = stringr::str_glue("{grp2} (n = {n2})")
-      )
-  }
-  if (addPercent) {
-    RM <- RM |>
-      dplyr::mutate(
-        label = stringr::str_glue("{label} ({round(density * 100, 2)}%)")
-      )
-  }
-  RM <- RM |> dplyr::select(grp1, grp2, density, label)
-  RM <- RM |>
-    dplyr::mutate(
-      fill = get_text_font(density),
-      text = get_text_font(density, "text")
-    )
-  grps <- unique(c(RM$grp1, RM$grp2))
-  n_grps <- length(grps)
-  M <- matrix(0, ncol = n_grps, nrow = n_grps)
-  L <- matrix("", ncol = n_grps, nrow = n_grps)
-  C <- matrix("white", ncol = n_grps, nrow = n_grps)
-  for (i in 1:n_grps) {
-    for (j in 1:n_grps) {
-      M[i, j] <- RM |>
-        dplyr::filter(grp1 == grps[i], grp2 == grps[j]) |>
-        dplyr::pull(density)
-      L[i, j] <- RM |>
-        dplyr::filter(grp1 == grps[i], grp2 == grps[j]) |>
-        dplyr::pull(label)
-      C[i, j] <- RM |>
-        dplyr::filter(grp1 == grps[i], grp2 == grps[j]) |>
-        dplyr::pull(text)
-    }
-  }
-  colnames(M) <- grps
-  rownames(M) <- grps
-  colnames(L) <- grps
-  rownames(L) <- grps
-  colnames(C) <- grps
-  rownames(C) <- grps
+  RM <- prepare_ringbauer_labels(RM, abbr, addSize, addPercent)
   list(
-    density = M,
-    labels = L,
-    text_colour = C
+    density = ringbauer_matrix(RM, "density", 0),
+    labels = ringbauer_matrix(RM, "label", ""),
+    text_colour = ringbauer_matrix(RM, "text", "white")
   )
 }
+
 #' Plot Ringbauer
 #'
-#' Takes the Ringbauer matrix and plots it. This was based on the Ringbauer paper and also the heatmap.2 function from gplots
+#' Plots ringbauer measures as a heatmap of edge densities, with groups
+#' ordered by hierarchical clustering (distance = 1 - density) and the
+#' dendrogram drawn above. Based on the Ringbauer paper and the layout of
+#' `gplots::heatmap.2()`.
 #'
-#' @param RM a Ringbauer matrix object
-#' @param label_margin the margin around the heatmap - adjust to get enough space for labels
-#' @param label_size adjust label and axis text
+#' @param RM a ringbauer measure tibble from [get_ringbauer_measures()]. The
+#'   list of matrices from [convert_ringbauer_measures()] is also accepted,
+#'   for backward compatibility; in that case `abbr`, `addSize` and
+#'   `addPercent` are ignored, as the labels are already made.
+#' @inheritParams convert_ringbauer_measures
+#' @param label_size size of the cell labels, in mm (as in
+#'   `ggplot2::geom_text()`). The row and column labels and the legend text
+#'   are set to the same size.
+#' @param show_dendrogram if `TRUE`, draw the dendrogram above the heatmap
 #'
-#' @return Ringbauer plot
-#' @importFrom graphics lines
+#' @return a ggplot, or a patchwork if `show_dendrogram = TRUE`; either can
+#'   be modified further, e.g. with `& ggplot2::theme(...)`
 #' @export
 #'
 #' @examples
 #' get_ringbauer_measures(example_network, "site") |>
-#' convert_ringbauer_measures() |>
-#' plot_ringbauer(label_margin = 10, label_size = 3)
-plot_ringbauer <- function(RM, label_margin = 2, label_size = 3) {
-  # Grab graphics parameters so can reset
-  op <- graphics::par(no.readonly = TRUE)
-  on.exit(graphics::par(op))
+#'   plot_ringbauer(addSize = TRUE)
+plot_ringbauer <- function(
+  RM,
+  abbr = FALSE,
+  addSize = FALSE,
+  addPercent = FALSE,
+  label_size = 3,
+  show_dendrogram = TRUE
+) {
+  if (is.data.frame(RM)) {
+    RM <- prepare_ringbauer_labels(
+      RM,
+      abbr,
+      addSize,
+      addPercent
+    )
+  } else if (
+    all(
+      c("density", "labels", "text_colour") %in% names(RM)
+    )
+  ) {
+    m <- RM$density
+    RM <- data.frame(
+      grp1 = rownames(m)[row(m)],
+      grp2 = colnames(m)[col(m)],
+      density = c(RM$density),
+      label = c(RM$labels),
+      text = c(RM$text_colour)
+    )
+  } else {
+    stop(
+      "`RM` must be the output of get_ringbauer_measures().",
+      call. = FALSE
+    )
+  }
 
-  # Get the dendrogram
-  ## the distance between groups is 1 - density
-  dist <- stats::as.dist(1 - RM$density)
-  ## Get tree
-  hc <- stats::hclust(dist)
-  dendro <- stats::as.dendrogram(hc)
+  # Cluster groups; the distance between groups is 1 - density
+  density_matrix <- ringbauer_matrix(RM, "density", 0)
+  n_grps <- nrow(density_matrix)
+  if (n_grps < 2) {
+    stop("Need at least two groups to cluster.", call. = FALSE)
+  }
+  hc <- stats::hclust(stats::as.dist(1 - density_matrix))
+  grp_order <- rownames(density_matrix)[hc$order]
 
-  # Reorder groups based on dendrogram
-  orders <- stats::order.dendrogram(dendro)
-  density <- RM$density[orders, orders]
-  labels <- RM$labels[orders, orders]
-  text_colour <- RM$text_colour[orders, orders]
-
-  # Set up layour for heatmap
-  hm_lay <- graphics::layout(
-    mat = matrix(c(2, 0, 1, 3), byrow = TRUE, ncol = 2),
-    widths = c(7, 0.5),
-    heights = c(1, 4),
-    respect = FALSE
-  )
-  # Add heatmap
-  graphics::par(mar = c(label_margin, label_margin, 0, 0))
-  nr <- dim(density)[1]
-  nc <- dim(density)[2]
-  breaks <- seq(
-    min(density, na.rm = TRUE),
-    max(density, na.rm = TRUE),
-    length = 15
-  )
-  ## Tiles
-  graphics::image(
-    1:nc,
-    1:nr,
-    density,
-    xlim = 0.5 + c(0, nc),
-    ylim = 0.5 + c(0, nr),
-    axes = FALSE,
-    xlab = "",
-    ylab = "",
-    col = viridis::viridis(14),
-    breaks = breaks
-  )
-  ## Labels
-  graphics::text(
-    x = c(row(labels)),
-    y = c(col(labels)),
-    labels = c(labels),
-    col = text_colour,
-    cex = label_size
-  )
-  # graphics::axis(
-  #   1,
-  #   at = seq(1, nc, by = 1),
-  #   labels = colnames(density),
-  #   cex.axis = label_size,
-  #   padj = 1
-  # )
-  graphics::axis(
-    1,
-    at = seq(1, nc, by = 1),
-    labels = colnames(density),
-    cex.axis = label_size,
-    las = 2,
-    padj = 0.5
-  )
-  ypos <- graphics::axis(
-    2,
-    at = seq(1, nr, by = 1),
-    # labels = rownames(density),
-    labels = FALSE,
-    cex.axis = 3,
-    srt = 45
-  )
-  text(
-    x = graphics::par("usr")[1] - 0.3,
-    y = ypos,
-    labels = rownames(density),
-    cex = label_size,
-    srt = 0,
-    xpd = NA,
-    adj = 1,
-    padj = 0.5
+  RM <- dplyr::mutate(
+    RM,
+    grp1 = factor(grp1, levels = grp_order),
+    grp2 = factor(grp2, levels = grp_order)
   )
 
-  # Add dendrogram
-  graphics::par(mar = c(0, label_margin, 0, 0))
-  plot(dendro, axes = FALSE, xaxs = "i", leaflab = "none")
+  # geom_text() sizes are in mm, theme sizes in points
+  text_pt <- label_size * ggplot2::.pt
 
-  # Add legend
-  graphics::par(mar = c(label_margin, 0.1, 0, 1.9))
-  z <- matrix(breaks, ncol = 15, nrow = 1)
-  graphics::image(
-    1:2,
-    1:16,
-    z = z,
-    col = viridis::viridis(14),
-    breaks = breaks,
-    xaxt = "n",
-    xlab = NA,
-    yaxt = "n"
+  heatmap <- ggplot2::ggplot(RM, ggplot2::aes(grp1, grp2, fill = density)) +
+    ggplot2::geom_tile() +
+    ggplot2::geom_text(
+      ggplot2::aes(label = label, colour = text),
+      size = label_size
+    ) +
+    ggplot2::scale_colour_identity() +
+    ggplot2::scale_fill_viridis_c(name = "Density") +
+    ggplot2::scale_x_discrete(expand = c(0, 0)) +
+    ggplot2::scale_y_discrete(expand = c(0, 0)) +
+    ggplot2::labs(x = NULL, y = NULL) +
+    ggplot2::theme_minimal() +
+    ggplot2::theme(
+      panel.grid = ggplot2::element_blank(),
+      axis.text = ggplot2::element_text(size = text_pt),
+      axis.text.x = ggplot2::element_text(angle = 90, hjust = 1, vjust = 0.5),
+      legend.text = ggplot2::element_text(size = text_pt),
+      # Title runs down the right of the bar, centred, as in the figure
+      legend.title = ggplot2::element_text(
+        size = text_pt,
+        angle = -90,
+        hjust = 0.5
+      ),
+      legend.title.position = "right",
+      # Stretch the bar to the panel height
+      legend.key.height = ggplot2::unit(1, "null"),
+      legend.key.width = ggplot2::unit(4, "mm"),
+      # No padding around the legend, so the bar ends line up with the
+      # panel edges, and only a small gap between panel and bar
+      legend.margin = ggplot2::margin(0, 0, 0, 0),
+      legend.box.spacing = ggplot2::unit(2, "mm")
+    )
+
+  if (!show_dendrogram) {
+    return(heatmap)
+  }
+
+  # Leaves of dendro_data() sit at x = 1..n in hc$order, matching the tiles
+  segments <- ggdendro::segment(ggdendro::dendro_data(hc))
+  dendrogram <- ggplot2::ggplot(segments) +
+    ggplot2::geom_segment(
+      ggplot2::aes(x = x, y = y, xend = xend, yend = yend)
+    ) +
+    ggplot2::scale_x_continuous(
+      limits = c(0.5, n_grps + 0.5),
+      expand = c(0, 0)
+    ) +
+    ggplot2::theme_void()
+
+  patchwork::wrap_plots(
+    dendrogram,
+    heatmap,
+    ncol = 1,
+    heights = c(1, 4)
   )
-  graphics::axis(
-    4,
-    at = seq(1.5, 15.5, by = 1),
-    labels = round(breaks, 2)
-  )
-  invisible(RM)
 }
 utils::globalVariables(
   c(
@@ -340,4 +356,10 @@ get_ringbauer_measures <- function(g, grp) {
     tidyr::unnest(prop_test) |>
     dplyr::mutate(adj_pv = stats::p.adjust(pv, method = "fdr")) |>
     dplyr::relocate(n_edges, .after = grp2)
+}
+# DRIVER ----
+if (sys.nframe() == 5) {
+  get_ringbauer_measures(example_network, "site") |>
+    plot_ringbauer() |>
+    print()
 }
