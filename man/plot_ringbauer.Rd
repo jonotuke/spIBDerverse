@@ -4,23 +4,44 @@
 \alias{plot_ringbauer}
 \title{Plot Ringbauer}
 \usage{
-plot_ringbauer(RM, label_margin = 2, label_size = 3)
+plot_ringbauer(
+  RM,
+  abbr = FALSE,
+  addSize = FALSE,
+  addPercent = FALSE,
+  label_size = 3,
+  show_dendrogram = TRUE
+)
 }
 \arguments{
-\item{RM}{a Ringbauer matrix object}
+\item{RM}{a ringbauer measure tibble from \code{\link[=get_ringbauer_measures]{get_ringbauer_measures()}}. The
+list of matrices from \code{\link[=convert_ringbauer_measures]{convert_ringbauer_measures()}} is also accepted,
+for backward compatibility; in that case \code{abbr}, \code{addSize} and
+\code{addPercent} are ignored, as the labels are already made.}
 
-\item{label_margin}{the margin around the heatmap - adjust to get enough space for labels}
+\item{abbr}{a boolean that when true will shorten the group names}
 
-\item{label_size}{adjust label and axis text}
+\item{addSize}{adds size to group labels}
+
+\item{addPercent}{add percent to labels}
+
+\item{label_size}{size of the cell labels, in mm (as in
+\code{ggplot2::geom_text()}). The row and column labels and the legend text
+are set to the same size.}
+
+\item{show_dendrogram}{if \code{TRUE}, draw the dendrogram above the heatmap}
 }
 \value{
-Ringbauer plot
+a ggplot, or a patchwork if \code{show_dendrogram = TRUE}; either can
+be modified further, e.g. with \verb{& ggplot2::theme(...)}
 }
 \description{
-Takes the Ringbauer matrix and plots it. This was based on the Ringbauer paper and also the heatmap.2 function from gplots
+Plots ringbauer measures as a heatmap of edge densities, with groups
+ordered by hierarchical clustering (distance = 1 - density) and the
+dendrogram drawn above. Based on the Ringbauer paper and the layout of
+\code{gplots::heatmap.2()}.
 }
 \examples{
 get_ringbauer_measures(example_network, "site") |>
-convert_ringbauer_measures() |>
-plot_ringbauer(label_margin = 10, label_size = 3)
+  plot_ringbauer(addSize = TRUE)
 }

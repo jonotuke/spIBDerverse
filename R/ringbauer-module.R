@@ -18,21 +18,10 @@ ringbauerInput <- function(id, cat_vars) {
           min = 1,
           max = 10,
           step = 1,
-          value = 1
+          value = 5
         ) |>
           hover_tooltip(
             "Change font size for axis labels and cell counts (matrix plot)."
-          ),
-        shiny::sliderInput(
-          shiny::NS(id, "margin"),
-          label = "Heatmap margin",
-          min = 4,
-          max = 20,
-          step = 1,
-          value = 4
-        ) |>
-          hover_tooltip(
-            "Increase or decrease the space around the edge of the plot (matrix plot). Useful when labels are too large to be seen properly."
           ),
         shiny::checkboxInput(
           shiny::NS(id, "abbr"),
@@ -120,16 +109,13 @@ ringbauerServer <- function(id, r) {
     })
     ringbauer_p <- shiny::reactive({
       RM() |>
-        convert_ringbauer_measures(
+        plot_ringbauer(
           abbr = input$abbr,
           addSize = input$addSize,
-          addPercent = input$addPercent
-        ) |>
-        plot_ringbauer(
-          label_size = input$font_size,
-          label_margin = input$margin
+          addPercent = input$addPercent,
+          label_size = input$font_size
         )
-      grDevices::recordPlot()
+      # grDevices::recordPlot()
     })
     output$homophily_plot <- shiny::renderPlot({
       homophily_p()
