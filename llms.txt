@@ -211,6 +211,8 @@ ibd_network
   : Get text font
 - [`internal_df()`](https://jonotuke.github.io/spIBDerverse/reference/internal_df.md)
   : internal df
+- [`label_crawl()`](https://jonotuke.github.io/spIBDerverse/reference/label_crawl.md)
+  : label crawl
 - [`label_grp_duplicates()`](https://jonotuke.github.io/spIBDerverse/reference/label_grp_duplicates.md)
   : label_grp_duplicates
 - [`load_dist_network()`](https://jonotuke.github.io/spIBDerverse/reference/load_dist_network.md)

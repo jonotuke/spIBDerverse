@@ -7,7 +7,7 @@ more than `max_levels` distinct values.
 ## Usage
 
 ``` r
-get_node_attributes(g, type = "all", inc_internals = FALSE, max_levels = Inf)
+get_node_attributes(g, type = "all", inc_internals = FALSE, max_levels = 10)
 ```
 
 ## Arguments
