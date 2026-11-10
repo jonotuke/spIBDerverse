@@ -1,8 +1,3 @@
-# Network plot module. The node / edge / label / location controls are
-# shared with the static map module: see network-ui-shared.R.
-
-# UI ----
-
 networkplotInput <- function(
   id,
   all_vars,

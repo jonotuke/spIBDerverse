@@ -91,12 +91,14 @@ network_ui <- function(
           selected = "nicely"
         )
       },
+      shiny::hr(),
       var_select(ns("fill"), "Choose node fill column", all_vars),
       shiny::selectInput(
         ns("fill_pal"),
         label = "Fill palette",
         choices = "default"
       ),
+      shiny::hr(),
       var_select(
         ns("outline_col"),
         "Choose node outline colour column",
@@ -107,17 +109,6 @@ network_ui <- function(
         label = "Outline colour palette",
         choices = "default"
       ),
-      var_select(ns("shape"), "Choose node shape column", cat_vars),
-      var_select(ns("size"), "Choose node size column", num_vars),
-      var_select(ns("alpha"), "Choose node alpha", num_vars),
-      shiny::numericInput(
-        ns("node_size"),
-        "Node size",
-        min = 1,
-        max = 20,
-        value = 10,
-        step = 1
-      ),
       shiny::numericInput(
         ns("outline_width"),
         "Node outline width",
@@ -126,13 +117,30 @@ network_ui <- function(
         value = 1,
         step = 1
       ),
+      shiny::hr(),
+      var_select(ns("shape"), "Choose node shape column", cat_vars),
+      shiny::hr(),
+      var_select(ns("size"), "Choose node size column", num_vars),
+      shiny::numericInput(
+        ns("node_size"),
+        "Node size",
+        min = 1,
+        max = 20,
+        value = 10,
+        step = 1
+      ),
+      shiny::hr(),
+      var_select(ns("alpha"), "Choose node alpha", num_vars),
+      shiny::hr(),
       shiny::radioButtons(
         ns("connected"),
         label = "Unconnected nodes",
         choices = c("Show", "Grey out", "Hide"),
         selected = "Show"
       ) |>
-        hover_tooltip("How to treat the unconnected nodes in the network plot.")
+        hover_tooltip(
+          "How to treat the unconnected nodes in the network plot."
+        )
     ),
 
     # EDGES ----
