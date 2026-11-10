@@ -4,7 +4,13 @@
 \alias{get_node_attributes}
 \title{get node attributes}
 \usage{
-get_node_attributes(g, type = "all", inc_internals = FALSE, max_levels = 10)
+get_node_attributes(
+  g,
+  type = "all",
+  inc_internals = FALSE,
+  max_levels = 10,
+  trim_levels = TRUE
+)
 }
 \arguments{
 \item{g}{network object}
@@ -15,6 +21,8 @@ get_node_attributes(g, type = "all", inc_internals = FALSE, max_levels = 10)
 
 \item{max_levels}{maximum number of distinct values a categorical attribute
 can have and still be returned. Defaults to \code{Inf} (no upper limit).}
+
+\item{trim_levels}{boolean to trim nodes based on max_levels}
 }
 \value{
 list of attributes names

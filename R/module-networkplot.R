@@ -1,4 +1,11 @@
-networkplotInput <- function(id, cat_vars, all_vars, edge_vars, num_vars) {
+networkplotInput <- function(
+  id,
+  cat_vars,
+  all_vars,
+  edge_vars,
+  num_vars,
+  label_vars
+) {
   shiny::tagList(
     shiny::numericInput(
       shiny::NS(id, "seed"),
@@ -13,7 +20,8 @@ networkplotInput <- function(id, cat_vars, all_vars, edge_vars, num_vars) {
       all_vars,
       cat_vars,
       edge_vars,
-      num_vars
+      num_vars,
+      label_vars
     )
   )
 }
@@ -65,6 +73,7 @@ networkplotApp <- function(network_input) {
   all_vars <- get_node_attributes(network_input)
   edge_vars <- igraph::edge_attr_names(network_input)
   num_vars <- get_node_attributes(network_input, "num")
+  label_vars <- get_node_attributes(network_input, trim_levels = FALSE)
 
   r <- shiny::reactiveValues()
   r$export <- shiny::reactive({
@@ -85,7 +94,8 @@ networkplotApp <- function(network_input) {
       cat_vars = cat_vars,
       all_vars = all_vars,
       edge_vars = edge_vars,
-      num_vars = num_vars
+      num_vars = num_vars,
+      label_vars = label_vars
     ),
     networkplotOutput("networkplot"),
     shiny::plotOutput("export")

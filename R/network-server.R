@@ -71,12 +71,21 @@ network_ui_server <- function(input, session, r, choices = NULL) {
       "none",
       get_node_attributes(net, "cat", inc_internals = input$internals)
     )
+    label_vars <- c(
+      "none",
+      get_node_attributes(
+        net,
+        "all",
+        inc_internals = input$internals,
+        trim_levels = FALSE
+      )
+    )
 
     new_choices <- list(
       fill = all_vars,
       outline_col = all_vars,
-      label = all_vars,
-      label_filter = all_vars,
+      label = label_vars,
+      label_filter = label_vars,
       lat = all_vars,
       lon = all_vars,
       shape = cat_vars,

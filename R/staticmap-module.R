@@ -18,16 +18,24 @@ is_valid_range <- function(x) {
 
 # UI ----
 
-staticmapInput <- function(id, all_vars, cat_vars, edge_vars, num_vars) {
+staticmapInput <- function(
+  id,
+  all_vars,
+  cat_vars,
+  edge_vars,
+  num_vars,
+  label_vars
+) {
   ns <- shiny::NS(id)
 
   shiny::tagList(
     network_ui(
       id,
-      all_vars,
-      cat_vars,
-      edge_vars,
-      num_vars,
+      all_vars = all_vars,
+      cat_vars = cat_vars,
+      edge_vars = edge_vars,
+      num_vars = num_vars,
+      label_vars = label_vars,
       first_panel = "Location",
       open = NULL
     ),
@@ -264,6 +272,11 @@ staticmapApp <- function(network_input) {
       num_vars = get_node_attributes(
         network_input,
         "num"
+      ),
+      label_vars <- get_node_attributes(
+        network_input,
+        "all",
+        trim_levels = FALSE
       )
     ),
     staticmapOutput("staticmap")
@@ -277,5 +290,5 @@ staticmapApp <- function(network_input) {
 }
 
 if (sys.nframe() == 5) {
-  staticmapApp(example_network_2) |> print()
+  staticmapApp(example_network) |> print()
 }

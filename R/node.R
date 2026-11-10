@@ -52,6 +52,7 @@ get_network_summary <- function(g) {
 #' @param inc_internals boolean to include internals - clusters and centrality
 #' @param max_levels maximum number of distinct values a categorical attribute
 #'   can have and still be returned. Defaults to `Inf` (no upper limit).
+#' @param trim_levels boolean to trim nodes based on max_levels
 #'
 #' @returns list of attributes names
 #'
@@ -63,7 +64,8 @@ get_node_attributes <- function(
   g,
   type = "all",
   inc_internals = FALSE,
-  max_levels = 10
+  max_levels = 10,
+  trim_levels = TRUE
 ) {
   if (!methods::is(g, "igraph")) {
     return(NULL)
@@ -96,7 +98,11 @@ get_node_attributes <- function(
     \(x) is.character(x) || is.factor(x)
   )
   keep <- n_levels > 1 & (!is_cat | n_levels <= max_levels)
-  vars[keep]
+  if (trim_levels) {
+    return(vars[keep])
+  } else {
+    return(vars)
+  }
 }
 #' Get network node information
 #'
@@ -111,4 +117,14 @@ get_node_info <- function(g) {
   igraph::as_data_frame(g, what = "vertices") |>
     tibble::as_tibble() |>
     pretty_col()
+}
+
+# DRIVER ----
+if (sys.nframe() == 5) {
+  get_node_attributes(
+    example_network,
+    type = "cat",
+    trim_levels = FALSE
+  ) |>
+    print()
 }

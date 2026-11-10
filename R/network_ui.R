@@ -4,6 +4,7 @@ network_ui <- function(
   cat_vars,
   edge_vars,
   num_vars,
+  label_vars,
   first_panel = c("Nodes", "Location"),
   open = FALSE
 ) {
@@ -134,7 +135,7 @@ network_ui <- function(
       shiny::selectInput(
         ns("label"),
         label = "Label variable",
-        choices = c("none", all_vars),
+        choices = c("none", label_vars),
         selected = "none"
       ),
       shiny::numericInput(

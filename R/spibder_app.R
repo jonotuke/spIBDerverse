@@ -22,6 +22,11 @@ spibder_app <- function(input_network = NULL) {
     input_network,
     "num"
   )
+  label_vars <- get_node_attributes(
+    input_network,
+    "all",
+    trim_levels = FALSE
+  )
 
   r <- shiny::reactiveValues()
   r$export <- shiny::reactive({
@@ -58,7 +63,8 @@ spibder_app <- function(input_network = NULL) {
             cat_vars = cat_vars,
             all_vars = all_vars,
             edge_vars = edge_vars,
-            num_vars = num_vars
+            num_vars = num_vars,
+            label_vars = label_vars
           )
         ),
         shiny::conditionalPanel(
@@ -80,7 +86,8 @@ spibder_app <- function(input_network = NULL) {
             all_vars = all_vars,
             cat_vars = cat_vars,
             edge_vars = edge_vars,
-            num_vars = num_vars
+            num_vars = num_vars,
+            label_vars = label_vars
           )
         ),
         shiny::conditionalPanel(
