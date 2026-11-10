@@ -7,7 +7,7 @@
 #'
 #' @examples
 #' ergms <- example_network |>
-#'   get_ergms(c("site", "genetic_sex"), c("nodemix", "nodematch")) |>
+#'   fit_ergms(c("site", "genetic_sex"), c("nodemix", "nodematch")) |>
 #'   purrr::map(broom::glance) |>
 #'   purrr::list_rbind(names_to = "model")
 #' clean_models(ergms$model) |> print()
@@ -58,7 +58,7 @@ theta_to_phi <- function(theta0, theta1) {
 #' @export
 #'
 #' @examples
-#' ergm <- get_ergms(example_network, preds = "site", types = "nodemix")
+#' ergm <- fit_ergms(example_network, preds = "site", types = "nodemix")
 #' get_ergm_fc(ergm[[1]])
 get_ergm_fc <- function(ergm, trim = TRUE) {
   coef <- ergm |>
@@ -215,7 +215,7 @@ drop_missing_nodes <- function(network, preds) {
 
   network
 }
-#' get_ergms
+#' fit_ergms
 #'
 #' Given node attributes and a network, fits all possible ergms. Nodes with
 #' missing values in any of `preds` are removed first (see
@@ -231,8 +231,8 @@ drop_missing_nodes <- function(network, preds) {
 #' @export
 #'
 #' @examples
-#' get_ergms(example_network, c("site", "genetic_sex"), c("nodematch", "nodemix"))
-get_ergms <- function(network, preds = NULL, types = NULL) {
+#' fit_ergms(example_network, c("site", "genetic_sex"), c("nodematch", "nodemix"))
+fit_ergms <- function(network, preds = NULL, types = NULL) {
   removed_nodes <- character(0)
   if (is.null(preds)) {
     models <- list()
@@ -276,7 +276,7 @@ utils::globalVariables(
 #'
 #' @examples
 #' ergms <- example_network |>
-#'   get_ergms(
+#'   fit_ergms(
 #'     preds = c("site", "genetic_sex"),
 #'     types = c("nodematch", "nodemix"))
 #' plot_ergm_bic(ergms) |> print()
@@ -386,7 +386,7 @@ utils::globalVariables(
 #'
 #' @examples
 #' ergms <- example_network |>
-#'   get_ergms(
+#'   fit_ergms(
 #'     preds = c("site", "genetic_sex"),
 #'     types = c("nodematch", "nodemix"))
 #' plot_ergm_bic(ergms) |> print()
@@ -487,7 +487,7 @@ plot_ergm_bic <- function(
 #' @export
 #'
 #' @examples
-#' ergms <- get_ergms(
+#' ergms <- fit_ergms(
 #'   example_network,
 #'   preds = c("site", "genetic_sex"),
 #'   types = c("nodematch", "nodemix")
@@ -530,7 +530,7 @@ plot_single_ergm_coef <- function(
 #' @export
 #'
 #' @examples
-#' ergms <- get_ergms(
+#' ergms <- fit_ergms(
 #'   example_network,
 #'   preds = c("site", "genetic_sex"),
 #'   types = c("nodematch", "nodemix")
@@ -595,7 +595,7 @@ utils::globalVariables(
 #'
 #' @export
 #' @examples
-#' ergms <- get_ergms(
+#' ergms <- fit_ergms(
 #' example_network,
 #' preds = c("site", "genetic_sex"),
 #' types = c("nodematch", "nodematch")
@@ -624,7 +624,7 @@ get_ergm_coef <- function(ergm) {
 #' @export
 #'
 #' @examples
-#' ergms <- get_ergms(
+#' ergms <- fit_ergms(
 #'   example_network,
 #'   preds = c("site", "genetic_sex"),
 #'   types = c("nodematch", "nodemix")
@@ -656,7 +656,7 @@ utils::globalVariables(
 #' @export
 #'
 #' @examples
-#' ergms <- get_ergms(
+#' ergms <- fit_ergms(
 #'   example_network,
 #'   preds = c("site", "genetic_sex"),
 #'   types = c("nodematch", "nodemix")
@@ -717,7 +717,4 @@ convert_to_network <- function(g) {
     }
   }
   net
-}
-if (sys.nframe() == 5) {
-  convert_to_network(example_network_6) |> print()
 }

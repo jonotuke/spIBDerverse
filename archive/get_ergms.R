@@ -134,7 +134,7 @@ drop_missing_nodes <- function(network, preds) {
 
   network
 }
-#' get_ergms
+#' fit_ergms
 #'
 #' Given node attributes and a network, fits all possible ergms. Nodes with
 #' missing values in any of `preds` are removed first (see
@@ -150,8 +150,8 @@ drop_missing_nodes <- function(network, preds) {
 #' @export
 #'
 #' @examples
-#' get_ergms(example_network, c("site", "genetic_sex"), c("nodematch", "nodemix"))
-get_ergms <- function(network, preds = NULL, types = NULL) {
+#' fit_ergms(example_network, c("site", "genetic_sex"), c("nodematch", "nodemix"))
+fit_ergms <- function(network, preds = NULL, types = NULL) {
   removed_nodes <- character(0)
   if (is.null(preds)) {
     models <- list()
@@ -177,7 +177,7 @@ get_ergms <- function(network, preds = NULL, types = NULL) {
 }
 if (sys.nframe() == 5) {
   pacman::p_load(conflicted, tidyverse, targets, ergm)
-  get_ergms(
+  fit_ergms(
     example_network_3,
     preds = c("site", "genetic_sex", ".degree"),
     types = c("nodematch|nodemix", "nodemix|nodematch", "nodecov")

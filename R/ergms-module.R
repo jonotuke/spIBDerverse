@@ -103,20 +103,22 @@ ergmOutput <- function(id) {
     shiny::plotOutput(
       shiny::NS(id, "ergm_coef_plot")
     ),
+    shiny::uiOutput(
+      shiny::NS(id, "coef_save_ui")
+    ),
     gt::gt_output({
       shiny::NS(id, "ergm_coef_tab")
     }),
-    shiny::actionButton(
-      shiny::NS(id, "coef_save"),
-      "Set as export plot"
-    )
+    # shiny::verbatimTextOutput(
+    #   shiny::NS(id, "debug")
+    # )
   )
 }
 ergmServer <- function(id, r) {
   shiny::moduleServer(id, function(input, output, session) {
     ergm <- shiny::reactive({
       withCallingHandlers(
-        get_ergms(r$network(), input$preds, pred_type_vec()),
+        fit_ergms(r$network(), input$preds, pred_type_vec()),
         ergm_missing_nodes_warning = function(w) {
           shiny::showNotification(
             conditionMessage(w),
@@ -128,6 +130,10 @@ ergmServer <- function(id, r) {
       )
     }) |>
       shiny::bindEvent(input$fit_models)
+    r$ergm <- shiny::reactive({
+      shiny::req(selected_rows_data())
+      ergm()[[selected_rows_data()]]
+    })
     output$ergm_aic_tab <- DT::renderDataTable({
       DT::datatable(ergm_bic()) |>
         DT::formatRound(
@@ -169,6 +175,14 @@ ergmServer <- function(id, r) {
     })
     output$ergm_coef_plot <- shiny::renderPlot({
       coef_plot()
+    })
+    output$coef_save_ui <- shiny::renderUI({
+      p <- tryCatch(coef_plot(), error = function(e) NULL)
+      shiny::req(p)
+      shiny::actionButton(
+        session$ns("coef_save"),
+        "Set as export plot"
+      )
     })
     output$ergm_coef_tab <- gt::render_gt({
       shiny::req(selected_rows_data())
@@ -216,6 +230,10 @@ ergmServer <- function(id, r) {
         \(x) stringr::str_c(input[[x]], collapse = "|")
       )
     })
+    # output$debug <- shiny::renderPrint({
+    #   print(selected_rows_data())
+    #   print(r$ergm())
+    # })
   })
 }
 make_ergm_ui <- function(pred, g, label, id) {
@@ -263,6 +281,9 @@ ergmApp <- function(network_input) {
   })
   r$export <- shiny::reactive({
     plot_default_image()
+  })
+  r$ergm <- shiny::reactive({
+    NULL
   })
 
   ui <- shiny::fluidPage(

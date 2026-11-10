@@ -47,12 +47,12 @@ Final version is based on BR's version
 }
 \examples{
 ergms <- example_network |>
-  get_ergms(
+  fit_ergms(
     preds = c("site", "genetic_sex"),
     types = c("nodematch", "nodemix"))
 plot_ergm_bic(ergms) |> print()
 ergms <- example_network |>
-  get_ergms(
+  fit_ergms(
     preds = c("site", "genetic_sex"),
     types = c("nodematch", "nodemix"))
 plot_ergm_bic(ergms) |> print()

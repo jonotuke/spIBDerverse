@@ -15,7 +15,7 @@ utils::globalVariables(
 #'
 #' @export
 #' @examples
-#' ergms <- get_ergms(
+#' ergms <- fit_ergms(
 #' example_network,
 #' preds = c("site", "genetic_sex"),
 #' types = c("nodematch", "nodematch")
@@ -44,7 +44,7 @@ get_ergm_coef <- function(ergm) {
 #' @export
 #'
 #' @examples
-#' ergms <- get_ergms(
+#' ergms <- fit_ergms(
 #'   example_network,
 #'   preds = c("site", "genetic_sex"),
 #'   types = c("nodematch", "nodemix")
@@ -66,7 +66,7 @@ tab_ergm_coef <- function(
   return(coef)
 }
 # pacman::p_load(conflicted, tidyverse, targets, ergm)
-# ergms <- get_ergms(
+# ergms <- fit_ergms(
 #   example_network,
 #   preds = c("site", "genetic_sex"),
 #   types = c("nodematch", "nodematch")

@@ -39,3 +39,50 @@ test_that("convert works", {
     "Genetic Sex" %in% node_attr
   )
 })
+
+test_that("ergm_emmeans args", {
+  net <- example_network_2 %>%
+    intergraph::asNetwork()
+  ergm_model <- ergm::ergm(
+    net ~ edges +
+      nodemix("site")
+  ) |>
+    suppressMessages() |>
+    suppressWarnings()
+  expect_error(
+    ergm_emmeans(ergm_model = ergm_model, term_string = "site")
+  )
+
+  net <- example_network %>%
+    intergraph::asNetwork()
+  ergm_model <- suppressMessages(ergm::ergm(
+    net ~ edges +
+      nodematch("genetic_sex") +
+      nodecov('lat') +
+      nodematch("site", diff = TRUE)
+  ))
+  expect_error(
+    ergm_emmeans(
+      ergm_model = ergm_model,
+      term_string = "bob"
+    )
+  )
+
+  ergm_model <- suppressMessages(ergm::ergm(
+    net ~ edges +
+      nodematch("genetic_sex") +
+      nodecov('lat')
+  ))
+  expect_error(
+    ergm_emmeans(
+      ergm_model = ergm_model,
+      term_string = "site"
+    )
+  )
+  expect_error(
+    ergm_emmeans(
+      ergm_model = ergm_model,
+      term_string = "lat"
+    )
+  )
+})

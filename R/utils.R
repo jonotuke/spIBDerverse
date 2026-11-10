@@ -77,10 +77,7 @@ validate_try <- function(expr) {
     error = function(e) shiny::validate(conditionMessage(e))
   )
 }
-if (sys.nframe() == 5) {
-  validate_try(sqrt(-1)) |> print()
-  sqrt(-1)
-}
+
 #' Transform vector to (a,b)
 #'
 #' @param x vector to transform
@@ -236,4 +233,41 @@ get_status <- function(msg) {
     shiny::tags$strong(type),
     shiny::tags$p(msg)
   )
+}
+has_any <- function(x, patterns) {
+  purrr::map_lgl(x, \(s) any(stringr::str_detect(s, patterns)))
+}
+#' Classify the predictors (terms) of a fitted ergm
+#'
+#' @param ergm ergm object
+#' @return A tibble with one row per term-attribute pair:
+get_ergm_preds_df <- function(ergm) {
+  checkmate::assert_class(ergm, "ergm")
+
+  f <- ergm$formula
+  terms <- statnet.common::list_rhs.formula(f)
+
+  net_vars <- c("edges")
+  cat_vars <- c("nodematch", "nodemix", "nodefactor")
+  num_vars <- c("nodecov", "absdiff")
+
+  terms <- purrr::map_chr(terms, deparse1) |>
+    stringr::str_replace_all("\"", "'")
+
+  df <- tibble::tibble(
+    term = terms
+  ) |>
+    dplyr::mutate(
+      pred = stringr::str_extract(term, "'(.*)'") |>
+        stringr::str_remove_all("'")
+    ) |>
+    dplyr::mutate(
+      type = dplyr::case_when(
+        has_any(term, net_vars) ~ "network",
+        has_any(term, cat_vars) ~ "categorical",
+        has_any(term, num_vars) ~ "numeric",
+        TRUE ~ "unknown type"
+      )
+    )
+  df
 }

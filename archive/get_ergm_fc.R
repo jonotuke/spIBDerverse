@@ -17,7 +17,7 @@ theta_to_phi <- function(theta0, theta1) {
 #' @export
 #'
 #' @examples
-#' ergm <- get_ergms(example_network, preds = "site", types = "nodemix")
+#' ergm <- fit_ergms(example_network, preds = "site", types = "nodemix")
 #' get_ergm_fc(ergm[[1]])
 get_ergm_fc <- function(ergm, trim = TRUE) {
   coef <- ergm |>
@@ -40,7 +40,7 @@ get_ergm_fc <- function(ergm, trim = TRUE) {
 }
 # pacman::p_load(conflicted, tidyverse, targets, ergm)
 # ergms <-
-#   get_ergms(
+#   fit_ergms(
 #     example_network,
 #     preds = c("site", "genetic_sex")
 #   )
