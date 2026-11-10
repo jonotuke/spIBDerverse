@@ -16,7 +16,7 @@ coefficient table
 Gets coefficients and fold changes for a ergm model
 }
 \examples{
-ergms <- get_ergms(
+ergms <- fit_ergms(
 example_network,
 preds = c("site", "genetic_sex"),
 types = c("nodematch", "nodematch")

@@ -9,7 +9,7 @@ utils::globalVariables(
 #' @export
 #'
 #' @examples
-#' ergms <- get_ergms(
+#' ergms <- fit_ergms(
 #'   example_network,
 #'   preds = c("site", "genetic_sex"),
 #'   types = c("nodematch", "nodemix")
@@ -23,7 +23,7 @@ get_ergm_bic <- function(ergms) {
     dplyr::select(Model, AIC, BIC)
 }
 # pacman::p_load(conflicted, tidyverse, targets, ergm)
-# ergms <- get_ergms(
+# ergms <- fit_ergms(
 #   example_network,
 #   preds = c("site", "genetic_sex")
 # )

@@ -18,7 +18,7 @@ plot of coefficients
 Tab ergm coefficients
 }
 \examples{
-ergms <- get_ergms(
+ergms <- fit_ergms(
   example_network,
   preds = c("site", "genetic_sex"),
   types = c("nodematch", "nodemix")

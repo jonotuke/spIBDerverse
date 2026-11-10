@@ -94,3 +94,24 @@ test_that("Get errors", {
     check_node_attributes(example_network, "site")
   )
 })
+
+test_that("get_ergm_preds args", {
+  expect_error(get_ergm_preds(list()))
+})
+
+test_that("get_ergm_preds values", {
+  ergms <- fit_ergms(
+    example_network,
+    c("site", "lat"),
+    c("nodemix", "nodecov")
+  ) |>
+    suppressWarnings()
+  expect_equal(
+    get_ergm_preds_df(ergms[[3]])$pred,
+    c(NA, "site", "lat")
+  )
+  expect_equal(
+    get_ergm_preds_df(ergms[[3]])$type,
+    c("network", "categorical", "numeric")
+  )
+})

@@ -38,6 +38,9 @@ spibder_app <- function(input_network = NULL) {
   r$network <- shiny::reactive({
     input_network
   })
+  r$ergm <- shiny::reactive({
+    NULL
+  })
 
   options(shiny.maxRequestSize = Inf)
   ui <- shiny::fluidPage(
@@ -96,7 +99,8 @@ spibder_app <- function(input_network = NULL) {
         ),
         shiny::conditionalPanel(
           condition = "input.tabs == 'ERGM models'",
-          ergmInput("ergm", all_vars)
+          ergmInput("ergm", all_vars),
+          pairwiseInput("pairwise")
         ),
         shiny::conditionalPanel(
           condition = "input.tabs == 'Distance relationship'",
@@ -176,7 +180,8 @@ spibder_app <- function(input_network = NULL) {
           ),
           shiny::tabPanel(
             title = "ERGM models",
-            ergmOutput("ergm")
+            ergmOutput("ergm"),
+            pairwiseOutput("pairwise")
           ),
           shiny::tabPanel(
             title = "Distance relationship",
@@ -217,6 +222,8 @@ spibder_app <- function(input_network = NULL) {
     ringbauerServer("ringbauer", r = r)
     # ERGMs ----
     ergmServer("ergm", r = r)
+    # Pairwise ----
+    pairwiseServer("pairwise", r)
     # Spatial ERGMs ----
     spatialergmServer("spatialergm", r = r)
     # SNAPSHOT ----
@@ -234,8 +241,19 @@ spibder_app <- function(input_network = NULL) {
     exportplotServer("export", r = r)
     # DEBUG ----
     output$debug <- shiny::renderPrint({
-      print(r$network())
-      print(r$full_network())
+      show <- function(label, expr) {
+        cat("----", label, "----\n")
+        tryCatch(
+          print(expr),
+          shiny.silent.error = function(e) {
+            cat("<cancelled by req()/validate()>\n")
+          },
+          error = function(e) cat("<error>", conditionMessage(e), "\n")
+        )
+      }
+      show("network", r$network())
+      show("full_network", r$full_network())
+      show("ergm", r$ergm())
     })
   }
   shiny::shinyApp(ui, server)

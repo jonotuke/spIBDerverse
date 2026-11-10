@@ -17,7 +17,7 @@ utils::globalVariables(
 #'
 #' @examples
 #' ergms <- example_network |>
-#'   get_ergms(
+#'   fit_ergms(
 #'     preds = c("site", "genetic_sex"),
 #'     types = c("nodematch", "nodemix"))
 #' plot_ergm_bic(ergms) |> print()
@@ -109,7 +109,7 @@ plot_ergm_bic <- function(
     ggplot2::xlab(NULL)
 }
 # pacman::p_load(conflicted, tidyverse, targets, ergm)
-# ergms <- get_ergms(
+# ergms <- fit_ergms(
 #   example_network,
 #   preds = c("site", "genetic_sex", "degree"),
 #   types = c("nodematch|nodemix", "nodemix|nodematch", "nodecov")

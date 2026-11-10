@@ -73,7 +73,9 @@ Imports:
     network,
     ggsci,
     ggdendro,
-    patchwork
+    patchwork, 
+    emmeans,
+    statnet.common
 Suggests: 
     quarto,
     rmarkdown,

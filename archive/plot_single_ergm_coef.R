@@ -8,7 +8,7 @@
 #' @export
 #'
 #' @examples
-#' ergms <- get_ergms(
+#' ergms <- fit_ergms(
 #'   example_network,
 #'   preds = c("site", "genetic_sex"),
 #'   types = c("nodematch", "nodemix")
@@ -20,10 +20,10 @@ plot_single_ergm_coef <- function(
   trim = TRUE
 ) {
   if (type == "theta") {
-    xlab = "Coefficient of ERGM"
+    xlab <- "Coefficient of ERGM"
     cutoff <- 0
   } else {
-    xlab = "Fold change compared to edges"
+    xlab <- "Fold change compared to edges"
     cutoff <- 1
   }
   coef <- get_ergm_fc(ergm, trim = trim) |>
@@ -40,7 +40,7 @@ plot_single_ergm_coef <- function(
     ggplot2::theme_bw() +
     ggplot2::labs(x = xlab)
 }
-# ergms <- get_ergms(
+# ergms <- fit_ergms(
 #   example_network,
 #   preds = c("site", "genetic_sex")
 # )
