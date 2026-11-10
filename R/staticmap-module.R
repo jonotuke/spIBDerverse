@@ -1,3 +1,6 @@
+# Static map module. The node / edge / label / location controls are
+# shared with the network plot module: see network-ui-shared.R.
+
 STADIA_MAPTYPES <- c(
   "stamen_terrain",
   "stamen_toner",
@@ -37,7 +40,8 @@ staticmapInput <- function(
       num_vars = num_vars,
       label_vars = label_vars,
       first_panel = "Location",
-      open = NULL
+      open = NULL,
+      show_layout = FALSE
     ),
     bslib::accordion(
       open = FALSE,
@@ -52,13 +56,12 @@ staticmapInput <- function(
           value = 5,
           step = 1
         ) |>
-          hover_tooltip(
-            "The level of resolution of the background map details.
-        Higher values make the map more detailed, but take longer
-        to download. We recommend leaving this value low while
-        deciding on the ranges for the latitude and longitude, or
-        the terrain type."
-          ),
+          hover_tooltip(paste(
+            "The level of resolution of the background map details.",
+            "Higher values make the map more detailed, but take longer to download.",
+            "We recommend leaving this value low while deciding on the ranges",
+            "for the latitude and longitude, or the terrain type."
+          )),
         shiny::selectInput(
           ns("maptype"),
           label = "Terrain type",
@@ -70,23 +73,22 @@ staticmapInput <- function(
           label = "Theme type",
           choices = c("minimal", "black white", "void")
         ) |>
-          hover_tooltip(
-            "The plotting theme for the map.
-        Minimal allows you to see the latitude and longitude
-        values, black white is similar but removes the grey
-        background from the legend, and void removes all axis
-        labels and latitude and longitude values."
-          ),
+          hover_tooltip(paste(
+            "The plotting theme for the map.",
+            "Minimal allows you to see the latitude and longitude values,",
+            "black white is similar but removes the grey background from the legend,",
+            "and void removes all axis labels and latitude and longitude values."
+          )),
         shiny::textInput(
           ns("key"),
           "Stadia API key",
           value = "a7bf69ed-3e77-41ed-b1e2-52f9aa99ec19"
         ) |>
-          hover_tooltip(
-            "This key is required to be able to download the map
-        background. See this website for simple instructions on
-        setting this up (https://docs.stadiamaps.com/authentication/#api-keys)."
-          ),
+          hover_tooltip(paste(
+            "This key is required to be able to download the map background.",
+            "See this website for simple instructions on setting this up",
+            "(https://docs.stadiamaps.com/authentication/#api-keys)."
+          )),
         # Placeholder values: these are replaced with the network's extent as
         # soon as latitude and longitude attributes are chosen.
         shinyWidgets::numericRangeInput(
@@ -94,10 +96,10 @@ staticmapInput <- function(
           "Latitude range",
           value = c(-90, 90)
         ) |>
-          hover_tooltip(
-            "Set automatically to fit the network when the latitude and
-        longitude attributes are chosen. Nodes outside the range are hidden."
-          ),
+          hover_tooltip(paste(
+            "Set automatically to fit the network when the latitude and",
+            "longitude attributes are chosen. Nodes outside the range are hidden."
+          )),
         shinyWidgets::numericRangeInput(
           ns("lon_range"),
           "Longitude range",
@@ -111,10 +113,10 @@ staticmapInput <- function(
           step = 0.01,
           value = 0
         ) |>
-          hover_tooltip(
-            "Moves each node by a small random amount (in degrees) so that
-        nodes sharing the same location don't sit on top of each other."
-          ),
+          hover_tooltip(paste(
+            "Moves each node by a small random amount (in degrees) so that",
+            "nodes sharing the same location don't sit on top of each other."
+          )),
         shiny::checkboxInput(
           ns("country_lines"),
           label = "Add country lines",
@@ -124,6 +126,7 @@ staticmapInput <- function(
     )
   )
 }
+
 staticmapOutput <- function(id) {
   ns <- shiny::NS(id)
 
@@ -135,7 +138,6 @@ staticmapOutput <- function(id) {
       icon = shiny::icon("arrows-rotate"),
       class = "btn-primary"
     ),
-    # shiny::verbatimTextOutput(ns("debug")),
     shiny::actionButton(ns("save"), "Set as export plot")
   )
 }
@@ -144,20 +146,15 @@ staticmapOutput <- function(id) {
 
 staticmapServer <- function(id, r) {
   shiny::moduleServer(id, function(input, output, session) {
-    has_coords <- shiny::reactive({
-      !is_none(input$lat) && !is_none(input$lon)
-    })
-
-    output$debug <- shiny::renderPrint({
-      print(r$network())
-      print(input$label_col)
-    })
-
     # SELECT CHOICES ----
     # Shared network_ui() logic; the map only offers numeric lat/lon choices.
     network_ui_server(input, session, r, choices = function(net) {
-      coord_vars <- c("", get_node_attributes(net, "num"))
+      coord_vars <- c("none", get_node_attributes(net, "num"))
       list(lat = coord_vars, lon = coord_vars)
+    })
+
+    has_coords <- shiny::reactive({
+      !is_none(input$lat) && !is_none(input$lon)
     })
 
     # LAT / LON RANGES ----
@@ -256,29 +253,12 @@ staticmapServer <- function(id, r) {
 # APP ----
 
 staticmapApp <- function(network_input) {
-  r <- shiny::reactiveValues(
-    network = shiny::reactive(network_input),
-    full_network = shiny::reactive(network_input)
-  )
+  r <- network_app_values(network_input)
 
   ui <- shiny::fluidPage(
     theme = bslib::bs_theme(version = 5),
     title = "Static map",
-    staticmapInput(
-      "staticmap",
-      all_vars = get_node_attributes(network_input),
-      cat_vars = get_node_attributes(network_input, "cat"),
-      edge_vars = igraph::edge_attr_names(network_input),
-      num_vars = get_node_attributes(
-        network_input,
-        "num"
-      ),
-      label_vars <- get_node_attributes(
-        network_input,
-        "all",
-        trim_levels = FALSE
-      )
-    ),
+    rlang::exec(staticmapInput, "staticmap", !!!network_vars(network_input)),
     staticmapOutput("staticmap")
   )
 
