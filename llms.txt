@@ -153,6 +153,9 @@ ibd_network
   : drop_missing_nodes
 - [`edges_to_sf()`](https://jonotuke.github.io/spIBDerverse/reference/edges_to_sf.md)
   : edges to sf
+- [`ergm_pairwise()`](https://jonotuke.github.io/spIBDerverse/reference/ergm_pairwise.md)
+  : Get pairwise differences for a categorical predictor in an ergm
+  model
 - [`example_network`](https://jonotuke.github.io/spIBDerverse/reference/example_network.md)
   : example network
 - [`example_network_2`](https://jonotuke.github.io/spIBDerverse/reference/example_network_2.md)
@@ -173,6 +176,8 @@ ibd_network
   : Expand a line by given amount
 - [`filter_network()`](https://jonotuke.github.io/spIBDerverse/reference/filter_network.md)
   : Filter network
+- [`fit_ergms()`](https://jonotuke.github.io/spIBDerverse/reference/fit_ergms.md)
+  : fit_ergms
 - [`fit_spatial_ergm()`](https://jonotuke.github.io/spIBDerverse/reference/fit_spatial_ergm.md)
   : Fit spatial ergm
 - [`get_all_models()`](https://jonotuke.github.io/spIBDerverse/reference/get_all_models.md)
@@ -195,8 +200,8 @@ ibd_network
   : Gets coefficients and fold changes for a ergm model
 - [`get_ergm_fc()`](https://jonotuke.github.io/spIBDerverse/reference/get_ergm_fc.md)
   : Convert ergm coefficients to fold changes
-- [`get_ergms()`](https://jonotuke.github.io/spIBDerverse/reference/get_ergms.md)
-  : get_ergms
+- [`get_ergm_preds_df()`](https://jonotuke.github.io/spIBDerverse/reference/get_ergm_preds_df.md)
+  : Classify the predictors (terms) of a fitted ergm
 - [`get_network_summary()`](https://jonotuke.github.io/spIBDerverse/reference/get_network_summary.md)
   : Get network summary
 - [`get_node_attributes()`](https://jonotuke.github.io/spIBDerverse/reference/get_node_attributes.md)

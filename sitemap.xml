@@ -33,6 +33,7 @@
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/dist_network.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/drop_missing_nodes.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/edges_to_sf.html</loc></url>
+<url><loc>https://jonotuke.github.io/spIBDerverse/reference/ergm_pairwise.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/example_network.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/example_network_2.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/example_network_3.html</loc></url>
@@ -43,6 +44,7 @@
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/example_spatial_ergms.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/expand_line.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/filter_network.html</loc></url>
+<url><loc>https://jonotuke.github.io/spIBDerverse/reference/fit_ergms.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/fit_spatial_ergm.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/get_all_models.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/get_attr_values.html</loc></url>
@@ -54,7 +56,7 @@
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/get_ergm_bic.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/get_ergm_coef.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/get_ergm_fc.html</loc></url>
-<url><loc>https://jonotuke.github.io/spIBDerverse/reference/get_ergms.html</loc></url>
+<url><loc>https://jonotuke.github.io/spIBDerverse/reference/get_ergm_preds_df.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/get_network_summary.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/get_node_attributes.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/get_node_info.html</loc></url>
