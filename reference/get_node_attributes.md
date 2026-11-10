@@ -7,7 +7,13 @@ more than `max_levels` distinct values.
 ## Usage
 
 ``` r
-get_node_attributes(g, type = "all", inc_internals = FALSE, max_levels = 10)
+get_node_attributes(
+  g,
+  type = "all",
+  inc_internals = FALSE,
+  max_levels = 10,
+  trim_levels = TRUE
+)
 ```
 
 ## Arguments
@@ -28,6 +34,10 @@ get_node_attributes(g, type = "all", inc_internals = FALSE, max_levels = 10)
 
   maximum number of distinct values a categorical attribute can have and
   still be returned. Defaults to `Inf` (no upper limit).
+
+- trim_levels:
+
+  boolean to trim nodes based on max_levels
 
 ## Value
 
