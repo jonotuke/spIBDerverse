@@ -1,23 +1,22 @@
 # Build the cutoff input for a node or edge attribute
 
-Numeric attributes get a range input spanning the observed values;
-everything else gets a checkbox group of the distinct values.
+Numeric range Cat: levels
 
 ## Usage
 
 ``` r
-make_cutoff_ui(id, x, g, what = c("node", "edge"))
+make_cutoff_ui(id, x, g, what = c("node", "edge"), selected = NULL)
 ```
 
 ## Arguments
 
 - id:
 
-  Module id.
+  id
 
 - x:
 
-  Name of the attribute to filter on, or `"none"`.
+  attribute filter
 
 - g:
 
@@ -26,3 +25,7 @@ make_cutoff_ui(id, x, g, what = c("node", "edge"))
 - what:
 
   Either `"node"` or `"edge"`.
+
+- selected:
+
+  previous selected values

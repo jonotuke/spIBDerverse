@@ -40,6 +40,8 @@
   : Convert ringbauer measures
 - [`convert_to_network()`](https://jonotuke.github.io/spIBDerverse/reference/convert_to_network.md)
   : Convert to network from igraph, but keep original names
+- [`cutoff_input_id()`](https://jonotuke.github.io/spIBDerverse/reference/cutoff_input_id.md)
+  : Input id for the cutoff control of one attribute
 - [`dataWizardInput()`](https://jonotuke.github.io/spIBDerverse/reference/dataWizardInput.md)
   : dataWizardInput
 - [`default_image`](https://jonotuke.github.io/spIBDerverse/reference/default_image.md)

@@ -1,14 +1,13 @@
 # Filter network
 
-Includes or excludes nodes based on regular expression
+Filter network
 
 ## Usage
 
 ``` r
 filter_network(
   g,
-  node_column = "none",
-  node_cutoff = NULL,
+  node_filters = list(),
   edge_column = "none",
   edge_cutoff = NULL
 )
@@ -20,17 +19,14 @@ filter_network(
 
   ibd network
 
-- node_column:
+- node_filters:
 
-  node attribute to filter network on
-
-- node_cutoff:
-
-  cutoffs for node filter
+  list of values to filter on for nodes e.g. list(site = c("A", "C"),
+  genetic_sex = "F")
 
 - edge_column:
 
-  edge attributes to filter network on
+  edge attribute to filter network on
 
 - edge_cutoff:
 
