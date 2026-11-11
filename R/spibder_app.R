@@ -98,7 +98,7 @@ spibder_app <- function(input_network = NULL) {
           ringbauerInput("ringbauer", cat_vars)
         ),
         shiny::conditionalPanel(
-          condition = "input.tabs == 'ERGM models'",
+          condition = "input.tabs == 'ERGM'",
           ergmInput("ergm", all_vars),
           pairwiseInput("pairwise")
         ),
@@ -179,7 +179,7 @@ spibder_app <- function(input_network = NULL) {
             ringbauerOutput("ringbauer")
           ),
           shiny::tabPanel(
-            title = "ERGM models",
+            title = "ERGM",
             ergmOutput("ergm"),
             pairwiseOutput("pairwise")
           ),

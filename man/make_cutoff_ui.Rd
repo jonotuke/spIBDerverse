@@ -4,18 +4,20 @@
 \alias{make_cutoff_ui}
 \title{Build the cutoff input for a node or edge attribute}
 \usage{
-make_cutoff_ui(id, x, g, what = c("node", "edge"))
+make_cutoff_ui(id, x, g, what = c("node", "edge"), selected = NULL)
 }
 \arguments{
-\item{id}{Module id.}
+\item{id}{id}
 
-\item{x}{Name of the attribute to filter on, or \code{"none"}.}
+\item{x}{attribute filter}
 
 \item{g}{An igraph object.}
 
 \item{what}{Either \code{"node"} or \code{"edge"}.}
+
+\item{selected}{previous selected values}
 }
 \description{
-Numeric attributes get a range input spanning the observed values;
-everything else gets a checkbox group of the distinct values.
+Numeric range
+Cat: levels
 }

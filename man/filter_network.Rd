@@ -6,8 +6,7 @@
 \usage{
 filter_network(
   g,
-  node_column = "none",
-  node_cutoff = NULL,
+  node_filters = list(),
   edge_column = "none",
   edge_cutoff = NULL
 )
@@ -15,11 +14,10 @@ filter_network(
 \arguments{
 \item{g}{ibd network}
 
-\item{node_column}{node attribute to filter network on}
+\item{node_filters}{list of values to filter on for nodes
+e.g. list(site = c("A", "C"), genetic_sex = "F")}
 
-\item{node_cutoff}{cutoffs for node filter}
-
-\item{edge_column}{edge attributes to filter network on}
+\item{edge_column}{edge attribute to filter network on}
 
 \item{edge_cutoff}{cutoffs for edge filter}
 }
@@ -27,5 +25,5 @@ filter_network(
 filtered IBD network
 }
 \description{
-Includes or excludes nodes based on regular expression
+Filter network
 }

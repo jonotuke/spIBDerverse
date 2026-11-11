@@ -3,12 +3,23 @@ networkFilterInput <- function(id, all_vars, edge_vars) {
   ns <- shiny::NS(id)
 
   shiny::tagList(
-    shiny::selectInput(
-      ns("node_column"),
-      "Choose node attribute to filter on",
-      choices = c("none", all_vars)
+    shiny::actionButton(
+      ns("run"),
+      "Run filter",
+      icon = shiny::icon("filter"),
+      class = "btn-primary"
     ),
-    shiny::uiOutput(ns("node_cutoff")),
+    shiny::selectizeInput(
+      ns("node_columns"),
+      "Choose node attributes to filter on",
+      choices = all_vars,
+      multiple = TRUE,
+      options = list(
+        placeholder = "None (keep all nodes)",
+        plugins = list("remove_button")
+      )
+    ),
+    shiny::uiOutput(ns("node_cutoffs")),
     shiny::selectInput(
       ns("edge_column"),
       "Choose edge attribute to filter on",
@@ -28,16 +39,35 @@ networkFilterOutput <- function(id) {
 
 
 # HELPERS ----
+#' Input id for the cutoff control of one attribute
+#'
+#' Attribute names can contain characters that are not valid in input ids,
+#' so they are sanitised here.
+#'
+#' @param x Attribute name.
+#' @param what Either `"node"` or `"edge"`.
+cutoff_input_id <- function(x, what = c("node", "edge")) {
+  what <- match.arg(what)
+  paste0(what, "_cutoff_", gsub("[^A-Za-z0-9_]", "_", x))
+}
+
 #' Build the cutoff input for a node or edge attribute
 #'
-#' Numeric attributes get a range input spanning the observed values;
-#' everything else gets a checkbox group of the distinct values.
+#' Numeric range
+#' Cat: levels
 #'
-#' @param id Module id.
-#' @param x Name of the attribute to filter on, or `"none"`.
+#' @param id id
+#' @param x attribute filter
 #' @param g An igraph object.
 #' @param what Either `"node"` or `"edge"`.
-make_cutoff_ui <- function(id, x, g, what = c("node", "edge")) {
+#' @param selected previous selected values
+make_cutoff_ui <- function(
+  id,
+  x,
+  g,
+  what = c("node", "edge"),
+  selected = NULL
+) {
   what <- match.arg(what)
 
   if (is.null(x) || x == "none") {
@@ -45,35 +75,50 @@ make_cutoff_ui <- function(id, x, g, what = c("node", "edge")) {
   }
 
   ns <- shiny::NS(id)
-  input_id <- ns(paste0(what, "_cutoff"))
+  input_id <- ns(cutoff_input_id(x, what))
   obs <- get_attr_values(g, x, what)
 
   if (is.numeric(obs)) {
     shinyWidgets::numericRangeInput(
       input_id,
       label = stringr::str_glue("Enter the filter range for {x}"),
-      value = range(obs, na.rm = TRUE)
+      value = if (is.null(selected)) {
+        range(obs, na.rm = TRUE)
+      } else {
+        selected
+      }
     )
   } else {
-    levels <- sort(unique(obs))
+    levels <- sort(unique(as.character(obs)))
+    select_js <- function(all) {
+      sprintf(
+        "Shiny.setInputValue('%s', {what: '%s', column: %s, all: %s}, {priority: 'event'});",
+        ns("select_action"),
+        what,
+        jsonlite::toJSON(x, auto_unbox = TRUE),
+        if (all) "true" else "false"
+      )
+    }
     shiny::tagList(
       shiny::checkboxGroupInput(
         input_id,
         label = stringr::str_glue("Select values of {x} to keep"),
         choices = levels,
-        selected = levels[1]
+        selected = if (is.null(selected)) levels else selected
       ),
       shiny::div(
         style = "margin-top: -10px; margin-bottom: 15px;",
-        shiny::actionButton(
-          ns(paste0(what, "_select_all")),
-          "Select all",
-          class = "btn-sm"
+        shiny::tags$button(
+          type = "button",
+          class = "btn btn-default btn-sm",
+          onclick = select_js(TRUE),
+          "Select all"
         ),
-        shiny::actionButton(
-          ns(paste0(what, "_select_none")),
-          "Select none",
-          class = "btn-sm"
+        shiny::tags$button(
+          type = "button",
+          class = "btn btn-default btn-sm",
+          onclick = select_js(FALSE),
+          "Select none"
         )
       )
     )
@@ -98,22 +143,84 @@ get_attr_values <- function(g, x, what = c("node", "edge")) {
 # SERVER ----
 networkFilterServer <- function(id, r) {
   shiny::moduleServer(id, function(input, output, session) {
-    r$network <- shiny::reactive({
-      filter_network(
-        r$full_network(),
-        node_column = input$node_column,
-        node_cutoff = input$node_cutoff,
-        edge_column = input$edge_column,
-        edge_cutoff = input$edge_cutoff
-      )
-    })
+    # Collect the current node filters as a named list: attribute -> cutoff
+    collect_node_filters <- function(g) {
+      cols <- intersect(input$node_columns, igraph::vertex_attr_names(g))
+      filters <- lapply(cols, function(x) input[[cutoff_input_id(x, "node")]])
+      names(filters) <- cols
 
-    output$node_cutoff <- shiny::renderUI({
-      make_cutoff_ui(
-        id,
-        input$node_column,
-        r$full_network(),
-        what = "node"
+      empty <- vapply(filters, is.null, logical(1))
+      if (any(empty)) {
+        shiny::showNotification(
+          paste0(
+            "No values selected for ",
+            paste(cols[empty], collapse = ", "),
+            "; that filter was skipped."
+          ),
+          type = "warning"
+        )
+      }
+      filters[!empty]
+    }
+
+    # The filtered network only updates when Run is pressed (or when the
+    # underlying network changes)
+    r$network <- shiny::reactive({
+      g <- r$full_network()
+
+      edge_column <- input$edge_column
+      if (
+        is.null(edge_column) ||
+          !edge_column %in% igraph::edge_attr_names(g)
+      ) {
+        edge_column <- "none"
+      }
+      edge_cutoff <- NULL
+      if (edge_column != "none") {
+        edge_cutoff <- input[[cutoff_input_id(edge_column, "edge")]]
+        if (is.null(edge_cutoff)) {
+          shiny::showNotification(
+            paste0(
+              "No values selected for ",
+              edge_column,
+              "; the edge filter was skipped."
+            ),
+            type = "warning"
+          )
+          edge_column <- "none"
+        }
+      }
+
+      filter_network(
+        g,
+        node_filters = collect_node_filters(g),
+        edge_column = edge_column,
+        edge_cutoff = edge_cutoff
+      )
+    }) |>
+      shiny::bindEvent(input$run, r$full_network(), ignoreNULL = FALSE)
+
+    # One cutoff control per selected node attribute. Values already set
+    # for an attribute are kept when other attributes are added or removed.
+    output$node_cutoffs <- shiny::renderUI({
+      g <- r$full_network()
+      cols <- input$node_columns
+      if (length(cols) == 0) {
+        return(NULL)
+      }
+      shiny::tagList(
+        lapply(cols, function(x) {
+          shiny::wellPanel(
+            style = "padding: 10px; margin-bottom: 10px;",
+            make_cutoff_ui(
+              id,
+              x,
+              g,
+              what = "node",
+              selected = shiny::isolate(input[[cutoff_input_id(x, "node")]])
+            )
+          )
+        })
       )
     })
 
@@ -126,41 +233,36 @@ networkFilterServer <- function(id, r) {
       )
     })
 
-    # Select all / select none for character (checkbox) attributes
-    update_checkboxes <- function(what, column, select_all) {
-      levels <- sort(
-        unique(
-          get_attr_values(r$full_network(), column, what)
-        )
-      )
+    # Select all / select none for character (checkbox) attributes.
+    # Every button reports which attribute it belongs to via one input.
+    shiny::observeEvent(input$select_action, {
+      action <- input$select_action
+      levels <- character(0)
+      if (isTRUE(action$all)) {
+        levels <- sort(unique(as.character(
+          get_attr_values(r$full_network(), action$column, action$what)
+        )))
+      }
       shiny::updateCheckboxGroupInput(
         session,
-        paste0(what, "_cutoff"),
-        selected = if (select_all) levels else character(0)
+        cutoff_input_id(action$column, action$what),
+        selected = levels
       )
-    }
-
-    shiny::observeEvent(input$node_select_all, {
-      update_checkboxes("node", input$node_column, select_all = TRUE)
-    })
-    shiny::observeEvent(input$node_select_none, {
-      update_checkboxes("node", input$node_column, select_all = FALSE)
-    })
-    shiny::observeEvent(input$edge_select_all, {
-      update_checkboxes("edge", input$edge_column, select_all = TRUE)
-    })
-    shiny::observeEvent(input$edge_select_none, {
-      update_checkboxes("edge", input$edge_column, select_all = FALSE)
     })
 
     # Keep the attribute choices in sync when the underlying network changes
     shiny::observeEvent(r$full_network(), {
       g <- r$full_network()
-      shiny::updateSelectInput(
+      node_choices <- pretty_choices(
+        get_node_attributes(g, inc_internals = TRUE)
+      )
+      shiny::updateSelectizeInput(
         session,
-        "node_column",
-        choices = pretty_choices(
-          c("none", get_node_attributes(g, inc_internals = TRUE))
+        "node_columns",
+        choices = node_choices,
+        selected = intersect(
+          shiny::isolate(input$node_columns),
+          unlist(node_choices)
         )
       )
       shiny::updateSelectInput(
@@ -171,8 +273,10 @@ networkFilterServer <- function(id, r) {
     })
 
     output$debug <- shiny::renderPrint({
-      print(input$node_cutoff)
-      print(input$edge_cutoff)
+      for (x in input$node_columns) {
+        cat(x, ": ", sep = "")
+        print(input[[cutoff_input_id(x, "node")]])
+      }
       print(r$network())
     })
   })
@@ -214,5 +318,5 @@ networkFilterApp <- function(network_input) {
 }
 
 if (sys.nframe() == 5) {
-  networkFilterApp(example_network_7) |> print()
+  networkFilterApp(example_network) |> print()
 }
