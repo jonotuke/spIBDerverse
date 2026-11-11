@@ -8,7 +8,7 @@ get_node_attributes(
   g,
   type = "all",
   inc_internals = FALSE,
-  max_levels = 10,
+  max_levels = NULL,
   trim_levels = TRUE
 )
 }

@@ -64,11 +64,14 @@ get_node_attributes <- function(
   g,
   type = "all",
   inc_internals = FALSE,
-  max_levels = 10,
+  max_levels = NULL,
   trim_levels = TRUE
 ) {
   if (!methods::is(g, "igraph")) {
     return(NULL)
+  }
+  if (is.null(max_levels)) {
+    max_levels <- igraph::vcount(g)
   }
   node_df <- igraph::as_data_frame(g, what = "vertices")
   if (type == "cat") {
@@ -97,7 +100,7 @@ get_node_attributes <- function(
     node_df[vars],
     \(x) is.character(x) || is.factor(x)
   )
-  keep <- n_levels > 1 & (!is_cat | n_levels <= max_levels)
+  keep <- n_levels > 1 & (!is_cat | n_levels < max_levels)
   if (trim_levels) {
     return(vars[keep])
   } else {
@@ -122,9 +125,8 @@ get_node_info <- function(g) {
 # DRIVER ----
 if (sys.nframe() == 5) {
   get_node_attributes(
-    example_network,
-    type = "cat",
-    trim_levels = FALSE
+    example_network_2,
+    type = "cat"
   ) |>
     print()
 }
