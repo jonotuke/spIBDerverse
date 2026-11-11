@@ -43,11 +43,13 @@ spibder_app <- function(input_network = NULL) {
   })
 
   options(shiny.maxRequestSize = Inf)
+  # UI ----
   ui <- shiny::fluidPage(
     theme = bslib::bs_theme(version = 5),
     shiny::titlePanel("SpIBDer-verse: Network Analyses"),
     shiny::sidebarLayout(
       shiny::sidebarPanel(
+        # INPUT----
         shiny::conditionalPanel(
           condition = "input.tabs == 'Load data'",
           dataWizardInput("data"),
@@ -136,21 +138,23 @@ spibder_app <- function(input_network = NULL) {
       shiny::mainPanel(
         shiny::tabsetPanel(
           id = "tabs",
+          # OUTPUT ----
           shiny::tabPanel(
             title = "Load data",
             dataWizardOutput("data")
           ),
           shiny::tabPanel(
+            # FILTERING ----
             title = "Filtering the network",
             shiny::tabsetPanel(
               id = "filter_tabs",
               shiny::tabPanel(
-                title = "Edges",
-                edgeOutput("edge")
-              ),
-              shiny::tabPanel(
                 title = "Nodes",
                 nodeOutput("node")
+              ),
+              shiny::tabPanel(
+                title = "Edges",
+                edgeOutput("edge")
               )
             )
           ),
