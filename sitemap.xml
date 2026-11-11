@@ -70,6 +70,7 @@
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/label_grp_duplicates.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/load_dist_network.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/load_example.html</loc></url>
+<url><loc>https://jonotuke.github.io/spIBDerverse/reference/load_ibd.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/load_ibd_network.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/make_cutoff_ui.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/pal_scale.html</loc></url>
@@ -87,6 +88,7 @@
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/plot_spatial_ergm.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/plot_staticmap.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/predict_spatial_ergm.html</loc></url>
+<url><loc>https://jonotuke.github.io/spIBDerverse/reference/read_file.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/remove_redundant_models.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/sort_label.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/spibder_app.html</loc></url>

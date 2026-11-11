@@ -123,6 +123,8 @@
   : load distance network
 - [`load_example()`](https://jonotuke.github.io/spIBDerverse/reference/load_example.md)
   : loads some example data
+- [`load_ibd()`](https://jonotuke.github.io/spIBDerverse/reference/load_ibd.md)
+  : Load an IBD network
 - [`load_ibd_network()`](https://jonotuke.github.io/spIBDerverse/reference/load_ibd_network.md)
   : Load an IBD network
 - [`make_cutoff_ui()`](https://jonotuke.github.io/spIBDerverse/reference/make_cutoff_ui.md)
@@ -157,6 +159,8 @@
   : Plot a network on a static Stadia map
 - [`predict_spatial_ergm()`](https://jonotuke.github.io/spIBDerverse/reference/predict_spatial_ergm.md)
   : Predicts probability for an edge for given distances
+- [`read_file()`](https://jonotuke.github.io/spIBDerverse/reference/read_file.md)
+  : read file
 - [`remove_redundant_models()`](https://jonotuke.github.io/spIBDerverse/reference/remove_redundant_models.md)
   : remove redundant models
 - [`sort_label()`](https://jonotuke.github.io/spIBDerverse/reference/sort_label.md)
