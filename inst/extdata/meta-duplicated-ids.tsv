@@ -1,4 +1,4 @@
-iid	grp
-A	Dog
-B	Cat
-A	Cat
+iid	grp	frac_gp
+A	Dog	1
+B	Cat	1
+A	Cat	1
