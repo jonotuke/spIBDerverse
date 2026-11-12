@@ -17,7 +17,6 @@ export(convert_pipe)
 export(convert_pred_ergmterm)
 export(convert_ringbauer_measures)
 export(convert_to_network)
-export(dataWizardInput)
 export(drop_missing_nodes)
 export(edges_to_sf)
 export(ergm_pairwise)
@@ -67,7 +66,6 @@ export(test_centrality)
 export(test_centrality_emp)
 export(transform_alpha)
 importFrom(rlang,
-  "%||%",
   ":=",
   .data
 )

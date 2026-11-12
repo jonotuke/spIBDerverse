@@ -10,7 +10,8 @@ loadexampleInput <- function(id) {
         "example_network_4",
         "example_network_5",
         "example_network_6",
-        "example_network_7"
+        "example_network_7",
+        "bob"
       )
     )
   )
@@ -18,9 +19,9 @@ loadexampleInput <- function(id) {
 loadexampleOutput <- function(id) {
   ns <- shiny::NS(id)
   shiny::tagList(
-    shiny::verbatimTextOutput(
-      shiny::NS(id, "debug")
-    ),
+    # shiny::verbatimTextOutput(
+    #   shiny::NS(id, "debug")
+    # ),
     shiny::tableOutput(
       ns("tab")
     )

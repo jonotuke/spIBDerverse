@@ -28,20 +28,6 @@ spibder_app <- function(input_network = NULL) {
     trim_levels = FALSE
   )
 
-  r <- shiny::reactiveValues()
-  r$export <- shiny::reactive({
-    plot_default_image()
-  })
-  r$full_network <- shiny::reactive({
-    input_network
-  })
-  r$network <- shiny::reactive({
-    input_network
-  })
-  r$ergm <- shiny::reactive({
-    NULL
-  })
-
   options(shiny.maxRequestSize = Inf)
   # UI ----
   ui <- shiny::fluidPage(
@@ -204,6 +190,28 @@ spibder_app <- function(input_network = NULL) {
     )
   )
   server <- function(input, output, session) {
+    # Shared state ----
+    # Created inside the server so each user session gets its own copy.
+    r <- shiny::reactiveValues()
+    r$export <- shiny::reactive({
+      plot_default_image()
+    })
+    r$full_network <- shiny::reactive({
+      input_network
+    })
+    r$network <- shiny::reactive({
+      input_network
+    })
+    r$ergm <- shiny::reactive({
+      NULL
+    })
+    # Filled in by the data wizard's loaders
+    r$example <- shiny::reactive({
+      NULL
+    })
+    r$ibd_data <- shiny::reactive({
+      NULL
+    })
     # Data ----
     dataWizardServer("data", r = r)
     # Filter ----

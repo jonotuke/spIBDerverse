@@ -16,12 +16,10 @@ dataWizardInput <- function(id) {
 }
 
 dataWizardOutput <- function(id) {
+  ns <- shiny::NS(id)
   shiny::tagList(
-    shiny::tableOutput({
-      shiny::NS(id, "tab")
-    }),
-    shiny::verbatimTextOutput(
-      shiny::NS(id, "debug")
+    shiny::uiOutput(
+      ns("output")
     )
   )
 }
@@ -48,6 +46,14 @@ dataWizardServer <- function(id, r) {
         input$data_type,
         example = loadexampleInput(ns("example")),
         ibd = loadibdInput(ns("ibd"))
+      )
+    })
+
+    output$output <- shiny::renderUI({
+      switch(
+        input$data_type,
+        example = loadexampleOutput(ns("example")),
+        ibd = loadibdOutput(ns("ibd"))
       )
     })
 
@@ -89,11 +95,9 @@ dataWizardApp <- function() {
   ui <- shiny::fluidPage(
     dataWizardInput("dataWizard"),
     dataWizardOutput("dataWizard"),
-    nodeOutput("node")
   )
   server <- function(input, output, session) {
     dataWizardServer("dataWizard", r = r)
-    nodeServer("node", r = r)
   }
   shiny::shinyApp(ui, server)
 }

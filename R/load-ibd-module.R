@@ -51,9 +51,9 @@ loadibdInput <- function(id) {
 loadibdOutput <- function(id) {
   ns <- shiny::NS(id)
   shiny::tagList(
-    shiny::verbatimTextOutput(
-      shiny::NS(id, "debug")
-    ),
+    # shiny::verbatimTextOutput(
+    #   shiny::NS(id, "debug")
+    # ),
     shiny::tableOutput(
       ns("tab")
     )
@@ -90,8 +90,8 @@ loadibdServer <- function(id, r) {
         purrr::pluck(1) |>
         purrr::map_dbl(as.numeric)
     })
+
     shiny::observeEvent(ibd_data(), {
-      shiny::req(ibd_data()$network)
       r$ibd_data <- shiny::reactive({
         ibd_data()$network
       })
