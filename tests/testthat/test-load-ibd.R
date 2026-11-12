@@ -1,34 +1,34 @@
 good_meta <- fs::path_package(
   package = "spIBDerverse",
-  "extdata/example-meta-data.tsv"
+  "extdata/example-ibd/example-meta-data.tsv"
 )
 good_ibd <- fs::path_package(
   package = "spIBDerverse",
-  "extdata/example-ibd-data.tsv"
+  "extdata/example-ibd/example-ibd-data.tsv"
 )
 no_iids <- fs::path_package(
   package = "spIBDerverse",
-  "extdata/ibd-no-iid1-iid2.tsv"
+  "extdata/broken-ibd/ibd-no-iid1-iid2.tsv"
 )
 no_iid <- fs::path_package(
   package = "spIBDerverse",
-  "extdata/meta-no-iid.tsv"
+  "extdata/broken-ibd/meta-no-iid.tsv"
 )
 no_frac <- fs::path_package(
   package = "spIBDerverse",
-  "extdata/meta-no-frac-gp.tsv"
+  "extdata/broken-ibd/meta-no-frac-gp.tsv"
 )
 ibd_igraph <- fs::path_package(
   package = "spIBDerverse",
-  "extdata/ibd-igraph-fail.tsv"
+  "extdata/broken-ibd/ibd-igraph-fail.tsv"
 )
 meta_igraph <- fs::path_package(
   package = "spIBDerverse",
-  "extdata/meta-igraph-fail.tsv"
+  "extdata/broken-ibd/meta-igraph-fail.tsv"
 )
 meta_missing_nodes <- fs::path_package(
   package = "spIBDerverse",
-  "extdata/meta-missing-nodes.tsv"
+  "extdata/broken-ibd/meta-missing-nodes.tsv"
 )
 test_that("load_ibd args", {
   expect_error(load_ibd(ibd_co = c("A")))

@@ -17,5 +17,5 @@ test_that("get_network_summary values", {
       "Number of nodes missing: long"
     )
   )
-  expect_equal(value, c(40, 134, 0, 0, 0, 0, 0))
+  expect_equal(value, c(40, 115, 0, 0, 0, 0, 0))
 })

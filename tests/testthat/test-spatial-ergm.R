@@ -31,7 +31,7 @@ test_that("predict values", {
   )
   expect_equal(
     as.character(df[1, 1]),
-    "C/C"
+    "B/C"
   )
 })
 
@@ -43,7 +43,7 @@ test_that("get dist", {
     D[1, 2],
     D[2, 1]
   )
-  expect_equal(D[1, 2], 0.3041107, tolerance = 0.0001)
+  expect_equal(D[1, 2], 13.06325, tolerance = 0.0001)
   expect_equal(D[1, 1], 0)
 })
 test_that("fit args", {

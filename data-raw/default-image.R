@@ -1,7 +1,7 @@
 ## code to prepare `default-image` dataset goes here
 txt_file <- fs::path_package(
   "extdata",
-  "data.txt",
+  "default-image/default-image.txt",
   package = "spIBDerverse"
 )
 lines <- readr::read_lines(txt_file)
