@@ -51,9 +51,9 @@ loadibdInput <- function(id) {
 loadibdOutput <- function(id) {
   ns <- shiny::NS(id)
   shiny::tagList(
-    shiny::verbatimTextOutput(
-      shiny::NS(id, "debug")
-    ),
+    # shiny::verbatimTextOutput(
+    #   shiny::NS(id, "debug")
+    # ),
     shiny::tableOutput(
       ns("tab")
     )
@@ -64,7 +64,9 @@ loadibdServer <- function(id, r) {
     output$debug <- shiny::renderPrint({
       print("IBD data")
       print(ibd_data()$network)
+      print(r$ibd_data())
     })
+
     ibd_data <- shiny::reactive({
       if (
         is.null(input$ibd_edge_file) |
@@ -88,9 +90,9 @@ loadibdServer <- function(id, r) {
         purrr::pluck(1) |>
         purrr::map_dbl(as.numeric)
     })
+
     shiny::observeEvent(ibd_data(), {
-      shiny::req(ibd_data()$network)
-      r$full_network <- shiny::reactive({
+      r$ibd_data <- shiny::reactive({
         ibd_data()$network
       })
     })
@@ -156,6 +158,9 @@ loadibdApp <- function() {
   r <- shiny::reactiveValues()
   r$full_network <- shiny::reactive({
     example_network
+  })
+  r$ibd_data <- shiny::reactive({
+    NULL
   })
   ui <- shiny::fluidPage(
     loadibdInput("ibdload"),

@@ -10,7 +10,8 @@ loadexampleInput <- function(id) {
         "example_network_4",
         "example_network_5",
         "example_network_6",
-        "example_network_7"
+        "example_network_7",
+        "bob"
       )
     )
   )
@@ -18,9 +19,9 @@ loadexampleInput <- function(id) {
 loadexampleOutput <- function(id) {
   ns <- shiny::NS(id)
   shiny::tagList(
-    shiny::verbatimTextOutput(
-      shiny::NS(id, "debug")
-    ),
+    # shiny::verbatimTextOutput(
+    #   shiny::NS(id, "debug")
+    # ),
     shiny::tableOutput(
       ns("tab")
     )
@@ -33,16 +34,15 @@ loadexampleServer <- function(id, r) {
       print(example_data()$network)
     })
     example_data <- shiny::reactive({
+      shiny::req(input$example_data)
       capture_conditions(
         load_example(example = input$example_data)
       )
     })
 
-    shiny::observeEvent(example_data(), {
+    r$example <- shiny::reactive({
       shiny::req(example_data()$network)
-      r$full_network <- shiny::reactive({
-        example_data()$network
-      })
+      example_data()$network
     })
 
     output$tab <- shiny::renderTable({
@@ -71,6 +71,9 @@ loadexampleApp <- function() {
   r <- shiny::reactiveValues()
   r$full_network <- shiny::reactive({
     example_network
+  })
+  r$example <- shiny::reactive({
+    NULL
   })
   ui <- shiny::fluidPage(
     loadexampleInput("loadexample"),
