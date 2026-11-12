@@ -58,5 +58,5 @@ test_that("Meta upload works", {
 })
 test_that("get example works", {
   expect_equal(load_example(), example_network)
-  expect_message(load_example("example_network_10"))
+  expect_error(load_example("example_network_10"))
 })
