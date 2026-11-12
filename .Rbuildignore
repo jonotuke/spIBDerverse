@@ -16,3 +16,4 @@ vignettes/.quarto
 ^archive/
 makefile
 ^app\.R$
+^data-private$
