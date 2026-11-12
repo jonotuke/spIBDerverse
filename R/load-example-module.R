@@ -33,16 +33,15 @@ loadexampleServer <- function(id, r) {
       print(example_data()$network)
     })
     example_data <- shiny::reactive({
+      shiny::req(input$example_data)
       capture_conditions(
         load_example(example = input$example_data)
       )
     })
 
-    shiny::observeEvent(example_data(), {
+    r$example <- shiny::reactive({
       shiny::req(example_data()$network)
-      r$full_network <- shiny::reactive({
-        example_data()$network
-      })
+      example_data()$network
     })
 
     output$tab <- shiny::renderTable({
@@ -71,6 +70,9 @@ loadexampleApp <- function() {
   r <- shiny::reactiveValues()
   r$full_network <- shiny::reactive({
     example_network
+  })
+  r$example <- shiny::reactive({
+    NULL
   })
   ui <- shiny::fluidPage(
     loadexampleInput("loadexample"),
