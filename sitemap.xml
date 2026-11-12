@@ -14,9 +14,6 @@
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/add_convert_bb_adj.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/add_layout.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/add_stars.html</loc></url>
-<url><loc>https://jonotuke.github.io/spIBDerverse/reference/check_ibd_file.html</loc></url>
-<url><loc>https://jonotuke.github.io/spIBDerverse/reference/check_ibd_files.html</loc></url>
-<url><loc>https://jonotuke.github.io/spIBDerverse/reference/check_meta_file.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/check_node_attributes.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/clean_models.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/clean_network.html</loc></url>
@@ -67,10 +64,8 @@
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/internal_df.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/label_crawl.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/label_grp_duplicates.html</loc></url>
-<url><loc>https://jonotuke.github.io/spIBDerverse/reference/load_dist_network.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/load_example.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/load_ibd.html</loc></url>
-<url><loc>https://jonotuke.github.io/spIBDerverse/reference/load_ibd_network.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/make_cutoff_ui.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/pal_scale.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/plot_ca_clusters.html</loc></url>

@@ -36,5 +36,5 @@ test_centrality(example_network, ".degree", "genetic_sex")
 #> # A tibble: 1 × 3
 #>   term        p.value centrality
 #>   <chr>         <dbl> <chr>     
-#> 1 genetic_sex   0.753 .degree   
+#> 1 genetic_sex   0.880 .degree   
 ```

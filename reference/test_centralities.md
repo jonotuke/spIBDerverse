@@ -35,6 +35,6 @@ test_centralities(example_network, c(".degree", ".closeness"), "genetic_sex")
 #> # A tibble: 2 × 3
 #>   predictor   centrality    pv
 #>   <chr>       <chr>      <dbl>
-#> 1 genetic_sex .degree    0.772
-#> 2 genetic_sex .closeness 0.957
+#> 1 genetic_sex .degree    0.99 
+#> 2 genetic_sex .closeness 0.775
 ```

@@ -25,16 +25,16 @@ get_node_info(example_network)
 #> # A tibble: 40 × 15
 #>    genetic_sex site  name  Degree Closeness Betweenness `Eigen-centrality`
 #>    <chr>       <chr> <chr>  <dbl>     <dbl>       <dbl>              <dbl>
-#>  1 F           C     1         12   0.0135        64.5               0.986
-#>  2 M           C     2          5   0.0111         6.23              0.325
-#>  3 M           B     3          8   0.0125        39.1               0.360
-#>  4 F           C     4          7   0.0105         9.87              0.633
-#>  5 F           C     5         10   0.0120        15.4               0.893
-#>  6 F           B     6          6   0.0122        54.6               0.301
-#>  7 F           B     7          3   0.00962       10.4               0.147
-#>  8 M           A     8          4   0.00952        5.81              0.130
-#>  9 F           C     9         11   0.0123        48.2               0.882
-#> 10 M           A     10         4   0.0102         8.04              0.142
+#>  1 F           B     1          5    0.01         3.97               0.301
+#>  2 M           C     2          8    0.0115      14.8                0.708
+#>  3 M           C     3          6    0.0112       0.966              0.665
+#>  4 F           B     4          4    0.0101       5.13               0.272
+#>  5 F           C     5          6    0.0118       7.76               0.623
+#>  6 F           B     6          9    0.0130      49.2                0.594
+#>  7 M           B     7          4    0.0104      15.6                0.218
+#>  8 M           C     8         11    0.0137      63.7                0.971
+#>  9 M           B     9          4    0.0108      11.3                0.256
+#> 10 M           C     10         9    0.0127      44.1                0.785
 #> # ℹ 30 more rows
 #> # ℹ 8 more variables: Louvain <chr>, `Weighted Louvain` <chr>,
 #> #   `Leading eigenvalue` <chr>, `Weighted leading eigenvalue` <chr>,

@@ -26,7 +26,7 @@ get_network_summary(example_network)
 #>   measure                              value
 #>   <chr>                                <dbl>
 #> 1 Number of nodes                         40
-#> 2 Number of edges                        134
+#> 2 Number of edges                        115
 #> 3 Number of unconnected nodes              0
 #> 4 Number of nodes missing: genetic_sex     0
 #> 5 Number of nodes missing: site            0

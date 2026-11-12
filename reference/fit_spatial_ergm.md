@@ -43,7 +43,7 @@ fit_spatial_ergm(example_network, "lat", "long", "site")
 #> 
 #> Maximum Likelihood Coefficients:
 #>            edges         edgecov.D  nodematch.site.A  nodematch.site.B  
-#>         -2.32044          -0.01203           0.80602           1.63435  
+#>         -3.08909           0.04933           0.75970           2.24268  
 #> nodematch.site.C  
-#>          2.42168  
+#>          2.90580  
 ```

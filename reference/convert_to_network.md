@@ -29,9 +29,9 @@ convert_to_network(example_network_6)
 #>   loops = FALSE 
 #>   multiple = FALSE 
 #>   bipartite = FALSE 
-#>   total edges= 134 
+#>   total edges= 115 
 #>     missing edges= 0 
-#>     non-missing edges= 134 
+#>     non-missing edges= 115 
 #> 
 #>  Vertex attribute names: 
 #>     .betweenness .closeness .degree .eigen .eigen_weighted .eigencentrality .label_prop .label_prop_weighted .louvain .louvain_weighted Genetic Sex genetic_sex lat long site vertex.names 

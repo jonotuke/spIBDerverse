@@ -30,8 +30,8 @@ ergms |> get_ergm_bic()
 #> # A tibble: 4 × 3
 #>   Model                                                          AIC   BIC
 #>   <chr>                                                        <dbl> <dbl>
-#> 1 network ~ edges + nodematch('site') + nodemix('genetic_sex')  529.  548.
-#> 2 network ~ edges + nodemix('genetic_sex')                      625.  639.
-#> 3 network ~ edges + nodematch('site')                           630.  639.
-#> 4 network ~ edges                                               718.  722.
+#> 1 network ~ edges + nodematch('site') + nodemix('genetic_sex')  528.  547.
+#> 2 network ~ edges + nodematch('site')                           580.  589.
+#> 3 network ~ edges + nodemix('genetic_sex')                      610.  624.
+#> 4 network ~ edges                                               654.  659.
 ```

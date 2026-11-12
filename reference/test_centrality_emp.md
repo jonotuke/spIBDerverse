@@ -39,5 +39,5 @@ test_centrality_emp(example_network, ".degree", "genetic_sex")
 #> # A tibble: 1 × 3
 #>   predictor   centrality    pv
 #>   <chr>       <chr>      <dbl>
-#> 1 genetic_sex .degree    0.775
+#> 1 genetic_sex .degree     0.98
 ```
