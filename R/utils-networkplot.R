@@ -29,6 +29,7 @@ network_plot_args <- function(input) {
     label_exc = input$label_exc,
     label_col = input$label_col,
     fill = input$fill,
+    fill_label = input$fill_label,
     shape = input$shape,
     size = input$size,
     node_size = input$node_size,
@@ -98,6 +99,15 @@ network_ui <- function(
         label = "Fill palette",
         choices = "default"
       ),
+      shiny::textInput(
+        ns("fill_label"),
+        label = "Fill legend title",
+        value = "",
+        placeholder = "Defaults to the fill column name"
+      ) |>
+        hover_tooltip(
+          "Text shown as the title of the fill legend. Leave blank to use the column name."
+        ),
       shiny::hr(),
       var_select(
         ns("outline_col"),
