@@ -35,7 +35,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Plot a network</h1>
-      <small class="dont-index">Source: <a href="https://github.com/jonotuke/spIBDerverse/blob/master/R/plot_network.R" class="external-link"><code>R/plot_network.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/jonotuke/spIBDerverse/blob/master/R/networkplot.R" class="external-link"><code>R/networkplot.R</code></a></small>
       <div class="d-none name"><code>plot_network.Rd</code></div>
     </div>
 
@@ -55,6 +55,7 @@
 <span>  edge <span class="op">=</span> <span class="st">"none"</span>,</span>
 <span>  edge_legend <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  edge_trans <span class="op">=</span> <span class="st">"identity"</span>,</span>
+<span>  edge_label <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  label <span class="op">=</span> <span class="st">"none"</span>,</span>
 <span>  label_filter <span class="op">=</span> <span class="st">"none"</span>,</span>
 <span>  label_size <span class="op">=</span> <span class="fl">4</span>,</span>
@@ -62,10 +63,14 @@
 <span>  label_exc <span class="op">=</span> <span class="st">""</span>,</span>
 <span>  label_col <span class="op">=</span> <span class="st">"black"</span>,</span>
 <span>  fill <span class="op">=</span> <span class="st">"none"</span>,</span>
+<span>  fill_label <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  shape <span class="op">=</span> <span class="st">"none"</span>,</span>
+<span>  shape_label <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  size <span class="op">=</span> <span class="st">"none"</span>,</span>
 <span>  outline_col <span class="op">=</span> <span class="st">"none"</span>,</span>
+<span>  outline_label <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  alpha <span class="op">=</span> <span class="st">"none"</span>,</span>
+<span>  alpha_label <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  node_size <span class="op">=</span> <span class="fl">5</span>,</span>
 <span>  fill_pal <span class="op">=</span> <span class="st">"default"</span>,</span>
 <span>  col_pal <span class="op">=</span> <span class="st">"default"</span>,</span>
@@ -117,6 +122,11 @@ both to use a geographic layout, or neither for a force-directed layout.</p></dd
 <dd><p>Transformation applied to a numeric <code>edge</code> mapping.</p></dd>
 
 
+<dt id="arg-edge-label">edge_label<a class="anchor" aria-label="anchor" href="#arg-edge-label"></a></dt>
+<dd><p>Title for the edge legend. Defaults to the name of the
+<code>edge</code> attribute.</p></dd>
+
+
 <dt id="arg-label">label<a class="anchor" aria-label="anchor" href="#arg-label"></a></dt>
 <dd><p>Vertex attribute used for node labels.</p></dd>
 
@@ -144,6 +154,15 @@ matched against. Defaults to <code>label</code>.</p></dd>
 
 <dt id="arg-fill">fill<a class="anchor" aria-label="anchor" href="#arg-fill"></a></dt>
 <dd><p>Vertex attribute mapped to node fill.</p></dd>
+
+
+<dt id="arg-fill-label-outline-label-shape-label-alpha-label">fill_label, outline_label, shape_label, alpha_label<a class="anchor" aria-label="anchor" href="#arg-fill-label-outline-label-shape-label-alpha-label"></a></dt>
+<dd><p>Titles for the
+fill, outline colour, shape and alpha legends. Each defaults to the name
+of the attribute it maps. When several of these aesthetics map the same
+attribute they share one title, so their legends stay merged; if more
+than one of their labels is set, the first in the order fill, outline,
+shape, alpha wins.</p></dd>
 
 
 <dt id="arg-shape">shape<a class="anchor" aria-label="anchor" href="#arg-shape"></a></dt>
