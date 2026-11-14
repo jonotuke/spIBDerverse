@@ -1,6 +1,7 @@
 # Build the cutoff input for a node or edge attribute
 
-Numeric range Cat: levels
+Numeric attributes get a range input; all other attributes get a set of
+checkboxes (one per level) with "Select all" / "Select none" buttons.
 
 ## Usage
 

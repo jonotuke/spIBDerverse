@@ -18,6 +18,8 @@
   : clean model names
 - [`clean_network()`](https://jonotuke.github.io/spIBDerverse/reference/clean_network.md)
   : Clean network
+- [`columns_input_id()`](https://jonotuke.github.io/spIBDerverse/reference/columns_input_id.md)
+  : Input id of the attribute selector for nodes or edges
 - [`convert_bb()`](https://jonotuke.github.io/spIBDerverse/reference/convert_bb.md)
   : Given a bounding box, increase the lat and long by given amounts
 - [`convert_bb_asp()`](https://jonotuke.github.io/spIBDerverse/reference/convert_bb_asp.md)
@@ -73,6 +75,8 @@
   : Fit spatial ergm
 - [`get_all_models()`](https://jonotuke.github.io/spIBDerverse/reference/get_all_models.md)
   : get_all_models
+- [`get_attr_names()`](https://jonotuke.github.io/spIBDerverse/reference/get_attr_names.md)
+  : Names of the node or edge attributes of a network
 - [`get_attr_values()`](https://jonotuke.github.io/spIBDerverse/reference/get_attr_values.md)
   : Get the observed values of a node or edge attribute
 - [`get_centrality_measures()`](https://jonotuke.github.io/spIBDerverse/reference/get_centrality_measures.md)
