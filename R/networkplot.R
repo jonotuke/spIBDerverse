@@ -201,9 +201,14 @@ check_columns <- function(df, cols) {
 #' @param label_exc Regular expression; labels matching it are hidden.
 #' @param label_col Colour of label
 #' @param fill Vertex attribute mapped to node fill.
-#' @param fill_label Title for the fill legend. Defaults to the name of the
-#'   `fill` attribute. If `shape` or `outline_col` use the same attribute as
-#'   `fill`, they get the same title so their legends stay merged.
+#' @param fill_label,outline_label,shape_label,alpha_label Titles for the
+#'   fill, outline colour, shape and alpha legends. Each defaults to the name
+#'   of the attribute it maps. When several of these aesthetics map the same
+#'   attribute they share one title, so their legends stay merged; if more
+#'   than one of their labels is set, the first in the order fill, outline,
+#'   shape, alpha wins.
+#' @param edge_label Title for the edge legend. Defaults to the name of the
+#'   `edge` attribute.
 #' @param shape Vertex attribute mapped to node shape.
 #' @param size Vertex attribute mapped to node size.
 #' @param outline_col Vertex attribute mapped to node outline colour
@@ -233,6 +238,7 @@ plot_network <- function(
   edge = "none",
   edge_legend = TRUE,
   edge_trans = "identity",
+  edge_label = NULL,
   label = "none",
   label_filter = "none",
   label_size = 4,
@@ -242,9 +248,12 @@ plot_network <- function(
   fill = "none",
   fill_label = NULL,
   shape = "none",
+  shape_label = NULL,
   size = "none",
   outline_col = "none",
+  outline_label = NULL,
   alpha = "none",
+  alpha_label = NULL,
   node_size = 5,
   fill_pal = "default",
   col_pal = "default",
@@ -312,6 +321,8 @@ plot_network <- function(
   }
 
   # EDGES ----
+  # Legend title: edge_label if given, otherwise the edge attribute name.
+  edge_name <- if (is_none(edge_label)) edge else edge_label
   edge_layers <- if (is_none(edge)) {
     ggnetwork::geom_edges()
   } else if (is.numeric(df[[edge]])) {
@@ -321,14 +332,18 @@ plot_network <- function(
         show.legend = edge_legend
       ),
       ggplot2::scale_linewidth_continuous(
+        name = edge_name,
         range = c(0.5, 2),
         transform = edge_trans
       )
     )
   } else {
-    ggnetwork::geom_edges(
-      ggplot2::aes(linetype = .data[[edge]]),
-      show.legend = edge_legend
+    list(
+      ggnetwork::geom_edges(
+        ggplot2::aes(linetype = .data[[edge]]),
+        show.legend = edge_legend
+      ),
+      ggplot2::scale_linetype_discrete(name = edge_name)
     )
   }
 
@@ -340,13 +355,26 @@ plot_network <- function(
 
   same_var <- function(a, b) !is_none(a) && !is_none(b) && identical(a, b)
 
-  # Legend title for fill. waiver() keeps ggplot2's default (the attribute
-  # name). Any other scale mapped to the same attribute gets the same title,
-  # otherwise ggplot2 would split them into separate legends.
-  fill_name <- if (is_none(fill_label)) ggplot2::waiver() else fill_label
+  # Legend titles. waiver() keeps ggplot2's default (the attribute name).
+  # Scales mapped to the same attribute must share a title, otherwise ggplot2
+  # splits them into separate legends, so the title for an attribute is the
+  # first label set by any aesthetic that maps it (fill > outline > shape >
+  # alpha).
+  legend_labels <- list(
+    list(var = fill, label = fill_label),
+    list(var = outline_col, label = outline_label),
+    list(var = shape, label = shape_label),
+    list(var = alpha, label = alpha_label)
+  )
   title_for <- function(var) {
-    if (same_var(var, fill)) fill_name else ggplot2::waiver()
+    for (l in legend_labels) {
+      if (same_var(l$var, var) && !is_none(l$label)) {
+        return(l$label)
+      }
+    }
+    ggplot2::waiver()
   }
+  fill_name <- title_for(fill)
 
   if (is_none(fill)) {
     node_params$fill <- "white"
@@ -427,6 +455,9 @@ plot_network <- function(
     node_scales$alpha <- ggplot2::scale_alpha_identity()
   } else {
     node_aes$alpha <- rlang::sym(alpha)
+    node_scales$alpha <- ggplot2::scale_alpha_continuous(
+      name = title_for(alpha)
+    )
   }
 
   node_layer <- rlang::exec(

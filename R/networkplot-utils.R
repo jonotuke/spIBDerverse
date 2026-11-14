@@ -22,6 +22,7 @@ network_plot_args <- function(input) {
     edge = input$edge,
     edge_legend = input$edge_legend,
     edge_trans = input$edge_trans,
+    edge_label = input$edge_label,
     label = input$label,
     label_size = input$label_size,
     label_filter = input$label_filter,
@@ -31,17 +32,36 @@ network_plot_args <- function(input) {
     fill = input$fill,
     fill_label = input$fill_label,
     shape = input$shape,
+    shape_label = input$shape_label,
     size = input$size,
     node_size = input$node_size,
     fill_pal = input$fill_pal,
     outline_col = input$outline_col,
+    outline_label = input$outline_label,
     col_pal = input$col_pal,
     outline_width = input$outline_width,
-    alpha = input$alpha
+    alpha = input$alpha,
+    alpha_label = input$alpha_label
   )
 }
 
 # UI ----
+# Text box for a legend title; `what` names the legend, e.g. "fill".
+legend_title_input <- function(id, what) {
+  shiny::textInput(
+    id,
+    label = stringr::str_glue("{stringr::str_to_sentence(what)} legend title"),
+    value = "",
+    placeholder = stringr::str_glue("Defaults to the {what} column name")
+  ) |>
+    hover_tooltip(
+      stringr::str_glue(
+        "Text shown as the title of the {what} legend. ",
+        "Leave blank to use the column name."
+      )
+    )
+}
+
 var_select <- function(id, label, vars) {
   shiny::selectInput(
     id,
@@ -99,15 +119,7 @@ network_ui <- function(
         label = "Fill palette",
         choices = "default"
       ),
-      shiny::textInput(
-        ns("fill_label"),
-        label = "Fill legend title",
-        value = "",
-        placeholder = "Defaults to the fill column name"
-      ) |>
-        hover_tooltip(
-          "Text shown as the title of the fill legend. Leave blank to use the column name."
-        ),
+      legend_title_input(ns("fill_label"), "fill"),
       shiny::hr(),
       var_select(
         ns("outline_col"),
@@ -119,6 +131,7 @@ network_ui <- function(
         label = "Outline colour palette",
         choices = "default"
       ),
+      legend_title_input(ns("outline_label"), "outline colour"),
       shiny::numericInput(
         ns("outline_width"),
         "Node outline width",
@@ -129,6 +142,7 @@ network_ui <- function(
       ),
       shiny::hr(),
       var_select(ns("shape"), "Choose node shape column", cat_vars),
+      legend_title_input(ns("shape_label"), "shape"),
       shiny::hr(),
       var_select(ns("size"), "Choose node size column", num_vars),
       shiny::numericInput(
@@ -141,6 +155,7 @@ network_ui <- function(
       ),
       shiny::hr(),
       var_select(ns("alpha"), "Choose node alpha", num_vars),
+      legend_title_input(ns("alpha_label"), "alpha"),
       shiny::hr(),
       shiny::radioButtons(
         ns("connected"),
@@ -158,6 +173,7 @@ network_ui <- function(
       "Edges",
       icon = shiny::icon("arrows-left-right"),
       var_select(ns("edge"), "Choose edge column", edge_vars),
+      legend_title_input(ns("edge_label"), "edge"),
       shiny::checkboxInput(
         ns("edge_legend"),
         label = "Add edge legend",
