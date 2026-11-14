@@ -21,7 +21,8 @@ load_ibd(
 
 \item{frac_co}{quality cutoff}
 
-\item{filter_on_meta}{boolean - only keep edges whose nodes are in meta}
+\item{filter_on_meta}{boolean - only keep edges whose
+nodes are in meta}
 }
 \value{
 igraph object

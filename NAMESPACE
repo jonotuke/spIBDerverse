@@ -3,6 +3,7 @@
 export(abbreviate_terms)
 export(add_clustering)
 export(add_convert_bb_adj)
+export(add_frac)
 export(add_layout)
 export(add_stars)
 export(check_node_attributes)

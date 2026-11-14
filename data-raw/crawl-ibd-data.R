@@ -1,7 +1,13 @@
 pacman::p_load(conflicted, tidyverse, targets)
 ibd <- readr::read_tsv(
-  "inst/extdata/crawl-ibd/crawl-ibd.tsv"
+  "inst/extdata/example-ibd/example-ibd-data.tsv"
 )
+meta <- readr::read_tsv(
+  "inst/extdata/example-ibd/example-meta-data.tsv"
+)
+ibd <- ibd |> add_frac(meta)
+ibd |> readr::write_rds("inst/extdata/crawl-ibd/crawl-ibd.tsv")
+
 nodes <- unique(c(ibd$iid1, ibd$iid2))
 set.seed(2026)
 n_seed <- 30

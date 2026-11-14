@@ -22,7 +22,31 @@ read_file <- function(file) {
     rlang::abort("Unknown file type")
   }
 }
+#' adds frac_gp to ibd if needed, uses frac_gp in meta
+#'
+#' @param ibd ibd file
+#' @param meta meta file
+#'
+#' @returns ibd with added frac_gp1 and frac_gp2
+#'
+#' @export
+add_frac <- function(ibd, meta) {
+  if (all(c("frac_gp1", "frac_gp2") %in% colnames(ibd))) {
+    rlang::inform("All ready have frac_gp1, frac_gp2, nothing to see here")
+    return(ibd)
+  }
+  checkmate::assert_names(names(meta), must.include = "frac_gp")
 
+  frac_gp_df <- meta |> dplyr::select(iid, frac_gp)
+  ibd <- ibd |>
+    # Drop a lone frac_gp1/frac_gp2 so the renames below don't collide
+    dplyr::select(-dplyr::any_of(c("frac_gp1", "frac_gp2"))) |>
+    dplyr::left_join(frac_gp_df, by = c("iid1" = "iid")) |>
+    dplyr::rename(frac_gp1 = frac_gp) |>
+    dplyr::left_join(frac_gp_df, by = c("iid2" = "iid")) |>
+    dplyr::rename(frac_gp2 = frac_gp) |>
+    dplyr::relocate(frac_gp1, frac_gp2, .after = iid2)
+}
 #' Load an IBD network
 #'
 #'
@@ -82,26 +106,7 @@ load_ibd <- function(
   node_df <- node_df |> dplyr::relocate(iid)
 
   # FRAC_GP ----
-  # If the IBD file doesn't already carry frac_gp for both nodes, take it from
-  # the metadata.
-  if (!all(c("frac_gp1", "frac_gp2") %in% colnames(ibd))) {
-    rlang::inform(
-      "No frac_gp1 or frac_gp2 in IBD file so looking at meta file for it"
-    )
-    if (!"frac_gp" %in% colnames(node_df)) {
-      rlang::abort("The metafile does not have a column called frac_gp")
-    }
-    frac_gp_df <- node_df |> dplyr::select(iid, frac_gp)
-    ibd <- ibd |>
-      # Drop a lone frac_gp1/frac_gp2 so the renames below don't collide
-      dplyr::select(-dplyr::any_of(c("frac_gp1", "frac_gp2"))) |>
-      dplyr::left_join(frac_gp_df, by = c("iid1" = "iid")) |>
-      dplyr::rename(frac_gp1 = frac_gp) |>
-      dplyr::left_join(frac_gp_df, by = c("iid2" = "iid")) |>
-      dplyr::rename(frac_gp2 = frac_gp) |>
-      dplyr::relocate(frac_gp1, frac_gp2, .after = iid2)
-  }
-  return(ibd)
+  ibd <- ibd |> add_frac(node_df)
   # EDGE SELECTION ----------------------------------------------------------
   # Edges are selected using the cutoffs on n_ibd_8/12/16/20; the edge weight
   # is sum_ibd_8. The edge list is built directly rather than going through an
@@ -117,7 +122,6 @@ load_ibd <- function(
     ) |>
     dplyr::mutate(wij = sum_ibd_8)
 
-  return(edge_df)
   if (filter_on_meta) {
     edge_df <- edge_df |>
       dplyr::filter(iid1 %in% node_df$iid, iid2 %in% node_df$iid)
@@ -138,13 +142,13 @@ load_ibd <- function(
   g <- g |>
     add_centrality_measures() |>
     add_clustering()
+  g
 }
 
 
 if (sys.nframe() == 5) {
-  load_ibd(
-    ibd_file = "inst/extdata/crawl-ibd/crawl-ibd.tsv",
-    meta_file = "inst/extdata/crawl-ibd/crawl-meta.tsv"
-  ) |>
-    print()
+  ibd <- readr::read_tsv("inst/extdata/example-ibd/example-ibd-data.tsv")
+  ibd |> glimpse()
+  meta <- readr::read_tsv("inst/extdata/example-ibd/example-meta-data.tsv")
+  add_frac(ibd, meta) |> print()
 }

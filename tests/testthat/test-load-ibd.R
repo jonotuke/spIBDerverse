@@ -30,6 +30,7 @@ meta_missing_nodes <- fs::path_package(
   package = "spIBDerverse",
   "extdata/broken-ibd/meta-missing-nodes.tsv"
 )
+
 test_that("load_ibd args", {
   expect_error(load_ibd(ibd_co = c("A")))
   expect_error(load_ibd(ibd_co = 1:3))
@@ -51,4 +52,8 @@ test_that("load_ibd values", {
 
 test_that("read_file", {
   expect_error(read_file("extdata/example-ibd-data.bob"))
+})
+
+test_that("add_frac", {
+  expect_error(add_frac(good_ibd, no_frac))
 })
