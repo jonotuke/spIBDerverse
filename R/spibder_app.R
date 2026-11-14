@@ -106,17 +106,28 @@ spibder_app <- function(input_network = NULL) {
           open = FALSE,
           multiple = TRUE,
           bslib::accordion_panel(
-            "Save/Load app status",
+            "Save/Load App",
             icon = shiny::icon("file-export"),
             shiny::downloadButton(
-              "save",
-              "Save state",
+              outputId = "save-state",
+              label = "Save state",
               icon = shiny::icon("download")
             ),
             shiny::fileInput(
-              "restore",
-              "Restore state",
+              "load-state",
+              "Load state",
               accept = c(".json", ".zip")
+            ),
+            shiny::hr(),
+            shiny::downloadButton(
+              outputId = "save-network",
+              label = "Save network",
+              icon = shiny::icon("download")
+            ),
+            shiny::fileInput(
+              inputId = "load-network",
+              label = "Load network",
+              accept = ".rds"
             )
           )
         )
@@ -244,12 +255,50 @@ spibder_app <- function(input_network = NULL) {
       version = "0.0.0.9000"
     )
     shinysnap::snap_download_handler(
-      "save",
+      "save-state",
       filename = stringr::str_glue(
         "{lubridate::today()}-spIBDerverse-state"
       )
     )
-    shinysnap::snap_file_restore("restore")
+    shinysnap::snap_file_restore("load-state")
+    # SAVE-LOAD NETWORK ----
+    output[["save-network"]] <- shiny::downloadHandler(
+      filename = function() {
+        stringr::str_glue("{lubridate::today()}-spIBDerverse-network.rds")
+      },
+      content = function(file) {
+        readr::write_rds(r$network(), file)
+      }
+    )
+    shiny::observeEvent(input[["load-network"]], {
+      file_info <- input[["load-network"]]
+      shiny::req(file_info)
+      net <- tryCatch(
+        readRDS(file_info$datapath),
+        error = function(e) {
+          shiny::showNotification(
+            paste("Could not read file:", conditionMessage(e)),
+            type = "error"
+          )
+          NULL
+        }
+      )
+      shiny::req(net)
+      if (!igraph::is_igraph(net)) {
+        shiny::showNotification(
+          "The .rds file does not contain an igraph network.",
+          type = "error"
+        )
+        return()
+      }
+      r$full_network <- shiny::reactive({
+        net
+      })
+      r$network <- shiny::reactive({
+        net
+      })
+      shiny::showNotification("Network loaded.", type = "message")
+    })
     exportplotServer("export", r = r)
     # DEBUG ----
     output$debug <- shiny::renderPrint({
