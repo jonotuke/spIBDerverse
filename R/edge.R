@@ -12,8 +12,15 @@ get_edge_info <- function(g) {
     tibble::as_tibble() |>
     dplyr::mutate(
       dplyr::across(dplyr::starts_with("frac"), \(x) round(x, 4)),
-      dplyr::across(dplyr::starts_with("max"), \(x) round(x, 2)),
-      dplyr::across(dplyr::starts_with("sum"), \(x) round(x, 2)),
-      dplyr::across(wij, \(x) round(x, 2)),
+      dplyr::across(
+        dplyr::where(is.double) & !dplyr::starts_with("frac"),
+        \(x) round(x, 2)
+      )
     )
+}
+
+if (sys.nframe() == 5) {
+  get_edge_info(example_network) |> print()
+  BL <- readr::read_rds("~/Downloads/big.rds")
+  get_edge_info(BL) |> print()
 }
