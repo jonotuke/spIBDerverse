@@ -201,12 +201,7 @@ check_columns <- function(df, cols) {
 #' @param label_exc Regular expression; labels matching it are hidden.
 #' @param label_col Colour of label
 #' @param fill Vertex attribute mapped to node fill.
-#' @param fill_label,outline_label,shape_label,alpha_label Titles for the
-#'   fill, outline colour, shape and alpha legends. Each defaults to the name
-#'   of the attribute it maps. When several of these aesthetics map the same
-#'   attribute they share one title, so their legends stay merged; if more
-#'   than one of their labels is set, the first in the order fill, outline,
-#'   shape, alpha wins.
+#' @param fill_label,outline_label,shape_label,alpha_label Legend labels
 #' @param edge_label Title for the edge legend. Defaults to the name of the
 #'   `edge` attribute.
 #' @param shape Vertex attribute mapped to node shape.
@@ -355,11 +350,7 @@ plot_network <- function(
 
   same_var <- function(a, b) !is_none(a) && !is_none(b) && identical(a, b)
 
-  # Legend titles. waiver() keeps ggplot2's default (the attribute name).
-  # Scales mapped to the same attribute must share a title, otherwise ggplot2
-  # splits them into separate legends, so the title for an attribute is the
-  # first label set by any aesthetic that maps it (fill > outline > shape >
-  # alpha).
+  # Legend labels
   legend_labels <- list(
     list(var = fill, label = fill_label),
     list(var = outline_col, label = outline_label),
