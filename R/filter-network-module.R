@@ -20,12 +20,17 @@ networkFilterInput <- function(id, all_vars, edge_vars) {
       )
     ),
     shiny::uiOutput(ns("node_cutoffs")),
-    shiny::selectInput(
-      ns("edge_column"),
-      "Choose edge attribute to filter on",
-      choices = c("none", edge_vars)
+    shiny::selectizeInput(
+      ns("edge_columns"),
+      "Choose edge attributes to filter on",
+      choices = edge_vars,
+      multiple = TRUE,
+      options = list(
+        placeholder = "None (keep all edges)",
+        plugins = list("remove_button")
+      )
     ),
-    shiny::uiOutput(ns("edge_cutoff"))
+    shiny::uiOutput(ns("edge_cutoffs"))
   )
 }
 
@@ -51,10 +56,18 @@ cutoff_input_id <- function(x, what = c("node", "edge")) {
   paste0(what, "_cutoff_", gsub("[^A-Za-z0-9_]", "_", x))
 }
 
+#' Input id of the attribute selector for nodes or edges
+#'
+#' @param what Either `"node"` or `"edge"`.
+columns_input_id <- function(what = c("node", "edge")) {
+  what <- match.arg(what)
+  paste0(what, "_columns")
+}
+
 #' Build the cutoff input for a node or edge attribute
 #'
-#' Numeric range
-#' Cat: levels
+#' Numeric attributes get a range input; all other attributes get a set of
+#' checkboxes (one per level) with "Select all" / "Select none" buttons.
 #'
 #' @param id id
 #' @param x attribute filter
@@ -70,7 +83,7 @@ make_cutoff_ui <- function(
 ) {
   what <- match.arg(what)
 
-  if (is.null(x) || x == "none") {
+  if (is.null(x)) {
     return(NULL)
   }
 
@@ -139,14 +152,33 @@ get_attr_values <- function(g, x, what = c("node", "edge")) {
   )
 }
 
+#' Names of the node or edge attributes of a network
+#'
+#' @param g An igraph object.
+#' @param what Either `"node"` or `"edge"`.
+get_attr_names <- function(g, what = c("node", "edge")) {
+  what <- match.arg(what)
+  switch(
+    what,
+    node = igraph::vertex_attr_names(g),
+    edge = igraph::edge_attr_names(g)
+  )
+}
+
 
 # SERVER ----
 networkFilterServer <- function(id, r) {
   shiny::moduleServer(id, function(input, output, session) {
-    # Collect the current node filters as a named list: attribute -> cutoff
-    collect_node_filters <- function(g) {
-      cols <- intersect(input$node_columns, igraph::vertex_attr_names(g))
-      filters <- lapply(cols, function(x) input[[cutoff_input_id(x, "node")]])
+    # Collect the current node or edge filters as a named list:
+    # attribute -> cutoff. Attributes with nothing selected are skipped
+    # (with a warning) rather than removing every node / edge.
+    collect_filters <- function(g, what = c("node", "edge")) {
+      what <- match.arg(what)
+      cols <- intersect(
+        input[[columns_input_id(what)]],
+        get_attr_names(g, what)
+      )
+      filters <- lapply(cols, function(x) input[[cutoff_input_id(x, what)]])
       names(filters) <- cols
 
       empty <- vapply(filters, is.null, logical(1))
@@ -154,6 +186,8 @@ networkFilterServer <- function(id, r) {
         shiny::showNotification(
           paste0(
             "No values selected for ",
+            what,
+            " attribute(s) ",
             paste(cols[empty], collapse = ", "),
             "; that filter was skipped."
           ),
@@ -167,71 +201,42 @@ networkFilterServer <- function(id, r) {
     # underlying network changes)
     r$network <- shiny::reactive({
       g <- r$full_network()
-
-      edge_column <- input$edge_column
-      if (
-        is.null(edge_column) ||
-          !edge_column %in% igraph::edge_attr_names(g)
-      ) {
-        edge_column <- "none"
-      }
-      edge_cutoff <- NULL
-      if (edge_column != "none") {
-        edge_cutoff <- input[[cutoff_input_id(edge_column, "edge")]]
-        if (is.null(edge_cutoff)) {
-          shiny::showNotification(
-            paste0(
-              "No values selected for ",
-              edge_column,
-              "; the edge filter was skipped."
-            ),
-            type = "warning"
-          )
-          edge_column <- "none"
-        }
-      }
-
       filter_network(
         g,
-        node_filters = collect_node_filters(g),
-        edge_column = edge_column,
-        edge_cutoff = edge_cutoff
+        node_filters = collect_filters(g, "node"),
+        edge_filters = collect_filters(g, "edge")
       )
     }) |>
       shiny::bindEvent(input$run, r$full_network(), ignoreNULL = FALSE)
 
-    # One cutoff control per selected node attribute. Values already set
-    # for an attribute are kept when other attributes are added or removed.
-    output$node_cutoffs <- shiny::renderUI({
-      g <- r$full_network()
-      cols <- input$node_columns
-      if (length(cols) == 0) {
-        return(NULL)
-      }
-      shiny::tagList(
-        lapply(cols, function(x) {
-          shiny::wellPanel(
-            style = "padding: 10px; margin-bottom: 10px;",
-            make_cutoff_ui(
-              id,
-              x,
-              g,
-              what = "node",
-              selected = shiny::isolate(input[[cutoff_input_id(x, "node")]])
+    # One cutoff control per selected attribute. Values already set for an
+    # attribute are kept when other attributes are added or removed.
+    render_cutoffs <- function(what) {
+      force(what)
+      shiny::renderUI({
+        g <- r$full_network()
+        cols <- input[[columns_input_id(what)]]
+        if (length(cols) == 0) {
+          return(NULL)
+        }
+        shiny::tagList(
+          lapply(cols, function(x) {
+            shiny::wellPanel(
+              style = "padding: 10px; margin-bottom: 10px;",
+              make_cutoff_ui(
+                id,
+                x,
+                g,
+                what = what,
+                selected = shiny::isolate(input[[cutoff_input_id(x, what)]])
+              )
             )
-          )
-        })
-      )
-    })
-
-    output$edge_cutoff <- shiny::renderUI({
-      make_cutoff_ui(
-        id,
-        input$edge_column,
-        r$full_network(),
-        what = "edge"
-      )
-    })
+          })
+        )
+      })
+    }
+    output$node_cutoffs <- render_cutoffs("node")
+    output$edge_cutoffs <- render_cutoffs("edge")
 
     # Select all / select none for character (checkbox) attributes.
     # Every button reports which attribute it belongs to via one input.
@@ -265,17 +270,24 @@ networkFilterServer <- function(id, r) {
           unlist(node_choices)
         )
       )
-      shiny::updateSelectInput(
+      edge_choices <- igraph::edge_attr_names(g)
+      shiny::updateSelectizeInput(
         session,
-        "edge_column",
-        choices = c("none", igraph::edge_attr_names(g))
+        "edge_columns",
+        choices = edge_choices,
+        selected = intersect(
+          shiny::isolate(input$edge_columns),
+          edge_choices
+        )
       )
     })
 
     output$debug <- shiny::renderPrint({
-      for (x in input$node_columns) {
-        cat(x, ": ", sep = "")
-        print(input[[cutoff_input_id(x, "node")]])
+      for (what in c("node", "edge")) {
+        for (x in input[[columns_input_id(what)]]) {
+          cat(what, " ", x, ": ", sep = "")
+          print(input[[cutoff_input_id(x, what)]])
+        }
       }
       print(r$network())
     })
