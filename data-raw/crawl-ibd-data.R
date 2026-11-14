@@ -6,7 +6,7 @@ meta <- readr::read_tsv(
   "inst/extdata/example-ibd/example-meta-data.tsv"
 )
 ibd <- ibd |> add_frac(meta)
-ibd |> readr::write_rds("inst/extdata/crawl-ibd/crawl-ibd.tsv")
+ibd |> readr::write_tsv("inst/extdata/crawl-ibd/crawl-ibd.tsv")
 
 nodes <- unique(c(ibd$iid1, ibd$iid2))
 set.seed(2026)

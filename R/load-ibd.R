@@ -32,7 +32,7 @@ read_file <- function(file) {
 #' @export
 add_frac <- function(ibd, meta) {
   if (all(c("frac_gp1", "frac_gp2") %in% colnames(ibd))) {
-    rlang::inform("All ready have frac_gp1, frac_gp2, nothing to see here")
+    # rlang::inform("All ready have frac_gp1, frac_gp2, nothing to see here")
     return(ibd)
   }
   checkmate::assert_names(names(meta), must.include = "frac_gp")
@@ -54,8 +54,8 @@ add_frac <- function(ibd, meta) {
 #' @param meta_file meta file
 #' @param ibd_co cutoffs for edges
 #' @param frac_co quality cutoff
-#' @param filter_on_meta boolean - only keep edges whose
-#' nodes are in meta
+#' @param crawl_length classifies nodes as seed, in crawl length of outside
+#' of crawl length
 #'
 #' @return igraph object
 #' @export
@@ -64,7 +64,7 @@ load_ibd <- function(
   meta_file,
   ibd_co = c(0, 2, 1, 0),
   frac_co = 0.7,
-  filter_on_meta = FALSE
+  crawl_length = 2L
 ) {
   checkmate::assert_numeric(ibd_co, len = 4)
 
@@ -122,17 +122,24 @@ load_ibd <- function(
     ) |>
     dplyr::mutate(wij = sum_ibd_8)
 
-  if (filter_on_meta) {
-    edge_df <- edge_df |>
-      dplyr::filter(iid1 %in% node_df$iid, iid2 %in% node_df$iid)
-  }
+  # Find missing nodes
+  edge_nodes <- unique(c(edge_df$iid1, edge_df$iid2))
+  seed_nodes <- node_df$iid
+  missing <- edge_nodes[!edge_nodes %in% seed_nodes]
 
+  missing_node_df <- tibble::tibble(
+    iid = missing
+  )
+  fill_nodes <- dplyr::bind_rows(
+    node_df,
+    missing_node_df
+  )
   # GRAPH -------------------------------------------------------------------
   g <- tryCatch(
     igraph::graph_from_data_frame(
       edge_df,
       directed = FALSE,
-      vertices = node_df
+      vertices = fill_nodes
     ),
     error = function(e) {
       rlang::abort("Cannot make igraph")
@@ -142,13 +149,17 @@ load_ibd <- function(
   g <- g |>
     add_centrality_measures() |>
     add_clustering()
+  seed_id <- names_to_ids(g, seed_nodes)
+  g <- label_crawl(g, seed_id, k = crawl_length)
   g
 }
 
 
 if (sys.nframe() == 5) {
-  ibd <- readr::read_tsv("inst/extdata/example-ibd/example-ibd-data.tsv")
-  ibd |> glimpse()
-  meta <- readr::read_tsv("inst/extdata/example-ibd/example-meta-data.tsv")
-  add_frac(ibd, meta) |> print()
+  load_ibd(
+    ibd_file = "inst/extdata/crawl-ibd/crawl-ibd.tsv",
+    meta_file = "inst/extdata/crawl-ibd/crawl-meta.tsv"
+  ) |>
+    plot_network(fill = ".crawl") |>
+    print()
 }

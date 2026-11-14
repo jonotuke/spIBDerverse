@@ -129,7 +129,8 @@ internal_df <- function() {
     ".eigen"               , "Leading eigenvalue"          , "clustering" ,
     ".eigen_weighted"      , "Weighted leading eigenvalue" , "clustering" ,
     ".label_prop"          , "Label propagation"           , "clustering" ,
-    ".label_prop_weighted" , "Weighted label propagation"  , "clustering"
+    ".label_prop_weighted" , "Weighted label propagation"  , "clustering" ,
+    ".crawl"               , "SpIBDer-crawl"               , "crawler"
   )
 }
 pretty_var_name <- function(x) {
