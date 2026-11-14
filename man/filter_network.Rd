@@ -4,26 +4,27 @@
 \alias{filter_network}
 \title{Filter network}
 \usage{
-filter_network(
-  g,
-  node_filters = list(),
-  edge_column = "none",
-  edge_cutoff = NULL
-)
+filter_network(g, node_filters = list(), edge_filters = list())
 }
 \arguments{
 \item{g}{ibd network}
 
-\item{node_filters}{list of values to filter on for nodes
-e.g. list(site = c("A", "C"), genetic_sex = "F")}
+\item{node_filters}{named list of cutoffs to filter nodes on, one per node
+attribute, e.g. \code{list(site = c("A", "C"), genetic_sex = "F")}. A node
+must satisfy every filter to be kept.}
 
-\item{edge_column}{edge attribute to filter network on}
-
-\item{edge_cutoff}{cutoffs for edge filter}
+\item{edge_filters}{named list of cutoffs to filter edges on, one per edge
+attribute, e.g. \code{list(ibd = c(0.25, NA), type = "related")}. An edge must
+satisfy every filter to be kept.}
 }
 \value{
 filtered IBD network
 }
 \description{
 Filter network
+}
+\details{
+Numeric attributes are filtered on a \code{c(min, max)} range (inclusive, \code{NA}
+bounds are unbounded); all other attributes are filtered on the set of
+values to keep. Missing values never pass a filter.
 }
