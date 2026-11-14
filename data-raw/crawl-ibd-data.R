@@ -7,7 +7,7 @@ set.seed(2026)
 n_seed <- 30
 seed_nodes <- sample(nodes, size = n_seed)
 node_df <- tibble(
-  id = seed_nodes
+  iid = seed_nodes
 ) |>
   mutate(
     genetic_sex = sample(
@@ -19,7 +19,8 @@ node_df <- tibble(
       LETTERS[1:3],
       size = n_seed,
       replace = TRUE
-    )
+    ),
+    frac_gp = runif(n_seed, 0.7, 1)
   )
 node_df |>
   readr::write_tsv(

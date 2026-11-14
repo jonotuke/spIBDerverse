@@ -30,7 +30,8 @@ read_file <- function(file) {
 #' @param meta_file meta file
 #' @param ibd_co cutoffs for edges
 #' @param frac_co quality cutoff
-#' @param filter_on_meta boolean - only keep edges whose nodes are in meta
+#' @param filter_on_meta boolean - only keep edges whose
+#' nodes are in meta
 #'
 #' @return igraph object
 #' @export
@@ -84,6 +85,9 @@ load_ibd <- function(
   # If the IBD file doesn't already carry frac_gp for both nodes, take it from
   # the metadata.
   if (!all(c("frac_gp1", "frac_gp2") %in% colnames(ibd))) {
+    rlang::inform(
+      "No frac_gp1 or frac_gp2 in IBD file so looking at meta file for it"
+    )
     if (!"frac_gp" %in% colnames(node_df)) {
       rlang::abort("The metafile does not have a column called frac_gp")
     }
@@ -97,7 +101,7 @@ load_ibd <- function(
       dplyr::rename(frac_gp2 = frac_gp) |>
       dplyr::relocate(frac_gp1, frac_gp2, .after = iid2)
   }
-
+  return(ibd)
   # EDGE SELECTION ----------------------------------------------------------
   # Edges are selected using the cutoffs on n_ibd_8/12/16/20; the edge weight
   # is sum_ibd_8. The edge list is built directly rather than going through an
@@ -113,6 +117,7 @@ load_ibd <- function(
     ) |>
     dplyr::mutate(wij = sum_ibd_8)
 
+  return(edge_df)
   if (filter_on_meta) {
     edge_df <- edge_df |>
       dplyr::filter(iid1 %in% node_df$iid, iid2 %in% node_df$iid)
@@ -138,8 +143,8 @@ load_ibd <- function(
 
 if (sys.nframe() == 5) {
   load_ibd(
-    ibd_file = "inst/extdata/example-ibd-data.tsv",
-    meta_file = "inst/extdata/example-meta-data.tsv"
+    ibd_file = "inst/extdata/crawl-ibd/crawl-ibd.tsv",
+    meta_file = "inst/extdata/crawl-ibd/crawl-meta.tsv"
   ) |>
     print()
 }
