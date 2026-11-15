@@ -111,6 +111,8 @@ ibd_network
   : Add clusters
 - [`add_convert_bb_adj()`](https://jonotuke.github.io/spIBDerverse/reference/add_convert_bb_adj.md)
   : Adjust BB for network work sf object
+- [`add_frac()`](https://jonotuke.github.io/spIBDerverse/reference/add_frac.md)
+  : adds frac_gp to ibd if needed, uses frac_gp in meta
 - [`add_layout()`](https://jonotuke.github.io/spIBDerverse/reference/add_layout.md)
   : add layout
 - [`add_stars()`](https://jonotuke.github.io/spIBDerverse/reference/add_stars.md)

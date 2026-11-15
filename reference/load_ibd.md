@@ -10,7 +10,7 @@ load_ibd(
   meta_file,
   ibd_co = c(0, 2, 1, 0),
   frac_co = 0.7,
-  filter_on_meta = FALSE
+  crawl_length = 2L
 )
 ```
 
@@ -32,9 +32,9 @@ load_ibd(
 
   quality cutoff
 
-- filter_on_meta:
+- crawl_length:
 
-  boolean - only keep edges whose nodes are in meta
+  classifies nodes as seed, in crawl length of outside of crawl length
 
 ## Value
 
