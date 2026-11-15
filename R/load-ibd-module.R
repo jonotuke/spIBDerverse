@@ -22,14 +22,14 @@ loadibdInput <- function(id) {
           This can include any meta data you might like to 
           plot or test. The first column should be called \"iid\"."
       ),
-    shiny::checkboxInput(
-      shiny::NS(id, "ibd_filter"),
-      "Filter edges to just nodes in metafile",
-      value = TRUE
-    ) |>
-      hover_tooltip(
-        "Toggle this off to keep ALL IBD information. Will slow down analyses!"
-      ),
+    shiny::numericInput(
+      inputId = shiny::NS(id, "crawl_length"),
+      label = "SpIBDer-crawl length",
+      min = 0,
+      max = 20,
+      value = 2,
+      step = 1
+    ),
     shiny::textInput(
       shiny::NS(id, "ibd_cutoffs"),
       label = "Please enter cutoffs with commas between",
@@ -80,7 +80,7 @@ loadibdServer <- function(id, r) {
           input$ibd_meta_file$datapath,
           ibd_co = ibd_cutoffs(),
           frac_co = input$ibd_frac_cutoff,
-          filter_on_meta = input$ibd_filter
+          crawl_length = input$crawl_length
         )
       )
     })

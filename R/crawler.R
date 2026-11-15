@@ -15,7 +15,6 @@
 label_crawl <- function(g, nodes, k = 2L) {
   checkmate::assert_class(g, "igraph")
   checkmate::assert_numeric(nodes)
-  checkmate::assert_integer(k)
 
   seeds <- as.numeric(igraph::V(g)[nodes])
   within <- igraph::ego(
@@ -29,10 +28,11 @@ label_crawl <- function(g, nodes, k = 2L) {
     unique()
 
   igraph::V(g)$.crawl <- "outside"
-  igraph::V(g)$.crawl[within] <- "crawl"
+  igraph::V(g)$.crawl[within] <- "inside"
   igraph::V(g)$.crawl[seeds] <- "seed"
   g
 }
+
 names_to_ids <- function(g, node_names) {
   ids <- match(node_names, igraph::V(g)$name)
   missing <- node_names[is.na(ids)]
@@ -49,7 +49,10 @@ names_to_ids <- function(g, node_names) {
 
 if (sys.nframe() == 5) {
   example_network |> print()
-  g <- label_crawl(example_network, nodes = c(1, 2))
+  g <- label_crawl(
+    example_network,
+    nodes = c(1, 2)
+  )
   g |> print()
   plot_network(
     g,
