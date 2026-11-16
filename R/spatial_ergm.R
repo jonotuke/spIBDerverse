@@ -255,6 +255,9 @@ predict_spatial_ergm <- function(
 #' plot spatial ergm
 #'
 #' @param spatial_pred predict tibble from spatial ergm
+#' @param pal palette name from `get_palettes()`. Defaults to `"default"`,
+#'   ggplot2's own scale, which works for both plot types. Otherwise tile
+#'   plots need a continuous palette and line plots a discrete one.
 #'
 #' @returns ggplot. If the predictor is numeric (a `nodecov()` term) this is
 #' a tile plot with distance on the x-axis, the predictor on the y-axis and
@@ -272,7 +275,7 @@ predict_spatial_ergm <- function(
 #' ergms |>
 #'  predict_spatial_ergm(N = 100) |>
 #'  plot_spatial_ergm()
-plot_spatial_ergm <- function(spatial_pred) {
+plot_spatial_ergm <- function(spatial_pred, pal = "default") {
   fixed_cols <- c("dist", "p", "se_logit", "lower", "upper")
   group_cols <- setdiff(names(spatial_pred), fixed_cols)
 
@@ -293,8 +296,15 @@ plot_spatial_ergm <- function(spatial_pred) {
       ggplot2::geom_tile() +
       ggplot2::theme_bw() +
       ggplot2::scale_x_continuous(name = "Distance (km)", expand = c(0, 0)) +
-      ggplot2::scale_y_continuous(name = num_cols, expand = c(0, 0)) +
-      ggplot2::scale_fill_viridis_c(name = "Probability of\nConnectedness")
+      ggplot2::scale_y_continuous(name = num_cols, expand = c(0, 0))
+
+    plt <- plt +
+      pal_scale(
+        "fill",
+        pal,
+        type = "continuous",
+        name = "Probability of\nConnectedness"
+      )
 
     # Any categorical predictors are shown as facets
     if (length(facet_cols) > 0) {
@@ -315,34 +325,34 @@ plot_spatial_ergm <- function(spatial_pred) {
     pred <- NULL
   }
 
-  single_col <- ggsci::pal_startrek()(1)
+  # No predictor: map a constant group so the palette's first colour is used,
+  # and hide the (one-item) legend
+  guide <- "legend"
+  if (is.null(pred)) {
+    pred <- ".group"
+    spatial_pred[[pred]] <- "all"
+    guide <- "none"
+  }
 
-  plt <- spatial_pred |>
-    ggplot2::ggplot(mapping = ggplot2::aes(x = dist, y = p)) +
+  spatial_pred |>
+    ggplot2::ggplot(
+      mapping = ggplot2::aes(
+        x = dist,
+        y = p,
+        col = .data[[pred]],
+        fill = .data[[pred]]
+      )
+    ) +
+    ggplot2::geom_ribbon(
+      mapping = ggplot2::aes(ymin = lower, ymax = upper),
+      alpha = 0.5
+    ) +
+    ggplot2::geom_line(linetype = "dashed") +
     ggplot2::theme_bw() +
     ggplot2::scale_x_continuous(name = "Distance (km)") +
-    ggplot2::scale_y_continuous(name = "Probability of Connectedness")
-
-  if (!is.null(pred)) {
-    plt +
-      ggplot2::aes(col = .data[[pred]], fill = .data[[pred]]) +
-      ggplot2::geom_ribbon(
-        mapping = ggplot2::aes(ymin = lower, ymax = upper),
-        alpha = 0.5
-      ) +
-      ggplot2::geom_line(linetype = "dashed") +
-      ggsci::scale_colour_startrek(name = pred) +
-      ggsci::scale_fill_startrek(name = pred)
-  } else {
-    plt +
-      ggplot2::geom_ribbon(
-        mapping = ggplot2::aes(ymin = lower, ymax = upper),
-        alpha = 0.5,
-        fill = single_col,
-        colour = single_col
-      ) +
-      ggplot2::geom_line(linetype = "dashed", colour = single_col)
-  }
+    ggplot2::scale_y_continuous(name = "Probability of Connectedness") +
+    pal_scale("colour", pal, type = "discrete", name = pred, guide = guide) +
+    pal_scale("fill", pal, type = "discrete", name = pred, guide = guide)
 }
 
 # DRIVER ----

@@ -1,3 +1,15 @@
+# HELPERS ----
+
+# Palette choices for the spatial ergm plot. A numeric predictor gives a tile
+# plot (needs a continuous palette); anything else gives a line plot (needs a
+# discrete palette). "default" (ggplot2's own scale) suits both.
+spatialergm_pal_choices <- function(continuous = FALSE) {
+  plot_type <- if (continuous) "continuous" else "discrete"
+  get_palettes() |>
+    dplyr::filter(type %in% c(plot_type, "both")) |>
+    dplyr::pull(name)
+}
+
 # MODULE ----
 
 spatialergmInput <- function(id, all_vars, cat_vars) {
@@ -21,6 +33,12 @@ spatialergmInput <- function(id, all_vars, cat_vars) {
       label = "Select predictor",
       choices = c("none", all_vars),
       selected = "none"
+    ),
+    shiny::selectInput(
+      ns("pal"),
+      label = "Choose palette",
+      choices = spatialergm_pal_choices(),
+      selected = "default"
     )
   )
 }
@@ -49,6 +67,29 @@ spatialergmServer <- function(id, r) {
       shiny::updateSelectInput(session, "pred", choices = all_vars)
     })
 
+    # Numeric predictor -> tile plot (continuous palettes), else line plot
+    # (discrete palettes). Mirrors the check in fit_spatial_ergm().
+    pal_choices <- shiny::reactive({
+      continuous <- input$pred != "none" &&
+        is.numeric(igraph::vertex_attr(r$network(), input$pred))
+      spatialergm_pal_choices(continuous)
+    })
+
+    # Offer only palettes that suit the plot; keep the current one if valid
+    shiny::observeEvent(pal_choices(), {
+      selected <- if (isTRUE(input$pal %in% pal_choices())) {
+        input$pal
+      } else {
+        "default"
+      }
+      shiny::updateSelectInput(
+        session,
+        "pal",
+        choices = pal_choices(),
+        selected = selected
+      )
+    })
+
     ergm <- shiny::reactive({
       shiny::req(input$lat != "none", input$long != "none")
 
@@ -59,8 +100,17 @@ spatialergmServer <- function(id, r) {
         pred = input$pred
       )
     })
+
+    # Separate from the plot so changing palette doesn't re-predict
+    ergm_pred <- shiny::reactive({
+      ergm() |> predict_spatial_ergm(N = 100)
+    })
+
     output$plot <- shiny::renderPlot({
-      ergm() |> predict_spatial_ergm(N = 100) |> plot_spatial_ergm()
+      # Wait until the palette picker has caught up with the predictor
+      shiny::req(input$pal %in% pal_choices())
+
+      ergm_pred() |> plot_spatial_ergm(pal = input$pal)
     })
 
     output$debug <- shiny::renderPrint({

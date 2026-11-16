@@ -4,10 +4,14 @@
 \alias{plot_spatial_ergm}
 \title{plot spatial ergm}
 \usage{
-plot_spatial_ergm(spatial_pred)
+plot_spatial_ergm(spatial_pred, pal = "default")
 }
 \arguments{
 \item{spatial_pred}{predict tibble from spatial ergm}
+
+\item{pal}{palette name from \code{get_palettes()}. Defaults to \code{"default"},
+ggplot2's own scale, which works for both plot types. Otherwise tile
+plots need a continuous palette and line plots a discrete one.}
 }
 \value{
 ggplot. If the predictor is numeric (a \code{nodecov()} term) this is

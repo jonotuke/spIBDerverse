@@ -27,7 +27,7 @@ loadibdInput <- function(id) {
       label = "SpIBDer-crawl length",
       min = 0,
       max = 20,
-      value = 2,
+      value = 0,
       step = 1
     ),
     shiny::textInput(
