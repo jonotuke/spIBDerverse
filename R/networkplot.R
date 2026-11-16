@@ -201,7 +201,10 @@ check_columns <- function(df, cols) {
 #' @param label_exc Regular expression; labels matching it are hidden.
 #' @param label_col Colour of label
 #' @param fill Vertex attribute mapped to node fill.
-#' @param fill_label,outline_label,shape_label,alpha_label Legend labels
+#' @param fill_label,outline_label,shape_label,size_label,alpha_label Legend
+#'   labels
+#' @param fill_legend,outline_legend,shape_legend,size_legend,alpha_legend
+#'   Show the legend for that aesthetic? Ignored when it isn't mapped.
 #' @param edge_label Title for the edge legend. Defaults to the name of the
 #'   `edge` attribute.
 #' @param shape Vertex attribute mapped to node shape.
@@ -242,13 +245,19 @@ plot_network <- function(
   label_col = "black",
   fill = "none",
   fill_label = NULL,
+  fill_legend = TRUE,
   shape = "none",
   shape_label = NULL,
+  shape_legend = TRUE,
   size = "none",
+  size_label = NULL,
+  size_legend = TRUE,
   outline_col = "none",
   outline_label = NULL,
+  outline_legend = TRUE,
   alpha = "none",
   alpha_label = NULL,
+  alpha_legend = TRUE,
   node_size = 5,
   fill_pal = "default",
   col_pal = "default",
@@ -355,6 +364,7 @@ plot_network <- function(
     list(var = fill, label = fill_label),
     list(var = outline_col, label = outline_label),
     list(var = shape, label = shape_label),
+    list(var = size, label = size_label),
     list(var = alpha, label = alpha_label)
   )
   title_for <- function(var) {
@@ -437,7 +447,8 @@ plot_network <- function(
   } else {
     node_aes$size <- rlang::sym(size)
     node_scales$size <- ggplot2::scale_size_continuous(
-      range = c(node_size / 2, node_size * 2)
+      range = c(node_size / 2, node_size * 2),
+      name = title_for(size)
     )
   }
 
@@ -509,29 +520,59 @@ plot_network <- function(
     ggplot2::guide_legend(override.aes = utils::modifyList(key_aes, list(...)))
   }
 
-  fill_legend <- !is_none(fill) && !is.numeric(df[[fill]])
-  colour_legend <- !is_none(outline_col) && !is.numeric(df[[outline_col]])
+  # Legends switched off by the user. A list (not c()) so a NULL from a
+  # not-yet-initialised Shiny input keeps its slot and counts as "show".
+  show_legend <- list(
+    fill = fill_legend,
+    colour = outline_legend,
+    shape = shape_legend,
+    size = size_legend,
+    alpha = alpha_legend
+  )
+  legend_guides <- list()
+  for (aes in names(show_legend)) {
+    if (isFALSE(show_legend[[aes]])) {
+      legend_guides[[aes]] <- "none"
+    }
+  }
 
-  legend_guides <- list(size = "none")
-  if (fill_legend) {
-    legend_guides$fill <- if (same_var(fill, shape)) {
+  # Discrete legends that will actually be drawn. Numeric fill / colour get
+  # ggplot2's default colourbar instead.
+  fill_key <- !isFALSE(fill_legend) &&
+    !is_none(fill) &&
+    !is.numeric(df[[fill]])
+  colour_key <- !isFALSE(outline_legend) &&
+    !is_none(outline_col) &&
+    !is.numeric(df[[outline_col]])
+  shape_key <- !isFALSE(shape_legend) && !is_none(shape)
+
+  if (!is_none(size) && !isFALSE(size_legend)) {
+    # The keys must keep their mapped sizes, so drop the fixed legend_size
+    # (modifyList() removes an element set to NULL). Size is always numeric,
+    # so it never shares a legend with the discrete fill / shape.
+    legend_guides$size <- key_guide(size = NULL, shape = 21, fill = "white")
+  }
+  # When two aesthetics share a column, ggplot2 merges their legends, so the
+  # keys only take the mapped shape / fill if that other legend is shown too.
+  if (fill_key) {
+    legend_guides$fill <- if (shape_key && same_var(fill, shape)) {
       key_guide()
     } else {
       key_guide(shape = 21)
     }
   }
-  if (colour_legend) {
+  if (colour_key) {
     colour_over <- list()
-    if (!same_var(outline_col, shape)) {
+    if (!(shape_key && same_var(outline_col, shape))) {
       colour_over$shape <- 21
     }
-    if (!(fill_legend && same_var(outline_col, fill))) {
+    if (!(fill_key && same_var(outline_col, fill))) {
       colour_over$fill <- "white"
     }
     legend_guides$colour <- rlang::exec(key_guide, !!!colour_over)
   }
-  if (!is_none(shape)) {
-    legend_guides$shape <- if (fill_legend && same_var(shape, fill)) {
+  if (shape_key) {
+    legend_guides$shape <- if (fill_key && same_var(shape, fill)) {
       key_guide()
     } else {
       key_guide(fill = "white")
