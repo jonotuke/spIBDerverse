@@ -10,12 +10,12 @@ loaddefaultInput <- function(id) {
       "Upload a node file"
     ),
     shiny::selectInput(
-      ns("edge_attr"),
+      ns("edge_var"),
       "Edge attribute",
       choices = c("None" = "none"),
       selected = "none"
     ),
-    shiny::uiOutput(ns("edge_attr_filter"))
+    shiny::uiOutput(ns("edge_var_filter"))
   )
 }
 
@@ -31,35 +31,60 @@ loaddefaultOutput <- function(id) {
   )
 }
 
-loaddefaultServer <- function(id, r) {
+loaddefaultServer <- function(id, r, dev_files = NULL) {
   shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
-    output$debug <- shiny::renderPrint({
-      print("default data")
-      print(default_data()$network)
-      print(r$default_data())
+    edge_path <- shiny::reactive({
+      if (!is.null(input$edge_file)) {
+        input$edge_file$datapath
+      } else {
+        dev_files$edge
+      }
     })
 
-    default_data <- shiny::reactive({
-      if (
-        is.null(input$edge_file) ||
-          is.null(input$node_file)
-      ) {
+    node_path <- shiny::reactive({
+      if (!is.null(input$node_file)) {
+        input$node_file$datapath
+      } else {
+        dev_files$node
+      }
+    })
+
+    default_full <- shiny::reactive({
+      if (is.null(edge_path()) || is.null(node_path())) {
         return(NULL)
       }
       capture_conditions(
         load_default(
-          node_file = input$node_file$datapath,
-          edge_file = input$edge_file$datapath
+          node_file = node_path(),
+          edge_file = edge_path()
         )
       )
     })
 
-    # ---- Summary table ------------------------------------------------------
+    r$default <- shiny::reactive({
+      if (is.null(default_full()$network) || is.null(input$edge_var_range)) {
+        return(NULL)
+      }
+      filter_default_edges(
+        default_full()$network,
+        input$edge_var,
+        input$edge_var_range
+      )
+    })
+
+    output$debug <- shiny::renderPrint({
+      print("default full")
+      print(default_full()$network)
+      print("edge_var_range")
+      print(input$edge_var_range)
+      print("r$default()")
+      print(r$default())
+    })
 
     output$tab <- shiny::renderTable({
-      res <- default_data()
+      res <- default_full()
       shiny::validate(
         shiny::need(res, "Please upload edge and node files"),
         shiny::need(
@@ -77,11 +102,54 @@ loaddefaultServer <- function(id, r) {
       )
       get_network_summary(res$network)
     })
+
+    output$edge_var_filter <- shiny::renderUI({
+      shiny::req(input$edge_var != "none")
+      x <- igraph::edge_attr(
+        default_full()$network,
+        input$edge_var
+      )
+      if (is.numeric(x)) {
+        shinyWidgets::numericRangeInput(
+          ns("edge_var_range"),
+          label = stringr::str_glue("Range of {input$edge_var}"),
+          value = range(x, na.rm = TRUE)
+        )
+      } else {
+        shiny::checkboxGroupInput(
+          ns("edge_var_range"),
+          label = stringr::str_glue("Levels of {input$edge_var}"),
+          choices = sort(unique(x)),
+          selected = sort(unique(x))
+        )
+      }
+    })
+
+    shiny::observeEvent(default_full()$network, ignoreNULL = FALSE, {
+      network <- default_full()$network
+      attrs <- if (is.null(network)) {
+        character(0)
+      } else {
+        igraph::edge_attr_names(network)
+      }
+      choices <- c("None" = "none", stats::setNames(attrs, attrs))
+      selected <- if (isTRUE(input$edge_var %in% choices)) {
+        input$edge_var
+      } else {
+        "none"
+      }
+      shiny::updateSelectInput(
+        session,
+        "edge_var",
+        choices = choices,
+        selected = selected
+      )
+    })
   })
 }
 
 
-loaddefaultApp <- function() {
+loaddefaultApp <- function(dev_files = NULL) {
   r <- shiny::reactiveValues()
   r$full_network <- shiny::reactive({
     example_network
@@ -94,11 +162,17 @@ loaddefaultApp <- function() {
     loaddefaultOutput("defaultload")
   )
   server <- function(input, output, session) {
-    loaddefaultServer("defaultload", r = r)
+    loaddefaultServer("defaultload", r = r, dev_files = dev_files)
   }
   shiny::shinyApp(ui, server)
 }
 
 if (sys.nframe() == 5) {
-  loaddefaultApp() |> print()
+  loaddefaultApp(
+    dev_files = list(
+      edge = "inst/extdata/load-default-data/default-edge.csv",
+      node = "inst/extdata/load-default-data/default-node.csv"
+    )
+  ) |>
+    print()
 }
