@@ -5,7 +5,7 @@ plot spatial ergm
 ## Usage
 
 ``` r
-plot_spatial_ergm(spatial_pred)
+plot_spatial_ergm(spatial_pred, pal = "default")
 ```
 
 ## Arguments
@@ -13,6 +13,14 @@ plot_spatial_ergm(spatial_pred)
 - spatial_pred:
 
   predict tibble from spatial ergm
+
+- pal:
+
+  palette name from
+  [`get_palettes()`](https://jonotuke.github.io/spIBDerverse/reference/get_palettes.md).
+  Defaults to `"default"`, ggplot2's own scale, which works for both
+  plot types. Otherwise tile plots need a continuous palette and line
+  plots a discrete one.
 
 ## Value
 
