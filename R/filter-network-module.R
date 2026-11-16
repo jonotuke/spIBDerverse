@@ -324,6 +324,7 @@ networkFilterApp <- function(network_input) {
   server <- function(input, output, session) {
     networkFilterServer("networkFilter", r = r)
     nodeServer("node", r = r)
+    edgeServer("edge", r = r)
   }
 
   shiny::shinyApp(ui, server)
