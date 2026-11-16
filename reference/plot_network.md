@@ -24,13 +24,19 @@ plot_network(
   label_col = "black",
   fill = "none",
   fill_label = NULL,
+  fill_legend = TRUE,
   shape = "none",
   shape_label = NULL,
+  shape_legend = TRUE,
   size = "none",
+  size_label = NULL,
+  size_legend = TRUE,
   outline_col = "none",
   outline_label = NULL,
+  outline_legend = TRUE,
   alpha = "none",
   alpha_label = NULL,
+  alpha_legend = TRUE,
   node_size = 5,
   fill_pal = "default",
   col_pal = "default",
@@ -114,9 +120,13 @@ plot_network(
 
   Vertex attribute mapped to node fill.
 
-- fill_label, outline_label, shape_label, alpha_label:
+- fill_label, outline_label, shape_label, size_label, alpha_label:
 
   Legend labels
+
+- fill_legend, outline_legend, shape_legend, size_legend, alpha_legend:
+
+  Show the legend for that aesthetic? Ignored when it isn't mapped.
 
 - shape:
 
