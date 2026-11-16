@@ -34,6 +34,7 @@ ibd_frac_already <- fs::path_package(
   package = "spIBDerverse",
   "extdata/crawl-ibd/crawl-ibd.tsv"
 )
+
 test_that("load_ibd args", {
   expect_error(load_ibd(ibd_co = c("A")))
   expect_error(load_ibd(ibd_co = 1:3))

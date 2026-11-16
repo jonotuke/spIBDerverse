@@ -29,10 +29,14 @@ filter_network <- function(
   # Edge filters: an edge must satisfy every filter to be kept
   if (length(edge_filters) > 0) {
     keep <- attr_filters_keep(g, edge_filters, "edge")
-    g <- igraph::subgraph_from_edges(g, igraph::E(g)[keep])
+    g <- igraph::subgraph_from_edges(
+      g,
+      igraph::E(g)[keep],
+      delete.vertices = FALSE
+    )
   }
 
-  g <- g |> add_centrality_measures()
+  g <- g |> add_centrality_measures() |> add_clustering()
   g
 }
 
