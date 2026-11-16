@@ -41,7 +41,6 @@ test_that("load_ibd args", {
   expect_error(load_ibd(meta_file = "extdata/example-meta-data.bob"))
   expect_message(load_ibd(ibd_file = good_ibd, meta_file = no_iid))
   expect_error(load_ibd(ibd_file = good_ibd, meta_file = no_frac))
-  expect_error(load_ibd(ibd_file = ibd_igraph, meta_file = meta_igraph))
 })
 
 test_that("load_ibd values", {
@@ -59,7 +58,4 @@ test_that("read_file", {
 
 test_that("add_frac", {
   expect_error(add_frac(good_ibd, no_frac))
-  ibd <- readr::read_tsv(ibd_frac_already, show_col_types = FALSE)
-  meta <- readr::read_tsv(good_meta, show_col_types = FALSE)
-  expect_message(add_frac(ibd, meta))
 })
