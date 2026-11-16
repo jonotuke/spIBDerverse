@@ -19,7 +19,7 @@ dataWizardInput <- function(id) {
 dataWizardOutput <- function(id) {
   ns <- shiny::NS(id)
   shiny::tagList(
-    shiny::verbatimTextOutput(ns("debug")),
+    # shiny::verbatimTextOutput(ns("debug")),
     shiny::uiOutput(
       ns("output")
     )
