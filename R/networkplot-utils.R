@@ -34,6 +34,7 @@ network_plot_args <- function(input) {
     shape = input$shape,
     shape_label = input$shape_label,
     size = input$size,
+    size_label = input$size_label,
     node_size = input$node_size,
     fill_pal = input$fill_pal,
     outline_col = input$outline_col,
@@ -145,6 +146,7 @@ network_ui <- function(
       legend_title_input(ns("shape_label"), "shape"),
       shiny::hr(),
       var_select(ns("size"), "Choose node size column", num_vars),
+      legend_title_input(ns("size_label"), "size"),
       shiny::numericInput(
         ns("node_size"),
         "Node size",

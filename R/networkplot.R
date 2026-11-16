@@ -201,7 +201,8 @@ check_columns <- function(df, cols) {
 #' @param label_exc Regular expression; labels matching it are hidden.
 #' @param label_col Colour of label
 #' @param fill Vertex attribute mapped to node fill.
-#' @param fill_label,outline_label,shape_label,alpha_label Legend labels
+#' @param fill_label,outline_label,shape_label,size_label,alpha_label Legend
+#'   labels
 #' @param edge_label Title for the edge legend. Defaults to the name of the
 #'   `edge` attribute.
 #' @param shape Vertex attribute mapped to node shape.
@@ -245,6 +246,7 @@ plot_network <- function(
   shape = "none",
   shape_label = NULL,
   size = "none",
+  size_label = NULL,
   outline_col = "none",
   outline_label = NULL,
   alpha = "none",
@@ -355,6 +357,7 @@ plot_network <- function(
     list(var = fill, label = fill_label),
     list(var = outline_col, label = outline_label),
     list(var = shape, label = shape_label),
+    list(var = size, label = size_label),
     list(var = alpha, label = alpha_label)
   )
   title_for <- function(var) {
@@ -437,7 +440,8 @@ plot_network <- function(
   } else {
     node_aes$size <- rlang::sym(size)
     node_scales$size <- ggplot2::scale_size_continuous(
-      range = c(node_size / 2, node_size * 2)
+      range = c(node_size / 2, node_size * 2),
+      name = title_for(size)
     )
   }
 
@@ -512,7 +516,13 @@ plot_network <- function(
   fill_legend <- !is_none(fill) && !is.numeric(df[[fill]])
   colour_legend <- !is_none(outline_col) && !is.numeric(df[[outline_col]])
 
-  legend_guides <- list(size = "none")
+  legend_guides <- list()
+  if (!is_none(size)) {
+    # The keys must keep their mapped sizes, so drop the fixed legend_size
+    # (modifyList() removes an element set to NULL). Size is always numeric,
+    # so it never shares a legend with the discrete fill / shape.
+    legend_guides$size <- key_guide(size = NULL, shape = 21, fill = "white")
+  }
   if (fill_legend) {
     legend_guides$fill <- if (same_var(fill, shape)) {
       key_guide()
