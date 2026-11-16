@@ -13,6 +13,8 @@ network_vars <- function(net, ...) {
   )
 }
 
+# A typed "\n" in a text box arrives as a backslash followed by "n";
+# turn it into a real newline so ggplot2 breaks the legend title there.
 as_newline <- function(x) {
   if (is.null(x)) x else gsub("\\n", "\n", x, fixed = TRUE)
 }
@@ -39,6 +41,11 @@ network_plot_args <- function(input) {
     shape_label = input$shape_label,
     size = input$size,
     size_label = input$size_label,
+    fill_legend = input$fill_legend,
+    outline_legend = input$outline_legend,
+    shape_legend = input$shape_legend,
+    size_legend = input$size_legend,
+    alpha_legend = input$alpha_legend,
     node_size = input$node_size,
     fill_pal = input$fill_pal,
     outline_col = input$outline_col,
@@ -50,12 +57,8 @@ network_plot_args <- function(input) {
   )
 
   title_args <- c(
-    "edge_label",
-    "fill_label",
-    "outline_label",
-    "shape_label",
-    "size_label",
-    "alpha_label"
+    "edge_label", "fill_label", "outline_label",
+    "shape_label", "size_label", "alpha_label"
   )
   args[title_args] <- lapply(args[title_args], as_newline)
   args
@@ -76,6 +79,15 @@ legend_title_input <- function(id, what) {
         "Leave blank to use the column name."
       )
     )
+}
+
+# Checkbox to switch a legend on / off; `what` names the legend, e.g. "fill".
+legend_show_input <- function(id, what) {
+  shiny::checkboxInput(
+    id,
+    label = stringr::str_glue("Show {what} legend"),
+    value = TRUE
+  )
 }
 
 var_select <- function(id, label, vars) {
@@ -136,6 +148,7 @@ network_ui <- function(
         choices = "default"
       ),
       legend_title_input(ns("fill_label"), "fill"),
+      legend_show_input(ns("fill_legend"), "fill"),
       shiny::hr(),
       var_select(
         ns("outline_col"),
@@ -148,6 +161,7 @@ network_ui <- function(
         choices = "default"
       ),
       legend_title_input(ns("outline_label"), "outline colour"),
+      legend_show_input(ns("outline_legend"), "outline colour"),
       shiny::numericInput(
         ns("outline_width"),
         "Node outline width",
@@ -159,9 +173,11 @@ network_ui <- function(
       shiny::hr(),
       var_select(ns("shape"), "Choose node shape column", cat_vars),
       legend_title_input(ns("shape_label"), "shape"),
+      legend_show_input(ns("shape_legend"), "shape"),
       shiny::hr(),
       var_select(ns("size"), "Choose node size column", num_vars),
       legend_title_input(ns("size_label"), "size"),
+      legend_show_input(ns("size_legend"), "size"),
       shiny::numericInput(
         ns("node_size"),
         "Node size",
@@ -173,6 +189,7 @@ network_ui <- function(
       shiny::hr(),
       var_select(ns("alpha"), "Choose node alpha", num_vars),
       legend_title_input(ns("alpha_label"), "alpha"),
+      legend_show_input(ns("alpha_legend"), "alpha"),
       shiny::hr(),
       shiny::radioButtons(
         ns("connected"),
