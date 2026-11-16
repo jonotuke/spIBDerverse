@@ -116,11 +116,7 @@ plot_network(
 
 - fill_label, outline_label, shape_label, alpha_label:
 
-  Titles for the fill, outline colour, shape and alpha legends. Each
-  defaults to the name of the attribute it maps. When several of these
-  aesthetics map the same attribute they share one title, so their
-  legends stay merged; if more than one of their labels is set, the
-  first in the order fill, outline, shape, alpha wins.
+  Legend labels
 
 - shape:
 
