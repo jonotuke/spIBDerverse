@@ -13,9 +13,13 @@ network_vars <- function(net, ...) {
   )
 }
 
+as_newline <- function(x) {
+  if (is.null(x)) x else gsub("\\n", "\n", x, fixed = TRUE)
+}
+
 # Settings shared by plot_network() and plot_staticmap().
 network_plot_args <- function(input) {
-  list(
+  args <- list(
     lat = input$lat,
     long = input$lon,
     connected = input$connected,
@@ -44,6 +48,17 @@ network_plot_args <- function(input) {
     alpha = input$alpha,
     alpha_label = input$alpha_label
   )
+
+  title_args <- c(
+    "edge_label",
+    "fill_label",
+    "outline_label",
+    "shape_label",
+    "size_label",
+    "alpha_label"
+  )
+  args[title_args] <- lapply(args[title_args], as_newline)
+  args
 }
 
 # UI ----
