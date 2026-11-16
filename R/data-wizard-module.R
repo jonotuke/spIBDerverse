@@ -6,7 +6,8 @@ dataWizardInput <- function(id) {
       "Type of data",
       choices = c(
         "Load example data" = "example",
-        "Load IBD data" = "ibd"
+        "Load IBD data" = "ibd",
+        "Load default data" = "default"
       )
     ),
     shiny::uiOutput(
@@ -18,6 +19,7 @@ dataWizardInput <- function(id) {
 dataWizardOutput <- function(id) {
   ns <- shiny::NS(id)
   shiny::tagList(
+    shiny::verbatimTextOutput(ns("debug")),
     shiny::uiOutput(
       ns("output")
     )
@@ -30,6 +32,7 @@ dataWizardServer <- function(id, r) {
     ns <- shiny::NS(id)
     loadexampleServer("example", r = r)
     loadibdServer("ibd", r = r)
+    loaddefaultServer("default", r = r)
 
     output$debug <- shiny::renderPrint({
       print("Hello world")
@@ -39,13 +42,16 @@ dataWizardServer <- function(id, r) {
       print(r$example())
       print("IBD")
       print(r$ibd_data())
+      print("Default")
+      print(r$default())
     })
 
     output$input <- shiny::renderUI({
       switch(
         input$data_type,
         example = loadexampleInput(ns("example")),
-        ibd = loadibdInput(ns("ibd"))
+        ibd = loadibdInput(ns("ibd")),
+        default = loaddefaultInput(ns("default"))
       )
     })
 
@@ -53,7 +59,8 @@ dataWizardServer <- function(id, r) {
       switch(
         input$data_type,
         example = loadexampleOutput(ns("example")),
-        ibd = loadibdOutput(ns("ibd"))
+        ibd = loadibdOutput(ns("ibd")),
+        default = loaddefaultOutput(ns("default"))
       )
     })
 
@@ -65,6 +72,10 @@ dataWizardServer <- function(id, r) {
       } else if (input$data_type == "ibd") {
         r$full_network <- shiny::reactive({
           r$ibd_data()
+        })
+      } else if (input$data_type == "default") {
+        r$full_network <- shiny::reactive({
+          r$default()
         })
       } else {
         return(NULL)
@@ -90,6 +101,9 @@ dataWizardApp <- function() {
     NULL
   })
   r$ibd_data <- shiny::reactive({
+    NULL
+  })
+  r$default <- shiny::reactive({
     NULL
   })
   ui <- shiny::fluidPage(

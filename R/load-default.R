@@ -40,7 +40,9 @@ filter_default_edges <- function(
   if (!any(keep)) {
     rlang::warn("No edges meet the criteria; graph will have no edges.")
   }
-  igraph::delete_edges(g, which(!keep))
+  g <- igraph::delete_edges(g, which(!keep))
+  g <- g |> add_centrality_measures() |> add_clustering()
+  g
 }
 load_default <- function(node_file, edge_file) {
   # NODES ----
@@ -74,6 +76,7 @@ load_default <- function(node_file, edge_file) {
       rlang::abort("Cannot make igraph", parent = e)
     }
   )
+  g <- g |> add_centrality_measures() |> add_clustering()
   g
 }
 
@@ -82,11 +85,13 @@ if (sys.nframe() == 5) {
     node_file = "inst/extdata/load-default-data/default-node.csv",
     edge_file = "inst/extdata/load-default-data/default-edge.csv"
   )
+  print(igraph::V(g)$.louvain)
   g <- g |>
     filter_default_edges(
       edge_attr = "dist",
       edge_values = c(-Inf, 10)
     )
+  print(igraph::V(g)$.louvain)
   g |>
     plot_network(edge = "dist") |>
     print()

@@ -22,9 +22,9 @@ loaddefaultInput <- function(id) {
 loaddefaultOutput <- function(id) {
   ns <- shiny::NS(id)
   shiny::tagList(
-    shiny::verbatimTextOutput(
-      ns("debug")
-    ),
+    # shiny::verbatimTextOutput(
+    #   ns("debug")
+    # ),
     shiny::tableOutput(
       ns("tab")
     )
@@ -64,24 +64,25 @@ loaddefaultServer <- function(id, r, dev_files = NULL) {
     })
 
     r$default <- shiny::reactive({
-      if (is.null(default_full()$network) || is.null(input$edge_var_range)) {
-        return(NULL)
+      net <- default_full()$network
+      if (
+        is.null(net) ||
+          identical(input$edge_var, "none") ||
+          is.null(input$edge_var_range)
+      ) {
+        return(net)
       }
-      filter_default_edges(
-        default_full()$network,
-        input$edge_var,
-        input$edge_var_range
-      )
+      filter_default_edges(net, input$edge_var, input$edge_var_range)
     })
 
-    output$debug <- shiny::renderPrint({
-      print("default full")
-      print(default_full()$network)
-      print("edge_var_range")
-      print(input$edge_var_range)
-      print("r$default()")
-      print(r$default())
-    })
+    # output$debug <- shiny::renderPrint({
+    #   print("default full")
+    #   print(default_full()$network)
+    #   print("edge_var_range")
+    #   print(input$edge_var_range)
+    #   print("r$default()")
+    #   print(r$default())
+    # })
 
     output$tab <- shiny::renderTable({
       res <- default_full()
@@ -100,7 +101,11 @@ loaddefaultServer <- function(id, r, dev_files = NULL) {
           paste("Message:", res$messages, collapse = "\n")
         )
       )
-      get_network_summary(res$network)
+      net <- r$default()
+      if (is.null(net)) {
+        net <- res$network
+      }
+      get_network_summary(net)
     })
 
     output$edge_var_filter <- shiny::renderUI({

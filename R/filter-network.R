@@ -36,7 +36,7 @@ filter_network <- function(
     )
   }
 
-  g <- g |> add_centrality_measures()
+  g <- g |> add_centrality_measures() |> add_clustering()
   g
 }
 
