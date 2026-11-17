@@ -1,7 +1,12 @@
 edgeOutput <- function(id) {
+  ns <- shiny::NS(id)
   shiny::tagList(
     DT::dataTableOutput(
-      shiny::NS(id, "tab")
+      ns("tab")
+    ),
+    shiny::downloadButton(
+      ns("download"),
+      label = "Download node table"
     )
   )
 }
@@ -12,6 +17,17 @@ edgeServer <- function(id, r) {
         get_edge_info(r$network())
       )
     })
+    output$download <- shiny::downloadHandler(
+      filename = function() {
+        paste0(lubridate::today(), "-edge-table.tsv")
+      },
+      content = function(file) {
+        readr::write_tsv(
+          get_edge_info(r$network()),
+          file
+        )
+      }
+    )
   })
 }
 edgeApp <- function(network_input) {
