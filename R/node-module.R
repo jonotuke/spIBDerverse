@@ -1,7 +1,12 @@
 nodeOutput <- function(id) {
+  ns <- shiny::NS(id)
   shiny::tagList(
     DT::dataTableOutput(
-      shiny::NS(id, "node_dt")
+      ns("node_dt")
+    ),
+    shiny::downloadButton(
+      ns("download"),
+      label = "Download node table"
     )
   )
 }
@@ -25,6 +30,17 @@ nodeServer <- function(id, r) {
 
       dt
     })
+    output$download <- shiny::downloadHandler(
+      filename = function() {
+        paste0(lubridate::today(), "-node-table.tsv")
+      },
+      content = function(file) {
+        readr::write_tsv(
+          get_node_info(r$network()),
+          file
+        )
+      }
+    )
   })
 }
 nodeApp <- function(input_network) {
