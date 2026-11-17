@@ -4,7 +4,7 @@ pkgdown_sha: ~
 articles:
   permutation-dunn-test: permutation-dunn-test.html
   spibderapp: spibderapp.html
-last_built: 2026-11-17T20:21Z
+last_built: 2026-11-17T22:12Z
 urls:
   reference: https://jonotuke.github.io/spIBDerverse/reference
   article: https://jonotuke.github.io/spIBDerverse/articles

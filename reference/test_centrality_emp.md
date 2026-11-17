@@ -47,7 +47,7 @@ table indicating any significant predictors
 ``` r
 test_centrality_emp(example_network, ".degree", "genetic_sex")
 #> # A tibble: 1 × 4
-#>   predictor   centrality    pv dunn        
-#>   <chr>       <chr>      <dbl> <list>      
-#> 1 genetic_sex .degree    0.976 <df [1 × 4]>
+#>   predictor   centrality KW_pv dunn            
+#>   <chr>       <chr>      <dbl> <list>          
+#> 1 genetic_sex .degree    0.982 <tibble [1 × 4]>
 ```
