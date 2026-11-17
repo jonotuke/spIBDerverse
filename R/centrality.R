@@ -11,7 +11,10 @@ utils::globalVariables(
     ".eigencentrality",
     "nodes",
     ".degree",
-    "p_perm"
+    "p_perm",
+    "dunn",
+    "p_perm_adj",
+    "z"
   )
 )
 #' Get centrality measures
@@ -243,7 +246,7 @@ test_centrality_emp <- function(
       col = 'predictor',
       dplyr::any_of(preds),
       remove = TRUE,
-      sep = '\n'
+      sep = '|'
     )
 
   # Decide on n_sims
@@ -255,16 +258,15 @@ test_centrality_emp <- function(
 
   obs <- stats::kruskal.test(formula = form, data = df)$statistic
 
-  sims <- 1:n_sims |>
-    purrr::map(\(x) {
-      df |> dplyr::mutate(predictor = sample(predictor))
-    }) |>
-    purrr::list_rbind(names_to = "sim") |>
-    tidyr::nest(data = -sim) |>
-    dplyr::mutate(
-      stat = purrr::map(data, \(x) stats::kruskal.test(form, x)$statistic)
-    ) |>
-    tidyr::unnest(stat)
+  sims <- tibble::tibble(
+    sim = seq_len(n_sims),
+    stat = purrr::map_dbl(sim, \(i) {
+      df |>
+        dplyr::mutate(predictor = sample(predictor)) |>
+        stats::kruskal.test(form, data = _) |>
+        purrr::pluck("statistic")
+    })
+  )
 
   dunn <- dunn_perm(
     df[[centrality]],
@@ -304,6 +306,32 @@ test_centralities <- function(g, centrality, preds) {
     }) |>
     purrr::list_rbind()
 }
+get_centrality_gt <- function(cent_test) {
+  cent_test |>
+    tidyr::unnest(dunn) |>
+    dplyr::mutate(
+      centrality = stringr::str_glue(
+        "{centrality} (KW p-value: {gt::vec_fmt_scientific(pv, decimals = 2, output = 'html')})"
+      )
+    ) |>
+    dplyr::group_by(centrality) |>
+    dplyr::select(-pv) |>
+    gt::gt(process_md = TRUE) |>
+    gt::tab_style_body(
+      columns = p_perm_adj,
+      style = gt::cell_fill(color = "lightblue"),
+      fn = function(x) x <= 0.05
+    ) |>
+    gt::fmt_scientific(c(p_perm_adj, p_perm)) |>
+    gt::fmt_number(z) |>
+    gt::tab_style(
+      style = list(
+        gt::cell_fill(color = "lightblue"),
+        gt::cell_text(weight = "bold")
+      ),
+      locations = gt::cells_row_groups()
+    )
+}
 
 if (sys.nframe() == 5) {
   test_centralities(
@@ -311,5 +339,6 @@ if (sys.nframe() == 5) {
     centrality = c(".degree", ".closeness"),
     preds = c('site', 'Country')
   ) |>
+    get_centrality_gt() |>
     print()
 }
