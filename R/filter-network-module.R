@@ -67,7 +67,7 @@ columns_input_id <- function(what = c("node", "edge")) {
 #' Build the cutoff input for a node or edge attribute
 #'
 #' Numeric attributes get a range input; all other attributes get a set of
-#' checkboxes (one per level) with "Select all" / "Select none" buttons.
+#' checkboxes (one per level), all ticked by default.
 #'
 #' @param id id
 #' @param x attribute filter
@@ -103,37 +103,11 @@ make_cutoff_ui <- function(
     )
   } else {
     levels <- sort(unique(as.character(obs)))
-    select_js <- function(all) {
-      sprintf(
-        "Shiny.setInputValue('%s', {what: '%s', column: %s, all: %s}, {priority: 'event'});",
-        ns("select_action"),
-        what,
-        jsonlite::toJSON(x, auto_unbox = TRUE),
-        if (all) "true" else "false"
-      )
-    }
-    shiny::tagList(
-      shiny::checkboxGroupInput(
-        input_id,
-        label = stringr::str_glue("Select values of {x} to keep"),
-        choices = levels,
-        selected = if (is.null(selected)) levels else selected
-      ),
-      shiny::div(
-        style = "margin-top: -10px; margin-bottom: 15px;",
-        shiny::tags$button(
-          type = "button",
-          class = "btn btn-default btn-sm",
-          onclick = select_js(TRUE),
-          "Select all"
-        ),
-        shiny::tags$button(
-          type = "button",
-          class = "btn btn-default btn-sm",
-          onclick = select_js(FALSE),
-          "Select none"
-        )
-      )
+    shiny::checkboxGroupInput(
+      input_id,
+      label = stringr::str_glue("Select values of {x} to keep"),
+      choices = levels,
+      selected = if (is.null(selected)) levels else selected
     )
   }
 }
@@ -216,44 +190,22 @@ networkFilterServer <- function(id, r) {
       shiny::renderUI({
         g <- r$full_network()
         cols <- input[[columns_input_id(what)]]
-        if (length(cols) == 0) {
-          return(NULL)
-        }
-        shiny::tagList(
-          lapply(cols, function(x) {
-            shiny::wellPanel(
-              style = "padding: 10px; margin-bottom: 10px;",
-              make_cutoff_ui(
-                id,
-                x,
-                g,
-                what = what,
-                selected = shiny::isolate(input[[cutoff_input_id(x, what)]])
-              )
+        purrr::map(
+          cols,
+          \(x) {
+            make_cutoff_ui(
+              id,
+              x,
+              g,
+              what = what,
+              selected = shiny::isolate(input[[cutoff_input_id(x, what)]])
             )
-          })
+          }
         )
       })
     }
     output$node_cutoffs <- render_cutoffs("node")
     output$edge_cutoffs <- render_cutoffs("edge")
-
-    # Select all / select none for character (checkbox) attributes.
-    # Every button reports which attribute it belongs to via one input.
-    shiny::observeEvent(input$select_action, {
-      action <- input$select_action
-      levels <- character(0)
-      if (isTRUE(action$all)) {
-        levels <- sort(unique(as.character(
-          get_attr_values(r$full_network(), action$column, action$what)
-        )))
-      }
-      shiny::updateCheckboxGroupInput(
-        session,
-        cutoff_input_id(action$column, action$what),
-        selected = levels
-      )
-    })
 
     # Keep the attribute choices in sync when the underlying network changes
     shiny::observeEvent(r$full_network(), {
