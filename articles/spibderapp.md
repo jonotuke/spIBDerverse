@@ -1,4 +1,4 @@
-# Using the spIBDerapp
+# spibderapp
 
 ``` r
 
@@ -68,8 +68,7 @@ When SpIBDer-App opens, you will (by default) be in the *Load Data* Tab
 which can be selected in the drop-down list \[3\], and can be used to
 explore the functionality of the SpIBDer-App.
 
-![Figure 1: Load Data Tab - Load example data
-mode.](Figures/LoadData_example_Marked.png)
+![](Figures/LoadData_example_Marked.png)
 
 Figure 1: Load Data Tab - Load example data mode.
 
@@ -78,12 +77,12 @@ However, you are probably more interested in loading your own data….
 ### Loading your own data
 
 We can now load in our data. For the examples here we load in the data
-from (Rohrlach et al. 2026), which was originally published by (Wang et
-al. 2025). To the IBD data we have added an edge weight, denoted
-$`w_{ij}`$, which is simply the total sum of IBD blocks ≥8cM.
+from ([Rohrlach et al. 2026](#ref-rohrlach2026detecting)), which was
+originally published by ([Wang et al. 2025](#ref-wang2025ancient)). To
+the IBD data we have added an edge weight, denoted $`w_{ij}`$, which is
+simply the total sum of IBD blocks ≥8cM.
 
-![Figure 2: Load Data Tab - Load IBD data
-mode.](Figures/LoadData_LoadIBD_Marked.png)
+![](Figures/LoadData_LoadIBD_Marked.png)
 
 Figure 2: Load Data Tab - Load IBD data mode.
 
@@ -96,22 +95,23 @@ SpIBDer-App *on your system*, and certainly not online. Once these are
 files are uploaded, you can see this information in the yellow box
 \[4\].
 
-Currently, SpIBDer-App can only accept the output from ancIBD (Ringbauer
-et al. 2024), and a cut off based on the number of blocks of IBD of
-length ≥8cM, ≥12cM, ≥16cM and ≥20cM. However, the format of the meta
-data table can be quite flexible: as long as the first column is made up
-of the names of the individuals (and matches the names in the IBD file),
-the remaining columns will be automatically read in. For example,
-SpIBDer-App has read in our meta data, and automatically realised that
-we have node variables called *site*, *sex*,…, *longitude* \[5\]. Note
-that information about the edges and these variables is given, counting
-the number edges, the number of nodes, and importantly, how many times
-your meta data has missing values for each node variable \[5\]. These
-variables will be made available to be used in plotting functions and in
-the downstream analysis tabs (introduced later in the vignette).
-Technically, this is also true for the IBD table, although the first two
-columns must now be the names of nodes (individuals), although this
-functionality is currently limited.
+Currently, SpIBDer-App can only accept the output from ancIBD
+([Ringbauer et al. 2024](#ref-ringbauer2024accurate)), and a cut off
+based on the number of blocks of IBD of length ≥8cM, ≥12cM, ≥16cM and
+≥20cM. However, the format of the meta data table can be quite flexible:
+as long as the first column is made up of the names of the individuals
+(and matches the names in the IBD file), the remaining columns will be
+automatically read in. For example, SpIBDer-App has read in our meta
+data, and automatically realised that we have node variables called
+*site*, *sex*,…, *longitude* \[5\]. Note that information about the
+edges and these variables is given, counting the number edges, the
+number of nodes, and importantly, how many times your meta data has
+missing values for each node variable \[5\]. These variables will be
+made available to be used in plotting functions and in the downstream
+analysis tabs (introduced later in the vignette). Technically, this is
+also true for the IBD table, although the first two columns must now be
+the names of nodes (individuals), although this functionality is
+currently limited.
 
 Given all of this hard work, you can save this network object at any
 time for later use \[6\], which can be loaded into SpIBDer-App to save
@@ -122,15 +122,15 @@ this by defining a string representation of the vector of IBD block
 length thresholds, defined
 $`N = \left(n_{8},n_{12},n_{16},n_{20} \right)`$\[7\], where $`n_i`$ is
 the number of IBD blocks of length ≥$`i`$cM. In the ERGMs paper
-(Rohrlach et al. 2026) we defined two individuals as being
-connected/genetically related if they shared *at least* two IBD blocks
-of ≥12cM and one block of ≥16cM, which would be defined by the entry
-“0,2,1,0”. Not that we use a zero in the first entry of the string
-because if an individual has two IBD blocks of ≥12cM, then these two IBD
-blocks are also ≥8cM. Hence, “0,2,1,0” is equivalent to “2,2,1,0”. As
-another example, if you wished to have all edges where *any* IBD blocks
-(≥8cM) were detected, say for plotting the edge weights, then the string
-“0,0,0,0” would be sufficient.
+([Rohrlach et al. 2026](#ref-rohrlach2026detecting)) we defined two
+individuals as being connected/genetically related if they shared *at
+least* two IBD blocks of ≥12cM and one block of ≥16cM, which would be
+defined by the entry “0,2,1,0”. Not that we use a zero in the first
+entry of the string because if an individual has two IBD blocks of
+≥12cM, then these two IBD blocks are also ≥8cM. Hence, “0,2,1,0” is
+equivalent to “2,2,1,0”. As another example, if you wished to have all
+edges where *any* IBD blocks (≥8cM) were detected, say for plotting the
+edge weights, then the string “0,0,0,0” would be sufficient.
 
 Finally, the authors of ancIBD suggest using a quality control cut off
 for samples, called here the “frac_gp”, of 0.7. The frac_gp is defined
@@ -153,8 +153,7 @@ network mode* by clicking on the correct (radio) button \[1\], and
 finding the RDS file saved earlier by clicking on the *Browse…* button
 \[2\].
 
-![Figure 3: Load Data Tab - Load previous network
-mode.](Figures/LoadData_Saved_Marked.png)
+![](Figures/LoadData_Saved_Marked.png)
 
 Figure 3: Load Data Tab - Load previous network mode.
 
@@ -167,7 +166,7 @@ variables \[4\] and full (and ignore-able) network object information
 Once loaded into SpIBDer-App, the edge table (IBD information) can be
 visualised \[1\].
 
-![Figure 4: Edge Info Tab.](Figures/EdgeInfo_Marked.png)
+![](Figures/EdgeInfo_Marked.png)
 
 Figure 4: Edge Info Tab.
 
@@ -190,8 +189,7 @@ recognises that the variable is quantitative (numeric). We are then
 given the option to set a lower \[7\] and upper \[8\] bound for the edge
 values we wish to *keep*.
 
-![Figure 5: Edge Info Tab - setting an edge inclusion or
-exclusion.](Figures/EdgeInfo_Sub1_Marked.png)
+![](Figures/EdgeInfo_Sub1_Marked.png)
 
 Figure 5: Edge Info Tab - setting an edge inclusion or exclusion.
 
@@ -201,7 +199,7 @@ Like the edge table, the node table can also be seen \[1\]. The left
 hand panel of options looks the same as for the Node Info tab, and the
 visualisation of the node table is also very similar.
 
-![Figure 6: Node Info Tab.](Figures/NodeInfo_Marked.png)
+![](Figures/NodeInfo_Marked.png)
 
 Figure 6: Node Info Tab.
 
@@ -220,8 +218,7 @@ Nodes can also be included or excluded using the “Choose node attribute
 to filter on” drop down list \[5\]. For example, we might wish to
 analyse only adult individuals.
 
-![Figure 7: Node Info Tab - setting an node inclusion or
-exclusion.](Figures/NodeInfo_Sub1_Marked.png)
+![](Figures/NodeInfo_Sub1_Marked.png)
 
 Figure 7: Node Info Tab - setting an node inclusion or exclusion.
 
@@ -256,7 +253,7 @@ for the orientation, making it reproducible. It also allows the user to
 change the orientation by entering a new seed, if they are not happy
 with the default orientation (default = 1000) \[2\].
 
-![Figure 8: Network plot Tab.](Figures/NetworkPlot_Marked.png)
+![](Figures/NetworkPlot_Marked.png)
 
 Figure 8: Network plot Tab.
 
@@ -278,8 +275,7 @@ connections that we *do* observe. We can either grey these nodes out
 is the network representation we will continue to work with in this
 plotting section.
 
-![Figure 9: Network plot Tab - removing unconnected
-nodes.](Figures/NetworkPlot_removed_Marked.png)
+![](Figures/NetworkPlot_removed_Marked.png)
 
 Figure 9: Network plot Tab - removing unconnected nodes.
 
@@ -303,8 +299,7 @@ labels by either including or excluding them via the text boxes \[13\].
 Note that this will not change the node set, but will just choose which
 nodes labels are displayed.
 
-![Figure 10: Network plot Tab - visualising centrality
-measures.](Figures/NetworkPlot_Betweeness_Marked.png)
+![](Figures/NetworkPlot_Betweeness_Marked.png)
 
 Figure 10: Network plot Tab - visualising centrality measures.
 
@@ -317,8 +312,7 @@ example, to find where the individual RKF179 is in the network we could
 string “RKF179” into the “Labels to include” text box \[16\], revealing
 the location of this node \[17\].
 
-![Figure 11: Network plot Tab - finding an individual by
-name.](Figures/NetworkPlot_RKF179_Marked.png)
+![](Figures/NetworkPlot_RKF179_Marked.png)
 
 Figure 11: Network plot Tab - finding an individual by name.
 
@@ -330,7 +324,7 @@ even when not producing images for publication. The Dynamic map tab
 geographical space without the slow-paced nature of producing
 high-resolution maps.
 
-![Figure 12: Dynamic map Tab.](Figures/DynamicMap_Marked.jpeg)
+![](Figures/DynamicMap_Marked.jpeg)
 
 Figure 12: Dynamic map Tab.
 
@@ -350,8 +344,7 @@ Now when we click on the western-most site (KUP) \[7\], the overlapping
 individuals expand, and we can see the mix of genetically-male (green)
 and female (purple) individuals.
 
-![Figure 13: Dynamic map Tab - Zooming
-in.](Figures/DynamicMap_Zoom_Marked.jpeg)
+![](Figures/DynamicMap_Zoom_Marked.jpeg)
 
 Figure 13: Dynamic map Tab - Zooming in.
 
@@ -371,14 +364,14 @@ be selected in the “Choose latitude column” \[2\] and “Choose longitude
 column” \[3\] drop-down menus.
 
 Critically, you *must* have an API key to use Stadia Maps 42\]. To do
-this, go to their website
-(<https://docs.stadiamaps.com/authentication/>) which has easy-to-follow
-instructions, and a video showing the process with explanations.
+this, go to their website (https://docs.stadiamaps.com/authentication/)
+which has easy-to-follow instructions, and a video showing the process
+with explanations.
 
 Note that while the plot may look small in the SpIBDer-App, the
 dimensions can be changed when [exporting the figure](#plotexport).
 
-![Figure 13: Static map Tab.](Figures/StaticMap.png)
+![](Figures/StaticMap.png)
 
 Figure 13: Static map Tab.
 
@@ -417,7 +410,7 @@ For this example, we have made the following plotting parameter changes
 After using the [“Export Plot”](#plotexport) functionality, we produce
 the following 300 PPI, $`12 \times 6`$ inch png:
 
-![Figure 15: Exported plot using the above settings.](Figures/myMap.png)
+![](Figures/myMap.png)
 
 Figure 15: Exported plot using the above settings.
 
@@ -452,8 +445,7 @@ the degree of centrality is shown as a histogram \[2\]. However, we can
 also see this for the other centrality measures by changing the radio
 button option \[3\].
 
-![Figure 16: Centrality Measures
-tab.](Figures/CentralityMeasures_Marked.png)
+![](Figures/CentralityMeasures_Marked.png)
 
 Figure 16: Centrality Measures tab.
 
@@ -469,8 +461,7 @@ had in MA/LA seems to be much higher than for genetically-male
 individuals in the EA, and that genetically-male individuals appear to
 always have more relatives than genetically-female individuals \[7\].
 
-![Figure 17: Centrality Measures tab - stratifying on multiple
-variables.](Figures/CentralityMeasures_example_Marked.png)
+![](Figures/CentralityMeasures_example_Marked.png)
 
 Figure 17: Centrality Measures tab - stratifying on multiple variables.
 
@@ -488,9 +479,10 @@ be of interest. For example, seeing that certain sites, cultural groups
 or demographically-defined subsets of the population can be extremely
 informative. Using the “Ringbauer Matrix” tab \[1\], SpIBDer-App creates
 matrices of connectedness, visualised as a dendrogram-arranged heat map,
-and named for Figure 4 in (Ringbauer et al. 2024).
+and named for Figure 4 in ([Ringbauer et al.
+2024](#ref-ringbauer2024accurate)).
 
-![Figure 18: Ringbauer plot tab.](Figures/RingbauerPlot.png)
+![](Figures/RingbauerPlot.png)
 
 Figure 18: Ringbauer plot tab.
 
@@ -517,17 +509,18 @@ network is connected as it is. For example, if we believe that
 patrilocality is being practised, then we should also observe that adult
 female individuals are less likely to be related. To explore this we use
 Exponential Family Random Graph model (ERGMs) to perform network
-regression, which has been shown to perform well (Rohrlach et al. 2026),
-implemented in the “ERGMs” tab \[1\].
+regression, which has been shown to perform well ([Rohrlach et al.
+2026](#ref-rohrlach2026detecting)), implemented in the “ERGMs” tab
+\[1\].
 
 A list of possible predictor variables are generated from the meta data,
 and are treated differently if SpIBDer-App assigns them as numerical or
 categorical. However, the level of complexity in *how* the variables
 interact between individuals is of importance, and so we explain this
 concept here. However, for a full discussion with examples, please see
-the ERGMs paper (Rohrlach et al. 2026). However, once a variable is
-selected, it will appear in the left panel, and the level of complexity
-can be chosen for comparison.
+the ERGMs paper ([Rohrlach et al. 2026](#ref-rohrlach2026detecting)).
+However, once a variable is selected, it will appear in the left panel,
+and the level of complexity can be chosen for comparison.
 
 Note that as more variables and levels of complexity are included, many
 models must be fit and this can take quite some time.
@@ -588,18 +581,18 @@ select only nodematch and nodematch(diff) (as sex only has two levels,
 nodemix is not available) \[6\] and for longitude we select nodecov and
 absdiff \[7\].
 
-![Figure 19: ERGMs tab.](Figures/ERGMs_Marked.png)
+![](Figures/ERGMs_Marked.png)
 
 Figure 19: ERGMs tab.
 
-As suggested by the authors(Rohrlach et al. 2026), we use the Bayesian
-information criterion (BIC) for model selection, and wish to choose the
-model with the smallest BIC value. The BIC values are shown in the ERGMs
-BIC plot \[8\], and we can see that the red point indicates that the
-best model uses the predictors site nodemix\[site\] and sex
-nodematch(diff)\[sex\]. We can also see the models ordered by their BIC
-in the BIC Model panel \[9\], also showing that this model performed
-best.
+As suggested by the authors([Rohrlach et al.
+2026](#ref-rohrlach2026detecting)), we use the Bayesian information
+criterion (BIC) for model selection, and wish to choose the model with
+the smallest BIC value. The BIC values are shown in the ERGMs BIC plot
+\[8\], and we can see that the red point indicates that the best model
+uses the predictors site nodemix\[site\] and sex nodematch(diff)\[sex\].
+We can also see the models ordered by their BIC in the BIC Model panel
+\[9\], also showing that this model performed best.
 
 We can look at the model output, to quantify the effects of the
 variables in the model. To do this click on the model(s) of interest
@@ -616,8 +609,7 @@ the alphabetically-first level combination). However, we can also see
 that two female individuals are less likely to be related (compared to a
 male and a female individual), by a factor of 0.36-fold \[14\].
 
-![Figure 20: ERGMs tab - selecting a model an interpreting the
-output.](Figures/Ergms_Model_Marked.png)
+![](Figures/Ergms_Model_Marked.png)
 
 Figure 20: ERGMs tab - selecting a model an interpreting the output.
 
@@ -632,7 +624,7 @@ figure above it as “exported” to the “Export Plot” Tab \[1\]. Once a
 figure has been set to be exported, you change from the tab that it is
 generated in to the “Export Plot” tab.
 
-![Figure 21: Save plot tab.](Figures/SavePlot_Marked.png)
+![](Figures/SavePlot_Marked.png)
 
 Figure 21: Save plot tab.
 
@@ -647,7 +639,7 @@ As for everything in life, I suggest unrestrained panic. It has served
 me well so far in my career, and I see no reason why this should change.
 
 However, if you prefer, you can contact us via GitHub
-(<https://github.com/jonotuke/spIBDerverse>), or email at
+(https://github.com/jonotuke/spIBDerverse), or email at
 adam_ben_rohrlach\[at\]eva.mpg.de or simon.tuke\[at\]adelaide.edu.au
 (replace \[at\] with @).
 

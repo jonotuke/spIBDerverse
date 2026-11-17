@@ -32,9 +32,9 @@ table indicating any significant predictors
 
 ``` r
 test_centralities(example_network, c(".degree", ".closeness"), "genetic_sex")
-#> # A tibble: 2 × 3
-#>   predictor   centrality    pv
-#>   <chr>       <chr>      <dbl>
-#> 1 genetic_sex .degree    0.99 
-#> 2 genetic_sex .closeness 0.775
+#> # A tibble: 2 × 4
+#>   predictor   centrality    pv dunn        
+#>   <chr>       <chr>      <dbl> <list>      
+#> 1 genetic_sex .degree    0.995 <df [1 × 4]>
+#> 2 genetic_sex .closeness 0.77  <df [1 × 4]>
 ```

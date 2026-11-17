@@ -5,7 +5,13 @@ Tests using empirical method
 ## Usage
 
 ``` r
-test_centrality_emp(g, centrality = ".degree", preds = NULL, n_sims = 999)
+test_centrality_emp(
+  g,
+  centrality = ".degree",
+  preds = NULL,
+  n_sims = 999,
+  min_alpha = 0.01
+)
 ```
 
 ## Arguments
@@ -28,6 +34,10 @@ test_centrality_emp(g, centrality = ".degree", preds = NULL, n_sims = 999)
 
   number of sims
 
+- min_alpha:
+
+  min alpha
+
 ## Value
 
 table indicating any significant predictors
@@ -36,8 +46,8 @@ table indicating any significant predictors
 
 ``` r
 test_centrality_emp(example_network, ".degree", "genetic_sex")
-#> # A tibble: 1 × 3
-#>   predictor   centrality    pv
-#>   <chr>       <chr>      <dbl>
-#> 1 genetic_sex .degree     0.98
+#> # A tibble: 1 × 4
+#>   predictor   centrality    pv dunn        
+#>   <chr>       <chr>      <dbl> <list>      
+#> 1 genetic_sex .degree    0.976 <df [1 × 4]>
 ```
