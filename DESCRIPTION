@@ -74,8 +74,7 @@ Imports:
     ggdendro,
     patchwork,
     emmeans,
-    statnet.common,
-    jsonlite
+    statnet.common
 Suggests: 
     quarto,
     rmarkdown,

@@ -19,5 +19,5 @@ make_cutoff_ui(id, x, g, what = c("node", "edge"), selected = NULL)
 }
 \description{
 Numeric attributes get a range input; all other attributes get a set of
-checkboxes (one per level) with "Select all" / "Select none" buttons.
+checkboxes (one per level), all ticked by default.
 }
