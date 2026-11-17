@@ -4,7 +4,13 @@
 \alias{test_centrality_emp}
 \title{Test centrality empirical}
 \usage{
-test_centrality_emp(g, centrality = ".degree", preds = NULL, n_sims = 999)
+test_centrality_emp(
+  g,
+  centrality = ".degree",
+  preds = NULL,
+  n_sims = 999,
+  min_alpha = 0.01
+)
 }
 \arguments{
 \item{g}{An igraph object.}
@@ -16,6 +22,8 @@ attribute of \code{g} (e.g. \code{".degree"}) or one of the computed measures:
 \item{preds}{preds to test}
 
 \item{n_sims}{number of sims}
+
+\item{min_alpha}{min alpha}
 }
 \value{
 table indicating any significant predictors
