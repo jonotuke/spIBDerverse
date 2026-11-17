@@ -10,7 +10,8 @@ utils::globalVariables(
     ".closeness",
     ".eigencentrality",
     "nodes",
-    ".degree"
+    ".degree",
+    "p_perm"
   )
 )
 #' Get centrality measures
@@ -208,6 +209,7 @@ test_centrality <- function(
 #'   `"closeness"`, `"betweenness"` or `"eigen_centrality"`.
 #' @param preds preds to test
 #' @param n_sims number of sims
+#' @param min_alpha min alpha
 #'
 #' @returns table indicating any significant predictors
 #'
@@ -219,7 +221,8 @@ test_centrality_emp <- function(
   g,
   centrality = ".degree",
   preds = NULL,
-  n_sims = 999
+  n_sims = 999,
+  min_alpha = 0.01
 ) {
   df <- igraph::as_data_frame(g, what = "vertices") |>
     tibble::as_tibble()
@@ -242,13 +245,16 @@ test_centrality_emp <- function(
       remove = TRUE,
       sep = '\n'
     )
+
+  # Decide on n_sims
+  n_grp <- length(unique(df$predictor))
+  k <- choose(n_grp, 2)
+  n_sims <- max(k / min_alpha - 1, n_sims)
+
   form <- stats::reformulate(response = centrality, termlabels = "predictor")
 
   obs <- stats::kruskal.test(formula = form, data = df)$statistic
 
-  # Permute values n times, and calculate the KW test stat
-  # each time. Find how many simulated test stats are greater
-  # than the observed value
   sims <- 1:n_sims |>
     purrr::map(\(x) {
       df |> dplyr::mutate(predictor = sample(predictor))
@@ -260,11 +266,21 @@ test_centrality_emp <- function(
     ) |>
     tidyr::unnest(stat)
 
+  dunn <- dunn_perm(
+    df[[centrality]],
+    df[["predictor"]],
+    B = n_sims
+  )
+  dunn <- dunn |>
+    dplyr::mutate(
+      p_perm_adj = stats::p.adjust(p_perm, method = "holm")
+    )
   p_emp <- (sum(sims$stat >= obs) + 1) / (n_sims + 1)
   tibble::tibble(
     predictor = stringr::str_c(preds, collapse = "|"),
     centrality = centrality,
-    pv = p_emp
+    pv = p_emp,
+    dunn = list(dunn)
   )
 }
 
@@ -287,4 +303,13 @@ test_centralities <- function(g, centrality, preds) {
       )
     }) |>
     purrr::list_rbind()
+}
+
+if (sys.nframe() == 5) {
+  test_centralities(
+    example_network_2,
+    centrality = c(".degree", ".closeness"),
+    preds = c('site', 'Country')
+  ) |>
+    print()
 }

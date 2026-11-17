@@ -122,6 +122,7 @@ centralityServer <- function(id, r) {
           centrality = input$centrality,
           preds = input$preds
         ) |>
+          tidyr::unnest(dunn) |>
           dplyr::group_by(centrality) |>
           gt::gt() |>
           gt::tab_style_body(

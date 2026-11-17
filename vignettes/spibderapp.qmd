@@ -1,32 +1,32 @@
 ---
-title: "Using the spIBDerapp"
-output: rmarkdown::html_vignette
+title: "spibderapp"
 vignette: >
-  %\VignetteIndexEntry{Using the spIBDerapp}
-  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{spibderapp}
+  %\VignetteEngine{quarto::html}
   %\VignetteEncoding{UTF-8}
+knitr:
+  opts_chunk:
+    collapse: true
+    comment: '#>'
 toc: true
 bibliography: spibderapp.bibtex
 ---
 
-```{r, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
-```
-
-```{r setup}
+```{r}
+#| label: setup
 library(spIBDerverse)
 ```
+
+
 
 ```{css, echo = FALSE}
 .wide-figure {
   width: 140%;
   margin-left: -20%;
 }
-.quarto-container { 
-  max-width: 1200px !important; 
+
+.quarto-container {
+  max-width: 1200px !important;
 }
 ```
 

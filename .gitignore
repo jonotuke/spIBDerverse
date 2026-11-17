@@ -12,3 +12,4 @@ docs
 /.quarto/
 /dev/
 data-private
+**/.quarto/

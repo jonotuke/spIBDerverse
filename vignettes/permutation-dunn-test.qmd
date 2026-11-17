@@ -1,0 +1,163 @@
+---
+title: "permutation-dunn-test"
+vignette: >
+  %\VignetteIndexEntry{permutation-dunn-test}
+  %\VignetteEngine{quarto::html}
+  %\VignetteEncoding{UTF-8}
+knitr:
+  opts_chunk:
+    collapse: true
+    comment: '#>'
+---
+
+```{r setup}
+library(spIBDerverse)
+```
+
+First we note that most of the calculations do not change after permuation. 
+
+The Dunn statistic for each pair of groups, $i$, and $j$
+
+$$
+z = \frac{\bar{R}_i - \bar{R}_j}{\sigma_{ij}}, 
+$$
+
+and 
+
+$$
+\sigma_{ij} = \sqrt{
+  \left(
+    \frac{N(N+1)}{12}
+  \right)
+  \left(
+    \frac{1}{n_i} + \frac{1}{n_j}
+  \right)
+}
+$$
+
+where
+
+- $N$ is the total number of observations, 
+- $n_i$ is the number of observations in group $i$, 
+- $\bar{R}_i$ is the mean rank of group $i$. 
+
+For ties, we adjust this to 
+
+$$
+\sigma_{ij} = \sqrt{
+  \left(
+    \frac{N(N+1)}{12} - \frac{\sum (t^3 - t)}{12(N-1)}
+  \right)
+  \left(
+    \frac{1}{n_i} + \frac{1}{n_j}
+  \right)
+}
+$$
+
+where $t$ is the number of observations for a given tie. 
+
+The following code set us the stuff we need. Of note is $W$. $W$ is an $N \times k$ matrix. 
+
+- Row = observation, 
+- Column = group. 
+
+Entry (obs, g) is $1/n_g$ if that observation is in group g, otherwise 0.
+
+
+```{r}
+dunn_setup <- function(y, group) {
+  # Remove missing
+  ok <- !is.na(y) & !is.na(group)
+  y <- y[ok]
+  g <- droplevels(factor(group[ok]))
+
+  N <- length(y)
+  r <- rank(y)
+  t <- table(y)
+  s2 <- N * (N + 1) / 12 - sum(t^3 - t) / (12 * (N - 1))
+  k <- nlevels(g)
+  n <- tabulate(g, k)
+  W <- outer(as.integer(g), seq_len(k), "==") / rep(n, each = N)
+
+  idx <- combn(k, 2)
+  list(
+    r = r,
+    W = W,
+    i1 = idx[1, ],
+    i2 = idx[2, ],
+    denom = sqrt(s2 * (1 / n[idx[1, ]] + 1 / n[idx[2, ]])),
+    pairs = paste(levels(g)[idx[1, ]], levels(g)[idx[2, ]], sep = " - ")
+  )
+}
+set.seed(1)
+n <- 10
+df <- tibble::tibble(
+  y = c(
+    sample(1:5, size = n, replace = TRUE),
+    sample(3:8, size = n, replace = TRUE),
+    sample(7:10, size = n, replace = TRUE)
+  ),
+  group = rep(LETTERS[1:3], each = 10)
+)
+DS <- dunn_setup(df$y, df$group)
+DS |> print()
+```
+
+So for each permutation, we can get the $z$ statistic using matrix multiplication.
+
+`crossprod(W, r)` computes $W^Tr$. Each group’s column multiplies the rank vector and sums, which gives (sum of that group’s ranks) / $n_g$. That is the group’s mean rank. So one multiply gives all k mean ranks. If we pass multiple ranks, we get multiple $z$ for each comparison
+
+
+```{r}
+# ---- z for one rank vector, or for a N x B matrix of permuted ranks ----
+dunn_z <- function(s, R = s$r) {
+  m <- crossprod(s$W, R)
+  (m[s$i1, , drop = FALSE] - m[s$i2, , drop = FALSE]) / s$denom
+}
+dunn_z(DS, DS$r)
+dunn_z(DS, cbind(DS$r, sample(DS$r)))
+```
+
+Now we wrap this in a perm test
+
+```{r}
+dunn_perm <- function(y, group, B = 10000, chunk = 2000) {
+  s <- dunn_setup(y, group)
+  z_obs <- drop(dunn_z(s))
+  a_obs <- abs(z_obs)
+
+  ge_pair <- numeric(length(z_obs)) # per-pair exceedances
+  ge_max <- numeric(length(z_obs)) # max-|z| exceedances (FWER-adjusted)
+  done <- 0
+  while (done < B) {
+    b <- min(chunk, B - done)
+    # b lots of sample, stacked as cols
+    R <- vapply(
+      seq_len(b),
+      function(i) sample(s$r),
+      numeric(length(s$r))
+    )
+    az <- abs(dunn_z(s, R))
+    ge_pair <- ge_pair + rowSums(az >= a_obs)
+    done <- done + b
+  }
+
+  data.frame(
+    pair = s$pairs,
+    z = z_obs,
+    p_perm = (ge_pair + 1) / (B + 1)
+  )
+}
+
+# Example
+set.seed(1)
+dat <- data.frame(
+  y = c(rnorm(10), rnorm(10, 1), rnorm(10, 2)),
+  group = rep(c("a", "b", "c"), each = 10)
+)
+dunn_perm(dat$y, dat$group, B = 10000)
+```
+
+
+
+

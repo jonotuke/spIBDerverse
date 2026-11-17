@@ -85,7 +85,7 @@ Suggests:
     withr, 
     ggsci,
     fs
-VignetteBuilder: knitr
+VignetteBuilder: quarto
 Depends: 
     R (>= 4.1.0)
 LazyData: true
