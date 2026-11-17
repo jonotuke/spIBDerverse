@@ -219,9 +219,11 @@ ergmServer <- function(id, r) {
       )
     })
     output$pred_types <- shiny::renderUI({
+      # isolate() so that ticking a type box doesn't re-render the UI,
+      # but the current choices are carried over when predictors change
       purrr::map(
         input$preds,
-        \(x) make_ergm_ui(x, r$network(), x, id)
+        \(x) make_ergm_ui(x, r$network(), x, id, shiny::isolate(input[[x]]))
       )
     })
     pred_type_vec <- shiny::reactive({
@@ -236,39 +238,36 @@ ergmServer <- function(id, r) {
     # })
   })
 }
-make_ergm_ui <- function(pred, g, label, id) {
+make_ergm_ui <- function(pred, g, label, id, selected = NULL) {
   if (!is.null(pred)) {
     type <- class(igraph::vertex_attr(g, pred))
   } else {
     type <- "non selected"
   }
   if (type == "numeric") {
-    shiny::checkboxGroupInput(
-      shiny::NS(id, label),
-      label = pred,
-      choices = c("nodecov", "absdiff"),
-      selected = "nodecov"
-    )
+    choices <- c("nodecov", "absdiff")
   } else if (type == "character") {
     n_levels <- nlevels(factor(igraph::vertex_attr(g, pred)))
     if (n_levels <= 2) {
-      shiny::checkboxGroupInput(
-        shiny::NS(id, label),
-        label = pred,
-        choices = c("nodematch", "nodematch(diff)"),
-        selected = "nodematch"
-      )
+      choices <- c("nodematch", "nodematch(diff)")
     } else {
-      shiny::checkboxGroupInput(
-        shiny::NS(id, label),
-        label = pred,
-        choices = c("nodematch", "nodematch(diff)", "nodemix"),
-        selected = "nodematch"
-      )
+      choices <- c("nodematch", "nodematch(diff)", "nodemix")
     }
   } else {
-    NULL
+    return(NULL)
   }
+  # keep the previous selection if there is one (and it is still valid),
+  # otherwise (newly added predictor) select every option
+  selected <- intersect(selected, choices)
+  if (length(selected) == 0) {
+    selected <- choices
+  }
+  shiny::checkboxGroupInput(
+    shiny::NS(id, label),
+    label = pred,
+    choices = choices,
+    selected = selected
+  )
 }
 ergmApp <- function(network_input) {
   all_vars <- get_node_attributes(network_input)
