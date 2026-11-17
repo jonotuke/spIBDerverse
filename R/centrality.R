@@ -11,9 +11,10 @@ utils::globalVariables(
     ".eigencentrality",
     "nodes",
     ".degree",
-    "p_perm",
+    "KW_pv",
+    "dunn_pv_adj",
+    "dunn_pv",
     "dunn",
-    "p_perm_adj",
     "z"
   )
 )
@@ -194,6 +195,7 @@ test_centrality <- function(
       call. = FALSE
     )
   }
+
   form <- stats::reformulate(termlabels = preds, response = centrality)
   M <- stats::lm(form, data = df)
   stats::anova(M) |>
@@ -241,6 +243,7 @@ test_centrality_emp <- function(
       call. = FALSE
     )
   }
+
   df <- df |>
     tidyr::unite(
       col = 'predictor',
@@ -256,33 +259,22 @@ test_centrality_emp <- function(
 
   form <- stats::reformulate(response = centrality, termlabels = "predictor")
 
-  obs <- stats::kruskal.test(formula = form, data = df)$statistic
-
-  sims <- tibble::tibble(
-    sim = seq_len(n_sims),
-    stat = purrr::map_dbl(sim, \(i) {
-      df |>
-        dplyr::mutate(predictor = sample(predictor)) |>
-        stats::kruskal.test(form, data = _) |>
-        purrr::pluck("statistic")
-    })
-  )
-
-  dunn <- dunn_perm(
+  tests <- dunn_perm(
     df[[centrality]],
     df[["predictor"]],
     B = n_sims
   )
-  dunn <- dunn |>
+
+  tests[["dunn"]] <- tests[["dunn"]] |>
     dplyr::mutate(
-      p_perm_adj = stats::p.adjust(p_perm, method = "holm")
+      dunn_pv_adj = stats::p.adjust(dunn_pv, method = "holm")
     )
-  p_emp <- (sum(sims$stat >= obs) + 1) / (n_sims + 1)
+  KW_pv <- tests[["kw"]]$KW_pv
   tibble::tibble(
     predictor = stringr::str_c(preds, collapse = "|"),
     centrality = centrality,
-    pv = p_emp,
-    dunn = list(dunn)
+    KW_pv = KW_pv,
+    dunn = list(tests[["dunn"]])
   )
 }
 
@@ -311,18 +303,18 @@ get_centrality_gt <- function(cent_test) {
     tidyr::unnest(dunn) |>
     dplyr::mutate(
       centrality = stringr::str_glue(
-        "{centrality} (KW p-value: {gt::vec_fmt_scientific(pv, decimals = 2, output = 'html')})"
+        "{centrality} (KW p-value: {gt::vec_fmt_scientific(KW_pv, decimals = 2, output = 'html')})"
       )
     ) |>
     dplyr::group_by(centrality) |>
-    dplyr::select(-pv) |>
+    dplyr::select(-KW_pv) |>
     gt::gt(process_md = TRUE) |>
     gt::tab_style_body(
-      columns = p_perm_adj,
+      columns = dunn_pv_adj,
       style = gt::cell_fill(color = "lightblue"),
       fn = function(x) x <= 0.05
     ) |>
-    gt::fmt_scientific(c(p_perm_adj, p_perm)) |>
+    gt::fmt_scientific(c(dunn_pv, dunn_pv_adj)) |>
     gt::fmt_number(z) |>
     gt::tab_style(
       style = list(

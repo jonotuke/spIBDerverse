@@ -61,7 +61,7 @@ dunn_perm <- function(y, group, B = 10000, chunk = 2000) {
   res[["dunn"]] <- tibble::tibble(
     pair = s$pairs,
     z = z_obs,
-    p_perm = (ge_pair + 1) / (B + 1)
+    dunn_pv = (ge_pair + 1) / (B + 1)
   )
   res[["kw"]] <- tibble::tibble(
     H = h_obs,
