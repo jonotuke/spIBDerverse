@@ -13,7 +13,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/jonotuke/spIBDerverse/blob/master/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/jonotuke/spIBDerverse/blob/main/DESCRIPTION)
 
 Tuke J, Rohrlach A, Haak W (2026). *spIBDerverse: spIBDverse functions
 and shiny apps*. R package version 0.0.0.9000,
