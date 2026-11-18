@@ -57,8 +57,12 @@ network_plot_args <- function(input) {
   )
 
   title_args <- c(
-    "edge_label", "fill_label", "outline_label",
-    "shape_label", "size_label", "alpha_label"
+    "edge_label",
+    "fill_label",
+    "outline_label",
+    "shape_label",
+    "size_label",
+    "alpha_label"
   )
   args[title_args] <- lapply(args[title_args], as_newline)
   args
@@ -353,14 +357,37 @@ network_ui_server <- function(input, session, r, choices = NULL) {
     col_type = link_palette("outline_col", "col_pal")
   ))
 }
-
-# STANDALONE APPS ----
-
-# The shared reactive values used by the standalone test apps.
 network_app_values <- function(net) {
   shiny::reactiveValues(
     network = shiny::reactive(net),
     full_network = shiny::reactive(net),
     export = shiny::reactive(plot_default_image())
   )
+}
+palette_chooser <- function(
+  id,
+  label = "Palette",
+  type = c("num", "cat"),
+  palettes = get_palettes()
+) {
+  type <- match.arg(type)
+  pal_type <- c(num = "continuous", cat = "discrete")[[type]]
+  choices <- c(
+    "default",
+    palettes |>
+      dplyr::filter(.data$type == pal_type) |>
+      dplyr::pull("name") |>
+      sort()
+  )
+
+  shiny::selectInput(
+    id,
+    label = label,
+    choices = choices,
+    selected = "default"
+  )
+}
+
+if (sys.nframe() == 5) {
+  palette_chooser("fill_pal", type = "cat") |> print()
 }

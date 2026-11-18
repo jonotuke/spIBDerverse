@@ -10,7 +10,8 @@ plot_clustering_confusion(
   cluster = ".louvain",
   normalise = c("none", "pred", "cluster"),
   n_levels = 20,
-  base_size = 14
+  base_size = 14,
+  fill_pal = "default"
 )
 }
 \arguments{
@@ -27,6 +28,8 @@ each predictor level falling in each cluster) or \code{"cluster"}
 \item{n_levels}{maximum number of levels}
 
 \item{base_size}{size of text}
+
+\item{fill_pal}{palette colour for fill}
 }
 \value{
 a ggplot object, or \code{NULL} (invisibly) if \code{pred} or \code{cluster}
