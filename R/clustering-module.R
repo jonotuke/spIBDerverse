@@ -37,7 +37,8 @@ clusteringInput <- function(id, all_vars) {
       max = 30,
       value = 20,
       step = 1
-    )
+    ),
+    palette_chooser(shiny::NS(id, "fill_pal"), "Fill palette", type = "cat")
   )
 }
 clusteringOutput <- function(id) {
@@ -48,9 +49,11 @@ clusteringOutput <- function(id) {
     shiny::plotOutput(
       shiny::NS(id, "conf_mat")
     ),
+    shiny::actionButton(shiny::NS(id, "save_conf"), "Set as export plot"),
     shiny::plotOutput(
       shiny::NS(id, "ca_plot")
-    )
+    ),
+    shiny::actionButton(shiny::NS(id, "save_ca_plot"), "Set as export plot")
   )
 }
 clusteringServer <- function(id, r) {
@@ -74,6 +77,9 @@ clusteringServer <- function(id, r) {
       tab
     })
     output$conf_mat <- shiny::renderPlot({
+      conf_mat()
+    })
+    conf_mat <- shiny::reactive({
       shiny::req(input$pred != "none")
       tryCatch(
         plot_clustering_confusion(
@@ -81,7 +87,8 @@ clusteringServer <- function(id, r) {
           pred = input$pred,
           cluster = input$cluster,
           n_levels = input$n_levels,
-          base_size = input$font
+          base_size = input$font,
+          fill_pal = input$fill_pal
         ),
         error = function(w) {
           shiny::validate(shiny::need(FALSE, conditionMessage(w)))
@@ -91,7 +98,14 @@ clusteringServer <- function(id, r) {
         }
       )
     })
+    shiny::observeEvent(input$save_conf, {
+      r$export <- conf_mat
+    })
+
     output$ca_plot <- shiny::renderPlot({
+      ca_plot()
+    })
+    ca_plot <- shiny::reactive({
       shiny::req(input$pred != "none")
       tryCatch(
         plot_ca_clusters(
@@ -104,6 +118,10 @@ clusteringServer <- function(id, r) {
         }
       )
     })
+    shiny::observeEvent(input$save_ca_plot, {
+      r$export <- ca_plot
+    })
+
     shiny::observeEvent(r$full_network(), {
       shiny::updateRadioButtons(
         session,

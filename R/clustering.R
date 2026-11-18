@@ -145,6 +145,7 @@ get_clustering_measures <- function(g, pred = "none", cluster = ".louvain") {
 #'   (composition of each cluster).
 #' @param n_levels maximum number of levels
 #' @param base_size size of text
+#' @param fill_pal palette colour for fill
 #'
 #' @returns a ggplot object, or `NULL` (invisibly) if `pred` or `cluster`
 #'   has more than `n_levels` levels.
@@ -157,11 +158,28 @@ plot_clustering_confusion <- function(
   cluster = ".louvain",
   normalise = c("none", "pred", "cluster"),
   n_levels = 20,
-  base_size = 14
+  base_size = 14,
+  fill_pal = "default"
 ) {
   normalise <- match.arg(normalise)
   df <- clustering_vertex_df(g)
   if (!is.character(df[[pred]]) && !is.factor(df[[pred]])) {
+    p <- df |>
+      ggplot2::ggplot(
+        ggplot2::aes(
+          x = .data[[cluster]],
+          y = .data[[pred]],
+          fill = .data[[cluster]]
+        )
+      ) +
+      ggplot2::geom_boxplot() +
+      ggplot2::theme_bw() +
+      ggplot2::labs(
+        x = pretty_var_name(cluster),
+        fill = pretty_var_name(cluster)
+      ) +
+      pal_scale(aesthetic = "fill", pal = fill_pal, type = "discrete")
+    return(p)
     rlang::abort(
       stringr::str_glue(
         "{pred} must be a categorical node attribute."
@@ -400,4 +418,9 @@ plot_ca_2d <- function(ca_clusters, ca_vars, pct_var, jitter_scale) {
       alpha = 0.5
     ) +
     ggplot2::labs(x = dim_label(pct_var, 1), y = dim_label(pct_var, 2))
+}
+
+if (sys.nframe() == 5) {
+  plot_clustering_confusion(example_network, pred = "lat", fill_pal = "jama") |>
+    print()
 }
