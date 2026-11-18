@@ -23,6 +23,11 @@ leafletInput <- function(id, all_vars) {
       label = "Choose node label column",
       choices = all_vars
     ),
+    shiny::checkboxInput(
+      shiny::NS(id, "keep_names"),
+      label = "Keep names in label",
+      value = TRUE
+    ),
     shiny::radioButtons(
       shiny::NS(id, "tile"),
       "Choose background map",
@@ -59,7 +64,8 @@ leafletServer <- function(id, r) {
           input$lon,
           input$leaflet_col,
           input$tile,
-          label = input$label
+          label = input$label,
+          keep_names = input$keep_names
         )
       }
     })

@@ -63,6 +63,10 @@ awesome_marker_colours <- c(
 #' @param label Name(s) of the vertex attribute(s) shown in marker labels,
 #'   each on its own line as `attribute: value`, or `"none"` to label markers
 #'   with the vertex name.
+#' @param keep_names Logical. If `TRUE`, the vertex name is shown on the first
+#'   line of each marker label as `name: value`, above any attributes given in
+#'   `label`. Has no
+#'   extra effect when `label = "none"`, since the label is already the name.
 #' @param tile Background tiles: `"Default"` (OpenStreetMap), `"Terrain"`
 #'   (Stadia Stamen Terrain), or any other value for Stadia Stamen Terrain
 #'   Background.
@@ -77,14 +81,23 @@ awesome_marker_colours <- c(
 #'   example_network, "lat", "long",
 #'   col = "site", label = c("name", "site")
 #' )
+#' plot_leaflet(
+#'   example_network, "lat", "long",
+#'   col = "site", label = "site", keep_names = TRUE
+#' )
 plot_leaflet <- function(
   g,
   lat,
   lon,
   col = "site",
   label = "none",
+  keep_names = FALSE,
   tile = "Default"
 ) {
+  if (!is.logical(keep_names) || length(keep_names) != 1 || is.na(keep_names)) {
+    stop("`keep_names` must be TRUE or FALSE.", call. = FALSE)
+  }
+
   required <- setdiff(c(lat, lon, col, label), "none")
   absent <- setdiff(required, igraph::vertex_attr_names(g))
   if (length(absent) > 0) {
@@ -113,6 +126,12 @@ plot_leaflet <- function(
       values <- as.character(igraph::vertex_attr(g, attr))
       paste0(htmltools::htmlEscape(attr), ": ", htmltools::htmlEscape(values))
     })
+    if (keep_names) {
+      label_lines <- c(
+        list(paste0("name: ", htmltools::htmlEscape(vertex_names))),
+        label_lines
+      )
+    }
     do.call(paste, c(label_lines, sep = "<br>"))
   }
   labels <- lapply(label_html, htmltools::HTML)
@@ -162,4 +181,15 @@ plot_leaflet <- function(
       position = "bottomleft",
       options = leaflet::scaleBarOptions(metric = TRUE, imperial = TRUE)
     )
+}
+
+if (sys.nframe() == 5) {
+  plot_leaflet(
+    example_network,
+    "lat",
+    "long",
+    label = c("site"),
+    keep_names = TRUE
+  ) |>
+    print()
 }
