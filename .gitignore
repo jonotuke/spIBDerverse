@@ -13,3 +13,5 @@ docs
 /dev/
 data-private
 **/.quarto/
+
+**/*.quarto_ipynb

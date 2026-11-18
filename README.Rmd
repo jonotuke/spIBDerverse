@@ -25,7 +25,8 @@ The goal of spIBDerverse is to give a series of function to apply ERGMs to IBD n
 
 You can install the development version of spIBDerverse from [GitHub](https://github.com/) with:
 
-``` r
+
+```{r, eval = FALSE}
 # install.packages("pak")
 pak::pak("jonotuke/spIBDerverse")
 ```
@@ -47,7 +48,7 @@ The first file is the IBD file. It should have the following headers.
 #| output: asis
 ibd_file <- fs::path_package(
   "extdata",
-  "example-ibd-data.tsv",
+  "example-ibd/example-ibd-data.tsv",
   package = "spIBDerverse"
 ) |>
   readr::read_lines()
@@ -70,12 +71,12 @@ There are example files within the `spIBDerverse` package that can be used as an
 ```{r}
 ibd_file <- fs::path_package(
   "extdata",
-  "example-ibd-data.tsv",
+  "example-ibd/example-ibd-data.tsv",
   package = "spIBDerverse"
 )
 meta_file <- fs::path_package(
   "extdata",
-  "example-meta-data.tsv",
+  "example-ibd/example-meta-data.tsv",
   package = "spIBDerverse"
 )
 ```
@@ -84,7 +85,7 @@ We convert these to an IBD network with
 
 
 ```{r}
-ibd_network <- load_ibd_network(
+ibd_network <- load_ibd(
   ibd_file,
   meta_file,
   ibd_co = c(0, 2, 1, 0),
