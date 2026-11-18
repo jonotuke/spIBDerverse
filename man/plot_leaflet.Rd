@@ -4,7 +4,15 @@
 \alias{plot_leaflet}
 \title{Plot an igraph network on a leaflet map}
 \usage{
-plot_leaflet(g, lat, lon, col = "site", label = "none", tile = "Default")
+plot_leaflet(
+  g,
+  lat,
+  lon,
+  col = "site",
+  label = "none",
+  keep_names = FALSE,
+  tile = "Default"
+)
 }
 \arguments{
 \item{g}{An igraph object.}
@@ -20,6 +28,11 @@ than 19 groups.}
 \item{label}{Name(s) of the vertex attribute(s) shown in marker labels,
 each on its own line as \code{attribute: value}, or \code{"none"} to label markers
 with the vertex name.}
+
+\item{keep_names}{Logical. If \code{TRUE}, the vertex name is shown on the first
+line of each marker label as \code{name: value}, above any attributes given in
+\code{label}. Has no
+extra effect when \code{label = "none"}, since the label is already the name.}
 
 \item{tile}{Background tiles: \code{"Default"} (OpenStreetMap), \code{"Terrain"}
 (Stadia Stamen Terrain), or any other value for Stadia Stamen Terrain
@@ -38,5 +51,9 @@ plot_leaflet(example_network, "lat", "long", col = "site", label = "site")
 plot_leaflet(
   example_network, "lat", "long",
   col = "site", label = c("name", "site")
+)
+plot_leaflet(
+  example_network, "lat", "long",
+  col = "site", label = "site", keep_names = TRUE
 )
 }
