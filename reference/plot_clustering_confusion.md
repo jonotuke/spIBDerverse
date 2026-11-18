@@ -11,7 +11,8 @@ plot_clustering_confusion(
   cluster = ".louvain",
   normalise = c("none", "pred", "cluster"),
   n_levels = 20,
-  base_size = 14
+  base_size = 14,
+  fill_pal = "default"
 )
 ```
 
@@ -42,6 +43,10 @@ plot_clustering_confusion(
 - base_size:
 
   size of text
+
+- fill_pal:
+
+  palette colour for fill
 
 ## Value
 
