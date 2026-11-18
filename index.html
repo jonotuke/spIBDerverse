@@ -109,17 +109,17 @@
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ibd_file</span> <span class="op">&lt;-</span> <span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path_package.html" class="external-link">path_package</a></span><span class="op">(</span></span>
 <span>  <span class="st">"extdata"</span>,</span>
-<span>  <span class="st">"example-ibd-data.tsv"</span>,</span>
+<span>  <span class="st">"example-ibd/example-ibd-data.tsv"</span>,</span>
 <span>  package <span class="op">=</span> <span class="st">"spIBDerverse"</span></span>
 <span><span class="op">)</span></span>
 <span><span class="va">meta_file</span> <span class="op">&lt;-</span> <span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path_package.html" class="external-link">path_package</a></span><span class="op">(</span></span>
 <span>  <span class="st">"extdata"</span>,</span>
-<span>  <span class="st">"example-meta-data.tsv"</span>,</span>
+<span>  <span class="st">"example-ibd/example-meta-data.tsv"</span>,</span>
 <span>  package <span class="op">=</span> <span class="st">"spIBDerverse"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p>We convert these to an IBD network with</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">ibd_network</span> <span class="op">&lt;-</span> <span class="fu">load_ibd_network</span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="va">ibd_network</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/load_ibd.html">load_ibd</a></span><span class="op">(</span></span>
 <span>  <span class="va">ibd_file</span>,</span>
 <span>  <span class="va">meta_file</span>,</span>
 <span>  ibd_co <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">2</span>, <span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span>,</span>
@@ -127,18 +127,19 @@
 <span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ibd_network</span></span>
-<span><span class="co">#&gt; IGRAPH e5f6887 UN-- 328 2103 -- </span></span>
+<span><span class="co">#&gt; IGRAPH 16b76a1 UN-- 328 2103 -- </span></span>
 <span><span class="co">#&gt; + attr: name (v/c), frac_gp (v/n), frac_missing (v/n), frac_het (v/n),</span></span>
 <span><span class="co">#&gt; | n_cov_snp (v/n), Archaeological_ID (v/c), Master_ID (v/c), Projects</span></span>
 <span><span class="co">#&gt; | (v/c), Locality (v/c), Province (v/c), Country (v/c), Latitude (v/n),</span></span>
 <span><span class="co">#&gt; | Longitude (v/n), date (v/c), date_type (v/c), imputation_type (v/c),</span></span>
 <span><span class="co">#&gt; | .degree (v/n), .closeness (v/n), .betweenness (v/n), .eigencentrality</span></span>
-<span><span class="co">#&gt; | (v/n), frac_gp1 (e/n), frac_gp2 (e/n), max_ibd (e/n), sum_ibd_8</span></span>
-<span><span class="co">#&gt; | (e/n), n_ibd_8 (e/n), sum_ibd_12 (e/n), n_ibd_12 (e/n), sum_ibd_16</span></span>
-<span><span class="co">#&gt; | (e/n), n_ibd_16 (e/n), sum_ibd_20 (e/n), n_ibd_20 (e/n), wij (e/n)</span></span>
-<span><span class="co">#&gt; + edges from e5f6887 (vertex names):</span></span>
-<span><span class="co">#&gt; [1] KUP007--KUP023 RKC013--RKC029 RKC031--RKF238 RKF195--RKF196 RKC020--RKF142</span></span>
-<span><span class="co">#&gt; + ... omitted several edges</span></span></code></pre></div>
+<span><span class="co">#&gt; | (v/n), .louvain (v/c), .louvain_weighted (v/c), .eigen (v/c),</span></span>
+<span><span class="co">#&gt; | .eigen_weighted (v/c), .label_prop (v/c), .label_prop_weighted (v/c),</span></span>
+<span><span class="co">#&gt; | .crawl (v/c), frac_gp1 (e/n), frac_gp2 (e/n), max_ibd (e/n),</span></span>
+<span><span class="co">#&gt; | sum_ibd_8 (e/n), n_ibd_8 (e/n), sum_ibd_12 (e/n), n_ibd_12 (e/n),</span></span>
+<span><span class="co">#&gt; | sum_ibd_16 (e/n), n_ibd_16 (e/n), sum_ibd_20 (e/n), n_ibd_20 (e/n),</span></span>
+<span><span class="co">#&gt; | wij (e/n)</span></span>
+<span><span class="co">#&gt; + edges from 16b76a1 (vertex names):</span></span></code></pre></div>
 </div>
 </div>
 
