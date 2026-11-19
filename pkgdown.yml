@@ -2,9 +2,10 @@ pandoc: 3.8.3
 pkgdown: 2.2.1
 pkgdown_sha: ~
 articles:
-  permutation-dunn-test: permutation-dunn-test.html
-  spibderapp: spibderapp.html
-last_built: 2026-11-19T05:27Z
+  articles/permutation-dunn-tests: permutation-dunn-tests.html
+  articles/spibderapp: spibderapp.html
+  articles/test: test.html
+last_built: 2026-11-19T23:38Z
 urls:
   reference: https://jonotuke.github.io/spIBDerverse/reference
   article: https://jonotuke.github.io/spIBDerverse/articles

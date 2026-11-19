@@ -34,8 +34,9 @@
 <li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="../articles/permutation-dunn-test.html">permutation-dunn-test</a></li>
+<li><a class="dropdown-item" href="../articles/permutation-dunn-tests.html">permutation-dunn-tests</a></li>
     <li><a class="dropdown-item" href="../articles/spibderapp.html">spibderapp</a></li>
+    <li><a class="dropdown-item" href="../articles/test.html">test</a></li>
   </ul>
 </li>
       </ul>
@@ -58,7 +59,7 @@
 
 
 
-      <small class="dont-index">Source: <a href="https://github.com/jonotuke/spIBDerverse/blob/main/vignettes/spibderapp.qmd" class="external-link"><code>vignettes/spibderapp.qmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/jonotuke/spIBDerverse/blob/main/vignettes/articles/spibderapp.qmd" class="external-link"><code>vignettes/articles/spibderapp.qmd</code></a></small>
       <div class="d-none name"><code></code></div>
     </div>
 
@@ -113,7 +114,7 @@
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
-<figure><p><img src="Figures/LoadData_example_Marked.png" style="width:100.0%"></p>
+<figure><p><img src="figs/LoadData_example_Marked.png" style="width:100.0%"></p>
 <figcaption>Figure 1: Load Data Tab - Load example data mode.</figcaption></figure>
 </div>
 </div>
@@ -122,21 +123,21 @@
 <p>However, you are probably more interested in loading your own data….</p>
 </section><section class="level2"><h3 id="loading-your-own-data">Loading your own data<a class="anchor" aria-label="anchor" href="#loading-your-own-data"></a>
 </h3>
-<p>We can now load in our data. For the examples here we load in the data from <span class="citation" data-cites="rohrlach2026detecting">(<a href="#ref-rohrlach2026detecting" role="doc-biblioref">Rohrlach et al. 2026</a>)</span>, which was originally published by <span class="citation" data-cites="wang2025ancient">(<a href="#ref-wang2025ancient" role="doc-biblioref"><span class="nocase">Wang et al.</span> 2025</a>)</span>. To the IBD data we have added an edge weight, denoted <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>w</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><annotation encoding="application/x-tex">w_{ij}</annotation></semantics></math>, which is simply the total sum of IBD blocks ≥8cM.</p>
+<p>We can now load in our data. For the examples here we load in the data from <span class="citation" data-cites="rohrlach2026detecting">[@rohrlach2026detecting]</span>, which was originally published by <span class="citation" data-cites="wang2025ancient">[@wang2025ancient]</span>. To the IBD data we have added an edge weight, denoted <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>w</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><annotation encoding="application/x-tex">w_{ij}</annotation></semantics></math>, which is simply the total sum of IBD blocks ≥8cM.</p>
 <div class="wide-figure">
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
-<figure><p><img src="Figures/LoadData_LoadIBD_Marked.png" style="width:100.0%"></p>
+<figure><p><img src="figs/LoadData_LoadIBD_Marked.png" style="width:100.0%"></p>
 <figcaption>Figure 2: Load Data Tab - Load IBD data mode.</figcaption></figure>
 </div>
 </div>
 </div>
 </div>
 <p>We can change to <em>Load IBD mode</em> by clicking on the correct (radio) button <span style="color: red;">[1]</span>. You will then need to upload the IBD file by clicking on the <em>Browse…</em> button for IBD files <span style="color: red;">[2]</span> (this defines the edges), and a meta data file by clicking on the <em>Browse…</em> button for meta data files <span style="color: red;">[3]</span> (this defines the nodes). Note that these files are uploaded to SpIBDer-App <em>on your system</em>, and certainly not online. Once these are files are uploaded, you can see this information in the yellow box <span style="color: red;">[4]</span>.</p>
-<p>Currently, SpIBDer-App can only accept the output from ancIBD <span class="citation" data-cites="ringbauer2024accurate">(<a href="#ref-ringbauer2024accurate" role="doc-biblioref">Ringbauer et al. 2024</a>)</span>, and a cut off based on the number of blocks of IBD of length ≥8cM, ≥12cM, ≥16cM and ≥20cM. However, the format of the meta data table can be quite flexible: as long as the first column is made up of the names of the individuals (and matches the names in the IBD file), the remaining columns will be automatically read in. For example, SpIBDer-App has read in our meta data, and automatically realised that we have node variables called <em>site</em>, <em>sex</em>,…, <em>longitude</em> <span style="color: red;">[5]</span>. Note that information about the edges and these variables is given, counting the number edges, the number of nodes, and importantly, how many times your meta data has missing values for each node variable <span style="color: red;">[5]</span>. These variables will be made available to be used in plotting functions and in the downstream analysis tabs (introduced later in the vignette). Technically, this is also true for the IBD table, although the first two columns must now be the names of nodes (individuals), although this functionality is currently limited.</p>
+<p>Currently, SpIBDer-App can only accept the output from ancIBD <span class="citation" data-cites="ringbauer2024accurate">[@ringbauer2024accurate]</span>, and a cut off based on the number of blocks of IBD of length ≥8cM, ≥12cM, ≥16cM and ≥20cM. However, the format of the meta data table can be quite flexible: as long as the first column is made up of the names of the individuals (and matches the names in the IBD file), the remaining columns will be automatically read in. For example, SpIBDer-App has read in our meta data, and automatically realised that we have node variables called <em>site</em>, <em>sex</em>,…, <em>longitude</em> <span style="color: red;">[5]</span>. Note that information about the edges and these variables is given, counting the number edges, the number of nodes, and importantly, how many times your meta data has missing values for each node variable <span style="color: red;">[5]</span>. These variables will be made available to be used in plotting functions and in the downstream analysis tabs (introduced later in the vignette). Technically, this is also true for the IBD table, although the first two columns must now be the names of nodes (individuals), although this functionality is currently limited.</p>
 <p>Given all of this hard work, you can save this network object at any time for later use <span style="color: red;">[6]</span>, which can be loaded into SpIBDer-App to save time for continuing your analysis later (see next section).</p>
-<p>Now we must define what we mean by an edge being “present”, and we do this by defining a string representation of the vector of IBD block length thresholds, defined <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>n</mi><mn>8</mn></msub><mo>,</mo><msub><mi>n</mi><mn>12</mn></msub><mo>,</mo><msub><mi>n</mi><mn>16</mn></msub><mo>,</mo><msub><mi>n</mi><mn>20</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">N = \left(n_{8},n_{12},n_{16},n_{20} \right)</annotation></semantics></math><span style="color: red;">[7]</span>, where <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>n</mi><mi>i</mi></msub><annotation encoding="application/x-tex">n_i</annotation></semantics></math> is the number of IBD blocks of length ≥<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math>cM. In the ERGMs paper <span class="citation" data-cites="rohrlach2026detecting">(<a href="#ref-rohrlach2026detecting" role="doc-biblioref">Rohrlach et al. 2026</a>)</span> we defined two individuals as being connected/genetically related if they shared <em>at least</em> two IBD blocks of ≥12cM and one block of ≥16cM, which would be defined by the entry “0,2,1,0”. Not that we use a zero in the first entry of the string because if an individual has two IBD blocks of ≥12cM, then these two IBD blocks are also ≥8cM. Hence, “0,2,1,0” is equivalent to “2,2,1,0”. As another example, if you wished to have all edges where <em>any</em> IBD blocks (≥8cM) were detected, say for plotting the edge weights, then the string “0,0,0,0” would be sufficient.</p>
+<p>Now we must define what we mean by an edge being “present”, and we do this by defining a string representation of the vector of IBD block length thresholds, defined <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>n</mi><mn>8</mn></msub><mo>,</mo><msub><mi>n</mi><mn>12</mn></msub><mo>,</mo><msub><mi>n</mi><mn>16</mn></msub><mo>,</mo><msub><mi>n</mi><mn>20</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">N = \left(n_{8},n_{12},n_{16},n_{20} \right)</annotation></semantics></math><span style="color: red;">[7]</span>, where <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>n</mi><mi>i</mi></msub><annotation encoding="application/x-tex">n_i</annotation></semantics></math> is the number of IBD blocks of length ≥<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math>cM. In the ERGMs paper <span class="citation" data-cites="rohrlach2026detecting">[@rohrlach2026detecting]</span> we defined two individuals as being connected/genetically related if they shared <em>at least</em> two IBD blocks of ≥12cM and one block of ≥16cM, which would be defined by the entry “0,2,1,0”. Not that we use a zero in the first entry of the string because if an individual has two IBD blocks of ≥12cM, then these two IBD blocks are also ≥8cM. Hence, “0,2,1,0” is equivalent to “2,2,1,0”. As another example, if you wished to have all edges where <em>any</em> IBD blocks (≥8cM) were detected, say for plotting the edge weights, then the string “0,0,0,0” would be sufficient.</p>
 <p>Finally, the authors of ancIBD suggest using a quality control cut off for samples, called here the “frac_gp”, of 0.7. The frac_gp is defined as proportion of genotype posterior probabilities above the threshold of 0.99 when the sample was imputed. We make this the default, although this can be changed in the text box <span style="color: red;">[8]</span>.</p>
 <p>We have now defined our network for downstream plotting and analysis (this can be seen and ignored in the bottom right <span style="color: red;">[9]</span>). Note that you can come back to this tab to change the IBD cut off vector for relatedness, and the quality control frac_gp value at any time in the analysis.</p>
 </section><section class="level2"><h3 id="loading-a-previous-network">Loading a previous network<a class="anchor" aria-label="anchor" href="#loading-a-previous-network"></a>
@@ -146,7 +147,7 @@
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
-<figure><p><img src="Figures/LoadData_Saved_Marked.png" style="width:100.0%"></p>
+<figure><p><img src="figs/LoadData_Saved_Marked.png" style="width:100.0%"></p>
 <figcaption>Figure 3: Load Data Tab - Load previous network mode.</figcaption></figure>
 </div>
 </div>
@@ -160,7 +161,7 @@
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
-<figure><p><img src="Figures/EdgeInfo_Marked.png" style="width:100.0%"></p>
+<figure><p><img src="figs/EdgeInfo_Marked.png" style="width:100.0%"></p>
 <figcaption>Figure 4: Edge Info Tab.</figcaption></figure>
 </div>
 </div>
@@ -172,7 +173,7 @@
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
-<figure><p><img src="Figures/EdgeInfo_Sub1_Marked.png" style="width:100.0%"></p>
+<figure><p><img src="figs/EdgeInfo_Sub1_Marked.png" style="width:100.0%"></p>
 <figcaption>Figure 5: Edge Info Tab - setting an edge inclusion or exclusion.</figcaption></figure>
 </div>
 </div>
@@ -184,7 +185,7 @@
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
-<figure><p><img src="Figures/NodeInfo_Marked.png" style="width:100.0%"></p>
+<figure><p><img src="figs/NodeInfo_Marked.png" style="width:100.0%"></p>
 <figcaption>Figure 6: Node Info Tab.</figcaption></figure>
 </div>
 </div>
@@ -195,7 +196,7 @@
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
-<figure><p><img src="Figures/NodeInfo_Sub1_Marked.png" style="width:100.0%"></p>
+<figure><p><img src="figs/NodeInfo_Sub1_Marked.png" style="width:100.0%"></p>
 <figcaption>Figure 7: Node Info Tab - setting an node inclusion or exclusion.</figcaption></figure>
 </div>
 </div>
@@ -212,7 +213,7 @@
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
-<figure><p><img src="Figures/NetworkPlot_Marked.png" style="width:100.0%"></p>
+<figure><p><img src="figs/NetworkPlot_Marked.png" style="width:100.0%"></p>
 <figcaption>Figure 8: Network plot Tab.</figcaption></figure>
 </div>
 </div>
@@ -225,7 +226,7 @@
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
-<figure><p><img src="Figures/NetworkPlot_removed_Marked.png" style="width:100.0%"></p>
+<figure><p><img src="figs/NetworkPlot_removed_Marked.png" style="width:100.0%"></p>
 <figcaption>Figure 9: Network plot Tab - removing unconnected nodes.</figcaption></figure>
 </div>
 </div>
@@ -237,7 +238,7 @@
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
-<figure><p><img src="Figures/NetworkPlot_Betweeness_Marked.png" style="width:100.0%"></p>
+<figure><p><img src="figs/NetworkPlot_Betweeness_Marked.png" style="width:100.0%"></p>
 <figcaption>Figure 10: Network plot Tab - visualising centrality measures.</figcaption></figure>
 </div>
 </div>
@@ -249,7 +250,7 @@
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
-<figure><p><img src="Figures/NetworkPlot_RKF179_Marked.png" style="width:100.0%"></p>
+<figure><p><img src="figs/NetworkPlot_RKF179_Marked.png" style="width:100.0%"></p>
 <figcaption>Figure 11: Network plot Tab - finding an individual by name.</figcaption></figure>
 </div>
 </div>
@@ -262,7 +263,7 @@
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
-<figure><p><img src="Figures/DynamicMap_Marked.jpeg" style="width:100.0%"></p>
+<figure><p><img src="figs/DynamicMap_Marked.jpeg" style="width:100.0%"></p>
 <figcaption>Figure 12: Dynamic map Tab.</figcaption></figure>
 </div>
 </div>
@@ -274,7 +275,7 @@
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
-<figure><p><img src="Figures/DynamicMap_Zoom_Marked.jpeg" style="width:100.0%"></p>
+<figure><p><img src="figs/DynamicMap_Zoom_Marked.jpeg" style="width:100.0%"></p>
 <figcaption>Figure 13: Dynamic map Tab - Zooming in.</figcaption></figure>
 </div>
 </div>
@@ -290,7 +291,7 @@
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
-<figure><p><img src="Figures/StaticMap.png" style="width:100.0%"></p>
+<figure><p><img src="figs/StaticMap.png" style="width:100.0%"></p>
 <figcaption>Figure 13: Static map Tab.</figcaption></figure>
 </div>
 </div>
@@ -330,7 +331,7 @@
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
-<figure><p><img src="Figures/myMap.png" style="width:100.0%"></p>
+<figure><p><img src="figs/myMap.png" style="width:100.0%"></p>
 <figcaption>Figure 15: Exported plot using the above settings.</figcaption></figure>
 </div>
 </div>
@@ -354,7 +355,7 @@
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
-<figure><p><img src="Figures/CentralityMeasures_Marked.png" style="width:100.0%"></p>
+<figure><p><img src="figs/CentralityMeasures_Marked.png" style="width:100.0%"></p>
 <figcaption>Figure 16: Centrality Measures tab.</figcaption></figure>
 </div>
 </div>
@@ -365,7 +366,7 @@
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
-<figure><p><img src="Figures/CentralityMeasures_example_Marked.png" style="width:100.0%"></p>
+<figure><p><img src="figs/CentralityMeasures_example_Marked.png" style="width:100.0%"></p>
 <figcaption>Figure 17: Centrality Measures tab - stratifying on multiple variables.</figcaption></figure>
 </div>
 </div>
@@ -375,12 +376,12 @@
 <p>Note that we can reorder the table of values to find individuals with higher centrality measures by pressing the arrows next to the column names <span style="color: red;">[8]</span>.</p>
 </section><section class="section level2"><h2 id="looking-at-connectedness-using-the-ringbauer-matrix">Looking at connectedness using the Ringbauer matrix<a class="anchor" aria-label="anchor" href="#looking-at-connectedness-using-the-ringbauer-matrix"></a>
 </h2>
-<p>Looking at the rate of connectedness for levels of certain variables can be of interest. For example, seeing that certain sites, cultural groups or demographically-defined subsets of the population can be extremely informative. Using the “Ringbauer Matrix” tab <span style="color: red;">[1]</span>, SpIBDer-App creates matrices of connectedness, visualised as a dendrogram-arranged heat map, and named for Figure 4 in <span class="citation" data-cites="ringbauer2024accurate">(<a href="#ref-ringbauer2024accurate" role="doc-biblioref">Ringbauer et al. 2024</a>)</span>.</p>
+<p>Looking at the rate of connectedness for levels of certain variables can be of interest. For example, seeing that certain sites, cultural groups or demographically-defined subsets of the population can be extremely informative. Using the “Ringbauer Matrix” tab <span style="color: red;">[1]</span>, SpIBDer-App creates matrices of connectedness, visualised as a dendrogram-arranged heat map, and named for Figure 4 in <span class="citation" data-cites="ringbauer2024accurate">[@ringbauer2024accurate]</span>.</p>
 <div class="wide-figure">
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
-<figure><p><img src="Figures/RingbauerPlot.png" style="width:100.0%"></p>
+<figure><p><img src="figs/RingbauerPlot.png" style="width:100.0%"></p>
 <figcaption>Figure 18: Ringbauer plot tab.</figcaption></figure>
 </div>
 </div>
@@ -390,8 +391,8 @@
 <p>We also include the “Connectivity Plot” <span style="color: red;">[7]</span> to allow users to see the levels which are more or less connected than the average. For example, here we can see that individuals who share the same burial position (brown “within” levels points) are more connected than two random individuals (the dashed line <span style="color: red;">[8]</span>), and that individuals with different burial positions (blue “between” levels points) are less connected.</p>
 </section><section class="section level2"><h2 id="fitting-exponential-family-random-graph-models-ergms">Fitting Exponential Family Random Graph models (ERGMs)<a class="anchor" aria-label="anchor" href="#fitting-exponential-family-random-graph-models-ergms"></a>
 </h2>
-<p>Predicting if two individuals are genetically-related given node and edge attributes can be of interest when exploring <em>how</em> and <em>why</em> the network is connected as it is. For example, if we believe that patrilocality is being practised, then we should also observe that adult female individuals are less likely to be related. To explore this we use Exponential Family Random Graph model (ERGMs) to perform network regression, which has been shown to perform well <span class="citation" data-cites="rohrlach2026detecting">(<a href="#ref-rohrlach2026detecting" role="doc-biblioref">Rohrlach et al. 2026</a>)</span>, implemented in the “ERGMs” tab <span style="color: red;">[1]</span>.</p>
-<p>A list of possible predictor variables are generated from the meta data, and are treated differently if SpIBDer-App assigns them as numerical or categorical. However, the level of complexity in <em>how</em> the variables interact between individuals is of importance, and so we explain this concept here. However, for a full discussion with examples, please see the ERGMs paper <span class="citation" data-cites="rohrlach2026detecting">(<a href="#ref-rohrlach2026detecting" role="doc-biblioref">Rohrlach et al. 2026</a>)</span>. However, once a variable is selected, it will appear in the left panel, and the level of complexity can be chosen for comparison.</p>
+<p>Predicting if two individuals are genetically-related given node and edge attributes can be of interest when exploring <em>how</em> and <em>why</em> the network is connected as it is. For example, if we believe that patrilocality is being practised, then we should also observe that adult female individuals are less likely to be related. To explore this we use Exponential Family Random Graph model (ERGMs) to perform network regression, which has been shown to perform well <span class="citation" data-cites="rohrlach2026detecting">[@rohrlach2026detecting]</span>, implemented in the “ERGMs” tab <span style="color: red;">[1]</span>.</p>
+<p>A list of possible predictor variables are generated from the meta data, and are treated differently if SpIBDer-App assigns them as numerical or categorical. However, the level of complexity in <em>how</em> the variables interact between individuals is of importance, and so we explain this concept here. However, for a full discussion with examples, please see the ERGMs paper <span class="citation" data-cites="rohrlach2026detecting">[@rohrlach2026detecting]</span>. However, once a variable is selected, it will appear in the left panel, and the level of complexity can be chosen for comparison.</p>
 <p>Note that as more variables and levels of complexity are included, many models must be fit and this can take quite some time.</p>
 <section class="level2"><h3 id="categorical-variables">Categorical variables<a class="anchor" aria-label="anchor" href="#categorical-variables"></a>
 </h3>
@@ -418,19 +419,19 @@
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
-<figure><p><img src="Figures/ERGMs_Marked.png" style="width:100.0%"></p>
+<figure><p><img src="figs/ERGMs_Marked.png" style="width:100.0%"></p>
 <figcaption>Figure 19: ERGMs tab.</figcaption></figure>
 </div>
 </div>
 </div>
 </div>
-<p>As suggested by the authors<span class="citation" data-cites="rohrlach2026detecting">(<a href="#ref-rohrlach2026detecting" role="doc-biblioref">Rohrlach et al. 2026</a>)</span>, we use the Bayesian information criterion (BIC) for model selection, and wish to choose the model with the smallest BIC value. The BIC values are shown in the ERGMs BIC plot <span style="color: red;">[8]</span>, and we can see that the red point indicates that the best model uses the predictors site nodemix[site] and sex nodematch(diff)[sex]. We can also see the models ordered by their BIC in the BIC Model panel <span style="color: red;">[9]</span>, also showing that this model performed best.</p>
+<p>As suggested by the authors<span class="citation" data-cites="rohrlach2026detecting">[@rohrlach2026detecting]</span>, we use the Bayesian information criterion (BIC) for model selection, and wish to choose the model with the smallest BIC value. The BIC values are shown in the ERGMs BIC plot <span style="color: red;">[8]</span>, and we can see that the red point indicates that the best model uses the predictors site nodemix[site] and sex nodematch(diff)[sex]. We can also see the models ordered by their BIC in the BIC Model panel <span style="color: red;">[9]</span>, also showing that this model performed best.</p>
 <p>We can look at the model output, to quantify the effects of the variables in the model. To do this click on the model(s) of interest <span style="color: red;">[10]</span>. Once you select at least one model, a horizontal bar plot of the coefficients [<span style="color: red;">[11]</span> and a table of coefficients <span style="color: red;">[12]</span> will appear below the model list. The bar plot shows the fold-change in the probability of two individuals being related (and this can be changed to show the actual coefficient value from the model which is in the log-odds scale), and these are brown if the fold-change is an increase, and blue if it is a decrease. For example, two individuals buried at KFJ are 4.56 times <span style="color: red;">[13]</span> more likely to be related (compared to two individuals buried at HNJ, which is the comparison level as HNJ.HNJ is the alphabetically-first level combination). However, we can also see that two female individuals are less likely to be related (compared to a male and a female individual), by a factor of 0.36-fold <span style="color: red;">[14]</span>.</p>
 <div class="wide-figure">
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
-<figure><p><img src="Figures/Ergms_Model_Marked.png" style="width:100.0%"></p>
+<figure><p><img src="figs/Ergms_Model_Marked.png" style="width:100.0%"></p>
 <figcaption>Figure 20: ERGMs tab - selecting a model an interpreting the output.</figcaption></figure>
 </div>
 </div>
@@ -444,7 +445,7 @@
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
-<figure><p><img src="Figures/SavePlot_Marked.png" style="width:100.0%"></p>
+<figure><p><img src="figs/SavePlot_Marked.png" style="width:100.0%"></p>
 <figcaption>Figure 21: Save plot tab.</figcaption></figure>
 </div>
 </div>
@@ -455,19 +456,8 @@
 </h2>
 <p>As for everything in life, I suggest unrestrained panic. It has served me well so far in my career, and I see no reason why this should change.</p>
 <p>However, if you prefer, you can contact us via GitHub (https://github.com/jonotuke/spIBDerverse), or email at adam_ben_rohrlach[at]eva.mpg.de or simon.tuke[at]adelaide.edu.au (replace [at] with @).</p>
-</section><section class="section level2"><h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+</section><section class="section level2"><h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
-<div id="refs" class="references csl-bib-body hanging-indent" role="list">
-<div id="ref-ringbauer2024accurate" class="csl-entry" role="listitem">
-Ringbauer, Harald, Yilei Huang, Ali Akbari, et al. 2024. <span>“Accurate Detection of Identity-by-Descent Segments in Human Ancient DNA.”</span> <em>Nature Genetics</em> 56 (1): 143–51.
-</div>
-<div id="ref-rohrlach2026detecting" class="csl-entry" role="listitem">
-Rohrlach, Adam B, Guido Alberto Gnecchi-Ruscone, Zuzana Hofmanová, et al. 2026. <span>“Detecting and Quantifying Networks of Biological Kinship via Exponential Family Random Graph Models.”</span> <em>Genetics</em> 232 (4): iyag053.
-</div>
-<div id="ref-wang2025ancient" class="csl-entry" role="listitem">
-<span class="nocase">Wang, Ke, Bendeguz Tobias, Doris Pany-Kucera, et al.</span> 2025. <span>“Ancient DNA Reveals Reproductive Barrier Despite Shared Avar-Period Culture.”</span> <em>Nature</em> 638 (8052): 1007–14.
-</div>
-</div>
 </section><script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
