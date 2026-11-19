@@ -2,43 +2,54 @@ clusteringInput <- function(id, all_vars) {
   clustering_vars <- internal_df() |>
     dplyr::filter(type == "clustering")
   shiny::tagList(
-    shiny::radioButtons(
-      shiny::NS(id, "pred"),
-      "Choose attributes",
-      choices <- c("none", all_vars)
-    ),
-    shiny::radioButtons(
-      shiny::NS(id, "cluster"),
-      "Clustering measure",
-      choiceNames = clustering_vars$full_name,
-      choiceValues = clustering_vars$name,
-      selected = ".louvain"
-    ),
-    shiny::numericInput(
-      shiny::NS(id, "digits"),
-      "Decimal places",
-      value = 2,
-      min = 0,
-      max = 10,
-      step = 1
-    ),
-    shiny::numericInput(
-      shiny::NS(id, "n_levels"),
-      "Number of levels allowed",
-      value = 10,
-      min = 3,
-      max = 30,
-      step = 1
-    ),
-    shiny::numericInput(
-      shiny::NS(id, "font"),
-      "Font size",
-      min = 5,
-      max = 30,
-      value = 20,
-      step = 1
-    ),
-    palette_chooser(shiny::NS(id, "fill_pal"), "Fill palette", type = "cat")
+    bslib::accordion(
+      open = NULL,
+      bslib::accordion_panel(
+        "Preds and cluster",
+        value = "Preds and clusters",
+        shiny::radioButtons(
+          shiny::NS(id, "pred"),
+          "Choose attributes",
+          choices <- c("none", all_vars)
+        ),
+        shiny::radioButtons(
+          shiny::NS(id, "cluster"),
+          "Clustering measure",
+          choiceNames = clustering_vars$full_name,
+          choiceValues = clustering_vars$name,
+          selected = ".louvain"
+        ),
+      ),
+      bslib::accordion_panel(
+        "Confusion matrix plot",
+        icon = shiny::icon("table-cells"),
+        shiny::numericInput(
+          shiny::NS(id, "digits"),
+          "Decimal places",
+          value = 2,
+          min = 0,
+          max = 10,
+          step = 1
+        ),
+        shiny::numericInput(
+          shiny::NS(id, "n_levels"),
+          "Number of levels allowed",
+          value = 10,
+          min = 3,
+          max = 30,
+          step = 1
+        ),
+        shiny::numericInput(
+          shiny::NS(id, "font"),
+          "Font size",
+          min = 5,
+          max = 30,
+          value = 20,
+          step = 1
+        ),
+        palette_chooser(shiny::NS(id, "fill_pal"), "Fill palette", type = "cat")
+      )
+    )
   )
 }
 clusteringOutput <- function(id) {

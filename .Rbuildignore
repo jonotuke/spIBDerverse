@@ -19,3 +19,4 @@ makefile
 ^data-private$
 ^vignettes/\.quarto$
 ^vignettes/*_files$
+^README\.qmd$

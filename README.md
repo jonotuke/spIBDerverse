@@ -1,5 +1,6 @@
 
-<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+<!-- README.md is generated from README.qmd. Please edit that file -->
 
 # spIBDerverse
 
@@ -23,8 +24,11 @@ pak::pak("jonotuke/spIBDerverse")
 
 ## Example
 
+This is a basic example which shows you how to solve a common problem:
+
 ``` r
 library(spIBDerverse)
+## basic example code
 ```
 
 # Data
@@ -36,17 +40,17 @@ network. You are create this using two `TSV` files.
 
 The first file is the IBD file. It should have the following headers.
 
-    #> -  iid1 
-    #> -  iid2 
-    #> -  max_IBD 
-    #> -  sum_IBD>8 
-    #> -  n_IBD>8 
-    #> -  sum_IBD>12 
-    #> -  n_IBD>12 
-    #> -  sum_IBD>16 
-    #> -  n_IBD>16 
-    #> -  sum_IBD>20 
-    #> -  n_IBD>20
+- iid1
+- iid2
+- max_IBD
+- sum_IBD\>8
+- n_IBD\>8
+- sum_IBD\>12
+- n_IBD\>12
+- sum_IBD\>16
+- n_IBD\>16
+- sum_IBD\>20
+- n_IBD\>20
 
 ## Meta dataset (node info)
 
@@ -88,7 +92,7 @@ ibd_network <- load_ibd(
 
 ``` r
 ibd_network
-#> IGRAPH 16b76a1 UN-- 328 2103 -- 
+#> IGRAPH 210fa4f UN-- 328 2103 -- 
 #> + attr: name (v/c), frac_gp (v/n), frac_missing (v/n), frac_het (v/n),
 #> | n_cov_snp (v/n), Archaeological_ID (v/c), Master_ID (v/c), Projects
 #> | (v/c), Locality (v/c), Province (v/c), Country (v/c), Latitude (v/n),
@@ -100,5 +104,5 @@ ibd_network
 #> | sum_ibd_8 (e/n), n_ibd_8 (e/n), sum_ibd_12 (e/n), n_ibd_12 (e/n),
 #> | sum_ibd_16 (e/n), n_ibd_16 (e/n), sum_ibd_20 (e/n), n_ibd_20 (e/n),
 #> | wij (e/n)
-#> + edges from 16b76a1 (vertex names):
+#> + edges from 210fa4f (vertex names):
 ```
