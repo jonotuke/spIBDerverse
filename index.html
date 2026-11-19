@@ -68,8 +68,10 @@
 <div class="section level2">
 <h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h2>
+<p>This is a basic example which shows you how to solve a common problem:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jonotuke/spIBDerverse" class="external-link">spIBDerverse</a></span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jonotuke/spIBDerverse" class="external-link">spIBDerverse</a></span><span class="op">)</span></span>
+<span><span class="co">## basic example code</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level1">
@@ -80,17 +82,19 @@
 <h2 id="ibd-dataset-edge-info">IBD dataset (edge info)<a class="anchor" aria-label="anchor" href="#ibd-dataset-edge-info"></a>
 </h2>
 <p>The first file is the IBD file. It should have the following headers.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co">#&gt; -  iid1 </span></span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="co">#&gt; -  iid2 </span></span>
-<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="co">#&gt; -  max_IBD </span></span>
-<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="co">#&gt; -  sum_IBD&gt;8 </span></span>
-<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co">#&gt; -  n_IBD&gt;8 </span></span>
-<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="co">#&gt; -  sum_IBD&gt;12 </span></span>
-<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="co">#&gt; -  n_IBD&gt;12 </span></span>
-<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="co">#&gt; -  sum_IBD&gt;16 </span></span>
-<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="co">#&gt; -  n_IBD&gt;16 </span></span>
-<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a><span class="co">#&gt; -  sum_IBD&gt;20 </span></span>
-<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a><span class="co">#&gt; -  n_IBD&gt;20</span></span></code></pre></div>
+<ul>
+<li>iid1</li>
+<li>iid2</li>
+<li>max_IBD</li>
+<li>sum_IBD&gt;8</li>
+<li>n_IBD&gt;8</li>
+<li>sum_IBD&gt;12</li>
+<li>n_IBD&gt;12</li>
+<li>sum_IBD&gt;16</li>
+<li>n_IBD&gt;16</li>
+<li>sum_IBD&gt;20</li>
+<li>n_IBD&gt;20</li>
+</ul>
 </div>
 <div class="section level2">
 <h2 id="meta-dataset-node-info">Meta dataset (node info)<a class="anchor" aria-label="anchor" href="#meta-dataset-node-info"></a>
@@ -106,7 +110,7 @@
 <h2 id="creating-the-ibd-network">Creating the IBD network.<a class="anchor" aria-label="anchor" href="#creating-the-ibd-network"></a>
 </h2>
 <p>There are example files within the <code>spIBDerverse</code> package that can be used as an example. These can be obtained with</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ibd_file</span> <span class="op">&lt;-</span> <span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path_package.html" class="external-link">path_package</a></span><span class="op">(</span></span>
 <span>  <span class="st">"extdata"</span>,</span>
 <span>  <span class="st">"example-ibd/example-ibd-data.tsv"</span>,</span>
@@ -118,16 +122,16 @@
 <span>  package <span class="op">=</span> <span class="st">"spIBDerverse"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p>We convert these to an IBD network with</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ibd_network</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/load_ibd.html">load_ibd</a></span><span class="op">(</span></span>
 <span>  <span class="va">ibd_file</span>,</span>
 <span>  <span class="va">meta_file</span>,</span>
 <span>  ibd_co <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">2</span>, <span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span>,</span>
 <span>  frac_co <span class="op">=</span> <span class="fl">0.49</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ibd_network</span></span>
-<span><span class="co">#&gt; IGRAPH 16b76a1 UN-- 328 2103 -- </span></span>
+<span><span class="co">#&gt; IGRAPH 210fa4f UN-- 328 2103 -- </span></span>
 <span><span class="co">#&gt; + attr: name (v/c), frac_gp (v/n), frac_missing (v/n), frac_het (v/n),</span></span>
 <span><span class="co">#&gt; | n_cov_snp (v/n), Archaeological_ID (v/c), Master_ID (v/c), Projects</span></span>
 <span><span class="co">#&gt; | (v/c), Locality (v/c), Province (v/c), Country (v/c), Latitude (v/n),</span></span>
@@ -139,7 +143,7 @@
 <span><span class="co">#&gt; | sum_ibd_8 (e/n), n_ibd_8 (e/n), sum_ibd_12 (e/n), n_ibd_12 (e/n),</span></span>
 <span><span class="co">#&gt; | sum_ibd_16 (e/n), n_ibd_16 (e/n), sum_ibd_20 (e/n), n_ibd_20 (e/n),</span></span>
 <span><span class="co">#&gt; | wij (e/n)</span></span>
-<span><span class="co">#&gt; + edges from 16b76a1 (vertex names):</span></span></code></pre></div>
+<span><span class="co">#&gt; + edges from 210fa4f (vertex names):</span></span></code></pre></div>
 </div>
 </div>
 
