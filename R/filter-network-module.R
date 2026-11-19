@@ -51,6 +51,7 @@ networkFilterOutput <- function(id) {
 #'
 #' @param x Attribute name.
 #' @param what Either `"node"` or `"edge"`.
+#' @return String of the form "node_cutoff_site"
 cutoff_input_id <- function(x, what = c("node", "edge")) {
   what <- match.arg(what)
   paste0(what, "_cutoff_", gsub("[^A-Za-z0-9_]", "_", x))
@@ -59,6 +60,7 @@ cutoff_input_id <- function(x, what = c("node", "edge")) {
 #' Input id of the attribute selector for nodes or edges
 #'
 #' @param what Either `"node"` or `"edge"`.
+#' @return string with node_columns or edge_columns
 columns_input_id <- function(what = c("node", "edge")) {
   what <- match.arg(what)
   paste0(what, "_columns")
@@ -74,6 +76,7 @@ columns_input_id <- function(what = c("node", "edge")) {
 #' @param g An igraph object.
 #' @param what Either `"node"` or `"edge"`.
 #' @param selected previous selected values
+#' @return shiny selectinput
 make_cutoff_ui <- function(
   id,
   x,
@@ -117,6 +120,7 @@ make_cutoff_ui <- function(
 #' @param g An igraph object.
 #' @param x Name of the attribute.
 #' @param what Either `"node"` or `"edge"`.
+#' @return vector of attribute values
 get_attr_values <- function(g, x, what = c("node", "edge")) {
   what <- match.arg(what)
   switch(
@@ -130,6 +134,7 @@ get_attr_values <- function(g, x, what = c("node", "edge")) {
 #'
 #' @param g An igraph object.
 #' @param what Either `"node"` or `"edge"`.
+#' @return gives a vector of attribute or edge names
 get_attr_names <- function(g, what = c("node", "edge")) {
   what <- match.arg(what)
   switch(
