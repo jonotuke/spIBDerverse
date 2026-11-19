@@ -166,6 +166,3 @@ clusteringApp <- function(network_input) {
   }
   shiny::shinyApp(ui, server)
 }
-if (sys.nframe() == 5) {
-  clusteringApp(example_network) |> print()
-}

@@ -12,11 +12,3 @@ get_status <- function(msg) {
     shiny::tags$p(msg)
   )
 }
-
-if (sys.nframe() == 5) {
-  pacman::p_load(conflicted, tidyverse, targets)
-  msg <- check_ibd_file("inst/extdata/ibd-no-iid1-iid2.tsv")
-  msg2 <- check_ibd_file("inst/extdata/example-ibd-data.tsv")
-  get_status(msg) |> print()
-  get_status(msg2) |> print()
-}

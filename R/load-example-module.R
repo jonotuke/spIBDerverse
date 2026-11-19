@@ -84,7 +84,3 @@ loadexampleApp <- function() {
   }
   shiny::shinyApp(ui, server)
 }
-
-if (sys.nframe() == 5) {
-  loadexampleApp() |> print()
-}

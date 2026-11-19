@@ -301,6 +301,3 @@ ergmApp <- function(network_input) {
   }
   shiny::shinyApp(ui, server)
 }
-if (sys.nframe() == 5) {
-  ergmApp(example_network) |> print()
-}

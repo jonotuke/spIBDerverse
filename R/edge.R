@@ -18,9 +18,3 @@ get_edge_info <- function(g) {
       )
     )
 }
-
-if (sys.nframe() == 5) {
-  get_edge_info(example_network) |> print()
-  BL <- readr::read_rds("~/Downloads/big.rds")
-  get_edge_info(BL) |> print()
-}

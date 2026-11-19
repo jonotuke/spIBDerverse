@@ -12,6 +12,3 @@ get_node_info <- function(g) {
     tibble::as_tibble() |>
     pretty_col()
 }
-if (sys.nframe() == 5) {
-  get_node_info(example_network) |> print()
-}

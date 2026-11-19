@@ -175,11 +175,3 @@ fit_ergms <- function(network, preds = NULL, types = NULL) {
   attr(fits, "removed_nodes") <- removed_nodes
   fits
 }
-if (sys.nframe() == 5) {
-  pacman::p_load(conflicted, tidyverse, targets, ergm)
-  fit_ergms(
-    example_network_3,
-    preds = c("site", "genetic_sex", ".degree"),
-    types = c("nodematch|nodemix", "nodemix|nodematch", "nodecov")
-  )
-}

@@ -96,16 +96,3 @@ pairwiseApp <- function(ergm_model) {
   }
   shiny::shinyApp(ui, server)
 }
-
-if (sys.nframe() == 5) {
-  pacman::p_load(conflicted, tidyverse, targets, ergm, network)
-  g <- convert_to_network(example_network)
-  m <- ergm::ergm(
-    g ~ edges +
-      nodematch("genetic_sex", diff = TRUE) +
-      nodemix("site") +
-      nodecov("lat")
-  ) |>
-    suppressMessages()
-  pairwiseApp(m) |> print()
-}

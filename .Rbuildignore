@@ -20,3 +20,6 @@ makefile
 ^vignettes/\.quarto$
 ^vignettes/*_files$
 ^README\.qmd$
+^vignettes/articles/\.quarto$
+^vignettes/articles/*_files$
+^vignettes/articles$

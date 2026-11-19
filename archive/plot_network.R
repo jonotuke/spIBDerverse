@@ -350,15 +350,3 @@ plot_network <- function(
     ggnetwork::theme_blank() +
     rlang::exec(ggplot2::guides, !!!legend_guides)
 }
-
-if (sys.nframe() == 5) {
-  pacman::p_load(conflicted, tidyverse, targets)
-  plot_network(
-    example_network_2,
-    fill = ".louvain_weighted",
-    outline_col = ".louvain_weighted",
-    fill_pal = "ucscgb",
-    shape = ".louvain_weighted"
-  ) |>
-    print()
-}

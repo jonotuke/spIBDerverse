@@ -281,7 +281,3 @@ networkFilterApp <- function(network_input) {
 
   shiny::shinyApp(ui, server)
 }
-
-if (sys.nframe() == 5) {
-  networkFilterApp(example_network) |> print()
-}

@@ -121,12 +121,3 @@ get_node_info <- function(g) {
     tibble::as_tibble() |>
     pretty_col()
 }
-
-# DRIVER ----
-if (sys.nframe() == 5) {
-  get_node_attributes(
-    example_network_2,
-    type = "cat"
-  ) |>
-    print()
-}

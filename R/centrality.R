@@ -324,13 +324,3 @@ get_centrality_gt <- function(cent_test) {
       locations = gt::cells_row_groups()
     )
 }
-
-if (sys.nframe() == 5) {
-  test_centralities(
-    example_network_2,
-    centrality = c(".degree", ".closeness"),
-    preds = c('site', 'Country')
-  ) |>
-    get_centrality_gt() |>
-    print()
-}

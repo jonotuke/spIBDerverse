@@ -182,14 +182,3 @@ plot_leaflet <- function(
       options = leaflet::scaleBarOptions(metric = TRUE, imperial = TRUE)
     )
 }
-
-if (sys.nframe() == 5) {
-  plot_leaflet(
-    example_network,
-    "lat",
-    "long",
-    label = c("site"),
-    keep_names = TRUE
-  ) |>
-    print()
-}

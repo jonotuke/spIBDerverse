@@ -268,7 +268,3 @@ staticmapApp <- function(network_input) {
 
   shiny::shinyApp(ui, server)
 }
-
-if (sys.nframe() == 5) {
-  staticmapApp(example_network) |> print()
-}

@@ -15,6 +15,3 @@ count_lines <- function(folder) {
   message(stringr::str_glue("Total number of lines is {sum(df$lines)}"))
   df
 }
-if (sys.nframe() == 5) {
-  count_lines("R") |> print()
-}
