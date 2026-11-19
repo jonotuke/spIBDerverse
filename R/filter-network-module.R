@@ -239,15 +239,15 @@ networkFilterServer <- function(id, r) {
       )
     })
 
-    output$debug <- shiny::renderPrint({
-      for (what in c("node", "edge")) {
-        for (x in input[[columns_input_id(what)]]) {
-          cat(what, " ", x, ": ", sep = "")
-          print(input[[cutoff_input_id(x, what)]])
-        }
-      }
-      print(r$network())
-    })
+    # output$debug <- shiny::renderPrint({
+    #   for (what in c("node", "edge")) {
+    #     for (x in input[[columns_input_id(what)]]) {
+    #       cat(what, " ", x, ": ", sep = "")
+    #       print(input[[cutoff_input_id(x, what)]])
+    #     }
+    #   }
+    #   print(r$network())
+    # })
   })
 }
 

@@ -1,5 +1,5 @@
 Package: spIBDerverse
-Title: spIBDverse functions and shiny apps
+Title: Functions to Analyse ancIBD Data Either Directly of in a Shiny App
 Version: 0.0.0.9000
 Authors@R: 
     c(

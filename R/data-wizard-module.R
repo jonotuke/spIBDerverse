@@ -34,17 +34,17 @@ dataWizardServer <- function(id, r) {
     loadibdServer("ibd", r = r)
     loaddefaultServer("default", r = r)
 
-    output$debug <- shiny::renderPrint({
-      print("Hello world")
-      print("Full network")
-      print(r$full_network())
-      print("Example")
-      print(r$example())
-      print("IBD")
-      print(r$ibd_data())
-      print("Default")
-      print(r$default())
-    })
+    # output$debug <- shiny::renderPrint({
+    #   print("Hello world")
+    #   print("Full network")
+    #   print(r$full_network())
+    #   print("Example")
+    #   print(r$example())
+    #   print("IBD")
+    #   print(r$ibd_data())
+    #   print("Default")
+    #   print(r$default())
+    # })
 
     output$input <- shiny::renderUI({
       switch(
