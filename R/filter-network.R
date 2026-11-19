@@ -128,11 +128,3 @@ attr_in_cutoff <- function(values, cutoff, column = "attribute") {
   }
   keep & !is.na(keep)
 }
-
-if (sys.nframe() == 5) {
-  filter_network(
-    example_network,
-    node_filters = list(site = "A", genetic_sex = "F")
-  ) |>
-    print()
-}

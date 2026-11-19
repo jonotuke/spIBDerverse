@@ -161,22 +161,3 @@ ergm_pairwise <- function(
   ) |>
     tibble::as_tibble()
 }
-# DRIVER ----
-
-if (sys.nframe() == 5) {
-  pacman::p_load(ergm, emmeans, statnet, tidyverse)
-  net <- example_network %>%
-    intergraph::asNetwork()
-  ergm_model <- suppressMessages(ergm(
-    net ~ edges +
-      nodematch("genetic_sex") +
-      nodecov('lat') +
-      nodematch("site", diff = TRUE)
-  ))
-
-  ergm_pairwise(
-    ergm_model = ergm_model,
-    term_string = "site"
-  ) |>
-    print()
-}

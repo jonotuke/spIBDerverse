@@ -1,15 +1,9 @@
 ---
 title: "spibderapp"
-vignette: >
-  %\VignetteIndexEntry{spibderapp}
-  %\VignetteEngine{quarto::html}
-  %\VignetteEncoding{UTF-8}
 knitr:
   opts_chunk:
     collapse: true
     comment: '#>'
-toc: true
-bibliography: spibderapp.bibtex
 ---
 
 ```{r}
@@ -65,7 +59,7 @@ When SpIBDer-App opens, you will (by default) be in the *Load Data* Tab <span st
 <div class="wide-figure">
 
 ```{r  label = load_example, echo = FALSE, fig.cap = "Figure 1: Load Data Tab - Load example data mode.", out.width = '100%', fig.align = 'center'}
-knitr::include_graphics("Figures/LoadData_example_Marked.png")
+knitr::include_graphics("figs/LoadData_example_Marked.png")
 ```
 
 </div>
@@ -79,7 +73,7 @@ We can now load in our data. For the examples here we load in the data from [@ro
 <div class="wide-figure">
 
 ```{r  label = load_load, echo = FALSE, fig.cap = "Figure 2: Load Data Tab - Load IBD data mode.", out.width = '100%', fig.align = 'center'}
-knitr::include_graphics("Figures/LoadData_LoadIBD_Marked.png")
+knitr::include_graphics("figs/LoadData_LoadIBD_Marked.png")
 ```
 
 </div>
@@ -103,7 +97,7 @@ Assuming you saved your previous network object for later use, you can load this
 <div class="wide-figure">
 
 ```{r  label = load_reload, echo = FALSE, fig.cap = "Figure 3: Load Data Tab - Load previous network mode.", out.width = '100%', fig.align = 'center'}
-knitr::include_graphics("Figures/LoadData_Saved_Marked.png")
+knitr::include_graphics("figs/LoadData_Saved_Marked.png")
 ```
 
 </div>
@@ -117,7 +111,7 @@ Once loaded into SpIBDer-App, the edge table (IBD information) can be visualised
 <div class="wide-figure">
 
 ```{r  label = edge_info, echo = FALSE, fig.cap = "Figure 4: Edge Info Tab.", out.width = '100%', fig.align = 'center'}
-knitr::include_graphics("Figures/EdgeInfo_Marked.png")
+knitr::include_graphics("figs/EdgeInfo_Marked.png")
 ```
 
 </div>
@@ -129,7 +123,7 @@ Edges meeting (or failing some other criteria) can also be excluded in this tab.
 (Zooming in:) after first selecting $w_{ij}$ <span style="color: red;">[6]</span>, SpIBDer-App recognises that the variable is quantitative (numeric). We are then given the option to set a lower <span style="color: red;">[7]</span> and upper <span style="color: red;">[8]</span> bound for the edge values we wish to _keep_.
 
 ```{r  label = edge_info_sub1, echo = FALSE, fig.cap = "Figure 5: Edge Info Tab - setting an edge inclusion or exclusion.", out.width = '100%', fig.align = 'center'}
-knitr::include_graphics("Figures/EdgeInfo_Sub1_Marked.png")
+knitr::include_graphics("figs/EdgeInfo_Sub1_Marked.png")
 ```
 
 # Filtering the edge table
@@ -139,7 +133,7 @@ Like the edge table, the node table can also be seen <span style="color: red;">[
 <div class="wide-figure">
 
 ```{r  label = node_info, echo = FALSE, fig.cap = "Figure 6: Node Info Tab.", out.width = '100%', fig.align = 'center'}
-knitr::include_graphics("Figures/NodeInfo_Marked.png")
+knitr::include_graphics("figs/NodeInfo_Marked.png")
 ```
 
 </div>
@@ -149,7 +143,7 @@ It can be used in the previous Edge Info tab, but we now introduce the node incl
 Nodes can also be included or excluded using the "Choose node attribute to filter on" drop down list <span style="color: red;">[5]</span>. For example, we might wish to analyse only adult individuals.
 
 ```{r  label = node_info_sub1, echo = FALSE, fig.cap = "Figure 7: Node Info Tab - setting an node inclusion or exclusion.", out.width = '100%', fig.align = 'center'}
-knitr::include_graphics("Figures/NodeInfo_Sub1_Marked.png")
+knitr::include_graphics("figs/NodeInfo_Sub1_Marked.png")
 ```
 
 To do this, we click on the "age" option from the list. SpIBDer-App recognises that this is a qualitative (categorical), and each level is presented as a check box <span style="color: red;">[6]</span>. Simply check the options you wish to _keep_, which in this case is "Adult".
@@ -167,7 +161,7 @@ First, we focus on network space visualisation in the Network Plot tab <span sty
 <div class="wide-figure">
 
 ```{r  label = network_plot, echo = FALSE, fig.cap = "Figure 8: Network plot Tab.", out.width = '100%', fig.align = 'center'}
-knitr::include_graphics("Figures/NetworkPlot_Marked.png")
+knitr::include_graphics("figs/NetworkPlot_Marked.png")
 ```
 
 </div>
@@ -181,7 +175,7 @@ Some networks may contain many unrelated/unlinked individuals, and we may choose
 <div class="wide-figure">
 
 ```{r  label = network_plot_removed, echo = FALSE, fig.cap = "Figure 9: Network plot Tab - removing unconnected nodes.", out.width = '100%', fig.align = 'center'}
-knitr::include_graphics("Figures/NetworkPlot_removed_Marked.png")
+knitr::include_graphics("figs/NetworkPlot_removed_Marked.png")
 ```
 
 </div>
@@ -193,7 +187,7 @@ By choosing the "betweeness" option from the drop down menu titled "Show node ce
 <div class="wide-figure">
 
 ```{r  label = network_plot_betweeness, echo = FALSE, fig.cap = "Figure 10: Network plot Tab - visualising centrality measures.", out.width = '100%', fig.align = 'center'}
-knitr::include_graphics("Figures/NetworkPlot_Betweeness_Marked.png")
+knitr::include_graphics("figs/NetworkPlot_Betweeness_Marked.png")
 ```
 
 </div>
@@ -205,7 +199,7 @@ The node label option can be used to find individuals of interest. For example, 
 <div class="wide-figure">
 
 ```{r  label = network_plot_rkf179, echo = FALSE, fig.cap = "Figure 11: Network plot Tab - finding an individual by name.", out.width = '100%', fig.align = 'center'}
-knitr::include_graphics("Figures/NetworkPlot_RKF179_Marked.png")
+knitr::include_graphics("figs/NetworkPlot_RKF179_Marked.png")
 ```
 
 </div>
@@ -218,7 +212,7 @@ Exploring who is connected and to where is a feature that can be useful, even wh
 <div class="wide-figure">
 
 ```{r  label = dynamic_map, echo = FALSE, fig.cap = "Figure 12: Dynamic map Tab.", out.width = '100%', fig.align = 'center'}
-knitr::include_graphics("Figures/DynamicMap_Marked.jpeg")
+knitr::include_graphics("figs/DynamicMap_Marked.jpeg")
 ```
 
 </div>
@@ -230,7 +224,7 @@ We can use a couple of features to explore the map. First we assign genetic sex 
 <div class="wide-figure">
 
 ```{r  label = dynamic_map_zoom, echo = FALSE, fig.cap = "Figure 13: Dynamic map Tab - Zooming in.", out.width = '100%', fig.align = 'center'}
-knitr::include_graphics("Figures/DynamicMap_Zoom_Marked.jpeg")
+knitr::include_graphics("figs/DynamicMap_Zoom_Marked.jpeg")
 ```
 
 </div>
@@ -248,7 +242,7 @@ Note that while the plot may look small in the SpIBDer-App, the dimensions can b
 <div class="wide-figure">
 
 ```{r  label = static_map, echo = FALSE, fig.cap = "Figure 13: Static map Tab.", out.width = '100%', fig.align = 'center'}
-knitr::include_graphics("Figures/StaticMap.png")
+knitr::include_graphics("figs/StaticMap.png")
 ```
 
 </div>
@@ -280,7 +274,7 @@ After using the ["Export Plot"](#plotexport) functionality, we produce the follo
 <div class="wide-figure">
 
 ```{r  label = static_map_output, echo = FALSE, fig.cap = "Figure 15: Exported plot using the above settings.", out.width = '100%', fig.align = 'center'}
-knitr::include_graphics("Figures/myMap.png")
+knitr::include_graphics("figs/myMap.png")
 ```
 
 </div>
@@ -299,7 +293,7 @@ SpIBDer-App allows users to explore these values on the network, either by indiv
 <div class="wide-figure">
 
 ```{r  label = centrality_measures, echo = FALSE, fig.cap = "Figure 16: Centrality Measures tab.", out.width = '100%', fig.align = 'center'}
-knitr::include_graphics("Figures/CentralityMeasures_Marked.png")
+knitr::include_graphics("figs/CentralityMeasures_Marked.png")
 ```
 
 </div>
@@ -309,7 +303,7 @@ We can also explore the average centrality values by stratifying the measures by
 <div class="wide-figure">
 
 ```{r  label = centrality_measures_example, echo = FALSE, fig.cap = "Figure 17: Centrality Measures tab - stratifying on multiple variables.", out.width = '100%', fig.align = 'center'}
-knitr::include_graphics("Figures/CentralityMeasures_example_Marked.png")
+knitr::include_graphics("figs/CentralityMeasures_example_Marked.png")
 ```
 
 </div>
@@ -325,7 +319,7 @@ Looking at the rate of connectedness for levels of certain variables can be of i
 <div class="wide-figure">
 
 ```{r  label = ringbauer_plot, echo = FALSE, fig.cap = "Figure 18: Ringbauer plot tab.", out.width = '100%', fig.align = 'center'}
-knitr::include_graphics("Figures/RingbauerPlot.png")
+knitr::include_graphics("figs/RingbauerPlot.png")
 ```
 
 </div>
@@ -364,7 +358,7 @@ Here we will explore if genetic sex is correlated with genetic relatedness. Howe
 <div class="wide-figure">
 
 ```{r  label = ergms, echo = FALSE, fig.cap = "Figure 19: ERGMs tab.", out.width = '100%', fig.align = 'center'}
-knitr::include_graphics("Figures/ERGMs_Marked.png")
+knitr::include_graphics("figs/ERGMs_Marked.png")
 ```
 
 </div>
@@ -376,7 +370,7 @@ We can look at the model output, to quantify the effects of the variables in the
 <div class="wide-figure">
 
 ```{r  label = ergms_model, echo = FALSE, fig.cap = "Figure 20: ERGMs tab - selecting a model an interpreting the output.", out.width = '100%', fig.align = 'center'}
-knitr::include_graphics("Figures/Ergms_Model_Marked.png")
+knitr::include_graphics("figs/Ergms_Model_Marked.png")
 ```
 
 </div>
@@ -390,7 +384,7 @@ Under every plot that you make in SpIBDer-App (all except for the dynamic map) i
 <div class="wide-figure">
 
 ```{r  label = save_plot, echo = FALSE, fig.cap = "Figure 21: Save plot tab.", out.width = '100%', fig.align = 'center'}
-knitr::include_graphics("Figures/SavePlot_Marked.png")
+knitr::include_graphics("figs/SavePlot_Marked.png")
 ```
 
 </div>

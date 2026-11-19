@@ -171,13 +171,3 @@ loaddefaultApp <- function(dev_files = NULL) {
   }
   shiny::shinyApp(ui, server)
 }
-
-if (sys.nframe() == 5) {
-  loaddefaultApp(
-    dev_files = list(
-      edge = "inst/extdata/load-default-data/default-edge.csv",
-      node = "inst/extdata/load-default-data/default-node.csv"
-    )
-  ) |>
-    print()
-}

@@ -69,22 +69,3 @@ dunn_perm <- function(y, group, B = 10000, chunk = 2000) {
   )
   res
 }
-
-if (sys.nframe() == 5) {
-  set.seed(1)
-  n <- 10
-  df <- data.frame(
-    y = c(
-      sample(1:4, size = n, replace = TRUE),
-      sample(3:7, size = n, replace = TRUE),
-      sample(6:10, size = n, replace = TRUE)
-    ),
-    grp = rep(LETTERS[1:3], each = n)
-  )
-  ds <- dunn_setup(df$y, df$grp)
-  print(dunn_z(ds))
-  print(kw_h(ds))
-  dunn_perm(df$y, df$grp) |> print()
-  rstatix::kruskal_test(df, y ~ grp) |> print()
-  rstatix::dunn_test(df, y ~ grp) |> print()
-}

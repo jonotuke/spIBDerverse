@@ -387,7 +387,3 @@ palette_chooser <- function(
     selected = "default"
   )
 }
-
-if (sys.nframe() == 5) {
-  palette_chooser("fill_pal", type = "cat") |> print()
-}

@@ -195,15 +195,3 @@ plot_clustering_confusion <- function(
     ggplot2::theme_minimal(base_size = base_size) +
     ggplot2::theme(panel.grid = ggplot2::element_blank())
 }
-
-if (sys.nframe() == 5) {
-  get_clustering_measures(example_network) |> print()
-  get_clustering_measures(example_network, "site") |> print()
-  plot_clustering_confusion(example_network, "site") |> print()
-  plot_clustering_confusion(
-    example_network,
-    "site",
-    normalise = "pred"
-  ) |>
-    print()
-}

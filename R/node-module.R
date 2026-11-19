@@ -64,7 +64,3 @@ nodeApp <- function(input_network) {
   }
   shiny::shinyApp(ui, server)
 }
-
-if (sys.nframe() == 5) {
-  nodeApp(example_network) |> print()
-}

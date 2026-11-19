@@ -131,8 +131,3 @@ get_ringbauer_measures <- function(g, grp) {
     dplyr::mutate(adj_pv = stats::p.adjust(pv, method = "fdr")) |>
     dplyr::relocate(n_edges, .after = grp2)
 }
-if (sys.nframe() == 5) {
-  pacman::p_load(conflicted, tidyverse, targets, ergm)
-  get_ringbauer_measures(example_network, "site") |>
-    print(n = Inf)
-}

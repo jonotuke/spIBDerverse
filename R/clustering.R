@@ -419,8 +419,3 @@ plot_ca_2d <- function(ca_clusters, ca_vars, pct_var, jitter_scale) {
     ) +
     ggplot2::labs(x = dim_label(pct_var, 1), y = dim_label(pct_var, 2))
 }
-
-if (sys.nframe() == 5) {
-  plot_clustering_confusion(example_network, pred = "lat", fill_pal = "jama") |>
-    print()
-}

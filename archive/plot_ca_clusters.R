@@ -146,9 +146,3 @@ plot_ca_2d <- function(ca_clusters, ca_vars, pct_var, jitter_scale) {
     ) +
     ggplot2::labs(x = dim_label(pct_var, 1), y = dim_label(pct_var, 2))
 }
-
-# Quick check when the file is sourced directly (e.g. RStudio's Source button).
-if (sys.nframe() == 5) {
-  pacman::p_load(conflicted, tidyverse, targets)
-  plot_ca_clusters(example_network, "site") |> print()
-}

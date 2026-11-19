@@ -153,13 +153,3 @@ load_ibd <- function(
   g <- label_crawl(g, seed_id, k = crawl_length)
   g
 }
-
-
-if (sys.nframe() == 5) {
-  load_ibd(
-    ibd_file = "inst/extdata/crawl-ibd/crawl-ibd.tsv",
-    meta_file = "inst/extdata/crawl-ibd/crawl-meta.tsv"
-  ) |>
-    plot_network(fill = ".crawl") |>
-    print()
-}

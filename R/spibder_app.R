@@ -316,7 +316,3 @@ spibder_app <- function(input_network = NULL) {
   }
   shiny::shinyApp(ui, server)
 }
-
-if (sys.nframe() == 5) {
-  spibder_app() |> print()
-}

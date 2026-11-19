@@ -176,6 +176,3 @@ ringbauerApp <- function(network_input) {
   }
   shiny::shinyApp(ui, server)
 }
-if (sys.nframe() == 5) {
-  ringbauerApp(example_network) |> print()
-}

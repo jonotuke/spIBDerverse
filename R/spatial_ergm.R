@@ -354,25 +354,3 @@ plot_spatial_ergm <- function(spatial_pred, pal = "default") {
     pal_scale("colour", pal, type = "discrete", name = pred, guide = guide) +
     pal_scale("fill", pal, type = "discrete", name = pred, guide = guide)
 }
-
-# DRIVER ----
-if (sys.nframe() == 5) {
-  fit_spatial_ergm(
-    example_network_5,
-    "Latitude",
-    "Longitude",
-    "period"
-  ) |>
-    predict_spatial_ergm(N = 100) |>
-    plot_spatial_ergm() |>
-    print()
-  fit_spatial_ergm(
-    example_network_5,
-    "Latitude",
-    "Longitude",
-    pred = "n_cov_snp"
-  ) |>
-    predict_spatial_ergm(N = 100) |>
-    plot_spatial_ergm() |>
-    print()
-}

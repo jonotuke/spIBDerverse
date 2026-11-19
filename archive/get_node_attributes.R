@@ -55,6 +55,3 @@ get_node_attributes <- function(
   keep <- n_levels > 1 & (!is_cat | n_levels <= max_levels)
   vars[keep]
 }
-if (sys.nframe() == 5) {
-  get_node_attributes(example_network, "cat", max_levels = 10) |> print()
-}

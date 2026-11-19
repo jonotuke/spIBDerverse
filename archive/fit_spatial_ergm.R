@@ -79,8 +79,3 @@ fit_spatial_ergm <- function(g, lat, long, pred = NULL) {
     tidyr::unnest(BIC)
   return(models)
 }
-if (sys.nframe() == 5) {
-  pacman::p_load(conflicted, tidyverse, targets)
-  fit_spatial_ergm(example_network, "lat", "long") |> print()
-  fit_spatial_ergm(example_network, "lat", "long", "site") |> print()
-}

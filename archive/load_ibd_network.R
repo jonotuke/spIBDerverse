@@ -196,12 +196,3 @@ read_delimited_file <- function(path) {
     readr::read_delim(path, delim = NULL, show_col_types = FALSE)
   )
 }
-
-if (sys.nframe() == 5) {
-  pacman::p_load(conflicted, tidyverse, targets)
-  load_ibd_network(
-    ibd_file = "inst/extdata/example-ibd-data.csv",
-    meta_file = "inst/extdata/example-meta-data.csv"
-  ) |>
-    print()
-}

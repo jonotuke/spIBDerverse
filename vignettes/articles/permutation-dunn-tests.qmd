@@ -1,16 +1,13 @@
 ---
-title: "permutation-dunn-test"
-vignette: >
-  %\VignetteIndexEntry{permutation-dunn-test}
-  %\VignetteEngine{quarto::html}
-  %\VignetteEncoding{UTF-8}
+title: "permutation-dunn-tests"
 knitr:
   opts_chunk:
     collapse: true
     comment: '#>'
 ---
 
-```{r setup}
+```{r}
+#| label: setup
 library(spIBDerverse)
 ```
 

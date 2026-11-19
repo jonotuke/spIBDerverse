@@ -590,13 +590,3 @@ plot_network <- function(
     ggnetwork::theme_blank() +
     rlang::exec(ggplot2::guides, !!!legend_guides)
 }
-
-if (sys.nframe() == 5) {
-  pacman::p_load(conflicted, tidyverse, targets)
-  plot_network(
-    example_network,
-    fill = "site",
-    fill_label = "BOB"
-  ) |>
-    print()
-}

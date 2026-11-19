@@ -46,17 +46,3 @@ names_to_ids <- function(g, node_names) {
   }
   ids
 }
-
-if (sys.nframe() == 5) {
-  example_network |> print()
-  g <- label_crawl(
-    example_network,
-    nodes = c(1, 2)
-  )
-  g |> print()
-  plot_network(
-    g,
-    fill = ".crawl"
-  ) |>
-    print()
-}

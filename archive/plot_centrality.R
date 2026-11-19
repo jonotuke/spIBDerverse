@@ -53,12 +53,3 @@ plot_centrality <- function(g, measure = ".degree", facets = NULL) {
 
   p
 }
-
-if (sys.nframe() == 5) {
-  plot_centrality(
-    example_network_2,
-    "closeness",
-    c("Country", "Province")
-  ) |>
-    print()
-}

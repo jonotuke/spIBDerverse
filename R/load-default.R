@@ -79,20 +79,3 @@ load_default <- function(node_file, edge_file) {
   g <- g |> add_centrality_measures() |> add_clustering()
   g
 }
-
-if (sys.nframe() == 5) {
-  g <- load_default(
-    node_file = "inst/extdata/load-default-data/default-node.csv",
-    edge_file = "inst/extdata/load-default-data/default-edge.csv"
-  )
-  print(igraph::V(g)$.louvain)
-  g <- g |>
-    filter_default_edges(
-      edge_attr = "dist",
-      edge_values = c(-Inf, 10)
-    )
-  print(igraph::V(g)$.louvain)
-  g |>
-    plot_network(edge = "dist") |>
-    print()
-}

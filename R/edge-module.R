@@ -50,6 +50,3 @@ edgeApp <- function(network_input) {
   }
   shiny::shinyApp(ui, server)
 }
-if (sys.nframe() == 5) {
-  edgeApp(example_network_7) |> print()
-}

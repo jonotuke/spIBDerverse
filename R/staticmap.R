@@ -280,17 +280,3 @@ plot_staticmap <- function(
 
   p
 }
-
-if (sys.nframe() == 5) {
-  my_key <- "a7bf69ed-3e77-41ed-b1e2-52f9aa99ec19"
-  plot_staticmap(
-    europe_network,
-    key = my_key,
-    lat = "lat",
-    long = "long",
-    zoom = 5,
-    country_lines = TRUE,
-    fill = "region"
-  ) |>
-    print()
-}

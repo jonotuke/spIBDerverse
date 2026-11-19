@@ -124,7 +124,3 @@ leafletApp <- function(network_input) {
   }
   shiny::shinyApp(ui, server)
 }
-
-if (sys.nframe() == 5) {
-  leafletApp(example_network) |> print()
-}

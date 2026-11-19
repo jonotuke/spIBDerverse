@@ -88,7 +88,3 @@ networkplotApp <- function(network_input) {
 
   shiny::shinyApp(ui, server)
 }
-
-if (sys.nframe() == 5) {
-  networkplotApp(example_network) |> print()
-}

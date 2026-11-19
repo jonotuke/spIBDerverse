@@ -20,6 +20,3 @@ load_example <- function(example = "example_network") {
   )
   data
 }
-if (sys.nframe() == 5) {
-  load_example("bob") |> print()
-}
