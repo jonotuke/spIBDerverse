@@ -38,14 +38,14 @@ dunn_perm(y = rnorm(30), group = rep(LETTERS[1:3], each = 10))
 #> # A tibble: 3 × 3
 #>   pair       z dunn_pv
 #>   <chr>  <dbl>   <dbl>
-#> 1 A - B -1.85   0.0628
-#> 2 A - C -1.19   0.236 
-#> 3 B - C  0.660  0.529 
+#> 1 A - B -0.406   0.702
+#> 2 A - C -0.813   0.424
+#> 3 B - C -0.406   0.689
 #> 
 #> $kw
 #> # A tibble: 1 × 2
 #>       H KW_pv
 #>   <dbl> <dbl>
-#> 1  3.53 0.173
+#> 1 0.661 0.734
 #> 
 ```

@@ -109,6 +109,8 @@ ibd_network
 
 - [`abbreviate_terms()`](https://jonotuke.github.io/spIBDerverse/reference/abbreviate_terms.md)
   : abbreviate labels
+- [`add_centrality_measures()`](https://jonotuke.github.io/spIBDerverse/reference/add_centrality_measures.md)
+  : Adds centrality measures to an igraph object
 - [`add_clustering()`](https://jonotuke.github.io/spIBDerverse/reference/add_clustering.md)
   : Add clusters
 - [`add_convert_bb_adj()`](https://jonotuke.github.io/spIBDerverse/reference/add_convert_bb_adj.md)
