@@ -1,3 +1,5 @@
+#' data-wizard input
+#' @noRd
 dataWizardInput <- function(id) {
   ns <- shiny::NS(id)
   shiny::tagList(
@@ -15,7 +17,8 @@ dataWizardInput <- function(id) {
     )
   )
 }
-
+#' data-wizard output
+#' @noRd
 dataWizardOutput <- function(id) {
   ns <- shiny::NS(id)
   shiny::tagList(
@@ -26,7 +29,8 @@ dataWizardOutput <- function(id) {
   )
 }
 
-
+#' data-wizard server
+#' @noRd
 dataWizardServer <- function(id, r) {
   shiny::moduleServer(id, function(input, output, session) {
     ns <- shiny::NS(id)
@@ -88,7 +92,8 @@ dataWizardServer <- function(id, r) {
     })
   })
 }
-
+#' data-wizard app
+#' @noRd
 dataWizardApp <- function() {
   r <- shiny::reactiveValues()
   r$network <- shiny::reactive({

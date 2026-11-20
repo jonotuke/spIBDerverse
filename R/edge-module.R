@@ -1,3 +1,5 @@
+#' edge output
+#' @noRd
 edgeOutput <- function(id) {
   ns <- shiny::NS(id)
   shiny::tagList(
@@ -10,6 +12,8 @@ edgeOutput <- function(id) {
     )
   )
 }
+#' edge server
+#' @noRd
 edgeServer <- function(id, r) {
   shiny::moduleServer(id, function(input, output, session) {
     output$tab <- DT::renderDataTable({
@@ -30,6 +34,8 @@ edgeServer <- function(id, r) {
     )
   })
 }
+#' edge app
+#' @noRd
 edgeApp <- function(network_input) {
   all_vars <- get_node_attributes(network_input)
   edge_vars <- igraph::edge_attr_names(network_input)

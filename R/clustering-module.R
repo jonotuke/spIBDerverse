@@ -1,3 +1,5 @@
+#' cluster input
+#' @noRd
 clusteringInput <- function(id, all_vars) {
   clustering_vars <- internal_df() |>
     dplyr::filter(type == "clustering")
@@ -52,6 +54,8 @@ clusteringInput <- function(id, all_vars) {
     )
   )
 }
+#' cluster output
+#' @noRd
 clusteringOutput <- function(id) {
   shiny::tagList(
     DT::dataTableOutput(
@@ -67,6 +71,8 @@ clusteringOutput <- function(id) {
     shiny::actionButton(shiny::NS(id, "save_ca_plot"), "Set as export plot")
   )
 }
+#' cluster server
+#' @noRd
 clusteringServer <- function(id, r) {
   shiny::moduleServer(id, function(input, output, session) {
     cluster_df <- shiny::reactive({
@@ -148,6 +154,8 @@ clusteringServer <- function(id, r) {
     })
   })
 }
+#' cluster app
+#' @noRd
 clusteringApp <- function(network_input) {
   cat_var <- get_node_attributes(
     network_input,

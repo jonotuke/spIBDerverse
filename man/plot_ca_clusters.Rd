@@ -21,3 +21,6 @@ A ggplot object, or \code{NULL} with a warning if \code{pred} is not given.
 \description{
 plot CA for clusters
 }
+\examples{
+plot_ca_clusters(example_network, "site")
+}

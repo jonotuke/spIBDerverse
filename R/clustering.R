@@ -60,8 +60,9 @@ utils::globalVariables(
   c("sd", "n", "prop", "label", "type", "name")
 )
 
-# Internal: long-format counts of nodes per predictor level x cluster.
-# Shared by get_clustering_measures() and plot_clustering_confusion().
+#' Internal: long-format counts of nodes per predictor level x cluster.
+#' Shared by get_clustering_measures() and plot_clustering_confusion().
+#' @noRd
 count_clusters_by_pred <- function(df, pred, cluster) {
   df |>
     dplyr::mutate(
@@ -74,7 +75,8 @@ count_clusters_by_pred <- function(df, pred, cluster) {
     dplyr::count(.data[[pred]], .data[[cluster]], .drop = FALSE)
 }
 
-# Internal: node + clustering attributes as a tibble.
+#' Internal: node + clustering attributes as a tibble.
+#' @noRd
 clustering_vertex_df <- function(g) {
   node_vars <- get_node_attributes(g)
   cluster_vars <- internal_df() |>
@@ -283,6 +285,9 @@ utils::globalVariables(
 #' @param jitter_scale level to scale
 #'
 #' @return A ggplot object, or `NULL` with a warning if `pred` is not given.
+#' @export
+#' @examples
+#' plot_ca_clusters(example_network, "site")
 plot_ca_clusters <- function(
   g,
   pred = NULL,
@@ -334,7 +339,8 @@ dim_label <- function(pct_var, i) {
   sprintf("Dimension %d (%.2f%%)", i, pct_var[i])
 }
 
-# Single dimension: clusters above the line, predictor levels below it.
+#' Single dimension: clusters above the line, predictor levels below it.
+#' @noRd
 plot_ca_1d <- function(ca_clusters, ca_vars, pct_var) {
   ggplot2::ggplot(ca_clusters, ggplot2::aes(x = dim_1, y = 0)) +
     ggplot2::theme_bw() +
@@ -386,7 +392,8 @@ plot_ca_1d <- function(ca_clusters, ca_vars, pct_var) {
     )
 }
 
-# Two or more dimensions: biplot of the first two.
+#' Two or more dimensions: biplot of the first two.
+#' @noRd
 plot_ca_2d <- function(ca_clusters, ca_vars, pct_var, jitter_scale) {
   label_jitter <- ggplot2::position_jitter(
     width = diff(range(ca_clusters$dim_1)) / jitter_scale,

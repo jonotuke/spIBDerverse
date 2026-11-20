@@ -1,3 +1,18 @@
+utils::globalVariables(
+  c("xrel", "xmin", "xmax", "model")
+)
+utils::globalVariables(
+  c(
+    "mcmc.error",
+    "phi",
+    "std.error",
+    "statistic",
+    "p.value"
+  )
+)
+utils::globalVariables(
+  c("AIC", "BIC", "Model")
+)
 #' clean model names
 #'
 #' @param x vector of ergm model names
@@ -257,9 +272,7 @@ fit_ergms <- function(network, preds = NULL, types = NULL) {
   attr(fits, "removed_nodes") <- removed_nodes
   fits
 }
-utils::globalVariables(
-  c("xrel", "xmin", "xmax", "model")
-)
+
 #' Plots BIC
 #'
 #' Final version is based on BR's version
@@ -578,15 +591,6 @@ plot_ergm_coef <- function(
     ggplot2::theme_bw() +
     ggplot2::labs(x = xlab)
 }
-utils::globalVariables(
-  c(
-    "mcmc.error",
-    "phi",
-    "std.error",
-    "statistic",
-    "p.value"
-  )
-)
 #' Gets coefficients and fold changes for a ergm model
 #'
 #' @param ergm ergm model
@@ -645,9 +649,6 @@ tab_ergm_coef <- function(
     dplyr::mutate(sign = add_stars(p.value))
   return(coef)
 }
-utils::globalVariables(
-  c("AIC", "BIC", "Model")
-)
 #' Tabulate the ergm AIC and BIC
 #'
 #' @param ergms list of ergm fits

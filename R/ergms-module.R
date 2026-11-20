@@ -1,3 +1,5 @@
+#' ergm input
+#' @noRd
 ergmInput <- function(id, all_vars, g) {
   shiny::tagList(
     shiny::checkboxGroupInput(
@@ -85,6 +87,8 @@ ergmInput <- function(id, all_vars, g) {
     )
   )
 }
+#' ergm output
+#' @noRd
 ergmOutput <- function(id) {
   shiny::tagList(
     shiny::h4("ERGMs BIC"),
@@ -114,6 +118,8 @@ ergmOutput <- function(id) {
     # )
   )
 }
+#' ergm server
+#' @noRd
 ergmServer <- function(id, r) {
   shiny::moduleServer(id, function(input, output, session) {
     ergm <- shiny::reactive({
@@ -238,6 +244,8 @@ ergmServer <- function(id, r) {
     # })
   })
 }
+#' ergm ui
+#' @noRd
 make_ergm_ui <- function(pred, g, label, id, selected = NULL) {
   if (!is.null(pred)) {
     type <- class(igraph::vertex_attr(g, pred))
@@ -269,6 +277,8 @@ make_ergm_ui <- function(pred, g, label, id, selected = NULL) {
     selected = selected
   )
 }
+#' ergm app
+#' @noRd
 ergmApp <- function(network_input) {
   all_vars <- get_node_attributes(network_input)
   r <- shiny::reactiveValues()

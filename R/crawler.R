@@ -33,6 +33,16 @@ label_crawl <- function(g, nodes, k = 2L) {
   g
 }
 
+#' Find the vertex id from a name
+#'
+#' @param g igraph object
+#' @param node_names vector of node names
+#'
+#' @returns vector of node ids
+#'
+#' @export
+#' @examples
+#' names_to_ids(example_network_2, "RKF040")
 names_to_ids <- function(g, node_names) {
   ids <- match(node_names, igraph::V(g)$name)
   missing <- node_names[is.na(ids)]
