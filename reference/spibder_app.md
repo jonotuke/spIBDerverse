@@ -17,3 +17,9 @@ spibder_app(input_network = NULL)
 ## Value
 
 nothing
+
+## Examples
+
+``` r
+if(interactive()){spibder_app(example_network)}
+```

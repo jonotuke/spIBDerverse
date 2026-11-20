@@ -15,12 +15,12 @@
 Source:
 [`DESCRIPTION`](https://github.com/jonotuke/spIBDerverse/blob/main/DESCRIPTION)
 
-Tuke J, Rohrlach A, Haak W (2026). *spIBDerverse: Functions to Analyse
-ancIBD Data Either Directly of in a Shiny App*. R package version
-0.0.0.9000, <https://github.com/jonotuke/spIBDerverse>.
+Tuke J, Rohrlach A, Haak W (2026). *spIBDerverse: Analyse 'ancIBD'
+Identity-by-Descent Networks with ERGMs and a 'shiny' App*. R package
+version 0.0.0.9000, <https://github.com/jonotuke/spIBDerverse>.
 
     @Manual{,
-      title = {spIBDerverse: Functions to Analyse ancIBD Data Either Directly of in a Shiny App},
+      title = {spIBDerverse: Analyse 'ancIBD' Identity-by-Descent Networks with ERGMs and a 'shiny' App},
       author = {Jono Tuke and Adam B. Rohrlach and Wolfgang Haak},
       year = {2026},
       note = {R package version 0.0.0.9000},

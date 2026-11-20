@@ -8,10 +8,6 @@
   : Adds centrality measures to an igraph object
 - [`add_clustering()`](https://jonotuke.github.io/spIBDerverse/reference/add_clustering.md)
   : Add clusters
-- [`add_convert_bb_adj()`](https://jonotuke.github.io/spIBDerverse/reference/add_convert_bb_adj.md)
-  : Adjust BB for network work sf object
-- [`add_frac()`](https://jonotuke.github.io/spIBDerverse/reference/add_frac.md)
-  : adds frac_gp to ibd if needed, uses frac_gp in meta
 - [`add_layout()`](https://jonotuke.github.io/spIBDerverse/reference/add_layout.md)
   : add layout
 - [`add_stars()`](https://jonotuke.github.io/spIBDerverse/reference/add_stars.md)
@@ -127,8 +123,6 @@
   : Plot centrality measures
 - [`plot_clustering_confusion()`](https://jonotuke.github.io/spIBDerverse/reference/plot_clustering_confusion.md)
   : Plot cluster membership against a categorical predictor
-- [`plot_default_image()`](https://jonotuke.github.io/spIBDerverse/reference/plot_default_image.md)
-  : Plots a default image
 - [`plot_ergm_bic()`](https://jonotuke.github.io/spIBDerverse/reference/plot_ergm_bic.md)
   : Plots BIC
 - [`plot_ergm_coef()`](https://jonotuke.github.io/spIBDerverse/reference/plot_ergm_coef.md)
@@ -149,8 +143,6 @@
   : Plot a network on a static Stadia map
 - [`predict_spatial_ergm()`](https://jonotuke.github.io/spIBDerverse/reference/predict_spatial_ergm.md)
   : Predicts probability for an edge for given distances
-- [`read_file()`](https://jonotuke.github.io/spIBDerverse/reference/read_file.md)
-  : read file
 - [`remove_redundant_models()`](https://jonotuke.github.io/spIBDerverse/reference/remove_redundant_models.md)
   : remove redundant models
 - [`sort_label()`](https://jonotuke.github.io/spIBDerverse/reference/sort_label.md)
