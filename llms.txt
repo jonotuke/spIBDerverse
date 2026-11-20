@@ -232,6 +232,8 @@ ibd_network
   : Load an IBD network
 - [`make_cutoff_ui()`](https://jonotuke.github.io/spIBDerverse/reference/make_cutoff_ui.md)
   : Build the cutoff input for a node or edge attribute
+- [`names_to_ids()`](https://jonotuke.github.io/spIBDerverse/reference/names_to_ids.md)
+  : Find the vertex id from a name
 - [`pal_scale()`](https://jonotuke.github.io/spIBDerverse/reference/pal_scale.md)
   : Build a palette scale by name
 - [`plot_ca_clusters()`](https://jonotuke.github.io/spIBDerverse/reference/plot_ca_clusters.md)

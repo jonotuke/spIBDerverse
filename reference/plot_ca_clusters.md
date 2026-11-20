@@ -29,3 +29,9 @@ plot_ca_clusters(g, pred = NULL, cluster = ".louvain", jitter_scale = 10)
 ## Value
 
 A ggplot object, or `NULL` with a warning if `pred` is not given.
+
+## Examples
+
+``` r
+plot_ca_clusters(example_network, "site")
+```
