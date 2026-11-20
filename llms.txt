@@ -127,8 +127,6 @@ ibd_network
   : clean model names
 - [`clean_network()`](https://jonotuke.github.io/spIBDerverse/reference/clean_network.md)
   : Clean network
-- [`columns_input_id()`](https://jonotuke.github.io/spIBDerverse/reference/columns_input_id.md)
-  : Input id of the attribute selector for nodes or edges
 - [`convert_bb()`](https://jonotuke.github.io/spIBDerverse/reference/convert_bb.md)
   : Given a bounding box, increase the lat and long by given amounts
 - [`convert_bb_asp()`](https://jonotuke.github.io/spIBDerverse/reference/convert_bb_asp.md)
@@ -145,8 +143,6 @@ ibd_network
   : Convert ringbauer measures
 - [`convert_to_network()`](https://jonotuke.github.io/spIBDerverse/reference/convert_to_network.md)
   : Convert to network from igraph, but keep original names
-- [`cutoff_input_id()`](https://jonotuke.github.io/spIBDerverse/reference/cutoff_input_id.md)
-  : Input id for the cutoff control of one attribute
 - [`default_image`](https://jonotuke.github.io/spIBDerverse/reference/default_image.md)
   : default image
 - [`dist_network`](https://jonotuke.github.io/spIBDerverse/reference/dist_network.md)
@@ -186,10 +182,6 @@ ibd_network
   : Fit spatial ergm
 - [`get_all_models()`](https://jonotuke.github.io/spIBDerverse/reference/get_all_models.md)
   : get_all_models
-- [`get_attr_names()`](https://jonotuke.github.io/spIBDerverse/reference/get_attr_names.md)
-  : Names of the node or edge attributes of a network
-- [`get_attr_values()`](https://jonotuke.github.io/spIBDerverse/reference/get_attr_values.md)
-  : Get the observed values of a node or edge attribute
 - [`get_centrality_measures()`](https://jonotuke.github.io/spIBDerverse/reference/get_centrality_measures.md)
   : Get centrality measures
 - [`get_clustering_measures()`](https://jonotuke.github.io/spIBDerverse/reference/get_clustering_measures.md)
@@ -230,8 +222,6 @@ ibd_network
   : loads some example data
 - [`load_ibd()`](https://jonotuke.github.io/spIBDerverse/reference/load_ibd.md)
   : Load an IBD network
-- [`make_cutoff_ui()`](https://jonotuke.github.io/spIBDerverse/reference/make_cutoff_ui.md)
-  : Build the cutoff input for a node or edge attribute
 - [`names_to_ids()`](https://jonotuke.github.io/spIBDerverse/reference/names_to_ids.md)
   : Find the vertex id from a name
 - [`pal_scale()`](https://jonotuke.github.io/spIBDerverse/reference/pal_scale.md)

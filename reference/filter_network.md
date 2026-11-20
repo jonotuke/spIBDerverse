@@ -35,3 +35,17 @@ filtered IBD network
 Numeric attributes are filtered on a `c(min, max)` range (inclusive,
 `NA` bounds are unbounded); all other attributes are filtered on the set
 of values to keep. Missing values never pass a filter.
+
+## Examples
+
+``` r
+filter_network(example_network, node_filters = list(site = "A"))
+#> IGRAPH ec97c8b UN-- 11 5 -- 
+#> + attr: genetic_sex (v/c), site (v/c), name (v/c), .degree (v/n),
+#> | .closeness (v/n), .betweenness (v/n), .eigencentrality (v/n),
+#> | .louvain (v/c), .louvain_weighted (v/c), .eigen (v/c),
+#> | .eigen_weighted (v/c), .label_prop (v/c), .label_prop_weighted (v/c),
+#> | lat (v/n), long (v/n), wij (e/n), edge_type (e/c)
+#> + edges from ec97c8b (vertex names):
+#> [1] 13--19 20--22 19--31 22--35 22--39
+```
