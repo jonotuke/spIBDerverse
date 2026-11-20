@@ -49,7 +49,7 @@ convert_bb_asp <- function(bb, asp = 1) {
 #'
 #' @returns same network sf with adjusted aspect ration
 #'
-#' @export
+#' @noRd
 add_convert_bb_adj <- function(network_sf, asp = 1) {
   nodes_sf <- network_sf$nodes_sf
   bb <- sf::st_bbox(network_sf$nodes_sf)
@@ -211,19 +211,20 @@ plot_staticmap <- function(
 
   # JITTER ----
   if (jitter > 0) {
-    set.seed(seed)
-    xy <- get_node_coords(g, lat, long)
-    n <- igraph::vcount(g)
-    g <- igraph::set_vertex_attr(
-      g,
-      long,
-      value = xy$lon + stats::runif(n, -jitter, jitter)
-    )
-    g <- igraph::set_vertex_attr(
-      g,
-      lat,
-      value = xy$lat + stats::runif(n, -jitter, jitter)
-    )
+    withr::with_seed(seed, {
+      xy <- get_node_coords(g, lat, long)
+      n <- igraph::vcount(g)
+      g <- igraph::set_vertex_attr(
+        g,
+        long,
+        value = xy$lon + stats::runif(n, -jitter, jitter)
+      )
+      g <- igraph::set_vertex_attr(
+        g,
+        lat,
+        value = xy$lat + stats::runif(n, -jitter, jitter)
+      )
+    })
   }
 
   # BOUNDING BOX ----

@@ -7,6 +7,8 @@ utils::globalVariables(
 #'
 #' @return nothing
 #' @export
+#' @examples
+#' if(interactive()){spibder_app(example_network)}
 spibder_app <- function(input_network = NULL) {
   if (is.null(input_network)) {
     input_network <- example_network
@@ -28,7 +30,6 @@ spibder_app <- function(input_network = NULL) {
     trim_levels = FALSE
   )
 
-  options(shiny.maxRequestSize = Inf)
   # UI ----
   ui <- shiny::fluidPage(
     theme = bslib::bs_theme(version = 5),
@@ -314,5 +315,13 @@ spibder_app <- function(input_network = NULL) {
       show("ergm", r$ergm())
     })
   }
-  shiny::shinyApp(ui, server)
+  shiny::shinyApp(
+    ui,
+    server,
+    onStart = function() {
+      # Allow large uploads while the app runs, then restore the user's setting
+      old <- options(shiny.maxRequestSize = Inf)
+      shiny::onStop(function() options(old))
+    }
+  )
 }

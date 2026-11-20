@@ -266,7 +266,7 @@ plot_network <- function(
   legend_stroke = 1,
   convert_nas = TRUE
 ) {
-  set.seed(seed)
+  withr::local_seed(seed)
   connected <- match.arg(connected, c("Show", "Hide", "Grey out"))
 
   # CONNECTED ----

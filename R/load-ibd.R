@@ -11,9 +11,9 @@ utils::globalVariables(c(
 #'
 #' @returns tibble
 #'
-#' @export
+#' @noRd
 read_file <- function(file) {
-  ext <- fs::path_ext(file)
+  ext <- tools::file_ext(file)
   if (ext == "tsv") {
     readr::read_tsv(file, show_col_types = FALSE)
   } else if (ext == "csv") {
@@ -29,8 +29,7 @@ read_file <- function(file) {
 #'
 #' @returns ibd with added frac_gp1 and frac_gp2
 #'
-#' @export
-
+#' @noRd
 add_frac <- function(ibd, meta) {
   if (all(c("frac_gp1", "frac_gp2") %in% colnames(ibd))) {
     # rlang::inform("All ready have frac_gp1, frac_gp2, nothing to see here")

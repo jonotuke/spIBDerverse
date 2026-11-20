@@ -1,5 +1,5 @@
 Package: spIBDerverse
-Title: Functions to Analyse ancIBD Data Either Directly of in a Shiny App
+Title: Analyse 'ancIBD' Identity-by-Descent Networks with ERGMs and a 'shiny' App
 Version: 0.0.0.9000
 Authors@R: 
     c(
@@ -76,7 +76,6 @@ Imports:
     emmeans,
     statnet.common
 Suggests: 
-    quarto,
     rmarkdown,
     knitr,
     testthat (>= 3.0.0),
@@ -84,7 +83,6 @@ Suggests:
     withr, 
     ggsci,
     fs
-VignetteBuilder: quarto
 Depends: 
     R (>= 4.1.0)
 LazyData: true

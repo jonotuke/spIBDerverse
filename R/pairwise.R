@@ -8,6 +8,9 @@
 #' @returns pairwise tibble
 #'
 #' @export
+#' @examples
+#' ergms <- fit_ergms(example_network, "site", "nodemix")
+#' ergm_pairwise(ergms[[1]], "site")
 ergm_pairwise <- function(
   ergm_model,
   term_string,

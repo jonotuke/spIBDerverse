@@ -21,3 +21,7 @@ pairwise tibble
 Get pairwise differences for a categorical predictor in
 an ergm model
 }
+\examples{
+ergms <- fit_ergms(example_network, "site", "nodemix")
+ergm_pairwise(ergms[[1]], "site")
+}

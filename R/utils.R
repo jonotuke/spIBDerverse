@@ -169,7 +169,7 @@ utils::globalVariables(
 #'
 #' @returns an ASCII image
 #'
-#' @export
+#' @noRd
 plot_default_image <- function() {
   spIBDerverse::default_image |>
     ggplot2::ggplot(

@@ -15,3 +15,6 @@ nothing
 \description{
 spIBDerverse shiny app
 }
+\examples{
+if(interactive()){spibder_app(example_network)}
+}
