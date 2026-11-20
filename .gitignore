@@ -8,10 +8,9 @@ inst/doc
 docs
 /doc/
 /Meta/
-
-/.quarto/
+/submissions/
 /dev/
-data-private
+/data-private/
+/.quarto/
 **/.quarto/
-
 **/*.quarto_ipynb
