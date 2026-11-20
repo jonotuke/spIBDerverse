@@ -18,3 +18,7 @@ cutoff_input_id(x, what = c("node", "edge"))
 - what:
 
   Either `"node"` or `"edge"`.
+
+## Value
+
+String of the form "node_cutoff_site"

@@ -151,6 +151,8 @@ ibd_network
   : dist network
 - [`drop_missing_nodes()`](https://jonotuke.github.io/spIBDerverse/reference/drop_missing_nodes.md)
   : drop_missing_nodes
+- [`dunn_perm()`](https://jonotuke.github.io/spIBDerverse/reference/dunn_perm.md)
+  : Performs a permuation test for Kruskal Wallis and Dunn test
 - [`edges_to_sf()`](https://jonotuke.github.io/spIBDerverse/reference/edges_to_sf.md)
   : edges to sf
 - [`ergm_pairwise()`](https://jonotuke.github.io/spIBDerverse/reference/ergm_pairwise.md)

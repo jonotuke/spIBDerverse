@@ -21,3 +21,7 @@ get_attr_values(g, x, what = c("node", "edge"))
 - what:
 
   Either `"node"` or `"edge"`.
+
+## Value
+
+vector of attribute values

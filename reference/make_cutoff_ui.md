@@ -30,3 +30,7 @@ make_cutoff_ui(id, x, g, what = c("node", "edge"), selected = NULL)
 - selected:
 
   previous selected values
+
+## Value
+
+shiny selectinput

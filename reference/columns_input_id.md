@@ -13,3 +13,7 @@ columns_input_id(what = c("node", "edge"))
 - what:
 
   Either `"node"` or `"edge"`.
+
+## Value
+
+string with node_columns or edge_columns

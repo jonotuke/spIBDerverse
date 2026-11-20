@@ -17,3 +17,7 @@ get_attr_names(g, what = c("node", "edge"))
 - what:
 
   Either `"node"` or `"edge"`.
+
+## Value
+
+gives a vector of attribute or edge names
