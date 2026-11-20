@@ -17,6 +17,9 @@ make_cutoff_ui(id, x, g, what = c("node", "edge"), selected = NULL)
 
 \item{selected}{previous selected values}
 }
+\value{
+shiny selectinput
+}
 \description{
 Numeric attributes get a range input; all other attributes get a set of
 checkboxes (one per level), all ticked by default.

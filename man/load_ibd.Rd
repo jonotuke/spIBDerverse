@@ -30,3 +30,10 @@ igraph object
 \description{
 Load an IBD network
 }
+\examples{
+ibd_file <- system.file("extdata", "example-ibd/example-ibd-data.tsv", package = "spIBDerverse")
+meta_file <- system.file("extdata", "example-ibd/example-meta-data.tsv", package = "spIBDerverse")
+
+g <- load_ibd(ibd_file, meta_file)
+g
+}

@@ -30,6 +30,7 @@ read_file <- function(file) {
 #' @returns ibd with added frac_gp1 and frac_gp2
 #'
 #' @export
+
 add_frac <- function(ibd, meta) {
   if (all(c("frac_gp1", "frac_gp2") %in% colnames(ibd))) {
     # rlang::inform("All ready have frac_gp1, frac_gp2, nothing to see here")
@@ -59,6 +60,12 @@ add_frac <- function(ibd, meta) {
 #'
 #' @return igraph object
 #' @export
+#' @examples
+#' ibd_file <- system.file("extdata", "example-ibd/example-ibd-data.tsv", package = "spIBDerverse")
+#' meta_file <- system.file("extdata", "example-ibd/example-meta-data.tsv", package = "spIBDerverse")
+#'
+#' g <- load_ibd(ibd_file, meta_file)
+#' g
 load_ibd <- function(
   ibd_file,
   meta_file,

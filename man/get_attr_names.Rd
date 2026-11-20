@@ -11,6 +11,9 @@ get_attr_names(g, what = c("node", "edge"))
 
 \item{what}{Either \code{"node"} or \code{"edge"}.}
 }
+\value{
+gives a vector of attribute or edge names
+}
 \description{
 Names of the node or edge attributes of a network
 }

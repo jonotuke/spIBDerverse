@@ -1,3 +1,5 @@
+#' set up of list for dunn tests
+#' @noRd
 dunn_setup <- function(y, group) {
   # Remove missing
   ok <- !is.na(y) & !is.na(group)
@@ -25,15 +27,31 @@ dunn_setup <- function(y, group) {
     pairs = paste(levels(g)[idx[1, ]], levels(g)[idx[2, ]], sep = " - ")
   )
 }
+#' calculation of dunn z
+#' @noRd
 dunn_z <- function(s, R = s$r) {
   m <- crossprod(s$W, R)
   (m[s$i1, , drop = FALSE] - m[s$i2, , drop = FALSE]) / s$denom
 }
+#' calculation of kruskal wallis stat
+#' @noRd
 kw_h <- function(s, R = s$r) {
   m <- crossprod(s$W, R)
   N <- length(s$r)
   colSums(s$n * (m - (N + 1) / 2)^2) / s$s2
 }
+#' Performs a permuation test for Kruskal Wallis and Dunn test
+#'
+#' @param y outcome var
+#' @param group group var
+#' @param B number of sims
+#' @param chunk chunk size for sims
+#'
+#' @returns a named list with Dunn results and KW results
+#'
+#' @export
+#' @examples
+#' dunn_perm(y = rnorm(30), group = rep(LETTERS[1:3], each = 10))
 dunn_perm <- function(y, group, B = 10000, chunk = 2000) {
   s <- dunn_setup(y, group)
   z_obs <- drop(dunn_z(s))

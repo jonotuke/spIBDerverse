@@ -9,6 +9,9 @@ columns_input_id(what = c("node", "edge"))
 \arguments{
 \item{what}{Either \code{"node"} or \code{"edge"}.}
 }
+\value{
+string with node_columns or edge_columns
+}
 \description{
 Input id of the attribute selector for nodes or edges
 }

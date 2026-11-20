@@ -1,3 +1,5 @@
+#' centrality input
+#' @noRd
 centralityInput <- function(id, cat_vars) {
   shiny::tagList(
     shiny::checkboxGroupInput(
@@ -36,6 +38,8 @@ centralityInput <- function(id, cat_vars) {
     )
   )
 }
+#' centrality output
+#' @noRd
 centralityOutput <- function(id) {
   shiny::tagList(
     DT::dataTableOutput(
@@ -57,6 +61,8 @@ centralityOutput <- function(id) {
     )
   )
 }
+#' centrality server
+#' @noRd
 centralityServer <- function(id, r) {
   shiny::moduleServer(id, function(input, output, session) {
     central_df <- shiny::reactive({
@@ -128,6 +134,8 @@ centralityServer <- function(id, r) {
       shiny::bindEvent(input$run_sim)
   })
 }
+#' centrality app
+#' @noRd
 centralityApp <- function(network_input) {
   cat_var <- get_node_attributes(network_input, "cat")
   ui <- shiny::fluidPage(

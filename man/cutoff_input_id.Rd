@@ -11,6 +11,9 @@ cutoff_input_id(x, what = c("node", "edge"))
 
 \item{what}{Either \code{"node"} or \code{"edge"}.}
 }
+\value{
+String of the form "node_cutoff_site"
+}
 \description{
 Attribute names can contain characters that are not valid in input ids,
 so they are sanitised here.

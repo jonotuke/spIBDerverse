@@ -13,6 +13,9 @@ get_attr_values(g, x, what = c("node", "edge"))
 
 \item{what}{Either \code{"node"} or \code{"edge"}.}
 }
+\value{
+vector of attribute values
+}
 \description{
 Get the observed values of a node or edge attribute
 }
