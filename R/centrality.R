@@ -1,10 +1,3 @@
-add_centrality_measures <- function(g) {
-  igraph::V(g)$.degree <- igraph::degree(g)
-  igraph::V(g)$.closeness <- igraph::closeness(g)
-  igraph::V(g)$.betweenness <- igraph::betweenness(g)
-  igraph::V(g)$.eigencentrality <- igraph::eigen_centrality(g)$vector
-  g
-}
 utils::globalVariables(
   c(
     ".closeness",
@@ -18,6 +11,25 @@ utils::globalVariables(
     "z"
   )
 )
+utils::globalVariables(
+  c(".interaction", "sim", "stat", "predictor", "data")
+)
+#' Adds centrality measures to an igraph object
+#'
+#' @param g igraph object
+#'
+#' @returns igraph with centrality measures of form .degree etc
+#'
+#' @export
+#' @examples
+#' add_centrality_measures(example_network)
+add_centrality_measures <- function(g) {
+  igraph::V(g)$.degree <- igraph::degree(g)
+  igraph::V(g)$.closeness <- igraph::closeness(g)
+  igraph::V(g)$.betweenness <- igraph::betweenness(g)
+  igraph::V(g)$.eigencentrality <- igraph::eigen_centrality(g)$vector
+  g
+}
 #' Get centrality measures
 #'
 #' @description
@@ -155,10 +167,6 @@ plot_centrality <- function(
 
   p
 }
-utils::globalVariables(
-  c(".interaction", "sim", "stat", "predictor", "data")
-)
-
 #' Test centrality centralitys
 #'
 #' Tests using a linear model if any of the predss are significantly associated with
@@ -298,6 +306,8 @@ test_centralities <- function(g, centrality, preds) {
     }) |>
     purrr::list_rbind()
 }
+#' Produces formated gt table
+#' @noRd
 get_centrality_gt <- function(cent_test) {
   cent_test |>
     tidyr::unnest(dunn) |>
