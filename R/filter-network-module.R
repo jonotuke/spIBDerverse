@@ -1,4 +1,5 @@
-# UI ---
+#' networkfilter input
+#' @noRd
 networkFilterInput <- function(id, all_vars, edge_vars) {
   ns <- shiny::NS(id)
 
@@ -33,7 +34,8 @@ networkFilterInput <- function(id, all_vars, edge_vars) {
     shiny::uiOutput(ns("edge_cutoffs"))
   )
 }
-
+#' networkfilter output
+#' @noRd
 networkFilterOutput <- function(id) {
   ns <- shiny::NS(id)
 
@@ -45,13 +47,7 @@ networkFilterOutput <- function(id) {
 
 # HELPERS ----
 #' Input id for the cutoff control of one attribute
-#'
-#' Attribute names can contain characters that are not valid in input ids,
-#' so they are sanitised here.
-#'
-#' @param x Attribute name.
-#' @param what Either `"node"` or `"edge"`.
-#' @return String of the form "node_cutoff_site"
+#' @noRd
 cutoff_input_id <- function(x, what = c("node", "edge")) {
   what <- match.arg(what)
   paste0(what, "_cutoff_", gsub("[^A-Za-z0-9_]", "_", x))
@@ -61,6 +57,7 @@ cutoff_input_id <- function(x, what = c("node", "edge")) {
 #'
 #' @param what Either `"node"` or `"edge"`.
 #' @return string with node_columns or edge_columns
+#' @noRd
 columns_input_id <- function(what = c("node", "edge")) {
   what <- match.arg(what)
   paste0(what, "_columns")
@@ -77,6 +74,7 @@ columns_input_id <- function(what = c("node", "edge")) {
 #' @param what Either `"node"` or `"edge"`.
 #' @param selected previous selected values
 #' @return shiny selectinput
+#' @noRd
 make_cutoff_ui <- function(
   id,
   x,
@@ -121,6 +119,7 @@ make_cutoff_ui <- function(
 #' @param x Name of the attribute.
 #' @param what Either `"node"` or `"edge"`.
 #' @return vector of attribute values
+#' @noRd
 get_attr_values <- function(g, x, what = c("node", "edge")) {
   what <- match.arg(what)
   switch(
@@ -135,6 +134,7 @@ get_attr_values <- function(g, x, what = c("node", "edge")) {
 #' @param g An igraph object.
 #' @param what Either `"node"` or `"edge"`.
 #' @return gives a vector of attribute or edge names
+#' @noRd
 get_attr_names <- function(g, what = c("node", "edge")) {
   what <- match.arg(what)
   switch(
@@ -143,9 +143,8 @@ get_attr_names <- function(g, what = c("node", "edge")) {
     edge = igraph::edge_attr_names(g)
   )
 }
-
-
-# SERVER ----
+#' networkfilter input
+#' @noRd
 networkFilterServer <- function(id, r) {
   shiny::moduleServer(id, function(input, output, session) {
     # Collect the current node or edge filters as a named list:
@@ -250,10 +249,8 @@ networkFilterServer <- function(id, r) {
     # })
   })
 }
-
-
-# APP ----
-
+#' networkfilter app
+#' @noRd
 networkFilterApp <- function(network_input) {
   r <- shiny::reactiveValues()
   r$network <- shiny::reactive(network_input)

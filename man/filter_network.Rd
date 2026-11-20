@@ -28,3 +28,6 @@ Numeric attributes are filtered on a \code{c(min, max)} range (inclusive, \code{
 bounds are unbounded); all other attributes are filtered on the set of
 values to keep. Missing values never pass a filter.
 }
+\examples{
+filter_network(example_network, node_filters = list(site = "A"))
+}

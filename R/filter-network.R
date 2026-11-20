@@ -15,6 +15,8 @@
 #'
 #' @return filtered IBD network
 #' @export
+#' @examples
+#' filter_network(example_network, node_filters = list(site = "A"))
 filter_network <- function(
   g,
   node_filters = list(),
