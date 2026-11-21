@@ -53,7 +53,13 @@ the facet attributes, ordered by the median of the measure.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">plot_centrality</span><span class="op">(</span><span class="va">g</span>, centrality <span class="op">=</span> <span class="st">".degree"</span>, preds <span class="op">=</span> <span class="cn">NULL</span>, rotate <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">plot_centrality</span><span class="op">(</span></span>
+<span>  <span class="va">g</span>,</span>
+<span>  centrality <span class="op">=</span> <span class="st">".degree"</span>,</span>
+<span>  preds <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  rotate <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  pal <span class="op">=</span> <span class="st">"default"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -74,6 +80,10 @@ the facet attributes, ordered by the median of the measure.</p>
 
 <dt id="arg-rotate">rotate<a class="anchor" aria-label="anchor" href="#arg-rotate"></a></dt>
 <dd><p>If <code>TRUE</code>, rotate the x-axis labels by 90 degrees.</p></dd>
+
+
+<dt id="arg-pal">pal<a class="anchor" aria-label="anchor" href="#arg-pal"></a></dt>
+<dd><p>palette to use</p></dd>
 
 </dl></div>
     <div class="section level2">

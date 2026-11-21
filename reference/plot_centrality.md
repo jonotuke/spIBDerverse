@@ -9,7 +9,13 @@ measure.
 ## Usage
 
 ``` r
-plot_centrality(g, centrality = ".degree", preds = NULL, rotate = FALSE)
+plot_centrality(
+  g,
+  centrality = ".degree",
+  preds = NULL,
+  rotate = FALSE,
+  pal = "default"
+)
 ```
 
 ## Arguments
@@ -29,6 +35,10 @@ plot_centrality(g, centrality = ".degree", preds = NULL, rotate = FALSE)
 - rotate:
 
   If `TRUE`, rotate the x-axis labels by 90 degrees.
+
+- pal:
+
+  palette to use
 
 ## Value
 
