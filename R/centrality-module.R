@@ -26,6 +26,11 @@ centralityInput <- function(id, cat_vars) {
       ),
       selected = ".degree"
     ),
+    palette_chooser(
+      id = shiny::NS(id, "pal"),
+      label = "Choose palette",
+      type = "cat"
+    ),
     shiny::actionButton(
       shiny::NS(id, "run_sim"),
       "Run permutation test",
@@ -102,7 +107,8 @@ centralityServer <- function(id, r) {
           r$network(),
           centrality = input$centrality,
           preds = input$preds,
-          rotate = input$rotate
+          rotate = input$rotate,
+          pal = input$pal
         )
       )
     })
@@ -150,4 +156,8 @@ centralityApp <- function(network_input) {
     centralityServer("central", r = r)
   }
   shiny::shinyApp(ui, server)
+}
+
+if (sys.nframe() == 5) {
+  centralityApp(example_network) |> print()
 }

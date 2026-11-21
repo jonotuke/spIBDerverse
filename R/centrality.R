@@ -92,6 +92,7 @@ utils::globalVariables(
 #' @param centrality centrality measures
 #' @param preds Preditors for centrality
 #' @param rotate If `TRUE`, rotate the x-axis labels by 90 degrees.
+#' @param pal palette to use
 #'
 #' @returns A ggplot object: a histogram if `preds` is `NULL`, otherwise a
 #'   boxplot.
@@ -105,7 +106,8 @@ plot_centrality <- function(
   g,
   centrality = ".degree",
   preds = NULL,
-  rotate = FALSE
+  rotate = FALSE,
+  pal = "default"
 ) {
   # Convert g to df
   df <- igraph::as_data_frame(g, what = "vertices") |>
@@ -146,10 +148,10 @@ plot_centrality <- function(
       df,
       ggplot2::aes(x = .interaction, y = value, fill = .interaction)
     ) +
-      ggplot2::geom_boxplot() +
+      ggplot2::geom_boxplot(show.legend = FALSE) +
       ggplot2::labs(x = facet_label, fill = facet_label) +
-      harrypotter::scale_fill_hp_d("Ravenclaw") +
-      ggplot2::facet_wrap(~.centrality, scales = "free")
+      pal_scale("fill", pal, "discrete")
+    ggplot2::facet_wrap(~.centrality, scales = "free")
   }
 
   p <- p + ggplot2::theme_bw()

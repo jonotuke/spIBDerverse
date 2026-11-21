@@ -4,7 +4,13 @@
 \alias{plot_centrality}
 \title{Plot centrality measures}
 \usage{
-plot_centrality(g, centrality = ".degree", preds = NULL, rotate = FALSE)
+plot_centrality(
+  g,
+  centrality = ".degree",
+  preds = NULL,
+  rotate = FALSE,
+  pal = "default"
+)
 }
 \arguments{
 \item{g}{An igraph object.}
@@ -14,6 +20,8 @@ plot_centrality(g, centrality = ".degree", preds = NULL, rotate = FALSE)
 \item{preds}{Preditors for centrality}
 
 \item{rotate}{If \code{TRUE}, rotate the x-axis labels by 90 degrees.}
+
+\item{pal}{palette to use}
 }
 \value{
 A ggplot object: a histogram if \code{preds} is \code{NULL}, otherwise a

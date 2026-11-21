@@ -30,7 +30,10 @@ plot_centrality <- function(g, measure = ".degree", facets = NULL) {
     df <- df |>
       dplyr::mutate(
         .interaction = interaction_term,
-        .interaction = forcats::fct_reorder(.interaction, .data[[measure]])
+        .interaction = forcats::fct_reorder(
+          .interaction,
+          .data[[measure]]
+        )
       )
     p <- df |>
       ggplot2::ggplot() +
@@ -45,11 +48,15 @@ plot_centrality <- function(g, measure = ".degree", facets = NULL) {
         fill = stringr::str_c(facets, collapse = "\n"),
         x = stringr::str_c(facets, collapse = "\n")
       ) +
-      harrypotter::scale_fill_hp_d("Ravenclaw")
+      pal_scale("fill", "default", "discrete")
   }
   p <- p +
     ggplot2::theme_bw() +
     ggplot2::theme(axis.text.x = ggplot2::element_text(angle = -90, hjust = 0))
 
   p
+}
+
+if (sys.nframe() == 5) {
+  plot
 }
