@@ -218,6 +218,8 @@ ibd_network
   : loads some example data
 - [`load_ibd()`](https://jonotuke.github.io/spIBDerverse/reference/load_ibd.md)
   : Load an IBD network
+- [`loader()`](https://jonotuke.github.io/spIBDerverse/reference/loader.md)
+  : Load a network
 - [`names_to_ids()`](https://jonotuke.github.io/spIBDerverse/reference/names_to_ids.md)
   : Find the vertex id from a name
 - [`pal_scale()`](https://jonotuke.github.io/spIBDerverse/reference/pal_scale.md)

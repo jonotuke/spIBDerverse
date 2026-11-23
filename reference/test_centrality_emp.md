@@ -49,5 +49,5 @@ test_centrality_emp(example_network, ".degree", "genetic_sex")
 #> # A tibble: 1 × 4
 #>   predictor   centrality KW_pv dunn            
 #>   <chr>       <chr>      <dbl> <list>          
-#> 1 genetic_sex .degree    0.982 <tibble [1 × 4]>
+#> 1 genetic_sex .degree    0.983 <tibble [1 × 4]>
 ```
