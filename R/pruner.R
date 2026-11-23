@@ -1,5 +1,5 @@
 remove_bad_edges <- function(g) {
-  bad_idx <- which(edge_attr(g, ".type") == "bad")
+  bad_idx <- which(edge_attr(g, ".edgetype") == "bad")
   if (length(bad_idx) == 0) {
     rlang::inform("No bad edges")
     return(g)
@@ -70,8 +70,8 @@ add_bad_edges <- function(g, filters = list()) {
     values <- igraph::edge_attr(g, col)
     keep <- keep & attr_in_cutoff(values, filters[[col]])
   }
-  igraph::E(g)$.type <- "good"
-  igraph::E(g)[keep]$.type <- "bad"
+  igraph::E(g)$.edgetype <- "good"
+  igraph::E(g)[keep]$.edgetype <- "bad"
   g
 }
 add_bad_nodes <- function(g, filters = list()) {
@@ -96,15 +96,28 @@ add_bad_nodes <- function(g, filters = list()) {
   igraph::V(g)[keep]$.type <- "bad"
   g
 }
+pruner <- function(g, edge_filters = list(), node_filters = list()) {
+  g
+  if (length(node_filters) > 0) {
+    g <- g |> add_bad_nodes(node_filters)
+    g <- igraph::delete_vertices(g, which(igraph::V(g)$.type == "bad"))
+  }
+  if (length(edge_filters) > 0) {
+    g <- g |> add_bad_edges(edge_filters)
+    g <- g |> remove_bad_edges()
+  }
+  g
+}
 
 if (sys.nframe() == 5) {
   library(igraph)
   library(lpSolve)
   # ---- Example ----
   example_network |>
-    add_bad_nodes(
-      filters = list(.degree = c(3, NA))
+    pruner(
+      node_filters = list(site = c("A")),
+      edge_filters = list(edge_type = "B")
     ) |>
-    plot_network(fill = ".type", label = ".degree") |>
+    plot_network(fill = "site", edge = "edge_type") |>
     print()
 }
