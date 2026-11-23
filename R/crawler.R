@@ -28,7 +28,7 @@ label_crawl <- function(g, nodes, k = 2L) {
     unique()
 
   igraph::V(g)$.crawl <- "outside"
-  igraph::V(g)$.crawl[within] <- "inside"
+  igraph::V(g)$.crawl[within] <- "crawl"
   igraph::V(g)$.crawl[seeds] <- "seed"
   g
 }
