@@ -7,9 +7,8 @@ dataWizardInput <- function(id) {
       ns("data_type"),
       "Type of data",
       choices = c(
-        "Load example data" = "example",
-        "Load IBD data" = "ibd",
-        "Load default data" = "default"
+        "Loader module" = "loader",
+        "Load example data" = "example"
       )
     ),
     shiny::uiOutput(
@@ -35,27 +34,29 @@ dataWizardServer <- function(id, r) {
   shiny::moduleServer(id, function(input, output, session) {
     ns <- shiny::NS(id)
     loadexampleServer("example", r = r)
-    loadibdServer("ibd", r = r)
-    loaddefaultServer("default", r = r)
+    loaderServer("loader", r = r)
 
     # output$debug <- shiny::renderPrint({
-    #   print("Hello world")
-    #   print("Full network")
-    #   print(r$full_network())
-    #   print("Example")
-    #   print(r$example())
-    #   print("IBD")
-    #   print(r$ibd_data())
-    #   print("Default")
-    #   print(r$default())
+    #   show <- function(label, f) {
+    #     cat("---", label, "---\n")
+    #     res <- tryCatch(
+    #       f(),
+    #       shiny.silent.error = function(e) "<req() not satisfied>",
+    #       error = function(e) paste("<error:", conditionMessage(e), ">")
+    #     )
+    #     print(res)
+    #   }
+    #   cat("Hello world\n")
+    #   show("Full network", r$full_network)
+    #   show("Example", r$example)
+    #   show("Loader", r$loader)
     # })
 
     output$input <- shiny::renderUI({
       switch(
         input$data_type,
         example = loadexampleInput(ns("example")),
-        ibd = loadibdInput(ns("ibd")),
-        default = loaddefaultInput(ns("default"))
+        loader = loaderInput(ns("loader"))
       )
     })
 
@@ -63,8 +64,7 @@ dataWizardServer <- function(id, r) {
       switch(
         input$data_type,
         example = loadexampleOutput(ns("example")),
-        ibd = loadibdOutput(ns("ibd")),
-        default = loaddefaultOutput(ns("default"))
+        loader = loaderOutput(ns("loader"))
       )
     })
 
@@ -73,13 +73,9 @@ dataWizardServer <- function(id, r) {
         r$full_network <- shiny::reactive({
           r$example()
         })
-      } else if (input$data_type == "ibd") {
+      } else if (input$data_type == "loader") {
         r$full_network <- shiny::reactive({
-          r$ibd_data()
-        })
-      } else if (input$data_type == "default") {
-        r$full_network <- shiny::reactive({
-          r$default()
+          r$loader()
         })
       } else {
         return(NULL)
@@ -105,10 +101,7 @@ dataWizardApp <- function() {
   r$example <- shiny::reactive({
     NULL
   })
-  r$ibd_data <- shiny::reactive({
-    NULL
-  })
-  r$default <- shiny::reactive({
+  r$loader <- shiny::reactive({
     NULL
   })
   ui <- shiny::fluidPage(
@@ -119,4 +112,8 @@ dataWizardApp <- function() {
     dataWizardServer("dataWizard", r = r)
   }
   shiny::shinyApp(ui, server)
+}
+
+if (sys.nframe() == 5) {
+  dataWizardApp() |> print()
 }

@@ -1,5 +1,6 @@
 ## code to prepare `example_network` dataset goes here
 pacman::p_load(conflicted, tidyverse, ergm, igraph)
+set.seed(2026)
 # Simulate null network
 basic_network <- network(40, directed = FALSE, density = 0)
 
