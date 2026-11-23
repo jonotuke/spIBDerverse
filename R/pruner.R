@@ -37,19 +37,74 @@ remove_bad_edges <- function(g) {
   g <- igraph::delete_vertices(g, cover)
   g
 }
+attr_in_cutoff <- function(values, cutoff) {
+  if (is.numeric(values)) {
+    cutoff <- suppressWarnings(
+      as.numeric(cutoff)
+    )
+    checkmate::assert_numeric(cutoff, len = 2)
+    lo <- if (is.na(cutoff[1])) -Inf else cutoff[1]
+    hi <- if (is.na(cutoff[2])) Inf else cutoff[2]
+    keep <- values >= lo & values <= hi
+  } else {
+    checkmate::assert_character(cutoff)
+    keep <- as.character(values) %in% as.character(cutoff)
+  }
+  keep & !is.na(keep)
+}
+add_bad_edges <- function(g, filters = list()) {
+  checkmate::assert_list(
+    filters,
+    names = "unique",
+    min.len = 1
+  )
+
+  cols <- names(filters)
+  checkmate::assertSubset(
+    cols,
+    igraph::edge_attr_names(g)
+  )
+
+  keep <- rep(TRUE, igraph::ecount(g))
+  for (col in cols) {
+    values <- igraph::edge_attr(g, col)
+    keep <- keep & attr_in_cutoff(values, filters[[col]])
+  }
+  igraph::E(g)$.type <- "good"
+  igraph::E(g)[keep]$.type <- "bad"
+  g
+}
+add_bad_nodes <- function(g, filters = list()) {
+  checkmate::assert_list(
+    filters,
+    names = "unique",
+    min.len = 1
+  )
+
+  cols <- names(filters)
+  checkmate::assertSubset(
+    cols,
+    igraph::vertex_attr_names(g)
+  )
+
+  keep <- rep(TRUE, igraph::vcount(g))
+  for (col in cols) {
+    values <- igraph::vertex_attr(g, col)
+    keep <- keep & attr_in_cutoff(values, filters[[col]])
+  }
+  igraph::V(g)$.type <- "good"
+  igraph::V(g)[keep]$.type <- "bad"
+  g
+}
 
 if (sys.nframe() == 5) {
   library(igraph)
   library(lpSolve)
   # ---- Example ----
-  set.seed(1)
-  g <- sample_gnp(30, 0.15)
-  E(g)$.type <- sample(
-    c("good", "bad"),
-    ecount(g),
-    replace = TRUE,
-    prob = c(0.7, 0.3)
-  )
-
-  remove_bad_edges_min_vc(g) |> print()
+  example_network |>
+    add_bad_nodes(
+      filters = list(.degree = c(3, NA))
+    ) |>
+    plot_network(fill = ".type", label = ".degree") |>
+    print()
 }
