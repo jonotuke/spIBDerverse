@@ -72,7 +72,7 @@ loader <- function(
     node_df,
     missing_node_df
   )
-  # GRAPH -------------------------------------------------------------------
+  # GRAPH ----
   g <- tryCatch(
     igraph::graph_from_data_frame(
       edge_df,
@@ -90,13 +90,4 @@ loader <- function(
   seed_id <- names_to_ids(g, seed_nodes)
   g <- label_crawl(g, seed_id, k = crawl_length)
   g
-}
-
-if (sys.nframe() == 5) {
-  loader(
-    edge_file = "inst/extdata/example-ibd/example-ibd-data.tsv",
-    node_file = "inst/extdata/broken-ibd/meta-missing-nodes.tsv"
-  ) |>
-    plot_network(fill = ".crawl") |>
-    print()
 }
