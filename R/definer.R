@@ -9,8 +9,8 @@ definer <- function(g, edge_filters = list()) {
     )
   }
   # Remove nodes outside crawl
-  keep <- vertex_attr(g, ".crawl") %in% c("seed", "crawl")
-  g <- induced_subgraph(g, V(g)[keep])
+  keep <- igraph::vertex_attr(g, ".crawl") %in% c("seed", "crawl")
+  g <- igraph::induced_subgraph(g, igraph::V(g)[keep])
   g
 }
 attr_in_cutoff <- function(values, cutoff) {

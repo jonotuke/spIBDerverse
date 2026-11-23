@@ -34,29 +34,25 @@ loaderInput <- function(id) {
 loaderOutput <- function(id) {
   ns <- shiny::NS(id)
   shiny::tagList(
-    shiny::verbatimTextOutput(
-      shiny::NS(id, "debug")
-    ),
+    # shiny::verbatimTextOutput(
+    #   shiny::NS(id, "debug")
+    # ),
     shiny::tableOutput(
       ns("tab")
     )
   )
 }
+
 loaderServer <- function(id, r) {
   shiny::moduleServer(id, function(input, output, session) {
-    output$debug <- shiny::renderPrint({
-      print("Full network")
-      print(r$full_network())
-      print("Edge cutoff inputs")
-      cutoffs <- edge_cutoff_values()
-      if (length(cutoffs) == 0) {
-        print("None selected")
-      } else {
-        print(cutoffs)
-      }
-    })
+    # output$debug <- shiny::renderPrint({
+    #   print("Full network")
+    #   print(full_data()$network)
+    #   print("r$loader()")
+    #   print(r$loader())
+    # })
 
-    loader_data <- shiny::reactive({
+    full_data <- shiny::reactive({
       if (
         is.null(input$edge_file) |
           is.null(input$node_file)
@@ -72,20 +68,17 @@ loaderServer <- function(id, r) {
       )
     })
 
-    shiny::observeEvent(loader_data(), {
-      r$full_network <- shiny::reactive({
-        loader_data()$network
-      })
+    shiny::observeEvent(full_data(), {
       shiny::updateSelectizeInput(
         session,
         "edge_columns",
-        choices = igraph::edge_attr_names(loader_data()$network),
+        choices = igraph::edge_attr_names(full_data()$network),
         selected = character(0)
       )
     })
 
     output$edge_cutoffs <- shiny::renderUI({
-      network <- loader_data()$network
+      network <- full_data()$network
       cols <- input$edge_columns
       shiny::req(network, length(cols) > 0)
 
@@ -123,10 +116,9 @@ loaderServer <- function(id, r) {
       shiny::tagList(inputs)
     })
 
-    # Current id, type and value of each cutoff input
     edge_cutoff_values <- shiny::reactive({
       cols <- input$edge_columns
-      network <- loader_data()$network
+      network <- full_data()$network
       if (length(cols) == 0 || is.null(network)) {
         return(list())
       }
@@ -144,8 +136,28 @@ loaderServer <- function(id, r) {
       })
     })
 
+    r$loader <- shiny::reactive({
+      network <- full_data()$network
+
+      if (is.null(network)) {
+        return(NULL)
+      }
+
+      cutoffs <- edge_cutoff_values()
+      edge_filters <- purrr::map(cutoffs, function(cutoff) {
+        value <- cutoff$value
+        if (cutoff$type == "checkbox" && is.null(value)) {
+          value <- character(0)
+        }
+        value
+      })
+      edge_filters <- purrr::compact(edge_filters)
+
+      return(definer(network, edge_filters = edge_filters))
+    })
+
     output$tab <- shiny::renderTable({
-      res <- loader_data()
+      res <- full_data()
       shiny::validate(
         shiny::need(res, "Please upload an edge and node file"),
         shiny::need(
@@ -161,7 +173,11 @@ loaderServer <- function(id, r) {
           paste("Message:", res$messages, collapse = "\n")
         )
       )
-      get_network_summary(res$network)
+      network <- r$loader()
+      shiny::validate(
+        shiny::need(network, "Could not define the network")
+      )
+      get_network_summary(network)
     })
   })
 }
@@ -213,18 +229,15 @@ capture_conditions <- function(expr) {
 
 loaderApp <- function() {
   r <- shiny::reactiveValues()
-  r$full_network <- shiny::reactive({
-    example_network
-  })
-  r$ibd_data <- shiny::reactive({
+  r$loader <- shiny::reactive({
     NULL
   })
   ui <- shiny::fluidPage(
-    loaderInput("ibdload"),
-    loaderOutput("ibdload")
+    loaderInput("loader"),
+    loaderOutput("loader")
   )
   server <- function(input, output, session) {
-    loaderServer("ibdload", r = r)
+    loaderServer("loader", r = r)
   }
   shiny::shinyApp(ui, server)
 }
