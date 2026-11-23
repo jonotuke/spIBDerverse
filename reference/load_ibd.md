@@ -48,7 +48,7 @@ meta_file <- system.file("extdata", "example-ibd/example-meta-data.tsv", package
 
 g <- load_ibd(ibd_file, meta_file)
 g
-#> IGRAPH d8921ce UN-- 328 1712 -- 
+#> IGRAPH 5e0b5a4 UN-- 328 1712 -- 
 #> + attr: name (v/c), frac_gp (v/n), frac_missing (v/n), frac_het (v/n),
 #> | n_cov_snp (v/n), Archaeological_ID (v/c), Master_ID (v/c), Projects
 #> | (v/c), Locality (v/c), Province (v/c), Country (v/c), Latitude (v/n),
@@ -60,5 +60,5 @@ g
 #> | sum_ibd_8 (e/n), n_ibd_8 (e/n), sum_ibd_12 (e/n), n_ibd_12 (e/n),
 #> | sum_ibd_16 (e/n), n_ibd_16 (e/n), sum_ibd_20 (e/n), n_ibd_20 (e/n),
 #> | wij (e/n)
-#> + edges from d8921ce (vertex names):
+#> + edges from 5e0b5a4 (vertex names):
 ```
