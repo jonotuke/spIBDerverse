@@ -42,11 +42,8 @@ spibder_app <- function(input_network = NULL) {
           dataWizardInput("data"),
         ),
         shiny::conditionalPanel(
-          condition = "input.tabs == 'Filter network' || 
-            input.tabs == 'Edge info' || 
-            input.tabs == 'Node info' ||
-            input.tabs == 'Filtering the network'",
-          networkFilterInput("filter", all_vars, edge_vars)
+          condition = "input.tabs == 'Pruning'",
+          prunerInput("pruning", all_vars, edge_vars)
         ),
         shiny::conditionalPanel(
           condition = "input.tabs == 'Network plot'",
@@ -143,9 +140,9 @@ spibder_app <- function(input_network = NULL) {
           ),
           shiny::tabPanel(
             # FILTERING ----
-            title = "Filtering the network",
+            title = "Pruning",
             shiny::tabsetPanel(
-              id = "filter_tabs",
+              id = "pruning",
               shiny::tabPanel(
                 title = "Nodes",
                 nodeOutput("node")
@@ -221,13 +218,13 @@ spibder_app <- function(input_network = NULL) {
     r$example <- shiny::reactive({
       NULL
     })
-    r$ibd_data <- shiny::reactive({
+    r$loader <- shiny::reactive({
       NULL
     })
     # Data ----
     dataWizardServer("data", r = r)
-    # Filter ----
-    networkFilterServer("filter", r = r)
+    # Pruner ----
+    prunerServer("pruning", r = r)
     # Edge ----
     edgeServer("edge", r)
     # Node ----

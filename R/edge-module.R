@@ -40,7 +40,7 @@ edgeApp <- function(network_input) {
   all_vars <- get_node_attributes(network_input)
   edge_vars <- igraph::edge_attr_names(network_input)
   ui <- shiny::fluidPage(
-    networkFilterInput("filter", all_vars, edge_vars),
+    prunerInput("filter", all_vars, edge_vars),
     edgeOutput("edge")
   )
   r <- shiny::reactiveValues()
@@ -51,7 +51,7 @@ edgeApp <- function(network_input) {
     network_input
   })
   server <- function(input, output, session) {
-    networkFilterServer("filter", r = r)
+    prunerServer("filter", r = r)
     edgeServer("edge", r = r)
   }
   shiny::shinyApp(ui, server)
