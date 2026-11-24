@@ -90,23 +90,27 @@ matrices themselves.</p>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="get_ringbauer_measures.html">get_ringbauer_measures</a></span><span class="op">(</span><span class="va">example_network</span>, <span class="st">"site"</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">convert_ringbauer_measures</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>There was 1 warning in `dplyr::mutate()`.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> In argument: `prop_test = purrr::map2(...)`.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> Caused by warning in `stats::prop.test()`:</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> Chi-squared approximation may be incorrect</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $density</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            B          C          A</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> B 0.30476190 0.06190476 0.04848485</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> C 0.06190476 0.46153846 0.09740260</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> A 0.04848485 0.09740260 0.09090909</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            A          B          C</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> A 0.20467836 0.06477733 0.05921053</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> B 0.06477733 0.28205128 0.04807692</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> C 0.05921053 0.04807692 0.53571429</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $labels</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   B        C        A       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> B "32/105" "13/210" "8/165" </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> C "13/210" "42/91"  "15/154"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> A "8/165"  "15/154" "5/55"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   A        B        C      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> A "35/171" "16/247" "9/152"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> B "16/247" "22/78"  "5/104"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> C "9/152"  "5/104"  "15/28"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $text_colour</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   B       C       A      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> B "black" "white" "white"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> C "white" "black" "white"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   A       B       C      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> A "white" "white" "white"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> B "white" "black" "white"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> C "white" "white" "black"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 </code></pre></div>
     </div>

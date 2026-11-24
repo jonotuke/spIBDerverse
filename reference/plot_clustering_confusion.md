@@ -12,7 +12,8 @@ plot_clustering_confusion(
   normalise = c("none", "pred", "cluster"),
   n_levels = 20,
   base_size = 14,
-  fill_pal = "default"
+  fill_pal = "default",
+  no_dis = FALSE
 )
 ```
 
@@ -47,6 +48,10 @@ plot_clustering_confusion(
 - fill_pal:
 
   palette colour for fill
+
+- no_dis:
+
+  remove Disconnected nodes
 
 ## Value
 

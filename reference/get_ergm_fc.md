@@ -28,12 +28,12 @@ tibble of fold changes
 ergm <- fit_ergms(example_network, preds = "site", types = "nodemix")
 get_ergm_fc(ergm[[1]])
 #> # A tibble: 6 × 3
-#>   term           theta   phi
-#>   <chr>          <dbl> <dbl>
-#> 1 edges        -2.30   1    
-#> 2 mix.site.A.B -0.674  0.533
-#> 3 mix.site.B.B  1.48   3.35 
-#> 4 mix.site.A.C  0.0762 1.07 
-#> 5 mix.site.B.C -0.416  0.681
-#> 6 mix.site.C.C  2.15   5.08 
+#>   term          theta   phi
+#>   <chr>         <dbl> <dbl>
+#> 1 edges        -1.36  1    
+#> 2 mix.site.A.B -1.31  0.316
+#> 3 mix.site.B.B  0.423 1.38 
+#> 4 mix.site.A.C -1.41  0.289
+#> 5 mix.site.B.C -1.63  0.235
+#> 6 mix.site.C.C  1.50  2.62 
 ```

@@ -44,22 +44,26 @@ a list of three matrices: density, labels, and text colour
 ``` r
 get_ringbauer_measures(example_network, "site") |>
   convert_ringbauer_measures()
+#> Warning: There was 1 warning in `dplyr::mutate()`.
+#> ℹ In argument: `prop_test = purrr::map2(...)`.
+#> Caused by warning in `stats::prop.test()`:
+#> ! Chi-squared approximation may be incorrect
 #> $density
-#>            B          C          A
-#> B 0.30476190 0.06190476 0.04848485
-#> C 0.06190476 0.46153846 0.09740260
-#> A 0.04848485 0.09740260 0.09090909
+#>            A          B          C
+#> A 0.20467836 0.06477733 0.05921053
+#> B 0.06477733 0.28205128 0.04807692
+#> C 0.05921053 0.04807692 0.53571429
 #> 
 #> $labels
-#>   B        C        A       
-#> B "32/105" "13/210" "8/165" 
-#> C "13/210" "42/91"  "15/154"
-#> A "8/165"  "15/154" "5/55"  
+#>   A        B        C      
+#> A "35/171" "16/247" "9/152"
+#> B "16/247" "22/78"  "5/104"
+#> C "9/152"  "5/104"  "15/28"
 #> 
 #> $text_colour
-#>   B       C       A      
-#> B "black" "white" "white"
-#> C "white" "black" "white"
+#>   A       B       C      
 #> A "white" "white" "white"
+#> B "white" "black" "white"
+#> C "white" "white" "black"
 #> 
 ```

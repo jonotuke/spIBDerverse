@@ -30,6 +30,6 @@ ergms[[1]] |> get_ergm_coef()
 #> # A tibble: 2 × 6
 #>   term            coef fold_change std.error statistic  p.value
 #>   <chr>          <dbl>       <dbl>     <dbl>     <dbl>    <dbl>
-#> 1 edges          -2.62        1        0.173    -15.2  6.68e-52
-#> 2 nodematch.site  1.84        4.62     0.220      8.37 5.79e-17
+#> 1 edges          -2.76        1        0.188    -14.6  1.38e-48
+#> 2 nodematch.site  1.71        4.36     0.233      7.35 1.97e-13
 ```

@@ -63,4 +63,8 @@ modified further, e.g. with `& ggplot2::theme(...)`
 ``` r
 get_ringbauer_measures(example_network, "site") |>
   plot_ringbauer(addSize = TRUE)
+#> Warning: There was 1 warning in `dplyr::mutate()`.
+#> ℹ In argument: `prop_test = purrr::map2(...)`.
+#> Caused by warning in `stats::prop.test()`:
+#> ! Chi-squared approximation may be incorrect
 ```

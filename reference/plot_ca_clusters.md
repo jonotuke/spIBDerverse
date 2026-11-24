@@ -5,7 +5,13 @@ plot CA for clusters
 ## Usage
 
 ``` r
-plot_ca_clusters(g, pred = NULL, cluster = ".louvain", jitter_scale = 10)
+plot_ca_clusters(
+  g,
+  pred = NULL,
+  cluster = ".louvain",
+  jitter_scale = 10,
+  no_dis = FALSE
+)
 ```
 
 ## Arguments
@@ -25,6 +31,10 @@ plot_ca_clusters(g, pred = NULL, cluster = ".louvain", jitter_scale = 10)
 - jitter_scale:
 
   level to scale
+
+- no_dis:
+
+  remove disconnected nodes
 
 ## Value
 
