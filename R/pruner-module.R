@@ -12,7 +12,7 @@ prunerInput <- function(id, all_vars, edge_vars) {
     ),
     shiny::selectizeInput(
       ns("node_columns"),
-      "Choose node attributes to prune",
+      "Choose node attributes to filter on",
       choices = all_vars,
       multiple = TRUE,
       options = list(
@@ -23,7 +23,7 @@ prunerInput <- function(id, all_vars, edge_vars) {
     shiny::uiOutput(ns("node_cutoffs")),
     shiny::selectizeInput(
       ns("edge_columns"),
-      "Choose edge attributes to prune on",
+      "Choose edge attributes to filer on",
       choices = edge_vars,
       multiple = TRUE,
       options = list(

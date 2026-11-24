@@ -1,13 +1,13 @@
 remove_bad_edges <- function(g) {
-  bad_idx <- which(edge_attr(g, ".edgetype") == "bad")
+  bad_idx <- which(igraph::edge_attr(g, ".edgetype") == "bad")
   if (length(bad_idx) == 0) {
     rlang::inform("No bad edges")
     return(g)
   }
 
   # Endpoints of the bad edges as numeric vertex ids
-  ep <- ends(g, bad_idx, names = FALSE)
-  n <- vcount(g)
+  ep <- igraph::ends(g, bad_idx, names = FALSE)
+  n <- igraph::vcount(g)
   m <- nrow(ep)
 
   # Sparse constraint matrix: one row per bad edge, entry 1 for each endpoint.
@@ -20,7 +20,7 @@ remove_bad_edges <- function(g) {
   # Objective: number of vertices removed, or total weight if weights are given
   obj <- rep(1, n)
 
-  sol <- lp(
+  sol <- lpSolve::lp(
     direction = "min",
     objective.in = obj,
     const.dir = rep(">=", m),
@@ -52,7 +52,7 @@ attr_in_cutoff <- function(values, cutoff) {
   }
   keep & !is.na(keep)
 }
-add_bad_edges <- function(g, filters = list()) {
+add_good_edges <- function(g, filters = list()) {
   checkmate::assert_list(
     filters,
     names = "unique",
@@ -70,11 +70,11 @@ add_bad_edges <- function(g, filters = list()) {
     values <- igraph::edge_attr(g, col)
     keep <- keep & attr_in_cutoff(values, filters[[col]])
   }
-  igraph::E(g)$.edgetype <- "good"
-  igraph::E(g)[keep]$.edgetype <- "bad"
+  igraph::E(g)$.edgetype <- "bad"
+  igraph::E(g)[keep]$.edgetype <- "good"
   g
 }
-add_bad_nodes <- function(g, filters = list()) {
+add_good_nodes <- function(g, filters = list()) {
   checkmate::assert_list(
     filters,
     names = "unique",
@@ -92,31 +92,29 @@ add_bad_nodes <- function(g, filters = list()) {
     values <- igraph::vertex_attr(g, col)
     keep <- keep & attr_in_cutoff(values, filters[[col]])
   }
-  igraph::V(g)$.type <- "good"
-  igraph::V(g)[keep]$.type <- "bad"
+  igraph::V(g)$.type <- "bad"
+  igraph::V(g)[keep]$.type <- "good"
   g
 }
 pruner <- function(g, edge_filters = list(), node_filters = list()) {
   g
   if (length(node_filters) > 0) {
-    g <- g |> add_bad_nodes(node_filters)
+    g <- g |> add_good_nodes(node_filters)
     g <- igraph::delete_vertices(g, which(igraph::V(g)$.type == "bad"))
   }
   if (length(edge_filters) > 0) {
-    g <- g |> add_bad_edges(edge_filters)
+    g <- g |> add_good_edges(edge_filters)
     g <- g |> remove_bad_edges()
   }
   g
 }
 
 if (sys.nframe() == 5) {
-  library(igraph)
-  library(lpSolve)
   # ---- Example ----
   example_network |>
     pruner(
-      node_filters = list(site = c("A")),
-      edge_filters = list(edge_type = "B")
+      node_filters = list(site = c("A", "B")),
+      edge_filters = list(edge_type = c("A", "B"))
     ) |>
     plot_network(fill = "site", edge = "edge_type") |>
     print()

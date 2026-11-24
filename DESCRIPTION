@@ -74,7 +74,8 @@ Imports:
     ggdendro,
     patchwork,
     emmeans,
-    statnet.common
+    statnet.common,
+    lpSolve
 Suggests: 
     rmarkdown,
     knitr,

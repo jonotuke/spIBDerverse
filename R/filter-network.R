@@ -93,7 +93,7 @@ attr_filters_keep <- function(g, filters, what = c("node", "edge")) {
       node = igraph::vertex_attr(g, col),
       edge = igraph::edge_attr(g, col)
     )
-    keep <- keep & attr_in_cutoff(values, filters[[col]], col)
+    keep <- keep & attr_in_cutoff(values, filters[[col]])
   }
   keep
 }
