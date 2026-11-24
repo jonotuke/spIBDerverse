@@ -19,7 +19,7 @@ add_clustering <- function(g, weight = "wij") {
 
   label_clusters <- function(prefix, communities) {
     m <- as.integer(igraph::membership(communities))
-    out <- rep("disconnected", length(m))
+    out <- rep("Disconnected", length(m))
     # Renumber connected clusters 1, 2, 3, ... with no gaps,
     # keeping the algorithm's original ordering
     m_conn <- m[!disconnected]
@@ -148,6 +148,7 @@ get_clustering_measures <- function(g, pred = "none", cluster = ".louvain") {
 #' @param n_levels maximum number of levels
 #' @param base_size size of text
 #' @param fill_pal palette colour for fill
+#' @param no_dis remove Disconnected nodes
 #'
 #' @returns a ggplot object, or `NULL` (invisibly) if `pred` or `cluster`
 #'   has more than `n_levels` levels.
@@ -161,10 +162,14 @@ plot_clustering_confusion <- function(
   normalise = c("none", "pred", "cluster"),
   n_levels = 20,
   base_size = 14,
-  fill_pal = "default"
+  fill_pal = "default",
+  no_dis = FALSE
 ) {
   normalise <- match.arg(normalise)
   df <- clustering_vertex_df(g)
+  if (no_dis) {
+    df <- df |> dplyr::filter(.data[[cluster]] != "Disconnected")
+  }
   if (!is.character(df[[pred]]) && !is.factor(df[[pred]])) {
     p <- df |>
       ggplot2::ggplot(
@@ -283,6 +288,7 @@ utils::globalVariables(
 #' @param pred Name of the vertex attribute to compare clusters against.
 #' @param cluster Name of the vertex attribute holding cluster membership.
 #' @param jitter_scale level to scale
+#' @param no_dis remove disconnected nodes
 #'
 #' @return A ggplot object, or `NULL` with a warning if `pred` is not given.
 #' @export
@@ -292,7 +298,8 @@ plot_ca_clusters <- function(
   g,
   pred = NULL,
   cluster = ".louvain",
-  jitter_scale = 10
+  jitter_scale = 10,
+  no_dis = FALSE
 ) {
   if (is.null(pred)) {
     rlang::warn(
@@ -307,6 +314,11 @@ plot_ca_clusters <- function(
         "{pretty_var_name(pred)} must be a categorical node attribute.",
       )
     )
+  }
+
+  if (no_dis) {
+    vertices <- vertices |>
+      dplyr::filter(.data[[cluster]] != "Disconnected")
   }
 
   tab <- table(vertices[[cluster]], vertices[[pred]])
@@ -360,7 +372,8 @@ plot_ca_1d <- function(ca_clusters, ca_vars, pct_var) {
       segment.color = "gray80",
       force = 0.5,
       colour = "black",
-      size = 4
+      size = 4,
+      max.overlaps = 1e4
     ) +
     ggplot2::geom_point(
       data = ca_vars,
@@ -380,7 +393,8 @@ plot_ca_1d <- function(ca_clusters, ca_vars, pct_var) {
       force = 0.5,
       colour = "darkblue",
       fontface = "bold",
-      size = 4
+      size = 4,
+      max.overlaps = 1e4
     ) +
     ggplot2::ylim(-0.5, 0.5) +
     ggplot2::labs(x = dim_label(pct_var, 1), y = NULL) +
@@ -416,7 +430,8 @@ plot_ca_2d <- function(ca_clusters, ca_vars, pct_var, jitter_scale) {
     ggrepel::geom_label_repel(
       ggplot2::aes(label = variable),
       colour = "darkblue",
-      box.padding = 1
+      box.padding = 1,
+      max.overlaps = 1e4
     ) +
     ggplot2::geom_text(
       data = ca_clusters,
@@ -425,4 +440,13 @@ plot_ca_2d <- function(ca_clusters, ca_vars, pct_var, jitter_scale) {
       alpha = 0.5
     ) +
     ggplot2::labs(x = dim_label(pct_var, 1), y = dim_label(pct_var, 2))
+}
+
+if (sys.nframe() == 5) {
+  plot_ca_clusters(
+    example_network_2,
+    pred = "site",
+    no_dis = TRUE
+  ) |>
+    print()
 }

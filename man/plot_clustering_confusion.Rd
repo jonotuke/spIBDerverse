@@ -11,7 +11,8 @@ plot_clustering_confusion(
   normalise = c("none", "pred", "cluster"),
   n_levels = 20,
   base_size = 14,
-  fill_pal = "default"
+  fill_pal = "default",
+  no_dis = FALSE
 )
 }
 \arguments{
@@ -30,6 +31,8 @@ each predictor level falling in each cluster) or \code{"cluster"}
 \item{base_size}{size of text}
 
 \item{fill_pal}{palette colour for fill}
+
+\item{no_dis}{remove Disconnected nodes}
 }
 \value{
 a ggplot object, or \code{NULL} (invisibly) if \code{pred} or \code{cluster}

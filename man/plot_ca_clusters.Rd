@@ -4,7 +4,13 @@
 \alias{plot_ca_clusters}
 \title{plot CA for clusters}
 \usage{
-plot_ca_clusters(g, pred = NULL, cluster = ".louvain", jitter_scale = 10)
+plot_ca_clusters(
+  g,
+  pred = NULL,
+  cluster = ".louvain",
+  jitter_scale = 10,
+  no_dis = FALSE
+)
 }
 \arguments{
 \item{g}{An igraph object.}
@@ -14,6 +20,8 @@ plot_ca_clusters(g, pred = NULL, cluster = ".louvain", jitter_scale = 10)
 \item{cluster}{Name of the vertex attribute holding cluster membership.}
 
 \item{jitter_scale}{level to scale}
+
+\item{no_dis}{remove disconnected nodes}
 }
 \value{
 A ggplot object, or \code{NULL} with a warning if \code{pred} is not given.

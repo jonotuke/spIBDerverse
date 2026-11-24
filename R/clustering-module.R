@@ -49,7 +49,15 @@ clusteringInput <- function(id, all_vars) {
           value = 20,
           step = 1
         ),
-        palette_chooser(shiny::NS(id, "fill_pal"), "Fill palette", type = "cat")
+        palette_chooser(
+          shiny::NS(id, "fill_pal"),
+          "Fill palette",
+          type = "cat"
+        ),
+        shiny::checkboxInput(
+          shiny::NS(id, "no_dis"),
+          "Remove disconnected"
+        )
       )
     )
   )
@@ -105,7 +113,8 @@ clusteringServer <- function(id, r) {
           cluster = input$cluster,
           n_levels = input$n_levels,
           base_size = input$font,
-          fill_pal = input$fill_pal
+          fill_pal = input$fill_pal,
+          no_dis = input$no_dis
         ),
         error = function(w) {
           shiny::validate(shiny::need(FALSE, conditionMessage(w)))
@@ -128,7 +137,8 @@ clusteringServer <- function(id, r) {
         plot_ca_clusters(
           g = r$network(),
           pred = input$pred,
-          cluster = input$cluster
+          cluster = input$cluster,
+          no_dis = input$no_dis
         ),
         error = function(e) {
           shiny::validate(shiny::need(FALSE, conditionMessage(e)))
@@ -173,4 +183,8 @@ clusteringApp <- function(network_input) {
     clusteringServer("cluster", r = r)
   }
   shiny::shinyApp(ui, server)
+}
+
+if (sys.nframe() == 5) {
+  clusteringApp(example_network_2) |> print()
 }
