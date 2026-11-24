@@ -14,7 +14,8 @@ plot_centrality(
   centrality = ".degree",
   preds = NULL,
   rotate = FALSE,
-  pal = "default"
+  pal = "default",
+  log_trans = FALSE
 )
 ```
 
@@ -39,6 +40,10 @@ plot_centrality(
 - pal:
 
   palette to use
+
+- log_trans:
+
+  log scale on y-axis
 
 ## Value
 
