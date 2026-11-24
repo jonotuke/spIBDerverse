@@ -3,6 +3,17 @@
 centralityInput <- function(id, cat_vars) {
   shiny::tagList(
     shiny::checkboxGroupInput(
+      shiny::NS(id, "centrality"),
+      "Centrality measure to plot",
+      choices = c(
+        "Degree" = ".degree",
+        "Closeness" = ".closeness",
+        "Betweenness" = ".betweenness",
+        "Eigencentrality" = ".eigencentrality"
+      ),
+      selected = ".degree"
+    ),
+    shiny::checkboxGroupInput(
       shiny::NS(id, "preds"),
       "Choose attributes to stratify on",
       choices = cat_vars
@@ -15,17 +26,7 @@ centralityInput <- function(id, cat_vars) {
       step = 1,
       value = 2
     ),
-    shiny::checkboxGroupInput(
-      shiny::NS(id, "centrality"),
-      "Centrality measure to plot",
-      choices = c(
-        "Degree" = ".degree",
-        "Closeness" = ".closeness",
-        "Betweenness" = ".betweenness",
-        "Eigencentrality" = ".eigencentrality"
-      ),
-      selected = ".degree"
-    ),
+
     palette_chooser(
       id = shiny::NS(id, "pal"),
       label = "Choose palette",
@@ -40,6 +41,10 @@ centralityInput <- function(id, cat_vars) {
     shiny::checkboxInput(
       shiny::NS(id, "rotate"),
       "Rotate x-axis"
+    ),
+    shiny::checkboxInput(
+      shiny::NS(id, "log"),
+      "Log-transform y-axis"
     )
   )
 }
@@ -108,7 +113,8 @@ centralityServer <- function(id, r) {
           centrality = input$centrality,
           preds = input$preds,
           rotate = input$rotate,
-          pal = input$pal
+          pal = input$pal,
+          log_trans = input$log
         )
       )
     })

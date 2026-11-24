@@ -9,7 +9,8 @@ plot_centrality(
   centrality = ".degree",
   preds = NULL,
   rotate = FALSE,
-  pal = "default"
+  pal = "default",
+  log_trans = FALSE
 )
 }
 \arguments{
@@ -22,6 +23,8 @@ plot_centrality(
 \item{rotate}{If \code{TRUE}, rotate the x-axis labels by 90 degrees.}
 
 \item{pal}{palette to use}
+
+\item{log_trans}{log scale on y-axis}
 }
 \value{
 A ggplot object: a histogram if \code{preds} is \code{NULL}, otherwise a

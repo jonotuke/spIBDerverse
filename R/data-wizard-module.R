@@ -68,18 +68,28 @@ dataWizardServer <- function(id, r) {
       )
     })
 
-    shiny::observeEvent(input$data_type, {
-      if (input$data_type == "example") {
-        r$full_network <- shiny::reactive({
-          r$example()
-        })
-      } else if (input$data_type == "loader") {
-        r$full_network <- shiny::reactive({
-          r$loader()
-        })
-      } else {
-        return(NULL)
-      }
+    # shiny::observeEvent(input$data_type, {
+    #   if (input$data_type == "example") {
+    #     r$full_network <- shiny::reactive({
+    #       r$example()
+    #     })
+    #   } else if (input$data_type == "loader") {
+    #     r$full_network <- shiny::reactive({
+    #       r$loader()
+    #     })
+    #   } else {
+    #     return(NULL)
+    #   }
+    # })
+
+    shiny::observe({
+      net <- switch(
+        input$data_type,
+        example = r$example(),
+        loader = r$loader()
+      )
+      shiny::req(net) # keep the current network until the new source has one
+      r$full_network <- shiny::reactive(net)
     })
 
     output$tab <- shiny::renderTable({

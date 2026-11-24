@@ -93,6 +93,7 @@ utils::globalVariables(
 #' @param preds Preditors for centrality
 #' @param rotate If `TRUE`, rotate the x-axis labels by 90 degrees.
 #' @param pal palette to use
+#' @param log_trans log scale on y-axis
 #'
 #' @returns A ggplot object: a histogram if `preds` is `NULL`, otherwise a
 #'   boxplot.
@@ -107,7 +108,8 @@ plot_centrality <- function(
   centrality = ".degree",
   preds = NULL,
   rotate = FALSE,
-  pal = "default"
+  pal = "default",
+  log_trans = FALSE
 ) {
   # Convert g to df
   df <- igraph::as_data_frame(g, what = "vertices") |>
@@ -165,6 +167,10 @@ plot_centrality <- function(
           vjust = 0.5
         )
       )
+  }
+
+  if (log_trans) {
+    p <- p + ggplot2::scale_y_log10()
   }
 
   p
