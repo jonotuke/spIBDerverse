@@ -9,11 +9,13 @@
 <url><loc>https://jonotuke.github.io/spIBDerverse/authors.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/index.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/abbreviate_terms.html</loc></url>
-<url><loc>https://jonotuke.github.io/spIBDerverse/reference/add_centrality_measures.html</loc></url>
+<url><loc>https://jonotuke.github.io/spIBDerverse/reference/add_centrality.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/add_clustering.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/add_layout.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/add_stars.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/check_node_attributes.html</loc></url>
+<url><loc>https://jonotuke.github.io/spIBDerverse/reference/classify_edges.html</loc></url>
+<url><loc>https://jonotuke.github.io/spIBDerverse/reference/classify_nodes.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/clean_models.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/clean_network.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/convert_bb.html</loc></url>
@@ -82,6 +84,8 @@
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/plot_spatial_ergm.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/plot_staticmap.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/predict_spatial_ergm.html</loc></url>
+<url><loc>https://jonotuke.github.io/spIBDerverse/reference/pruner.html</loc></url>
+<url><loc>https://jonotuke.github.io/spIBDerverse/reference/remove_bad_edges.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/remove_redundant_models.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/sort_label.html</loc></url>
 <url><loc>https://jonotuke.github.io/spIBDerverse/reference/spibder_app.html</loc></url>

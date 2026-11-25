@@ -4,7 +4,7 @@
 
 - [`abbreviate_terms()`](https://jonotuke.github.io/spIBDerverse/reference/abbreviate_terms.md)
   : abbreviate labels
-- [`add_centrality_measures()`](https://jonotuke.github.io/spIBDerverse/reference/add_centrality_measures.md)
+- [`add_centrality()`](https://jonotuke.github.io/spIBDerverse/reference/add_centrality.md)
   : Adds centrality measures to an igraph object
 - [`add_clustering()`](https://jonotuke.github.io/spIBDerverse/reference/add_clustering.md)
   : Add clusters
@@ -14,6 +14,10 @@
   : add stars to p-values
 - [`check_node_attributes()`](https://jonotuke.github.io/spIBDerverse/reference/check_node_attributes.md)
   : checks that vector of names are node attributes in a given network
+- [`classify_edges()`](https://jonotuke.github.io/spIBDerverse/reference/classify_edges.md)
+  : classify edges
+- [`classify_nodes()`](https://jonotuke.github.io/spIBDerverse/reference/classify_nodes.md)
+  : classify nodes
 - [`clean_models()`](https://jonotuke.github.io/spIBDerverse/reference/clean_models.md)
   : clean model names
 - [`clean_network()`](https://jonotuke.github.io/spIBDerverse/reference/clean_network.md)
@@ -149,6 +153,10 @@
   : Plot a network on a static Stadia map
 - [`predict_spatial_ergm()`](https://jonotuke.github.io/spIBDerverse/reference/predict_spatial_ergm.md)
   : Predicts probability for an edge for given distances
+- [`pruner()`](https://jonotuke.github.io/spIBDerverse/reference/pruner.md)
+  : pruner
+- [`remove_bad_edges()`](https://jonotuke.github.io/spIBDerverse/reference/remove_bad_edges.md)
+  : remove bad edges
 - [`remove_redundant_models()`](https://jonotuke.github.io/spIBDerverse/reference/remove_redundant_models.md)
   : remove redundant models
 - [`sort_label()`](https://jonotuke.github.io/spIBDerverse/reference/sort_label.md)
