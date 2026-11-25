@@ -238,6 +238,8 @@ ibd_network
   : plot CA for clusters
 - [`plot_centrality()`](https://jonotuke.github.io/spIBDerverse/reference/plot_centrality.md)
   : Plot centrality measures
+- [`plot_cluster_hc()`](https://jonotuke.github.io/spIBDerverse/reference/plot_cluster_hc.md)
+  : plot cluster HC
 - [`plot_clustering_confusion()`](https://jonotuke.github.io/spIBDerverse/reference/plot_clustering_confusion.md)
   : Plot cluster membership against a categorical predictor
 - [`plot_ergm_bic()`](https://jonotuke.github.io/spIBDerverse/reference/plot_ergm_bic.md)
