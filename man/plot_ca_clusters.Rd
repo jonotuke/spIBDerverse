@@ -24,7 +24,7 @@ plot_ca_clusters(
 \item{no_dis}{remove disconnected nodes}
 }
 \value{
-A ggplot object, or \code{NULL} with a warning if \code{pred} is not given.
+A ggplot object
 }
 \description{
 plot CA for clusters

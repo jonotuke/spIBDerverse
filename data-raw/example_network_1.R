@@ -59,8 +59,21 @@ V(example_network)$long <- V(example_network)$long +
   runif(vcount(example_network), min = -err, max = err)
 
 # Clean up attributes
-example_network <- delete_vertex_attr(example_network, "vertex.names")
-example_network <- delete_vertex_attr(example_network, "na")
-example_network <- delete_edge_attr(example_network, "na")
-example_network
+example_network <- delete_vertex_attr(
+  example_network,
+  "vertex.names"
+)
+example_network <- delete_vertex_attr(
+  example_network,
+  "na"
+)
+example_network <- delete_edge_attr(
+  example_network,
+  "na"
+)
+
+# Add crawler
+example_network <- example_network |> crawler(1:10, 2)
+
+igraph::vertex_attr_names(example_network)
 usethis::use_data(example_network, overwrite = TRUE)

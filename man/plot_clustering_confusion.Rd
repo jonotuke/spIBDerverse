@@ -22,9 +22,7 @@ plot_clustering_confusion(
 
 \item{cluster}{clustering measure}
 
-\item{normalise}{one of \code{"none"} (raw counts), \code{"pred"} (proportion of
-each predictor level falling in each cluster) or \code{"cluster"}
-(composition of each cluster).}
+\item{normalise}{one of none, pred, or cluster}
 
 \item{n_levels}{maximum number of levels}
 
@@ -35,8 +33,7 @@ each predictor level falling in each cluster) or \code{"cluster"}
 \item{no_dis}{remove Disconnected nodes}
 }
 \value{
-a ggplot object, or \code{NULL} (invisibly) if \code{pred} or \code{cluster}
-has more than \code{n_levels} levels.
+a ggplot object
 }
 \description{
 Plot cluster membership against a categorical predictor

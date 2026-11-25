@@ -1,3 +1,9 @@
+utils::globalVariables(
+  c("sd", "n", "prop", "label", "type", "name")
+)
+utils::globalVariables(
+  c("cluster", "dim_1", "dim_2", "variable")
+)
 #' Add clusters
 #'
 #' Nodes with no connections to other nodes (isolates) are assigned to a
@@ -20,8 +26,6 @@ add_clustering <- function(g, weight = "wij") {
   label_clusters <- function(prefix, communities) {
     m <- as.integer(igraph::membership(communities))
     out <- rep("Disconnected", length(m))
-    # Renumber connected clusters 1, 2, 3, ... with no gaps,
-    # keeping the algorithm's original ordering
     m_conn <- m[!disconnected]
     out[!disconnected] <- stringr::str_c(
       prefix,
@@ -56,12 +60,9 @@ add_clustering <- function(g, weight = "wij") {
   )
   g
 }
-utils::globalVariables(
-  c("sd", "n", "prop", "label", "type", "name")
-)
 
-#' Internal: long-format counts of nodes per predictor level x cluster.
-#' Shared by get_clustering_measures() and plot_clustering_confusion().
+
+#' Given tibble cluster and pred,
 #' @noRd
 count_clusters_by_pred <- function(df, pred, cluster) {
   df |>
@@ -75,7 +76,7 @@ count_clusters_by_pred <- function(df, pred, cluster) {
     dplyr::count(.data[[pred]], .data[[cluster]], .drop = FALSE)
 }
 
-#' Internal: node + clustering attributes as a tibble.
+#' From igraph gets node info and clusterning as tibble
 #' @noRd
 clustering_vertex_df <- function(g) {
   node_vars <- get_node_attributes(g)
@@ -142,16 +143,13 @@ get_clustering_measures <- function(g, pred = "none", cluster = ".louvain") {
 #'
 #' @inheritParams get_clustering_measures
 #' @param pred character node attribute to cross-tabulate against.
-#' @param normalise one of `"none"` (raw counts), `"pred"` (proportion of
-#'   each predictor level falling in each cluster) or `"cluster"`
-#'   (composition of each cluster).
+#' @param normalise one of none, pred, or cluster
 #' @param n_levels maximum number of levels
 #' @param base_size size of text
 #' @param fill_pal palette colour for fill
 #' @param no_dis remove Disconnected nodes
 #'
-#' @returns a ggplot object, or `NULL` (invisibly) if `pred` or `cluster`
-#'   has more than `n_levels` levels.
+#' @returns a ggplot object
 #' @export
 #' @examples
 #' plot_clustering_confusion(example_network_2, "Province")
@@ -185,13 +183,12 @@ plot_clustering_confusion <- function(
         x = pretty_var_name(cluster),
         fill = pretty_var_name(cluster)
       ) +
-      pal_scale(aesthetic = "fill", pal = fill_pal, type = "discrete")
-    return(p)
-    rlang::abort(
-      stringr::str_glue(
-        "{pred} must be a categorical node attribute."
+      pal_scale(
+        aesthetic = "fill",
+        pal = fill_pal,
+        type = "discrete"
       )
-    )
+    return(p)
   }
 
   counts <- count_clusters_by_pred(df, pred, cluster)
@@ -200,22 +197,7 @@ plot_clustering_confusion <- function(
   n_cluster <- nlevels(counts[[cluster]])
   if (n_pred > n_levels || n_cluster > n_levels) {
     rlang::warn(
-      sprintf(
-        paste(
-          "Too many levels to plot (maximum %s): '%s' has %d level%s",
-          "and '%s' has %d level%s."
-        ),
-        n_levels,
-        pretty_var_name(pred),
-        n_pred,
-        if (n_pred == 1) "" else "s",
-        pretty_var_name(cluster),
-        n_cluster,
-        if (n_cluster == 1) "" else "s"
-      ),
-      n_levels = n_levels,
-      n_pred = n_pred,
-      n_cluster = n_cluster
+      "Too many levels to plot"
     )
     return(invisible(NULL))
   }
@@ -225,8 +207,15 @@ plot_clustering_confusion <- function(
 
   counts <- switch(
     normalise,
-    none = dplyr::mutate(counts, prop = n),
-    pred = dplyr::mutate(counts, prop = n / sum(n), .by = dplyr::all_of(pred)),
+    none = dplyr::mutate(
+      counts,
+      prop = n
+    ),
+    pred = dplyr::mutate(
+      counts,
+      prop = n / sum(n),
+      .by = dplyr::all_of(pred)
+    ),
     cluster = dplyr::mutate(
       counts,
       prop = n / sum(n),
@@ -244,7 +233,11 @@ plot_clustering_confusion <- function(
 
   ggplot2::ggplot(
     counts,
-    ggplot2::aes(x = .data[[col_var]], y = .data[[row_var]], fill = prop)
+    ggplot2::aes(
+      x = .data[[col_var]],
+      y = .data[[row_var]],
+      fill = prop
+    )
   ) +
     ggplot2::geom_tile(colour = "white", linewidth = 0.5) +
     ggplot2::geom_text(
@@ -278,9 +271,7 @@ plot_clustering_confusion <- function(
     ggplot2::theme_minimal(base_size = base_size) +
     ggplot2::theme(panel.grid = ggplot2::element_blank())
 }
-utils::globalVariables(
-  c("cluster", "dim_1", "dim_2", "variable")
-)
+
 #' plot CA for clusters
 #'
 #'
@@ -290,7 +281,7 @@ utils::globalVariables(
 #' @param jitter_scale level to scale
 #' @param no_dis remove disconnected nodes
 #'
-#' @return A ggplot object, or `NULL` with a warning if `pred` is not given.
+#' @return A ggplot object
 #' @export
 #' @examples
 #' plot_ca_clusters(example_network, "site")
@@ -328,7 +319,10 @@ plot_ca_clusters <- function(
   ca_vars <- ca_coords(ca$col$coord, "variable")
   pct_var <- ca$eig[, 2]
 
-  p_value <- stats::fisher.test(tab, simulate.p.value = TRUE)$p.value
+  p_value <- stats::fisher.test(
+    tab,
+    simulate.p.value = TRUE
+  )$p.value
 
   plot <- if (ncol(ca_clusters) == 2) {
     plot_ca_1d(ca_clusters, ca_vars, pct_var)
@@ -337,8 +331,12 @@ plot_ca_clusters <- function(
   }
 
   plot +
-    ggplot2::ggtitle(sprintf("Fisher Exact Test: %.4f", p_value)) +
-    ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5))
+    ggplot2::ggtitle(
+      sprintf("Fisher Exact Test: %.4f", p_value)
+    ) +
+    ggplot2::theme(
+      plot.title = ggplot2::element_text(hjust = 0.5)
+    )
 }
 
 ca_coords <- function(coord, id_col) {
@@ -351,17 +349,24 @@ dim_label <- function(pct_var, i) {
   sprintf("Dimension %d (%.2f%%)", i, pct_var[i])
 }
 
-#' Single dimension: clusters above the line, predictor levels below it.
+#' Single cluster plot
 #' @noRd
 plot_ca_1d <- function(ca_clusters, ca_vars, pct_var) {
-  ggplot2::ggplot(ca_clusters, ggplot2::aes(x = dim_1, y = 0)) +
+  ggplot2::ggplot(
+    ca_clusters,
+    ggplot2::aes(x = dim_1, y = 0)
+  ) +
     ggplot2::theme_bw() +
     ggplot2::geom_hline(
       yintercept = 0,
       linetype = "dashed",
       colour = "darkgrey"
     ) +
-    ggplot2::geom_point(colour = "black", size = 2, shape = 4) +
+    ggplot2::geom_point(
+      colour = "black",
+      size = 2,
+      shape = 4
+    ) +
     ggrepel::geom_text_repel(
       ggplot2::aes(label = cluster),
       direction = "y",
@@ -414,7 +419,10 @@ plot_ca_2d <- function(ca_clusters, ca_vars, pct_var, jitter_scale) {
     height = diff(range(ca_clusters$dim_2)) / jitter_scale
   )
 
-  ggplot2::ggplot(ca_vars, ggplot2::aes(x = dim_1, y = dim_2)) +
+  ggplot2::ggplot(
+    ca_vars,
+    ggplot2::aes(x = dim_1, y = dim_2)
+  ) +
     ggplot2::theme_bw() +
     ggplot2::geom_hline(
       yintercept = 0,
@@ -439,14 +447,17 @@ plot_ca_2d <- function(ca_clusters, ca_vars, pct_var, jitter_scale) {
       position = label_jitter,
       alpha = 0.5
     ) +
-    ggplot2::labs(x = dim_label(pct_var, 1), y = dim_label(pct_var, 2))
+    ggplot2::labs(
+      x = dim_label(pct_var, 1),
+      y = dim_label(pct_var, 2)
+    )
 }
 
+# DRIVER ----
 if (sys.nframe() == 5) {
   plot_ca_clusters(
-    example_network_2,
-    pred = "site",
-    no_dis = TRUE
+    example_network,
+    pred = "site"
   ) |>
     print()
 }

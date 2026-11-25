@@ -1,9 +1,10 @@
-pacman::p_load(conflicted, tidyverse, targets)
 ibd <- readr::read_tsv(
-  "inst/extdata/example-ibd/example-ibd-data.tsv"
+  "inst/extdata/example-ibd/example-ibd-data.tsv",
+  show_col_types = FALSE
 )
 meta <- readr::read_tsv(
-  "inst/extdata/example-ibd/example-meta-data.tsv"
+  "inst/extdata/example-ibd/example-meta-data.tsv",
+  show_col_types = FALSE
 )
 ibd <- ibd |> add_frac(meta)
 ibd |> readr::write_tsv("inst/extdata/crawl-ibd/crawl-ibd.tsv")
@@ -12,10 +13,10 @@ nodes <- unique(c(ibd$iid1, ibd$iid2))
 set.seed(2026)
 n_seed <- 30
 seed_nodes <- sample(nodes, size = n_seed)
-node_df <- tibble(
+node_df <- tibble::tibble(
   iid = seed_nodes
 ) |>
-  mutate(
+  dplyr::mutate(
     genetic_sex = sample(
       c("M", "F"),
       size = n_seed,

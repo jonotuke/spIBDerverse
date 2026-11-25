@@ -1,7 +1,6 @@
-pacman::p_load(conflicted, tidyverse, targets)
 set.seed(2026)
 n <- 20
-nodes <- tibble(
+nodes <- tibble::tibble(
   id = 1:n,
   genetic_sex = sample(
     c("M", "F"),
@@ -22,16 +21,16 @@ edge <- tidyr::expand_grid(
   from = nodes$id,
   to = nodes$id
 ) |>
-  filter(from < to) |>
-  mutate(
+  dplyr::filter(from < to) |>
+  dplyr::mutate(
     dist = sample(
       1:20,
-      size = n(),
+      size = dplyr::n(),
       replace = TRUE
     ),
     edge_type = sample(
       letters[1:4],
-      size = n(),
+      size = dplyr::n(),
       replace = TRUE
     )
   )

@@ -18,5 +18,4 @@ igraph::V(example_network_2)$site <- stringr::str_remove_all(
   igraph::V(example_network_2)$Master_ID,
   "\\d"
 )
-example_network_2 |> print()
 usethis::use_data(example_network_2, overwrite = TRUE)

@@ -37,21 +37,6 @@ remove_bad_edges <- function(g) {
   g <- igraph::delete_vertices(g, cover)
   g
 }
-attr_in_cutoff <- function(values, cutoff) {
-  if (is.numeric(values)) {
-    cutoff <- suppressWarnings(
-      as.numeric(cutoff)
-    )
-    checkmate::assert_numeric(cutoff, len = 2)
-    lo <- if (is.na(cutoff[1])) -Inf else cutoff[1]
-    hi <- if (is.na(cutoff[2])) Inf else cutoff[2]
-    keep <- values >= lo & values <= hi
-  } else {
-    checkmate::assert_character(cutoff)
-    keep <- as.character(values) %in% as.character(cutoff)
-  }
-  keep & !is.na(keep)
-}
 add_good_edges <- function(g, filters = list()) {
   checkmate::assert_list(
     filters,
@@ -68,7 +53,7 @@ add_good_edges <- function(g, filters = list()) {
   keep <- rep(TRUE, igraph::ecount(g))
   for (col in cols) {
     values <- igraph::edge_attr(g, col)
-    keep <- keep & attr_in_cutoff(values, filters[[col]])
+    keep <- keep & in_cutoff(values, filters[[col]])
   }
   igraph::E(g)$.edgetype <- "bad"
   igraph::E(g)[keep]$.edgetype <- "good"
@@ -90,7 +75,7 @@ add_good_nodes <- function(g, filters = list()) {
   keep <- rep(TRUE, igraph::vcount(g))
   for (col in cols) {
     values <- igraph::vertex_attr(g, col)
-    keep <- keep & attr_in_cutoff(values, filters[[col]])
+    keep <- keep & in_cutoff(values, filters[[col]])
   }
   igraph::V(g)$.type <- "bad"
   igraph::V(g)[keep]$.type <- "good"

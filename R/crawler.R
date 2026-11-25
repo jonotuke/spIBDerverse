@@ -11,8 +11,8 @@
 #'
 #' @export
 #' @examples
-#' label_crawl(example_network, c(1, 2))
-label_crawl <- function(g, nodes, k = 2L) {
+#' crawler(example_network, c(1, 2))
+crawler <- function(g, nodes, k = 2L) {
   checkmate::assert_class(g, "igraph")
   checkmate::assert_numeric(nodes)
 

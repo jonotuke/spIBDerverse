@@ -107,4 +107,5 @@ example_network_7 <- example_network_7 |>
   add_centrality_measures() |>
   add_clustering()
 
+example_network_7 <- example_network_7 |> crawler(1)
 usethis::use_data(example_network_7, overwrite = TRUE)

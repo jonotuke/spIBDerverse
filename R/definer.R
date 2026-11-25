@@ -1,3 +1,18 @@
+#' definer
+#'
+#' @param g igraph object
+#' @param edge_filters a list of edge attributes and cutoffs
+#'
+#' @returns igraph object
+#'
+#' @export
+#' @examples
+#' definer(
+#' example_network,
+#' edge_filters = list(
+#' wij = c(0.5, NA), edge_type = "A"
+#' )
+#' )
 definer <- function(g, edge_filters = list()) {
   # Define edge
   if (length(edge_filters) > 0) {
@@ -13,11 +28,17 @@ definer <- function(g, edge_filters = list()) {
   g <- igraph::induced_subgraph(g, igraph::V(g)[keep])
   g
 }
-attr_in_cutoff <- function(values, cutoff) {
+#' check if values are in cutoffs
+#'
+#' @param values vector of values
+#' @param cutoff endpoints for numeric, values for categorical
+#'
+#' @export
+#' @returns boolean vector
+#' @examples
+#' in_cutoff(1:10, c(NA, 5))
+in_cutoff <- function(values, cutoff) {
   if (is.numeric(values)) {
-    cutoff <- suppressWarnings(
-      as.numeric(cutoff)
-    )
     checkmate::assert_numeric(cutoff, len = 2)
     lo <- if (is.na(cutoff[1])) -Inf else cutoff[1]
     hi <- if (is.na(cutoff[2])) Inf else cutoff[2]
@@ -28,6 +49,23 @@ attr_in_cutoff <- function(values, cutoff) {
   }
   keep & !is.na(keep)
 }
+
+#' keep edges
+#'
+#' @param g igraph obj
+#' @param filters list of filters
+#'
+#' @returns boolean of edges to keep
+#'
+#' @export
+#' @examples
+#' keep_edges(
+#'    example_network,
+#'    filters = list(
+#'      wij = c(0.5, NA),
+#'      edge_type = "A"
+#'    )
+#'  )
 keep_edges <- function(g, filters = list()) {
   checkmate::assert_list(
     filters,
@@ -44,27 +82,7 @@ keep_edges <- function(g, filters = list()) {
   keep <- rep(TRUE, igraph::ecount(g))
   for (col in cols) {
     values <- igraph::edge_attr(g, col)
-    keep <- keep & attr_in_cutoff(values, filters[[col]])
+    keep <- keep & in_cutoff(values, filters[[col]])
   }
   keep
-}
-
-if (sys.nframe() == 5) {
-  g <- loader(
-    "inst/extdata/crawl-ibd/crawl-ibd.tsv",
-    "inst/extdata/crawl-ibd/crawl-meta.tsv",
-    crawl_length = 2
-  )
-  definer(
-    g,
-    edge_filters = list(
-      sum_ibd_8 = c(NA, 1000),
-      frac_gp1 = c(0.7, NA)
-    )
-  ) |>
-    plot_network(
-      edge = "frac_gp1",
-      node_size = 3
-    ) |>
-    print()
 }
