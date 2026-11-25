@@ -24,6 +24,10 @@ read_file <- function(file) {
 #' @param node_file node file
 #' @param crawl_length classifies nodes as seed, in crawl length of outside
 #' of crawl length
+#' @param crawl_keep levels of crawl to keep
+#' @param add_cluster add clusters to graph
+#' @param add_central add centrality to graph
+#' @param verbose adds progress bar
 #'
 #' @return igraph object
 #' @export
@@ -36,14 +40,20 @@ read_file <- function(file) {
 loader <- function(
   edge_file,
   node_file,
-  crawl_length = 2L
+  crawl_length = 2L,
+  crawl_keep = c("seed", "crawl", "outside"),
+  add_cluster = TRUE,
+  add_central = TRUE,
+  verbose = FALSE
 ) {
+  step <- if (verbose) cli::cli_progress_step else function(...) invisible()
   # EDGES ----
   checkmate::assert_file_exists(
     edge_file,
     access = "r",
     extension = c("csv", "tsv")
   )
+  step("Reading edge file")
   edge_df <-
     edge_file |>
     read_file() |>
@@ -55,39 +65,89 @@ loader <- function(
     access = "r",
     extension = c("csv", "tsv")
   )
+  step("Reading node file")
   node_df <-
     node_file |>
     read_file() |>
     janitor::clean_names()
+  n_seed <- nrow(node_df)
+  checkmate::assert_vector(node_df[[1]], unique = TRUE, any.missing = FALSE)
 
-  # Find missing nodes
-  edge_nodes <- unique(c(edge_df[[1]], edge_df[[2]]))
-  seed_nodes <- node_df[[1]]
-  missing <- edge_nodes[!edge_nodes %in% seed_nodes]
-
-  missing_node_df <- tibble::tibble(
-    iid = missing
+  # Get ids - first n_seed are those in the correct order
+  # from the node file
+  ids <- union(
+    node_df[[1]],
+    c(edge_df[[1]], edge_df[[2]])
   )
-  fill_nodes <- dplyr::bind_rows(
-    node_df,
-    missing_node_df
-  )
-  # GRAPH ----
-  g <- tryCatch(
-    igraph::graph_from_data_frame(
-      edge_df,
-      directed = FALSE,
-      vertices = fill_nodes
-    ),
-    error = function(e) {
-      rlang::abort("Cannot make igraph")
-    }
+  n <- length(ids)
+  checkmate::assert_set_equal(
+    node_df[[1]],
+    ids[1:n_seed],
+    ordered = TRUE
   )
 
-  g <- g |>
-    add_centrality() |>
-    add_clustering()
-  seed_id <- names_to_ids(g, seed_nodes)
-  g <- crawler(g, seed_id, k = crawl_length)
+  # Get vector of from and to as integers
+  from <- match(edge_df[[1]], ids)
+  to <- match(edge_df[[2]], ids)
+
+  # Create a graph
+  step("Create graph")
+  g <- igraph::make_graph(
+    as.vector(rbind(from, to)),
+    n = n,
+    directed = FALSE
+  )
+
+  # Add given node info
+  igraph::vertex_attr(g) <- c(
+    list(name = ids),
+    lapply(node_df[-1], \(x) x[seq_len(n)])
+  )
+
+  # ADD edge info
+  igraph::edge_attr(g) <- as.list(edge_df[-(1:2)])
+
+  # Add crawl based on node info
+  step("Add crawl")
+  within <- igraph::ego(
+    g,
+    order = 2,
+    nodes = node_df[[1]],
+    mode = "all"
+  ) |>
+    purrr::map(as.numeric) |>
+    purrr::list_c() |>
+    unique()
+
+  igraph::V(g)$.crawl <- "outside"
+  igraph::V(g)$.crawl[within] <- "crawl"
+  igraph::V(g)$.crawl[1:n_seed] <- "seed"
+  step("Filter crawl")
+  g <- filter_crawl(g, levels = crawl_keep)
+
+  # ADD centrality and clustering
+  if (add_cluster) {
+    step("Add cluster")
+    g <- g |> add_clustering()
+  }
+  if (add_central) {
+    step("Add centrality")
+    g <- g |> add_centrality()
+  }
   g
+}
+
+if (sys.nframe() == 5) {
+  g <- loader(
+    edge_file = "data-private/MIB_allIBD.tsv",
+    node_file = "data-private/MIB_metadata.tsv",
+    verbose = TRUE,
+    crawl_keep = "seed"
+  )
+  g |> print()
+  sum(is.na(igraph::V(g)$name))
+  node_df <- read_file("data-private/MIB_metadata.tsv") |>
+    janitor::clean_names()
+  readr::problems(node_df)
+  node_df[is.na(node_df[[1]]), ]
 }

@@ -8,7 +8,13 @@ node_file <- system.file(
   "loader-data/loader-nodes.tsv",
   package = "spIBDerverse"
 )
-g <- loader(edge_file, node_file)
+g <- loader(
+  edge_file,
+  node_file,
+  verbose = FALSE,
+  add_cluster = TRUE,
+  add_central = TRUE
+)
 node_names <- igraph::vertex_attr_names(g)
 test_that("loader args", {
   expect_error(loader("bob.xlsx"))

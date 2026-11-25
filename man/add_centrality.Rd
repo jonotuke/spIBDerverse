@@ -4,10 +4,12 @@
 \alias{add_centrality}
 \title{Adds centrality measures to an igraph object}
 \usage{
-add_centrality(g)
+add_centrality(g, max_nodes = 500)
 }
 \arguments{
 \item{g}{igraph object}
+
+\item{max_nodes}{max number of nodes for slow centrality}
 }
 \value{
 igraph with centrality measures of form .degree etc

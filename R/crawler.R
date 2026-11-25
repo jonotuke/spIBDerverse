@@ -56,3 +56,25 @@ names_to_ids <- function(g, node_names) {
   }
   ids
 }
+#' Filter network based on crawl
+#'
+#' @param g igraph with .crawl node var
+#' @param levels levels to keep
+#'
+#' @returns filter igraph
+#'
+#' @export
+#' @examples
+#' filter_crawl(example_network, levels = c("seed"))
+filter_crawl <- function(g, levels = c("seed", "crawl", "outside")) {
+  levels <- match.arg(levels, several.ok = TRUE)
+  keep <- which(igraph::V(g)$.crawl %in% levels)
+  igraph::induced_subgraph(g, vids = keep)
+}
+
+
+if (sys.nframe() == 5) {
+  igraph::V(example_network)$.crawl |> print()
+  g <- filter_crawl(example_network, levels = c("seed"))
+  igraph::V(g)$.crawl |> print()
+}

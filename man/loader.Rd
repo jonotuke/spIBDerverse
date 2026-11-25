@@ -4,7 +4,15 @@
 \alias{loader}
 \title{Load a network}
 \usage{
-loader(edge_file, node_file, crawl_length = 2L)
+loader(
+  edge_file,
+  node_file,
+  crawl_length = 2L,
+  crawl_keep = c("seed", "crawl", "outside"),
+  add_cluster = TRUE,
+  add_central = TRUE,
+  verbose = FALSE
+)
 }
 \arguments{
 \item{edge_file}{edge file}
@@ -13,6 +21,14 @@ loader(edge_file, node_file, crawl_length = 2L)
 
 \item{crawl_length}{classifies nodes as seed, in crawl length of outside
 of crawl length}
+
+\item{crawl_keep}{levels of crawl to keep}
+
+\item{add_cluster}{add clusters to graph}
+
+\item{add_central}{add centrality to graph}
+
+\item{verbose}{adds progress bar}
 }
 \value{
 igraph object

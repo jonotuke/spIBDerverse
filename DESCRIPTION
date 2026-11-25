@@ -75,7 +75,8 @@ Imports:
     patchwork,
     emmeans,
     statnet.common,
-    lpSolve
+    lpSolve,
+    cli
 Suggests: 
     rmarkdown,
     knitr,

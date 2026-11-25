@@ -17,16 +17,23 @@ utils::globalVariables(
 #' Adds centrality measures to an igraph object
 #'
 #' @param g igraph object
+#' @param max_nodes max number of nodes for slow centrality
 #'
 #' @returns igraph with centrality measures of form .degree etc
 #'
 #' @export
 #' @examples
 #' add_centrality(example_network)
-add_centrality <- function(g) {
+add_centrality <- function(g, max_nodes = 500) {
+  n_nodes <- igraph::vcount(g)
   igraph::V(g)$.degree <- igraph::degree(g)
-  igraph::V(g)$.closeness <- igraph::closeness(g)
-  igraph::V(g)$.betweenness <- igraph::betweenness(g)
+  if (n_nodes > max_nodes) {
+    igraph::V(g)$.closeness <- rep(NA, n_nodes)
+    igraph::V(g)$.betweenness <- rep(NA, n_nodes)
+  } else {
+    igraph::V(g)$.closeness <- igraph::closeness(g)
+    igraph::V(g)$.betweenness <- igraph::betweenness(g)
+  }
   igraph::V(g)$.eigencentrality <- igraph::eigen_centrality(g)$vector
   g
 }

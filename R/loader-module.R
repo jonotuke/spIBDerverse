@@ -17,6 +17,12 @@ loaderInput <- function(id) {
       value = 0,
       step = 1
     ),
+    shiny::checkboxGroupInput(
+      ns("crawl_keep"),
+      "Choose crawl levels to keep",
+      choices = c("seed", "crawl", "outside"),
+      selected = "seed"
+    ),
     shiny::selectizeInput(
       ns("edge_columns"),
       "Choose edge attributes to define an edge",
@@ -63,7 +69,8 @@ loaderServer <- function(id, r) {
         loader(
           input$edge_file$datapath,
           input$node_file$datapath,
-          crawl_length = input$crawl_length
+          crawl_length = input$crawl_length,
+          crawl_keep = input$crawl_keep
         )
       )
     })
@@ -239,7 +246,11 @@ loaderApp <- function() {
   server <- function(input, output, session) {
     loaderServer("loader", r = r)
   }
-  shiny::shinyApp(ui, server)
+  shiny::shinyApp(ui, server, onStart = function() {
+    # Allow large uploads while the app runs, then restore the user's setting
+    old <- options(shiny.maxRequestSize = Inf)
+    shiny::onStop(function() options(old))
+  })
 }
 
 if (sys.nframe() == 5) {

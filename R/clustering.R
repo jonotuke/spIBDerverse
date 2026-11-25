@@ -12,14 +12,16 @@ utils::globalVariables(
 #'
 #' @param g igraph object
 #' @param weight edge attribute to use for weighted clustering methods
+#' @param max_nodes max number of nodes for slow clustering
 #'
 #' @returns adds clusters to igraph object
 #'
 #' @export
 #' @examples
 #' add_clustering(example_network)
-add_clustering <- function(g, weight = "wij") {
+add_clustering <- function(g, weight = "wij", max_nodes = 500) {
   w <- igraph::edge_attr(g, weight)
+  n_nodes <- igraph::vcount(g)
 
   disconnected <- igraph::degree(g, loops = FALSE) == 0
 
@@ -42,14 +44,22 @@ add_clustering <- function(g, weight = "wij") {
     "Lw",
     igraph::cluster_louvain(g, weights = w)
   )
-  igraph::V(g)$.eigen <- label_clusters(
-    "E",
-    igraph::cluster_leading_eigen(g)
-  )
-  igraph::V(g)$.eigen_weighted <- label_clusters(
-    "Ew",
-    igraph::cluster_leading_eigen(g, weights = w)
-  )
+  if (n_nodes > max_nodes) {
+    igraph::V(g)$.eigen <- rep(NA, n_nodes)
+  } else {
+    igraph::V(g)$.eigen <- label_clusters(
+      "E",
+      igraph::cluster_leading_eigen(g)
+    )
+  }
+  if (n_nodes > max_nodes) {
+    igraph::V(g)$.eigen_weighted <- rep(NA, n_nodes)
+  } else {
+    igraph::V(g)$.eigen_weighted <- label_clusters(
+      "E",
+      igraph::cluster_leading_eigen(g, weight = w)
+    )
+  }
   igraph::V(g)$.label_prop <- label_clusters(
     "LP",
     igraph::cluster_label_prop(g)

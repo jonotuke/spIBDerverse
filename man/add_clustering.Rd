@@ -4,12 +4,14 @@
 \alias{add_clustering}
 \title{Add clusters}
 \usage{
-add_clustering(g, weight = "wij")
+add_clustering(g, weight = "wij", max_nodes = 500)
 }
 \arguments{
 \item{g}{igraph object}
 
 \item{weight}{edge attribute to use for weighted clustering methods}
+
+\item{max_nodes}{max number of nodes for slow clustering}
 }
 \value{
 adds clusters to igraph object
