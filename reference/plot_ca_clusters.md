@@ -38,7 +38,7 @@ plot_ca_clusters(
 
 ## Value
 
-A ggplot object, or `NULL` with a warning if `pred` is not given.
+A ggplot object
 
 ## Examples
 

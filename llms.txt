@@ -139,8 +139,12 @@ ibd_network
   : Convert ringbauer measures
 - [`convert_to_network()`](https://jonotuke.github.io/spIBDerverse/reference/convert_to_network.md)
   : Convert to network from igraph, but keep original names
+- [`crawler()`](https://jonotuke.github.io/spIBDerverse/reference/crawler.md)
+  : label crawl
 - [`default_image`](https://jonotuke.github.io/spIBDerverse/reference/default_image.md)
   : default image
+- [`definer()`](https://jonotuke.github.io/spIBDerverse/reference/definer.md)
+  : definer
 - [`dist_network`](https://jonotuke.github.io/spIBDerverse/reference/dist_network.md)
   : dist network
 - [`drop_missing_nodes()`](https://jonotuke.github.io/spIBDerverse/reference/drop_missing_nodes.md)
@@ -206,10 +210,12 @@ ibd_network
   : Get ringbauer measures
 - [`get_text_font()`](https://jonotuke.github.io/spIBDerverse/reference/get_text_font.md)
   : Get text font
+- [`in_cutoff()`](https://jonotuke.github.io/spIBDerverse/reference/in_cutoff.md)
+  : check if values are in cutoffs
 - [`internal_df()`](https://jonotuke.github.io/spIBDerverse/reference/internal_df.md)
   : internal df
-- [`label_crawl()`](https://jonotuke.github.io/spIBDerverse/reference/label_crawl.md)
-  : label crawl
+- [`keep_edges()`](https://jonotuke.github.io/spIBDerverse/reference/keep_edges.md)
+  : keep edges
 - [`label_grp_duplicates()`](https://jonotuke.github.io/spIBDerverse/reference/label_grp_duplicates.md)
   : label_grp_duplicates
 - [`load_example()`](https://jonotuke.github.io/spIBDerverse/reference/load_example.md)

@@ -1,0 +1,44 @@
+# keep edges
+
+keep edges
+
+## Usage
+
+``` r
+keep_edges(g, filters = list())
+```
+
+## Arguments
+
+- g:
+
+  igraph obj
+
+- filters:
+
+  list of filters
+
+## Value
+
+boolean of edges to keep
+
+## Examples
+
+``` r
+keep_edges(
+   example_network,
+   filters = list(
+     wij = c(0.5, NA),
+     edge_type = "A"
+   )
+ )
+#>   [1]  TRUE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+#>  [13] FALSE FALSE FALSE FALSE FALSE FALSE  TRUE FALSE FALSE  TRUE  TRUE FALSE
+#>  [25] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE
+#>  [37] FALSE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE  TRUE FALSE FALSE FALSE
+#>  [49] FALSE FALSE  TRUE FALSE FALSE FALSE  TRUE  TRUE FALSE FALSE FALSE FALSE
+#>  [61]  TRUE FALSE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+#>  [73] FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE FALSE
+#>  [85] FALSE FALSE FALSE FALSE FALSE  TRUE FALSE FALSE FALSE FALSE  TRUE FALSE
+#>  [97] FALSE FALSE  TRUE FALSE FALSE FALSE
+```

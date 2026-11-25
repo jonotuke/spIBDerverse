@@ -33,9 +33,7 @@ plot_clustering_confusion(
 
 - normalise:
 
-  one of `"none"` (raw counts), `"pred"` (proportion of each predictor
-  level falling in each cluster) or `"cluster"` (composition of each
-  cluster).
+  one of none, pred, or cluster
 
 - n_levels:
 
@@ -55,8 +53,7 @@ plot_clustering_confusion(
 
 ## Value
 
-a ggplot object, or `NULL` (invisibly) if `pred` or `cluster` has more
-than `n_levels` levels.
+a ggplot object
 
 ## Examples
 

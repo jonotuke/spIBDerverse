@@ -34,7 +34,7 @@ convert_to_network(example_network_6)
 #>     non-missing edges= 102 
 #> 
 #>  Vertex attribute names: 
-#>     .betweenness .closeness .degree .eigen .eigen_weighted .eigencentrality .label_prop .label_prop_weighted .louvain .louvain_weighted Genetic Sex genetic_sex lat long site vertex.names 
+#>     .betweenness .closeness .crawl .degree .eigen .eigen_weighted .eigencentrality .label_prop .label_prop_weighted .louvain .louvain_weighted Genetic Sex genetic_sex lat long site vertex.names 
 #> 
 #>  Edge attribute names: 
 #>     edge_type wij 

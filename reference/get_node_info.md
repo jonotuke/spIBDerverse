@@ -22,7 +22,7 @@ tibble of node information
 
 ``` r
 get_node_info(example_network)
-#> # A tibble: 40 × 15
+#> # A tibble: 40 × 16
 #>    genetic_sex site  name  Degree Closeness Betweenness `Eigen-centrality`
 #>    <chr>       <chr> <chr>  <dbl>     <dbl>       <dbl>              <dbl>
 #>  1 F           A     1          3   0.00909       12.3               0.220
@@ -36,8 +36,8 @@ get_node_info(example_network)
 #>  9 M           C     9          4   0.00990       10.2               0.369
 #> 10 M           B     10         5   0.0116        39.1               0.505
 #> # ℹ 30 more rows
-#> # ℹ 8 more variables: Louvain <chr>, `Weighted Louvain` <chr>,
+#> # ℹ 9 more variables: Louvain <chr>, `Weighted Louvain` <chr>,
 #> #   `Leading eigenvalue` <chr>, `Weighted leading eigenvalue` <chr>,
 #> #   `Label propagation` <chr>, `Weighted label propagation` <chr>, lat <dbl>,
-#> #   long <dbl>
+#> #   long <dbl>, `SpIBDer-crawl` <chr>
 ```
