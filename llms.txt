@@ -178,6 +178,8 @@ ibd_network
   : example spatial ergms
 - [`expand_line()`](https://jonotuke.github.io/spIBDerverse/reference/expand_line.md)
   : Expand a line by given amount
+- [`filter_crawl()`](https://jonotuke.github.io/spIBDerverse/reference/filter_crawl.md)
+  : Filter network based on crawl
 - [`fit_ergms()`](https://jonotuke.github.io/spIBDerverse/reference/fit_ergms.md)
   : fit_ergms
 - [`fit_spatial_ergm()`](https://jonotuke.github.io/spIBDerverse/reference/fit_spatial_ergm.md)

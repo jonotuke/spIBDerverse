@@ -5,7 +5,15 @@ Load a network
 ## Usage
 
 ``` r
-loader(edge_file, node_file, crawl_length = 2L)
+loader(
+  edge_file,
+  node_file,
+  crawl_length = 2L,
+  crawl_keep = c("seed", "crawl", "outside"),
+  add_cluster = TRUE,
+  add_central = TRUE,
+  verbose = FALSE
+)
 ```
 
 ## Arguments
@@ -22,6 +30,22 @@ loader(edge_file, node_file, crawl_length = 2L)
 
   classifies nodes as seed, in crawl length of outside of crawl length
 
+- crawl_keep:
+
+  levels of crawl to keep
+
+- add_cluster:
+
+  add clusters to graph
+
+- add_central:
+
+  add centrality to graph
+
+- verbose:
+
+  adds progress bar
+
 ## Value
 
 igraph object
@@ -34,16 +58,16 @@ meta_file <- system.file("extdata", "example-ibd/example-meta-data.tsv", package
 
 g <- loader(ibd_file, meta_file)
 g
-#> IGRAPH d956e0d UN-- 328 4789 -- 
+#> IGRAPH 854ce19 UN-- 328 4789 -- 
 #> + attr: name (v/c), frac_gp (v/n), frac_missing (v/n), frac_het (v/n),
 #> | n_cov_snp (v/n), archaeological_id (v/c), master_id (v/c), projects
 #> | (v/c), locality (v/c), province (v/c), country (v/c), latitude (v/n),
 #> | longitude (v/n), date (v/c), date_type (v/c), imputation_type (v/c),
-#> | .degree (v/n), .closeness (v/n), .betweenness (v/n), .eigencentrality
-#> | (v/n), .louvain (v/c), .louvain_weighted (v/c), .eigen (v/c),
+#> | .crawl (v/c), .louvain (v/c), .louvain_weighted (v/c), .eigen (v/c),
 #> | .eigen_weighted (v/c), .label_prop (v/c), .label_prop_weighted (v/c),
-#> | .crawl (v/c), max_ibd (e/n), sum_ibd_8 (e/n), n_ibd_8 (e/n),
-#> | sum_ibd_12 (e/n), n_ibd_12 (e/n), sum_ibd_16 (e/n), n_ibd_16 (e/n),
-#> | sum_ibd_20 (e/n), n_ibd_20 (e/n)
-#> + edges from d956e0d (vertex names):
+#> | .degree (v/n), .closeness (v/n), .betweenness (v/n), .eigencentrality
+#> | (v/n), max_ibd (e/n), sum_ibd_8 (e/n), n_ibd_8 (e/n), sum_ibd_12
+#> | (e/n), n_ibd_12 (e/n), sum_ibd_16 (e/n), n_ibd_16 (e/n), sum_ibd_20
+#> | (e/n), n_ibd_20 (e/n)
+#> + edges from 854ce19 (vertex names):
 ```

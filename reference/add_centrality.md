@@ -5,7 +5,7 @@ Adds centrality measures to an igraph object
 ## Usage
 
 ``` r
-add_centrality(g)
+add_centrality(g, max_nodes = 500)
 ```
 
 ## Arguments
@@ -13,6 +13,10 @@ add_centrality(g)
 - g:
 
   igraph object
+
+- max_nodes:
+
+  max number of nodes for slow centrality
 
 ## Value
 

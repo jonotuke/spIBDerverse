@@ -7,7 +7,7 @@ instead of each being placed in its own singleton cluster.
 ## Usage
 
 ``` r
-add_clustering(g, weight = "wij")
+add_clustering(g, weight = "wij", max_nodes = 500)
 ```
 
 ## Arguments
@@ -19,6 +19,10 @@ add_clustering(g, weight = "wij")
 - weight:
 
   edge attribute to use for weighted clustering methods
+
+- max_nodes:
+
+  max number of nodes for slow clustering
 
 ## Value
 
