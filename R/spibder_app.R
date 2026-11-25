@@ -290,7 +290,7 @@ spibder_app <- function(input_network = NULL) {
         return()
       }
       r$full_network <- shiny::reactive({
-        net |> add_centrality_measures() |> add_clustering()
+        net |> add_centrality() |> add_clustering()
       })
       shiny::showNotification("Network loaded.", type = "message")
     })

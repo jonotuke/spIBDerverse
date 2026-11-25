@@ -85,7 +85,7 @@ loader <- function(
   )
 
   g <- g |>
-    add_centrality_measures() |>
+    add_centrality() |>
     add_clustering()
   seed_id <- names_to_ids(g, seed_nodes)
   g <- crawler(g, seed_id, k = crawl_length)

@@ -104,7 +104,7 @@ example_network_7 <- igraph::graph_from_data_frame(
   vertices = nodes
 )
 example_network_7 <- example_network_7 |>
-  add_centrality_measures() |>
+  add_centrality() |>
   add_clustering()
 
 example_network_7 <- example_network_7 |> crawler(1)

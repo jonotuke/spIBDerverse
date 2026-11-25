@@ -22,8 +22,8 @@ utils::globalVariables(
 #'
 #' @export
 #' @examples
-#' add_centrality_measures(example_network)
-add_centrality_measures <- function(g) {
+#' add_centrality(example_network)
+add_centrality <- function(g) {
   igraph::V(g)$.degree <- igraph::degree(g)
   igraph::V(g)$.closeness <- igraph::closeness(g)
   igraph::V(g)$.betweenness <- igraph::betweenness(g)

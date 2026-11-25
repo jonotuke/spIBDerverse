@@ -41,7 +41,7 @@ filter_default_edges <- function(
     rlang::warn("No edges meet the criteria; graph will have no edges.")
   }
   g <- igraph::delete_edges(g, which(!keep))
-  g <- g |> add_centrality_measures() |> add_clustering()
+  g <- g |> add_centrality() |> add_clustering()
   g
 }
 load_default <- function(node_file, edge_file) {
@@ -76,6 +76,6 @@ load_default <- function(node_file, edge_file) {
       rlang::abort("Cannot make igraph", parent = e)
     }
   )
-  g <- g |> add_centrality_measures() |> add_clustering()
+  g <- g |> add_centrality() |> add_clustering()
   g
 }

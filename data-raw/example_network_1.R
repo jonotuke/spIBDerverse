@@ -27,7 +27,7 @@ example_network <- intergraph::asIgraph(example_network)
 V(example_network)$name <- as.character(V(example_network)$vertex.names)
 
 # Add degree
-example_network <- example_network |> add_centrality_measures()
+example_network <- example_network |> add_centrality()
 
 # Add wij
 E(example_network)$wij <- runif(ecount(example_network), 0.1, 1)
