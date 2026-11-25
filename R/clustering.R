@@ -463,11 +463,75 @@ plot_ca_2d <- function(ca_clusters, ca_vars, pct_var, jitter_scale) {
     )
 }
 
+#' plot cluster HC
+#'
+#' @param g igraph object
+#' @param cluster cluster column
+#' @param pred pred column
+#' @param no_dis remove nodes that are disconnected
+#'
+#' @returns HC tree
+#'
+#' @export
+#' @examples
+#' plot_cluster_hc(
+#'    example_network,
+#'    pred = "site"
+#'  )
+plot_cluster_hc <- function(g, cluster = ".louvain", pred, no_dis = FALSE) {
+  vertices <- igraph::as_data_frame(g, what = "vertices")
+
+  if (no_dis) {
+    vertices <- vertices |>
+      dplyr::filter(.data[[cluster]] != "Disconnected")
+  }
+
+  checkmate::assert_names(names(vertices), must.include = pred)
+
+  if (any(is.character(vertices[[pred]]))) {
+    tab <- table(vertices[[cluster]], vertices[[pred]])
+    fit_ca <- FactoMineR::CA(X = tab, graph = FALSE)
+    k <- min(5, base::ncol(fit_ca$row$coord))
+    coords <- fit_ca$row$coord[, 1:k, drop = FALSE]
+    d_mat <- stats::dist(x = coords, method = "euclidean")
+    hc <- stats::hclust(d = d_mat, method = "ward.D2")
+
+    dend_data <- ggdendro::dendro_data(model = hc, type = "rectangle")
+  } else {
+    # Requires more classical construction based on group median
+    agg <- vertices |>
+      dplyr::group_by(.data[[cluster]]) |>
+      dplyr::summarise(x = stats::median(.data[[pred]])) |>
+      dplyr::ungroup() |>
+      dplyr::rename(label = dplyr::all_of(cluster))
+    vals <- agg$x
+    names(vals) <- agg$label
+    d_mat <- stats::dist(x = vals, method = "euclidean")
+    hc <- stats::hclust(d = d_mat, method = "ward.D2")
+
+    dend_data <- ggdendro::dendro_data(model = hc, type = "rectangle")
+  }
+  gg.dendro <- ggplot2::ggplot(ggdendro::segment(dend_data)) +
+    ggplot2::geom_segment(
+      mapping = ggplot2::aes(x = x, y = y, xend = xend, yend = yend)
+    ) +
+    ggplot2::scale_x_continuous(
+      breaks = ggdendro::label(dend_data)$x,
+      labels = ggdendro::label(dend_data)$label
+    ) +
+    ggplot2::theme_void() +
+    ggplot2::theme(
+      axis.text.x = ggplot2::element_text(angle = 90, hjust = 1, vjust = 0.5),
+      plot.margin = ggplot2::margin(t = 1, r = 1, b = 1, l = 1, unit = "lines")
+    )
+  gg.dendro
+}
 # DRIVER ----
 if (sys.nframe() == 5) {
-  plot_ca_clusters(
-    example_network,
-    pred = "site"
+  plot_cluster_hc(
+    example_network_2,
+    pred = "site",
+    no_dis = TRUE
   ) |>
     print()
 }

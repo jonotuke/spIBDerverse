@@ -134,7 +134,7 @@ clusteringServer <- function(id, r) {
     ca_plot <- shiny::reactive({
       shiny::req(input$pred != "none")
       tryCatch(
-        plot_ca_clusters(
+        plot_cluster_hc(
           g = r$network(),
           pred = input$pred,
           cluster = input$cluster,
@@ -172,6 +172,7 @@ clusteringApp <- function(network_input) {
     "all",
   )
   ui <- shiny::fluidPage(
+    theme = bslib::bs_theme(version = 5),
     clusteringInput("cluster", cat_var),
     clusteringOutput("cluster")
   )
