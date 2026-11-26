@@ -719,3 +719,28 @@ convert_to_network <- function(g) {
   }
   net
 }
+get_nodemix_ref <- function(g, var, refs) {
+  g <- convert_to_network(g)
+  form <- stringr::str_glue(
+    "g ~ nodemix('{var}', levels2 = TRUE)"
+  ) |>
+    as.formula()
+  terms <- names(summary(form))
+  if (length(refs) == 1) {
+    refs <- rep(refs, 2)
+  }
+  refs <- sort(refs)
+  term <- stringr::str_glue("mix.{var}.{refs[1]}.{refs[2]}")
+  idx <- which(terms == term)
+  if (length(idx) == 0) {
+    stop("Cell not found. Available: ", paste(cells, collapse = ", "))
+  }
+  -idx
+}
+## DRIVER ----
+if (sys.nframe() == 5) {
+  library(ergm)
+  ref_idx <- get_nodemix_ref(example_network, "site", c("C", "A"))
+  g <- convert_to_network(example_network)
+  ergm(g ~ nodemix('site', levels2 = ref_idx)) |> print()
+}
