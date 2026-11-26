@@ -26,12 +26,12 @@ filter igraph
 
 ``` r
 filter_crawl(example_network, levels = c("seed"))
-#> IGRAPH 97f3a3a UN-- 10 3 -- 
+#> IGRAPH d5f740a UN-- 10 3 -- 
 #> + attr: genetic_sex (v/c), site (v/c), name (v/c), .degree (v/n),
 #> | .closeness (v/n), .betweenness (v/n), .eigencentrality (v/n),
 #> | .louvain (v/c), .louvain_weighted (v/c), .eigen (v/c),
 #> | .eigen_weighted (v/c), .label_prop (v/c), .label_prop_weighted (v/c),
 #> | lat (v/n), long (v/n), .crawl (v/c), wij (e/n), edge_type (e/c)
-#> + edges from 97f3a3a (vertex names):
+#> + edges from d5f740a (vertex names):
 #> [1] 6--7 1--8 7--9
 ```
