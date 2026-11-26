@@ -12,7 +12,8 @@ plot_clustering_confusion(
   n_levels = 20,
   base_size = 14,
   fill_pal = "default",
-  no_dis = FALSE
+  no_dis = FALSE,
+  flip = FALSE
 )
 }
 \arguments{
@@ -31,6 +32,8 @@ plot_clustering_confusion(
 \item{fill_pal}{palette colour for fill}
 
 \item{no_dis}{remove Disconnected nodes}
+
+\item{flip}{flip axis}
 }
 \value{
 a ggplot object
