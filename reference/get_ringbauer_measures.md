@@ -11,7 +11,7 @@ returned as `lwr` and `upr`.
 ## Usage
 
 ``` r
-get_ringbauer_measures(g, grp)
+get_ringbauer_measures(g, grp, refs = NULL)
 ```
 
 ## Arguments
@@ -23,6 +23,10 @@ get_ringbauer_measures(g, grp)
 - grp:
 
   a name of a categorical node variable
+
+- refs:
+
+  reference level
 
 ## Value
 

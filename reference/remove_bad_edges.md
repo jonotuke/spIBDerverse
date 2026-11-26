@@ -23,14 +23,14 @@ igraph object
 ``` r
 classify_edges(example_network, filters = list(edge_type = "A")) |>
 remove_bad_edges()
-#> IGRAPH 4cb0604 UN-- 21 11 -- 
+#> IGRAPH ddb3b43 UN-- 21 11 -- 
 #> + attr: genetic_sex (v/c), site (v/c), name (v/c), .degree (v/n),
 #> | .closeness (v/n), .betweenness (v/n), .eigencentrality (v/n),
 #> | .louvain (v/c), .louvain_weighted (v/c), .eigen (v/c),
 #> | .eigen_weighted (v/c), .label_prop (v/c), .label_prop_weighted (v/c),
 #> | lat (v/n), long (v/n), .crawl (v/c), wij (e/n), edge_type (e/c),
 #> | .edgetype (e/c)
-#> + edges from 4cb0604 (vertex names):
+#> + edges from ddb3b43 (vertex names):
 #>  [1] 1 --23 1 --34 2 --32 7 --9  10--31 11--15 11--20 12--19 22--29 24--34
 #> [11] 31--34
 ```
