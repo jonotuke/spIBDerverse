@@ -144,10 +144,4 @@ if (sys.nframe() == 5) {
     verbose = TRUE,
     crawl_keep = "seed"
   )
-  g |> print()
-  sum(is.na(igraph::V(g)$name))
-  node_df <- read_file("data-private/MIB_metadata.tsv") |>
-    janitor::clean_names()
-  readr::problems(node_df)
-  node_df[is.na(node_df[[1]]), ]
 }
