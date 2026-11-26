@@ -33,14 +33,14 @@ pruner(example_network,
 edge_filters = list(edge_type = c("A", "B")),
 node_filters = list(site = "A")
 )
-#> IGRAPH ad1ee1b UN-- 12 11 -- 
+#> IGRAPH dbed7a3 UN-- 12 11 -- 
 #> + attr: genetic_sex (v/c), site (v/c), name (v/c), .degree (v/n),
 #> | .closeness (v/n), .betweenness (v/n), .eigencentrality (v/n),
 #> | .louvain (v/c), .louvain_weighted (v/c), .eigen (v/c),
 #> | .eigen_weighted (v/c), .label_prop (v/c), .label_prop_weighted (v/c),
 #> | lat (v/n), long (v/n), .crawl (v/c), .nodetype (v/c), wij (e/n),
 #> | edge_type (e/c), .edgetype (e/c)
-#> + edges from ad1ee1b (vertex names):
+#> + edges from dbed7a3 (vertex names):
 #>  [1] 1 --8  1 --34 2 --32 2 --38 8 --22 8 --32 22--29 24--34 33--37 33--38
 #> [11] 35--37
 ```
