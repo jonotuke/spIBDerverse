@@ -1,8 +1,3 @@
-# HELPERS ----
-
-# Palette choices for the spatial ergm plot. A numeric predictor gives a tile
-# plot (needs a continuous palette); anything else gives a line plot (needs a
-# discrete palette). "default" (ggplot2's own scale) suits both.
 spatialergm_pal_choices <- function(continuous = FALSE) {
   plot_type <- if (continuous) "continuous" else "discrete"
   get_palettes() |>
@@ -47,17 +42,13 @@ spatialergmOutput <- function(id) {
   ns <- shiny::NS(id)
 
   shiny::tagList(
-    shiny::plotOutput(ns("plot")),
-    shiny::verbatimTextOutput(ns("debug"))
+    shiny::plotOutput(ns("plot"))
+    # shiny::verbatimTextOutput(ns("debug"))
   )
 }
 
-# Server: `r` is a reactiveValues object that must provide
-#   r$network()      - the (possibly filtered) network to model
-#   r$full_network() - the unfiltered network, used to populate the pickers
 spatialergmServer <- function(id, r) {
   shiny::moduleServer(id, function(input, output, session) {
-    # Keep the column pickers in sync with the attributes of the network
     shiny::observeEvent(r$full_network(), {
       all_vars <- c("none", get_node_attributes(r$full_network()))
       cat_vars <- c("none", get_node_attributes(r$full_network(), type = "cat"))
@@ -67,15 +58,12 @@ spatialergmServer <- function(id, r) {
       shiny::updateSelectInput(session, "pred", choices = all_vars)
     })
 
-    # Numeric predictor -> tile plot (continuous palettes), else line plot
-    # (discrete palettes). Mirrors the check in fit_spatial_ergm().
     pal_choices <- shiny::reactive({
       continuous <- input$pred != "none" &&
         is.numeric(igraph::vertex_attr(r$network(), input$pred))
       spatialergm_pal_choices(continuous)
     })
 
-    # Offer only palettes that suit the plot; keep the current one if valid
     shiny::observeEvent(pal_choices(), {
       selected <- if (isTRUE(input$pal %in% pal_choices())) {
         input$pal
@@ -113,10 +101,10 @@ spatialergmServer <- function(id, r) {
       ergm_pred() |> plot_spatial_ergm(pal = input$pal)
     })
 
-    output$debug <- shiny::renderPrint({
-      print("Hello world")
-      ergm()
-    })
+    # output$debug <- shiny::renderPrint({
+    #   print("Hello world")
+    #   ergm()
+    # })
   })
 }
 
