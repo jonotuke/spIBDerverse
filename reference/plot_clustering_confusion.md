@@ -13,7 +13,8 @@ plot_clustering_confusion(
   n_levels = 20,
   base_size = 14,
   fill_pal = "default",
-  no_dis = FALSE
+  no_dis = FALSE,
+  flip = FALSE
 )
 ```
 
@@ -50,6 +51,10 @@ plot_clustering_confusion(
 - no_dis:
 
   remove Disconnected nodes
+
+- flip:
+
+  flip axis
 
 ## Value
 
