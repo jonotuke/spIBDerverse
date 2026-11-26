@@ -26,8 +26,8 @@ ergms <- example_network |>
   purrr::map(broom::glance) |>
   purrr::list_rbind(names_to = "model")
 clean_models(ergms$model) |> print()
-#> [1] "nodemix(site)"                       
-#> [2] "nodematch(genetic_sex)"              
-#> [3] "nodemix(site)+nodematch(genetic_sex)"
-#> [4] "null model"                          
+#> [1] "nodemix(site,levels2=-1)"                       
+#> [2] "nodematch(genetic_sex)"                         
+#> [3] "nodemix(site,levels2=-1)+nodematch(genetic_sex)"
+#> [4] "null model"                                     
 ```

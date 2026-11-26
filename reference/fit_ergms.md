@@ -9,7 +9,7 @@ comparable.
 ## Usage
 
 ``` r
-fit_ergms(network, preds = NULL, types = NULL)
+fit_ergms(network, preds = NULL, types = NULL, refs = NULL)
 ```
 
 ## Arguments
@@ -25,6 +25,12 @@ fit_ergms(network, preds = NULL, types = NULL)
 - types:
 
   vector of ergm term types
+
+- refs:
+
+  named list (names = predictors) of the one or two levels whose nodemix
+  cell should be the reference. `NULL` entries, or missing predictors,
+  use ergm's default (first cell dropped).
 
 ## Value
 
@@ -44,7 +50,7 @@ fit_ergms(example_network, c("site", "genetic_sex"), c("nodematch", "nodemix"))
 #>          edges  nodematch.site  
 #>         -2.758           1.712  
 #> 
-#> $`network ~ edges + nodemix('genetic_sex')`
+#> $`network ~ edges + nodemix('genetic_sex', levels2 = -1)`
 #> 
 #> Call:
 #> ergm::ergm(formula = stats::as.formula(x))
@@ -53,7 +59,7 @@ fit_ergms(example_network, c("site", "genetic_sex"), c("nodematch", "nodemix"))
 #>               edges  mix.genetic_sex.F.M  mix.genetic_sex.M.M  
 #>             -1.5506              -0.9542               0.0902  
 #> 
-#> $`network ~ edges + nodematch('site') + nodemix('genetic_sex')`
+#> $`network ~ edges + nodematch('site') + nodemix('genetic_sex', levels2 = -1)`
 #> 
 #> Call:
 #> ergm::ergm(formula = stats::as.formula(x))

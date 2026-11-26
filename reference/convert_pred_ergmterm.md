@@ -5,7 +5,7 @@ convert_pred_terms
 ## Usage
 
 ``` r
-convert_pred_ergmterm(pred, type)
+convert_pred_ergmterm(pred, type, ref)
 ```
 
 ## Arguments
@@ -18,6 +18,10 @@ convert_pred_ergmterm(pred, type)
 
   ergm term type
 
+- ref:
+
+  ref level
+
 ## Value
 
 ergm term for attribute based on class
@@ -25,6 +29,6 @@ ergm term for attribute based on class
 ## Examples
 
 ``` r
-convert_pred_ergmterm("site", "nodecov")
+convert_pred_ergmterm("site", "nodecov", -1)
 #> [1] "nodecov('site')"
 ```
