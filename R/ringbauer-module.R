@@ -49,6 +49,16 @@ ringbauerInput <- function(id, cat_vars) {
         "Connectivity plot",
         value = "connectivity",
         icon = shiny::icon("diagram-project"),
+        shiny::selectizeInput(
+          shiny::NS(id, "ref_level"),
+          label = "Choose reference level",
+          choices = NULL,
+          multiple = TRUE,
+          options = list(
+            maxItems = 2,
+            placeholder = "Choose two levels"
+          )
+        ),
         shiny::checkboxInput(
           shiny::NS(id, "show_sign"),
           "Show significance",
@@ -104,6 +114,10 @@ ringbauerServer <- function(id, r) {
         input$grp
       )
     })
+    var_levels <- shiny::reactive({
+      shiny::req(input$grp != "none")
+      igraph::vertex_attr(r$network(), input$grp) |> unique()
+    })
     output$ringbauer_plot <- shiny::renderPlot({
       ringbauer_p()
     })
@@ -136,6 +150,13 @@ ringbauerServer <- function(id, r) {
           "none",
           get_node_attributes(r$full_network(), "cat")
         )
+      )
+    })
+    shiny::observeEvent(input$grp, {
+      shiny::updateSelectInput(
+        session,
+        "ref_level",
+        choices = var_levels()
       )
     })
     shiny::observeEvent(input$homophily_save, {
@@ -175,4 +196,8 @@ ringbauerApp <- function(network_input) {
     })
   }
   shiny::shinyApp(ui, server)
+}
+
+if (sys.nframe() == 5) {
+  ringbauerApp(example_network) |> print()
 }
