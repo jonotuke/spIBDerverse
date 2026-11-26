@@ -134,7 +134,12 @@ ergmServer <- function(id, r) {
   shiny::moduleServer(id, function(input, output, session) {
     ergm <- shiny::reactive({
       withCallingHandlers(
-        fit_ergms(r$network(), input$preds, pred_type_vec()),
+        fit_ergms(
+          r$network(),
+          input$preds,
+          pred_type_vec(),
+          refs = nodemix_levels()
+        ),
         ergm_missing_nodes_warning = function(w) {
           shiny::showNotification(
             conditionMessage(w),
@@ -275,6 +280,7 @@ ergmServer <- function(id, r) {
       print(input$preds)
       print(pred_type_vec())
       print(nodemix_levels())
+      print(ergm())
     })
   })
 }

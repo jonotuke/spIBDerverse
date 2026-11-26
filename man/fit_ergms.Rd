@@ -4,7 +4,7 @@
 \alias{fit_ergms}
 \title{fit_ergms}
 \usage{
-fit_ergms(network, preds = NULL, types = NULL)
+fit_ergms(network, preds = NULL, types = NULL, refs = NULL)
 }
 \arguments{
 \item{network}{igraph object}
@@ -12,6 +12,10 @@ fit_ergms(network, preds = NULL, types = NULL)
 \item{preds}{vector of predictors}
 
 \item{types}{vector of ergm term types}
+
+\item{refs}{named list (names = predictors) of the one or two levels whose
+nodemix cell should be the reference. \code{NULL} entries, or missing
+predictors, use ergm's default (first cell dropped).}
 }
 \value{
 list of ergm models. The removed vertices are stored in
