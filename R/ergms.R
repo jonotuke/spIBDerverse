@@ -98,13 +98,14 @@ get_ergm_fc <- function(ergm, trim = TRUE) {
 #'
 #' @param pred name of igraph vertex attribute
 #' @param type ergm term type
+#' @param ref ref level
 #'
 #' @return ergm term for attribute based on class
 #' @export
 #'
 #' @examples
-#' convert_pred_ergmterm("site", "nodecov")
-convert_pred_ergmterm <- function(pred, type) {
+#' convert_pred_ergmterm("site", "nodecov", -1)
+convert_pred_ergmterm <- function(pred, type, ref) {
   type <- stringr::str_split(type, "\\|") |> purrr::pluck(1)
   n_term <- length(type)
   ergm_term <- character(n_term)
@@ -116,7 +117,9 @@ convert_pred_ergmterm <- function(pred, type) {
       type[i] == "nodematch(diff)" ~ stringr::str_glue(
         "nodematch('{pred}', diff = TRUE)"
       ),
-      type[i] == "nodemix" ~ stringr::str_glue("nodemix('{pred}')"),
+      type[i] == "nodemix" ~ stringr::str_glue(
+        "nodemix('{pred}', levels2 = {ref})"
+      ),
       TRUE ~ pred
     )
   }
@@ -240,6 +243,9 @@ drop_missing_nodes <- function(network, preds) {
 #' @param network igraph object
 #' @param preds vector of predictors
 #' @param types vector of ergm term types
+#' @param refs named list (names = predictors) of the one or two levels whose
+#'   nodemix cell should be the reference. `NULL` entries, or missing
+#'   predictors, use ergm's default (first cell dropped).
 #'
 #' @return list of ergm models. The removed vertices are stored in
 #'   `attr(result, "removed_nodes")`.
@@ -247,7 +253,7 @@ drop_missing_nodes <- function(network, preds) {
 #'
 #' @examples
 #' fit_ergms(example_network, c("site", "genetic_sex"), c("nodematch", "nodemix"))
-fit_ergms <- function(network, preds = NULL, types = NULL) {
+fit_ergms <- function(network, preds = NULL, types = NULL, refs = NULL) {
   removed_nodes <- character(0)
   if (is.null(preds)) {
     models <- list()
@@ -255,7 +261,13 @@ fit_ergms <- function(network, preds = NULL, types = NULL) {
   } else {
     network <- drop_missing_nodes(network, preds)
     removed_nodes <- attr(network, "removed_nodes")
-    terms <- purrr::map2(preds, types, \(x, y) convert_pred_ergmterm(x, y))
+    # one levels2 value per predictor: the cell chosen as the nodemix
+    # reference, or -1 (ergm's default) if none was chosen
+    ref_idx <- purrr::map(preds, \(x) get_nodemix_ref(network, x, refs[[x]]))
+    terms <- purrr::pmap(
+      list(preds, types, ref_idx),
+      \(x, y, z) convert_pred_ergmterm(x, y, z)
+    )
     terms <- unlist(terms)
     models <- get_all_models(terms, "network")
     models <- remove_redundant_models(models, preds)
@@ -718,4 +730,49 @@ convert_to_network <- function(g) {
     }
   }
   net
+}
+#' Find the nodemix cell to use as the reference
+#'
+#' @param g igraph object
+#' @param var vertex attribute used in nodemix
+#' @param refs one or two levels of `var`. One level means the
+#'   within-level cell (e.g. A-A); two levels the between-level cell (A-B).
+#'
+#' @return negative index to pass to `nodemix(levels2 = )`, so the chosen
+#'   cell is dropped and becomes the reference. -1 if `refs` is `NULL`.
+#' @noRd
+get_nodemix_ref <- function(g, var, refs = NULL) {
+  if (is.null(refs) || length(refs) == 0) {
+    return(-1)
+  }
+  net <- convert_to_network(g)
+  form <- stats::as.formula(
+    stringr::str_glue("net ~ nodemix('{var}', levels2 = TRUE)")
+  )
+  cells <- names(ergm::summary_formula(form))
+  if (length(refs) == 1) {
+    refs <- rep(refs, 2)
+  }
+  # ergm names undirected cells with the levels in sorted order
+  refs <- sort(refs)
+  cell <- stringr::str_glue("mix.{var}.{refs[1]}.{refs[2]}")
+  idx <- which(cells == cell)
+  if (length(idx) == 0) {
+    stop(
+      "nodemix cell ", cell, " not found. Available: ",
+      paste(cells, collapse = ", ")
+    )
+  }
+  -idx
+}
+## DRIVER ----
+if (sys.nframe() == 5) {
+  library(ergm)
+
+  fit_ergms(
+    example_network,
+    preds = c("genetic_sex", "site"),
+    types = c("nodematch", "nodematch|nodemix")
+  ) |>
+    print()
 }

@@ -9,11 +9,18 @@ ergmInput <- function(id, all_vars, g) {
     ) |>
       hover_tooltip(
         htmltools::HTML(
-          "Select the predictors to include in the model. For each variable you can choose which level of complexity to include. If a categorical value has only two levels, then nodematch(diff) and nodemix are equivalent, and nodemix is removed.
+          "Select the predictors to include in the model. 
+          For each variable you can choose which level of complexity 
+          to include. If a categorical value has only two levels, 
+          then nodematch(diff) and nodemix are equivalent, and nodemix 
+          is removed.
       <br><br>
-        Quantitative: nodecov (sum of values) or absdiff (absolute difference in values
+        Quantitative: nodecov (sum of values) or absdiff (absolute 
+      difference in values
       <br><br>
-        Categorical: nodematch (do the variables match or not), nodematch(diff) (do the variables match or not, and if so, which level is it) or nodemix (the combination of levels).
+        Categorical: nodematch (do the variables match or not), 
+      nodematch(diff) (do the variables match or not, and if so, 
+      which level is it) or nodemix (the combination of levels).
       <br><br>
         See https://doi.org/10.1093/genetics/iyag053 for full details."
         )
@@ -31,7 +38,8 @@ ergmInput <- function(id, all_vars, g) {
       selected = "phi"
     ) |>
       hover_tooltip(
-        "Report model coefficients as just coefficients, or with the fold change effect of the variable."
+        "Report model coefficients as just coefficients, or with the 
+        fold change effect of the variable."
       ),
     shiny::actionButton(
       shiny::NS(id, "fit_models"),
@@ -49,7 +57,8 @@ ergmInput <- function(id, all_vars, g) {
       selected = "BIC"
     ) |>
       hover_tooltip(
-        "Use AIC or BIC for model selection. We suggest BIC based on a simulation study."
+        "Use AIC or BIC for model selection. We suggest BIC 
+        based on a simulation study."
       ),
     shiny::checkboxInput(
       shiny::NS(id, "top_5"),
@@ -71,7 +80,8 @@ ergmInput <- function(id, all_vars, g) {
       step = 15
     ) |>
       hover_tooltip(
-        "Change the angle at which the x-axis model names appear. Useful when long names make the model selection plot too small."
+        "Change the angle at which the x-axis model names appear. 
+        Useful when long names make the model selection plot too small."
       ),
     shiny::checkboxInput(
       shiny::NS(id, "abbr"),
@@ -113,9 +123,9 @@ ergmOutput <- function(id) {
     gt::gt_output({
       shiny::NS(id, "ergm_coef_tab")
     }),
-    # shiny::verbatimTextOutput(
-    #   shiny::NS(id, "debug")
-    # )
+    shiny::verbatimTextOutput(
+      shiny::NS(id, "debug")
+    )
   )
 }
 #' ergm server
@@ -124,7 +134,12 @@ ergmServer <- function(id, r) {
   shiny::moduleServer(id, function(input, output, session) {
     ergm <- shiny::reactive({
       withCallingHandlers(
-        fit_ergms(r$network(), input$preds, pred_type_vec()),
+        fit_ergms(
+          r$network(),
+          input$preds,
+          pred_type_vec(),
+          refs = nodemix_levels()
+        ),
         ergm_missing_nodes_warning = function(w) {
           shiny::showNotification(
             conditionMessage(w),
@@ -225,11 +240,20 @@ ergmServer <- function(id, r) {
       )
     })
     output$pred_types <- shiny::renderUI({
-      # isolate() so that ticking a type box doesn't re-render the UI,
-      # but the current choices are carried over when predictors change
       purrr::map(
         input$preds,
-        \(x) make_ergm_ui(x, r$network(), x, id, shiny::isolate(input[[x]]))
+        \(x) {
+          make_ergm_ui(
+            x,
+            r$network(),
+            x,
+            id,
+            selected = shiny::isolate(input[[x]]),
+            selected_levels = shiny::isolate(
+              input[[nodemix_levels_id(x)]]
+            )
+          )
+        }
       )
     })
     pred_type_vec <- shiny::reactive({
@@ -238,15 +262,43 @@ ergmServer <- function(id, r) {
         \(x) stringr::str_c(input[[x]], collapse = "|")
       )
     })
-    # output$debug <- shiny::renderPrint({
-    #   print(selected_rows_data())
-    #   print(r$ergm())
-    # })
+    nodemix_levels <- shiny::reactive({
+      purrr::map(
+        purrr::set_names(input$preds),
+        \(x) {
+          if ("nodemix" %in% input[[x]]) {
+            input[[nodemix_levels_id(x)]]
+          }
+        }
+      )
+    })
+    output$debug <- shiny::renderPrint({
+      if (length(input$preds) == 0) {
+        cat("No predictors selected\n")
+        return(invisible())
+      }
+      print(input$preds)
+      print(pred_type_vec())
+      print(nodemix_levels())
+      print(ergm())
+    })
   })
+}
+#' id of the nodemix level picker for a predictor
+#' @noRd
+nodemix_levels_id <- function(pred) {
+  paste0(pred, "_nodemix_ref")
 }
 #' ergm ui
 #' @noRd
-make_ergm_ui <- function(pred, g, label, id, selected = NULL) {
+make_ergm_ui <- function(
+  pred,
+  g,
+  label,
+  id,
+  selected = NULL,
+  selected_levels = NULL
+) {
   if (!is.null(pred)) {
     type <- class(igraph::vertex_attr(g, pred))
   } else {
@@ -255,8 +307,8 @@ make_ergm_ui <- function(pred, g, label, id, selected = NULL) {
   if (type == "numeric") {
     choices <- c("nodecov", "absdiff")
   } else if (type == "character") {
-    n_levels <- nlevels(factor(igraph::vertex_attr(g, pred)))
-    if (n_levels <= 2) {
+    var_levels <- levels(factor(igraph::vertex_attr(g, pred)))
+    if (length(var_levels) <= 2) {
       choices <- c("nodematch", "nodematch(diff)")
     } else {
       choices <- c("nodematch", "nodematch(diff)", "nodemix")
@@ -270,11 +322,37 @@ make_ergm_ui <- function(pred, g, label, id, selected = NULL) {
   if (length(selected) == 0) {
     selected <- choices
   }
-  shiny::checkboxGroupInput(
-    shiny::NS(id, label),
+  type_id <- shiny::NS(id, label)
+  type_input <- shiny::checkboxGroupInput(
+    type_id,
     label = pred,
     choices = choices,
     selected = selected
+  )
+  if (!"nodemix" %in% choices) {
+    return(type_input)
+  }
+  # level picker for nodemix, only visible while nodemix is ticked.
+  # A checkboxGroupInput's JS value is an array (or null if nothing ticked).
+  shiny::tagList(
+    type_input,
+    shiny::conditionalPanel(
+      condition = sprintf(
+        "input['%1$s'] && input['%1$s'].indexOf('nodemix') !== -1",
+        type_id
+      ),
+      shiny::selectizeInput(
+        shiny::NS(id, nodemix_levels_id(label)),
+        label = paste(pred, "- nodemix levels"),
+        choices = var_levels,
+        selected = intersect(selected_levels, var_levels),
+        multiple = TRUE,
+        options = list(
+          maxItems = 2,
+          placeholder = "Choose two levels"
+        )
+      )
+    )
   )
 }
 #' ergm app
@@ -310,4 +388,8 @@ ergmApp <- function(network_input) {
     })
   }
   shiny::shinyApp(ui, server)
+}
+
+if (sys.nframe() == 5) {
+  ergmApp(example_network) |> print()
 }
