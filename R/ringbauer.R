@@ -268,12 +268,24 @@ utils::globalVariables(
 #' @examples
 #' get_ringbauer_measures(example_network, "site")
 get_ringbauer_measures <- function(g, grp, refs = NULL) {
-  stopifnot(igraph::is_igraph(g), is.character(grp), length(grp) == 1)
+  stopifnot(
+    igraph::is_igraph(g),
+    is.character(grp),
+    length(grp) == 1
+  )
   if (!"name" %in% igraph::vertex_attr_names(g)) {
-    stop("`g` must have a `name` vertex attribute.", call. = FALSE)
+    stop(
+      "`g` must have a `name` vertex attribute.",
+      call. = FALSE
+    )
   }
   if (!grp %in% igraph::vertex_attr_names(g)) {
-    stop("`", grp, "` is not a vertex attribute of `g`.", call. = FALSE)
+    stop(
+      "`",
+      grp,
+      "` is not a vertex attribute of `g`.",
+      call. = FALSE
+    )
   }
 
   node_df <- igraph::as_data_frame(g, "vertices") |>
@@ -314,7 +326,7 @@ get_ringbauer_measures <- function(g, grp, refs = NULL) {
 
   p <- igraph::edge_density(g)
 
-  tidyr::expand_grid(grp1 = grps, grp2 = grps) |>
+  tab <- tidyr::expand_grid(grp1 = grps, grp2 = grps) |>
     dplyr::left_join(edge_tally, by = c("grp1", "grp2")) |>
     dplyr::left_join(
       dplyr::rename(grp_sizes, grp1 = grp, n1 = n),
@@ -332,7 +344,30 @@ get_ringbauer_measures <- function(g, grp, refs = NULL) {
         n1 * n2
       ),
       density = n_edges / n_possible_edges,
-      label = stringr::str_glue("{n_edges}/{n_possible_edges}"),
+      label = stringr::str_glue("{n_edges}/{n_possible_edges}")
+    )
+
+  if (is.null(refs)) {
+    p <- igraph::edge_density(g)
+  } else {
+    if (length(refs) == 1) {
+      p <- tab |>
+        dplyr::filter(
+          grp1 == refs[1],
+          grp2 == refs[1]
+        ) |>
+        dplyr::pull(density)
+    } else {
+      p <- tab |>
+        dplyr::filter(
+          grp1 == refs[1],
+          grp2 == refs[2]
+        ) |>
+        dplyr::pull(density)
+    }
+  }
+  tab <- tab |>
+    dplyr::mutate(
       overall_density = p,
       prop_test = purrr::map2(
         n_edges,
@@ -360,5 +395,10 @@ get_ringbauer_measures <- function(g, grp, refs = NULL) {
 }
 
 if (sys.nframe() == 5) {
-  get_ringbauer_measures(example_network, "site") |> View()
+  get_ringbauer_measures(
+    example_network,
+    "site",
+    refs = c("A", "B")
+  ) |>
+    print()
 }

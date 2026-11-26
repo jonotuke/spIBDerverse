@@ -161,5 +161,11 @@ label_grp_duplicates <- function(df, grp1, grp2) {
 }
 
 if (sys.nframe() == 5) {
-  get_ringbauer_measures(example_network, "site") |> print()
+  get_ringbauer_measures(
+    example_network,
+    "site",
+    refs = c("C", "B")
+  ) |>
+    plot_homophily(ci = TRUE, show_sign = TRUE) |>
+    print()
 }
