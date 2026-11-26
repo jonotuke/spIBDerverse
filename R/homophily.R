@@ -159,3 +159,7 @@ label_grp_duplicates <- function(df, grp1, grp2) {
       .grp_label = sort_label({{ grp1 }}, {{ grp2 }})
     )
 }
+
+if (sys.nframe() == 5) {
+  get_ringbauer_measures(example_network, "site") |> print()
+}

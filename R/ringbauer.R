@@ -258,6 +258,7 @@ utils::globalVariables(
 #'
 #' @param g igraph object with a `name` vertex attribute
 #' @param grp a name of a categorical node variable
+#' @param refs reference level
 #'
 #' @return tibble with one row per ordered pair of levels (`grp1`, `grp2`)
 #'   and columns `n_edges`, `n1`, `n2`, `n_possible_edges`, `density`,
@@ -266,7 +267,7 @@ utils::globalVariables(
 #'
 #' @examples
 #' get_ringbauer_measures(example_network, "site")
-get_ringbauer_measures <- function(g, grp) {
+get_ringbauer_measures <- function(g, grp, refs = NULL) {
   stopifnot(igraph::is_igraph(g), is.character(grp), length(grp) == 1)
   if (!"name" %in% igraph::vertex_attr_names(g)) {
     stop("`g` must have a `name` vertex attribute.", call. = FALSE)
@@ -356,4 +357,8 @@ get_ringbauer_measures <- function(g, grp) {
     tidyr::unnest(prop_test) |>
     dplyr::mutate(adj_pv = stats::p.adjust(pv, method = "fdr")) |>
     dplyr::relocate(n_edges, .after = grp2)
+}
+
+if (sys.nframe() == 5) {
+  get_ringbauer_measures(example_network, "site") |> View()
 }
