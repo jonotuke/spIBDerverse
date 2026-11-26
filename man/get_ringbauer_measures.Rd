@@ -4,12 +4,14 @@
 \alias{get_ringbauer_measures}
 \title{Get ringbauer measures}
 \usage{
-get_ringbauer_measures(g, grp)
+get_ringbauer_measures(g, grp, refs = NULL)
 }
 \arguments{
 \item{g}{igraph object with a \code{name} vertex attribute}
 
 \item{grp}{a name of a categorical node variable}
+
+\item{refs}{reference level}
 }
 \value{
 tibble with one row per ordered pair of levels (\code{grp1}, \code{grp2})
