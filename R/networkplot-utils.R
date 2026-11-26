@@ -182,13 +182,19 @@ network_ui <- function(
       var_select(ns("size"), "Choose node size column", num_vars),
       legend_title_input(ns("size_label"), "size"),
       legend_show_input(ns("size_legend"), "size"),
-      shiny::numericInput(
+      # shiny::numericInput(
+      #   ns("node_size"),
+      #   "Node size",
+      #   min = 1,
+      #   max = 20,
+      #   value = 10,
+      #   step = 1
+      # ),
+      shinyWidgets::numericRangeInput(
         ns("node_size"),
-        "Node size",
-        min = 1,
-        max = 20,
-        value = 10,
-        step = 1
+        "Lower and upper node size",
+        step = 1,
+        value = c(1, 20)
       ),
       shiny::hr(),
       var_select(ns("alpha"), "Choose node alpha", num_vars),

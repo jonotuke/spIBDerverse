@@ -210,7 +210,7 @@ check_columns <- function(df, cols) {
 #' @param shape Vertex attribute mapped to node shape.
 #' @param size Vertex attribute mapped to node size.
 #' @param outline_col Vertex attribute mapped to node outline colour
-#' @param node_size Base node size.
+#' @param node_size Upper and lower node size
 #' @param alpha Vertex attribute to use for mapping for node alpha
 #' @param fill_pal Fill palette name.
 #' @param col_pal Colour palette name.
@@ -258,7 +258,7 @@ plot_network <- function(
   alpha = "none",
   alpha_label = NULL,
   alpha_legend = TRUE,
-  node_size = 5,
+  node_size = c(2, 10),
   fill_pal = "default",
   col_pal = "default",
   outline_width = 1,
@@ -443,11 +443,11 @@ plot_network <- function(
   }
 
   if (is_none(size)) {
-    node_params$size <- node_size
+    node_params$size <- mean(node_size)
   } else {
     node_aes$size <- rlang::sym(size)
     node_scales$size <- ggplot2::scale_size_continuous(
-      range = c(node_size / 2, node_size * 2),
+      range = c(node_size[1], node_size[2]),
       name = title_for(size)
     )
   }
@@ -589,4 +589,13 @@ plot_network <- function(
     coord_layer +
     ggnetwork::theme_blank() +
     rlang::exec(ggplot2::guides, !!!legend_guides)
+}
+
+if (sys.nframe() == 5) {
+  plot_network(
+    example_network,
+    size = "lat",
+    node_size = c(1, 30)
+  ) |>
+    print()
 }
