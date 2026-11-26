@@ -70,7 +70,8 @@ loaderServer <- function(id, r) {
           input$edge_file$datapath,
           input$node_file$datapath,
           crawl_length = input$crawl_length,
-          crawl_keep = input$crawl_keep
+          crawl_keep = input$crawl_keep,
+          verbose = TRUE
         )
       )
     })
