@@ -50,7 +50,7 @@ ringbauerInput <- function(id, cat_vars) {
         value = "connectivity",
         icon = shiny::icon("diagram-project"),
         shiny::selectizeInput(
-          shiny::NS(id, "ref_level"),
+          shiny::NS(id, "refs"),
           label = "Choose reference level",
           choices = NULL,
           multiple = TRUE,
@@ -111,7 +111,8 @@ ringbauerServer <- function(id, r) {
       shiny::req(input$grp != "none")
       get_ringbauer_measures(
         r$network(),
-        input$grp
+        input$grp,
+        refs = input$refs
       )
     })
     var_levels <- shiny::reactive({
@@ -155,7 +156,7 @@ ringbauerServer <- function(id, r) {
     shiny::observeEvent(input$grp, {
       shiny::updateSelectInput(
         session,
-        "ref_level",
+        "refs",
         choices = var_levels()
       )
     })
