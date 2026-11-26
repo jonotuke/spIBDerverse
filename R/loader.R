@@ -46,7 +46,33 @@ loader <- function(
   add_central = TRUE,
   verbose = FALSE
 ) {
-  step <- if (verbose) cli::cli_progress_step else function(...) invisible()
+  # One progress bar for the whole load, advanced once per step. The step
+  # name is shown as the bar's status. In the console this is a normal cli
+  # bar; inside a running Shiny app cli's "shiny" handler shows it as a
+  # shiny::Progress notification (message = name, detail = status).
+  n_steps <- 5L + as.integer(add_cluster) + as.integer(add_central)
+  steps_started <- 0L
+  if (verbose) {
+    pb <- cli::cli_progress_bar(
+      name = "Loading network",
+      status = "Starting",
+      total = n_steps,
+      clear = FALSE
+    )
+  }
+  step <- function(msg) {
+    if (!verbose) {
+      return(invisible())
+    }
+    cli::cli_progress_update(
+      id = pb,
+      set = steps_started,
+      status = msg,
+      force = TRUE
+    )
+    steps_started <<- steps_started + 1L
+    invisible()
+  }
   # EDGES ----
   checkmate::assert_file_exists(
     edge_file,
@@ -133,6 +159,15 @@ loader <- function(
   if (add_central) {
     step("Add centrality")
     g <- g |> add_centrality()
+  }
+  if (verbose) {
+    # Setting the bar to its total completes (and closes) it at 100%
+    cli::cli_progress_update(
+      id = pb,
+      set = n_steps,
+      status = "Done",
+      force = TRUE
+    )
   }
   g
 }
