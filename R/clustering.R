@@ -158,6 +158,7 @@ get_clustering_measures <- function(g, pred = "none", cluster = ".louvain") {
 #' @param base_size size of text
 #' @param fill_pal palette colour for fill
 #' @param no_dis remove Disconnected nodes
+#' @param flip flip axis
 #'
 #' @returns a ggplot object
 #' @export
@@ -171,7 +172,8 @@ plot_clustering_confusion <- function(
   n_levels = 20,
   base_size = 14,
   fill_pal = "default",
-  no_dis = FALSE
+  no_dis = FALSE,
+  flip = FALSE
 ) {
   normalise <- match.arg(normalise)
   df <- clustering_vertex_df(g)
@@ -241,7 +243,7 @@ plot_clustering_confusion <- function(
       }
     )
 
-  ggplot2::ggplot(
+  p <- ggplot2::ggplot(
     counts,
     ggplot2::aes(
       x = .data[[col_var]],
@@ -280,6 +282,10 @@ plot_clustering_confusion <- function(
     ggplot2::coord_fixed() +
     ggplot2::theme_minimal(base_size = base_size) +
     ggplot2::theme(panel.grid = ggplot2::element_blank())
+  if (flip) {
+    p <- p + ggplot2::coord_flip()
+  }
+  p
 }
 
 #' plot CA for clusters
@@ -528,10 +534,5 @@ plot_cluster_hc <- function(g, cluster = ".louvain", pred, no_dis = FALSE) {
 }
 # DRIVER ----
 if (sys.nframe() == 5) {
-  plot_cluster_hc(
-    example_network_2,
-    pred = "site",
-    no_dis = TRUE
-  ) |>
-    print()
+  plot_clustering_confusion(example_network, "site", flip = TRUE) |> print()
 }
