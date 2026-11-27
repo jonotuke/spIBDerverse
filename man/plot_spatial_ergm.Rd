@@ -4,20 +4,19 @@
 \alias{plot_spatial_ergm}
 \title{plot spatial ergm}
 \usage{
-plot_spatial_ergm(spatial_pred, pal = "default")
+plot_spatial_ergm(spatial_pred, pal = "default", x_lim = NULL)
 }
 \arguments{
 \item{spatial_pred}{predict tibble from spatial ergm}
 
-\item{pal}{palette name from \code{get_palettes()}. Defaults to \code{"default"},
-ggplot2's own scale, which works for both plot types. Otherwise tile
-plots need a continuous palette and line plots a discrete one.}
+\item{pal}{palette}
+
+\item{x_lim}{optional numeric vector of length 2 giving the distance (km)
+limits for the x-axis of the ribbon plot. If \code{NULL} (default) the full
+range of distances is shown.}
 }
 \value{
-ggplot. If the predictor is numeric (a \code{nodecov()} term) this is
-a tile plot with distance on the x-axis, the predictor on the y-axis and
-fill showing the probability of an edge; otherwise a line plot of
-probability against distance with confidence ribbons.
+ggplot
 }
 \description{
 plot spatial ergm

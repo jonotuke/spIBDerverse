@@ -34,6 +34,14 @@ spatialergmInput <- function(id, all_vars, cat_vars) {
       label = "Choose palette",
       choices = spatialergm_pal_choices(),
       selected = "default"
+    ),
+    # Range is set from the fitted distances once a model is available
+    shinyWidgets::numericRangeInput(
+      ns("x_lim"),
+      label = "Distance range (km)",
+      value = c(0, 1),
+      min = 0,
+      step = 1
     )
   )
 }
@@ -94,11 +102,39 @@ spatialergmServer <- function(id, r) {
       ergm() |> predict_spatial_ergm(N = 100)
     })
 
+    # Largest distance in the predictions, rounded up to a whole km
+    max_dist <- shiny::reactive({
+      ceiling(max(ergm_pred()$dist))
+    })
+
+    # Reset the range input to the full distance range whenever a new model
+    # is fitted. Freezing stops the plot drawing with the old values before
+    # the browser sends back the updated ones.
+    shiny::observeEvent(max_dist(), priority = 1, {
+      shiny::freezeReactiveValue(input, "x_lim")
+      shinyWidgets::updateNumericRangeInput(
+        session,
+        "x_lim",
+        value = c(0, max_dist())
+      )
+    })
+
+    # Debounced so the plot doesn't redraw on every keystroke
+    x_lim_input <- shiny::reactive(input$x_lim) |> shiny::debounce(500)
+
     output$plot <- shiny::renderPlot({
       # Wait until the palette picker has caught up with the predictor
-      shiny::req(input$pal %in% pal_choices())
+      shiny::req(input$pal %in% pal_choices(), x_lim_input())
 
-      ergm_pred() |> plot_spatial_ergm(pal = input$pal)
+      # Only zoom for a valid range that isn't the full range; otherwise
+      # (blank box, lower >= upper, or full range) leave the axis as is
+      x_lim <- x_lim_input()
+      valid <- length(x_lim) == 2 && !anyNA(x_lim) && x_lim[1] < x_lim[2]
+      if (!valid || isTRUE(all(x_lim == c(0, max_dist())))) {
+        x_lim <- NULL
+      }
+
+      ergm_pred() |> plot_spatial_ergm(pal = input$pal, x_lim = x_lim)
     })
 
     # output$debug <- shiny::renderPrint({
@@ -127,4 +163,8 @@ spatialergmApp <- function(network_input) {
   }
 
   shiny::shinyApp(ui, server)
+}
+
+if (sys.nframe() == 5) {
+  spatialergmApp(example_network) |> print()
 }

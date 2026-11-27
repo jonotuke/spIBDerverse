@@ -255,14 +255,12 @@ predict_spatial_ergm <- function(
 #' plot spatial ergm
 #'
 #' @param spatial_pred predict tibble from spatial ergm
-#' @param pal palette name from `get_palettes()`. Defaults to `"default"`,
-#'   ggplot2's own scale, which works for both plot types. Otherwise tile
-#'   plots need a continuous palette and line plots a discrete one.
+#' @param pal palette
+#' @param x_lim optional numeric vector of length 2 giving the distance (km)
+#'   limits for the x-axis of the ribbon plot. If `NULL` (default) the full
+#'   range of distances is shown.
 #'
-#' @returns ggplot. If the predictor is numeric (a `nodecov()` term) this is
-#' a tile plot with distance on the x-axis, the predictor on the y-axis and
-#' fill showing the probability of an edge; otherwise a line plot of
-#' probability against distance with confidence ribbons.
+#' @returns ggplot
 #'
 #' @export
 #' @examples
@@ -275,7 +273,9 @@ predict_spatial_ergm <- function(
 #' ergms |>
 #'  predict_spatial_ergm(N = 100) |>
 #'  plot_spatial_ergm()
-plot_spatial_ergm <- function(spatial_pred, pal = "default") {
+plot_spatial_ergm <- function(spatial_pred, pal = "default", x_lim = NULL) {
+  checkmate::assert_numeric(x_lim, len = 2, any.missing = FALSE, null.ok = TRUE)
+
   fixed_cols <- c("dist", "p", "se_logit", "lower", "upper")
   group_cols <- setdiff(names(spatial_pred), fixed_cols)
 
@@ -303,7 +303,7 @@ plot_spatial_ergm <- function(spatial_pred, pal = "default") {
         "fill",
         pal,
         type = "continuous",
-        name = "Probability of\nConnectedness"
+        name = "Probability of Connectedness"
       )
 
     # Any categorical predictors are shown as facets
@@ -334,7 +334,7 @@ plot_spatial_ergm <- function(spatial_pred, pal = "default") {
     guide <- "none"
   }
 
-  spatial_pred |>
+  plt <- spatial_pred |>
     ggplot2::ggplot(
       mapping = ggplot2::aes(
         x = dist,
@@ -353,4 +353,22 @@ plot_spatial_ergm <- function(spatial_pred, pal = "default") {
     ggplot2::scale_y_continuous(name = "Probability of Connectedness") +
     pal_scale("colour", pal, type = "discrete", name = pred, guide = guide) +
     pal_scale("fill", pal, type = "discrete", name = pred, guide = guide)
+
+  # Zoom the x-axis without dropping data, so ribbons/lines aren't clipped
+  if (!is.null(x_lim)) {
+    plt <- plt + ggplot2::coord_cartesian(xlim = x_lim)
+  }
+
+  plt
+}
+
+if (sys.nframe() == 5) {
+  fit_spatial_ergm(
+    example_network,
+    "lat",
+    "long"
+  ) |>
+    predict_spatial_ergm(N = 100) |>
+    plot_spatial_ergm() |>
+    print()
 }
