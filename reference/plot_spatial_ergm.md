@@ -5,7 +5,7 @@ plot spatial ergm
 ## Usage
 
 ``` r
-plot_spatial_ergm(spatial_pred, pal = "default")
+plot_spatial_ergm(spatial_pred, pal = "default", x_lim = NULL)
 ```
 
 ## Arguments
@@ -16,18 +16,17 @@ plot_spatial_ergm(spatial_pred, pal = "default")
 
 - pal:
 
-  palette name from
-  [`get_palettes()`](https://jonotuke.github.io/spIBDerverse/reference/get_palettes.md).
-  Defaults to `"default"`, ggplot2's own scale, which works for both
-  plot types. Otherwise tile plots need a continuous palette and line
-  plots a discrete one.
+  palette
+
+- x_lim:
+
+  optional numeric vector of length 2 giving the distance (km) limits
+  for the x-axis of the ribbon plot. If `NULL` (default) the full range
+  of distances is shown.
 
 ## Value
 
-ggplot. If the predictor is numeric (a `nodecov()` term) this is a tile
-plot with distance on the x-axis, the predictor on the y-axis and fill
-showing the probability of an edge; otherwise a line plot of probability
-against distance with confidence ribbons.
+ggplot
 
 ## Examples
 
