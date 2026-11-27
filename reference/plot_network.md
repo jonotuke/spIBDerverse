@@ -37,7 +37,7 @@ plot_network(
   alpha = "none",
   alpha_label = NULL,
   alpha_legend = TRUE,
-  node_size = 5,
+  node_size = c(2, 10),
   fill_pal = "default",
   col_pal = "default",
   outline_width = 1,
@@ -146,7 +146,7 @@ plot_network(
 
 - node_size:
 
-  Base node size.
+  Upper and lower node size
 
 - fill_pal:
 
