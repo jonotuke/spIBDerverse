@@ -122,10 +122,10 @@ ergmOutput <- function(id) {
     ),
     gt::gt_output({
       shiny::NS(id, "ergm_coef_tab")
-    }),
-    shiny::verbatimTextOutput(
-      shiny::NS(id, "debug")
-    )
+    })
+    # shiny::verbatimTextOutput(
+    #   shiny::NS(id, "debug")
+    # )
   )
 }
 #' ergm server
@@ -272,16 +272,16 @@ ergmServer <- function(id, r) {
         }
       )
     })
-    output$debug <- shiny::renderPrint({
-      if (length(input$preds) == 0) {
-        cat("No predictors selected\n")
-        return(invisible())
-      }
-      print(input$preds)
-      print(pred_type_vec())
-      print(nodemix_levels())
-      print(ergm())
-    })
+    # output$debug <- shiny::renderPrint({
+    #   if (length(input$preds) == 0) {
+    #     cat("No predictors selected\n")
+    #     return(invisible())
+    #   }
+    #   print(input$preds)
+    #   print(pred_type_vec())
+    #   print(nodemix_levels())
+    #   print(ergm())
+    # })
   })
 }
 #' id of the nodemix level picker for a predictor
