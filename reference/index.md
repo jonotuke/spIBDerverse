@@ -69,6 +69,8 @@
   : example network 6
 - [`example_network_7`](https://jonotuke.github.io/spIBDerverse/reference/example_network_7.md)
   : Example network of 20 European cities
+- [`example_network_8`](https://jonotuke.github.io/spIBDerverse/reference/example_network_8.md)
+  : example igraph object
 - [`example_spatial_ergms`](https://jonotuke.github.io/spIBDerverse/reference/example_spatial_ergms.md)
   : example spatial ergms
 - [`expand_line()`](https://jonotuke.github.io/spIBDerverse/reference/expand_line.md)
