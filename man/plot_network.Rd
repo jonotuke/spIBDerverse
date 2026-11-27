@@ -36,7 +36,7 @@ plot_network(
   alpha = "none",
   alpha_label = NULL,
   alpha_legend = TRUE,
-  node_size = 5,
+  node_size = c(2, 10),
   fill_pal = "default",
   col_pal = "default",
   outline_width = 1,
@@ -98,7 +98,7 @@ labels}
 
 \item{alpha}{Vertex attribute to use for mapping for node alpha}
 
-\item{node_size}{Base node size.}
+\item{node_size}{Upper and lower node size}
 
 \item{fill_pal}{Fill palette name.}
 

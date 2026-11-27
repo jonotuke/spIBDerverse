@@ -210,7 +210,7 @@ check_columns <- function(df, cols) {
 #' @param shape Vertex attribute mapped to node shape.
 #' @param size Vertex attribute mapped to node size.
 #' @param outline_col Vertex attribute mapped to node outline colour
-#' @param node_size Base node size.
+#' @param node_size Upper and lower node size
 #' @param alpha Vertex attribute to use for mapping for node alpha
 #' @param fill_pal Fill palette name.
 #' @param col_pal Colour palette name.
@@ -258,7 +258,7 @@ plot_network <- function(
   alpha = "none",
   alpha_label = NULL,
   alpha_legend = TRUE,
-  node_size = 5,
+  node_size = c(2, 10),
   fill_pal = "default",
   col_pal = "default",
   outline_width = 1,
@@ -442,14 +442,34 @@ plot_network <- function(
     )
   }
 
+  # NODE SIZE
+  # if (is_none(size)) {
+  #   node_params$size <- mean(node_size)
+  # } else {
+  #   node_aes$size <- rlang::sym(size)
+  #   node_scales$size <- ggplot2::scale_size_continuous(
+  #     range = c(node_size[1], node_size[2]),
+  #     name = title_for(size)
+  #   )
+  # }
   if (is_none(size)) {
-    node_params$size <- node_size
+    node_params$size <- mean(node_size)
   } else {
     node_aes$size <- rlang::sym(size)
-    node_scales$size <- ggplot2::scale_size_continuous(
-      range = c(node_size / 2, node_size * 2),
-      name = title_for(size)
-    )
+    size_var <- df[[size]]
+
+    if (is.numeric(size_var)) {
+      node_scales$size <- ggplot2::scale_size_continuous(
+        range = c(node_size[1], node_size[2]),
+        name = title_for(size)
+      )
+    } else {
+      node_scales$size <- ggplot2::discrete_scale(
+        aesthetics = "size",
+        palette = function(n) seq(node_size[1], node_size[2], length.out = n),
+        name = title_for(size)
+      )
+    }
   }
 
   if (is_none(alpha)) {
@@ -545,37 +565,42 @@ plot_network <- function(
     !is_none(outline_col) &&
     !is.numeric(df[[outline_col]])
   shape_key <- !isFALSE(shape_legend) && !is_none(shape)
+  size_key <- !isFALSE(size_legend) && !is_none(size)
 
-  if (!is_none(size) && !isFALSE(size_legend)) {
-    # The keys must keep their mapped sizes, so drop the fixed legend_size
-    # (modifyList() removes an element set to NULL). Size is always numeric,
-    # so it never shares a legend with the discrete fill / shape.
-    legend_guides$size <- key_guide(size = NULL, shape = 21, fill = "white")
+  # When two aesthetics share a column, ggplot2 merges their legends into one
+  # and keeps only the first guide's value for any override.aes it sees
+  # twice. So every guide in a merged group must agree: a key only takes the
+  # mapped shape / fill / size if that other legend is shown too, otherwise
+  # it gets a fixed value.
+  key_shown <- list(
+    fill = fill_key,
+    colour = colour_key,
+    shape = shape_key,
+    size = size_key
+  )
+  key_var <- list(fill = fill, colour = outline_col, shape = shape, size = size)
+  merged_with <- function(aes, other) {
+    isTRUE(key_shown[[other]]) && same_var(key_var[[aes]], key_var[[other]])
   }
-  # When two aesthetics share a column, ggplot2 merges their legends, so the
-  # keys only take the mapped shape / fill if that other legend is shown too.
-  if (fill_key) {
-    legend_guides$fill <- if (shape_key && same_var(fill, shape)) {
-      key_guide()
-    } else {
-      key_guide(shape = 21)
+  key_override <- function(aes) {
+    over <- list()
+    if (aes != "shape" && !merged_with(aes, "shape")) {
+      over$shape <- 21
     }
+    if (aes != "fill" && !merged_with(aes, "fill")) {
+      over$fill <- "white"
+    }
+    if (aes == "size" || merged_with(aes, "size")) {
+      # Keep the mapped sizes: modifyList() drops an element set to NULL,
+      # which removes the fixed legend_size.
+      over["size"] <- list(NULL)
+    }
+    over
   }
-  if (colour_key) {
-    colour_over <- list()
-    if (!(shape_key && same_var(outline_col, shape))) {
-      colour_over$shape <- 21
-    }
-    if (!(fill_key && same_var(outline_col, fill))) {
-      colour_over$fill <- "white"
-    }
-    legend_guides$colour <- rlang::exec(key_guide, !!!colour_over)
-  }
-  if (shape_key) {
-    legend_guides$shape <- if (fill_key && same_var(shape, fill)) {
-      key_guide()
-    } else {
-      key_guide(fill = "white")
+
+  for (aes in names(key_shown)) {
+    if (isTRUE(key_shown[[aes]])) {
+      legend_guides[[aes]] <- rlang::exec(key_guide, !!!key_override(aes))
     }
   }
 
@@ -589,4 +614,14 @@ plot_network <- function(
     coord_layer +
     ggnetwork::theme_blank() +
     rlang::exec(ggplot2::guides, !!!legend_guides)
+}
+
+if (sys.nframe() == 5) {
+  plot_network(
+    example_network,
+    size = "site",
+    fill = "site",
+    node_size = c(1, 10)
+  ) |>
+    print()
 }
