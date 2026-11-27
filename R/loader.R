@@ -98,6 +98,11 @@ loader <- function(
     janitor::clean_names()
   n_seed <- nrow(node_df)
   checkmate::assert_vector(node_df[[1]], unique = TRUE, any.missing = FALSE)
+  node_df <- dplyr::rename_with(
+    node_df,
+    ~ paste0(".", .x, recycle0 = TRUE),
+    .cols = dplyr::any_of(c("x", "y", "xend", "yend"))
+  )
 
   # Get ids - first n_seed are those in the correct order
   # from the node file
@@ -174,8 +179,8 @@ loader <- function(
 
 if (sys.nframe() == 5) {
   g <- loader(
-    edge_file = "data-private/MIB_allIBD.tsv",
-    node_file = "data-private/MIB_metadata.tsv",
+    edge_file = "inst/extdata/loader-data/loader-edges.tsv",
+    node_file = "inst/extdata/loader-data/loader-nodes.tsv",
     verbose = TRUE,
     crawl_keep = "seed"
   )
