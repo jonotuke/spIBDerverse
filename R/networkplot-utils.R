@@ -179,7 +179,7 @@ network_ui <- function(
       legend_title_input(ns("shape_label"), "shape"),
       legend_show_input(ns("shape_legend"), "shape"),
       shiny::hr(),
-      var_select(ns("size"), "Choose node size column", num_vars),
+      var_select(ns("size"), "Choose node size column", all_vars),
       legend_title_input(ns("size_label"), "size"),
       legend_show_input(ns("size_legend"), "size"),
       # shiny::numericInput(
@@ -344,7 +344,7 @@ network_ui_server <- function(input, session, r, choices = NULL) {
       lat = vars$all_vars,
       lon = vars$all_vars,
       shape = vars$cat_vars,
-      size = vars$num_vars,
+      size = vars$all_vars,
       alpha = vars$num_vars,
       edge = vars$edge_vars
     )
