@@ -53,7 +53,8 @@ network_plot_args <- function(input) {
     col_pal = input$col_pal,
     outline_width = input$outline_width,
     alpha = input$alpha,
-    alpha_label = input$alpha_label
+    alpha_label = input$alpha_label,
+    jitter = input$jitter
   )
 
   title_args <- c(
@@ -182,14 +183,6 @@ network_ui <- function(
       var_select(ns("size"), "Choose node size column", all_vars),
       legend_title_input(ns("size_label"), "size"),
       legend_show_input(ns("size_legend"), "size"),
-      # shiny::numericInput(
-      #   ns("node_size"),
-      #   "Node size",
-      #   min = 1,
-      #   max = 20,
-      #   value = 10,
-      #   step = 1
-      # ),
       shinyWidgets::numericRangeInput(
         ns("node_size"),
         "Lower and upper node size",
@@ -266,7 +259,18 @@ network_ui <- function(
       "Location",
       icon = shiny::icon("location-dot"),
       var_select(ns("lat"), "Choose latitude column", all_vars),
-      var_select(ns("lon"), "Choose longitude column", all_vars)
+      var_select(ns("lon"), "Choose longitude column", all_vars),
+      shiny::numericInput(
+        ns("jitter"),
+        label = "Add jitter to nodes",
+        min = 0,
+        step = 0.01,
+        value = 0
+      ) |>
+        hover_tooltip(paste(
+          "Moves each node by a small random amount (in degrees) so that",
+          "nodes sharing the same location don't sit on top of each other."
+        ))
     )
   )
 

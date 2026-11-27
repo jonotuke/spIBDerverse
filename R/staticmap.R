@@ -133,10 +133,11 @@ node_coord_range <- function(
 #' @param pad Fraction of the node extent added around the edges of the map
 #'   when `lon_range`/`lat_range` are not supplied.
 #' @param jitter Maximum random shift (in degrees) applied to each node's
-#'   position, so nodes in the same place don't overlap. Applied after
-#'   filtering by `lon_range`/`lat_range`.
-#' @param seed Random seed used for the jitter (and passed to
-#'   [plot_network()]).
+#'   position, so nodes in the same place don't overlap. Passed to
+#'   [plot_network()], so it is applied after filtering by
+#'   `lon_range`/`lat_range`. When the ranges are not supplied, the map is
+#'   widened by `jitter` on each side so no jittered node is cropped.
+#' @param seed Random seed passed to [plot_network()] (used for the jitter).
 #' @param country_lines Add country lines
 #'   `FALSE` (default) adds none, `TRUE` adds the `"stamen_toner_lines"`
 #'   layer, or give a lines layer by name: `"stamen_toner_lines"` or
@@ -209,29 +210,13 @@ plot_staticmap <- function(
     }
   }
 
-  # JITTER ----
-  if (jitter > 0) {
-    withr::with_seed(seed, {
-      xy <- get_node_coords(g, lat, long)
-      n <- igraph::vcount(g)
-      g <- igraph::set_vertex_attr(
-        g,
-        long,
-        value = xy$lon + stats::runif(n, -jitter, jitter)
-      )
-      g <- igraph::set_vertex_attr(
-        g,
-        lat,
-        value = xy$lat + stats::runif(n, -jitter, jitter)
-      )
-    })
-  }
-
   # BOUNDING BOX ----
+  # Jitter is applied inside plot_network(), so the auto box is computed on
+  # the un-jittered positions and widened by `jitter` to keep every node in.
   if (!use_ranges) {
     rng <- node_coord_range(g, lat, long, pad = pad)
-    lon_range <- rng$lon
-    lat_range <- rng$lat
+    lon_range <- pmin(pmax(rng$lon + c(-1, 1) * jitter, -180), 180)
+    lat_range <- pmin(pmax(rng$lat + c(-1, 1) * jitter, -90), 90)
   }
   BB <- c(
     left = min(lon_range),
@@ -251,7 +236,14 @@ plot_staticmap <- function(
   }
 
   # NETWORK ----
-  p <- plot_network(g, seed = seed, lat = lat, long = long, ...)
+  p <- plot_network(
+    g,
+    seed = seed,
+    lat = lat,
+    long = long,
+    jitter = jitter,
+    ...
+  )
 
   # Put the map (and any boundary lines) underneath every layer
   # plot_network() created

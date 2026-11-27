@@ -105,18 +105,18 @@ staticmapInput <- function(
           "Longitude range",
           value = c(-180, 180)
         ),
-        shiny::sliderInput(
-          ns("jitter"),
-          label = "Add jitter to nodes",
-          min = 0,
-          max = 0.05,
-          step = 0.01,
-          value = 0
-        ) |>
-          hover_tooltip(paste(
-            "Moves each node by a small random amount (in degrees) so that",
-            "nodes sharing the same location don't sit on top of each other."
-          )),
+        # shiny::sliderInput(
+        #   ns("jitter"),
+        #   label = "Add jitter to nodes",
+        #   min = 0,
+        #   max = 0.05,
+        #   step = 0.01,
+        #   value = 0
+        # ) |>
+        #   hover_tooltip(paste(
+        #     "Moves each node by a small random amount (in degrees) so that",
+        #     "nodes sharing the same location don't sit on top of each other."
+        #   )),
         shiny::checkboxInput(
           ns("country_lines"),
           label = "Add country lines",
@@ -225,7 +225,6 @@ staticmapServer <- function(id, r) {
         maptype = input$maptype,
         lat_range = input$lat_range,
         lon_range = input$lon_range,
-        jitter = input$jitter,
         theme = input$theme,
         country_lines = input$country_lines,
         # passed on to plot_network()

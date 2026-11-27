@@ -11,6 +11,7 @@ plot_network(
   layout = "nicely",
   lat = "none",
   long = "none",
+  jitter = 0,
   edge = "none",
   edge_legend = TRUE,
   edge_trans = "identity",
@@ -59,6 +60,11 @@ computed on the full network, so the other nodes don't move.}
 
 \item{lat, long}{Vertex attributes holding latitude and longitude. Supply
 both to use a geographic layout, or neither for a force-directed layout.}
+
+\item{jitter}{Maximum random shift (in degrees) applied to each node's
+longitude and latitude, so nodes in the same place don't overlap. Only
+used with a geographic layout (\code{lat}/\code{long} supplied); ignored otherwise.
+Reproducible via \code{seed}.}
 
 \item{edge}{Edge attribute mapped to line width (numeric) or line type
 (anything else).}

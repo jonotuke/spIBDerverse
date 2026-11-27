@@ -40,11 +40,12 @@ to it.}
 when \code{lon_range}/\code{lat_range} are not supplied.}
 
 \item{jitter}{Maximum random shift (in degrees) applied to each node's
-position, so nodes in the same place don't overlap. Applied after
-filtering by \code{lon_range}/\code{lat_range}.}
+position, so nodes in the same place don't overlap. Passed to
+\code{\link[=plot_network]{plot_network()}}, so it is applied after filtering by
+\code{lon_range}/\code{lat_range}. When the ranges are not supplied, the map is
+widened by \code{jitter} on each side so no jittered node is cropped.}
 
-\item{seed}{Random seed used for the jitter (and passed to
-\code{\link[=plot_network]{plot_network()}}).}
+\item{seed}{Random seed passed to \code{\link[=plot_network]{plot_network()}} (used for the jitter).}
 
 \item{country_lines}{Add country lines
 \code{FALSE} (default) adds none, \code{TRUE} adds the \code{"stamen_toner_lines"}

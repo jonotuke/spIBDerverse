@@ -189,6 +189,10 @@ check_columns <- function(df, cols) {
 #'   computed on the full network, so the other nodes don't move.
 #' @param lat,long Vertex attributes holding latitude and longitude. Supply
 #'   both to use a geographic layout, or neither for a force-directed layout.
+#' @param jitter Maximum random shift (in degrees) applied to each node's
+#'   longitude and latitude, so nodes in the same place don't overlap. Only
+#'   used with a geographic layout (`lat`/`long` supplied); ignored otherwise.
+#'   Reproducible via `seed`.
 #' @param edge Edge attribute mapped to line width (numeric) or line type
 #'   (anything else).
 #' @param edge_legend Show the edge legend?
@@ -233,6 +237,7 @@ plot_network <- function(
   layout = "nicely",
   lat = "none",
   long = "none",
+  jitter = 0,
   edge = "none",
   edge_legend = TRUE,
   edge_trans = "identity",
@@ -302,7 +307,19 @@ plot_network <- function(
     if (anyNA(coords)) {
       stop("`lat`/`long` contain missing or non-numeric values.", call. = FALSE)
     }
-    df <- ggnetwork::ggnetwork(g, layout = coords, scale = FALSE)
+    # JITTER ----
+    # Shift node positions (edges follow, as they are built from `coords`).
+    # Uses the seed set at the top of the function, so it is reproducible.
+    if (!is.numeric(jitter) || length(jitter) != 1 || is.na(jitter) ||
+      jitter < 0) {
+      stop("`jitter` must be a single non-negative number.", call. = FALSE)
+    }
+    if (jitter > 0) {
+      n <- nrow(coords)
+      coords[, 1] <- coords[, 1] + stats::runif(n, -jitter, jitter)
+      coords[, 2] <- coords[, 2] + stats::runif(n, -jitter, jitter)
+    }
+    df <-ggnetwork::ggnetwork(g, layout = coords, scale = FALSE)
     coord_layer <- ggplot2::coord_quickmap()
   }
 
