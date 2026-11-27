@@ -108,13 +108,14 @@ when <code>lon_range</code>/<code>lat_range</code> are not supplied.</p></dd>
 
 <dt id="arg-jitter">jitter<a class="anchor" aria-label="anchor" href="#arg-jitter"></a></dt>
 <dd><p>Maximum random shift (in degrees) applied to each node's
-position, so nodes in the same place don't overlap. Applied after
-filtering by <code>lon_range</code>/<code>lat_range</code>.</p></dd>
+position, so nodes in the same place don't overlap. Passed to
+<code><a href="plot_network.html">plot_network()</a></code>, so it is applied after filtering by
+<code>lon_range</code>/<code>lat_range</code>. When the ranges are not supplied, the map is
+widened by <code>jitter</code> on each side so no jittered node is cropped.</p></dd>
 
 
 <dt id="arg-seed">seed<a class="anchor" aria-label="anchor" href="#arg-seed"></a></dt>
-<dd><p>Random seed used for the jitter (and passed to
-<code><a href="plot_network.html">plot_network()</a></code>).</p></dd>
+<dd><p>Random seed passed to <code><a href="plot_network.html">plot_network()</a></code> (used for the jitter).</p></dd>
 
 
 <dt id="arg-country-lines">country_lines<a class="anchor" aria-label="anchor" href="#arg-country-lines"></a></dt>

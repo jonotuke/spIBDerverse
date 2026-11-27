@@ -63,13 +63,17 @@ plot_staticmap(
 - jitter:
 
   Maximum random shift (in degrees) applied to each node's position, so
-  nodes in the same place don't overlap. Applied after filtering by
-  `lon_range`/`lat_range`.
+  nodes in the same place don't overlap. Passed to
+  [`plot_network()`](https://jonotuke.github.io/spIBDerverse/reference/plot_network.md),
+  so it is applied after filtering by `lon_range`/`lat_range`. When the
+  ranges are not supplied, the map is widened by `jitter` on each side
+  so no jittered node is cropped.
 
 - seed:
 
-  Random seed used for the jitter (and passed to
-  [`plot_network()`](https://jonotuke.github.io/spIBDerverse/reference/plot_network.md)).
+  Random seed passed to
+  [`plot_network()`](https://jonotuke.github.io/spIBDerverse/reference/plot_network.md)
+  (used for the jitter).
 
 - country_lines:
 

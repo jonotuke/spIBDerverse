@@ -12,6 +12,7 @@ plot_network(
   layout = "nicely",
   lat = "none",
   long = "none",
+  jitter = 0,
   edge = "none",
   edge_legend = TRUE,
   edge_trans = "identity",
@@ -72,6 +73,13 @@ plot_network(
 
   Vertex attributes holding latitude and longitude. Supply both to use a
   geographic layout, or neither for a force-directed layout.
+
+- jitter:
+
+  Maximum random shift (in degrees) applied to each node's longitude and
+  latitude, so nodes in the same place don't overlap. Only used with a
+  geographic layout (`lat`/`long` supplied); ignored otherwise.
+  Reproducible via `seed`.
 
 - edge:
 
