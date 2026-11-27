@@ -4,7 +4,7 @@
 \alias{fit_ergms}
 \title{fit_ergms}
 \usage{
-fit_ergms(network, preds = NULL, types = NULL, refs = NULL)
+fit_ergms(network, preds = NULL, types = NULL, refs = NULL, progress = TRUE)
 }
 \arguments{
 \item{network}{igraph object}
@@ -16,6 +16,10 @@ fit_ergms(network, preds = NULL, types = NULL, refs = NULL)
 \item{refs}{named list (names = predictors) of the one or two levels whose
 nodemix cell should be the reference. \code{NULL} entries, or missing
 predictors, use ergm's default (first cell dropped).}
+
+\item{progress}{\code{TRUE} (default) for a cli progress bar in the console,
+\code{FALSE} for none, or a function called as \code{progress(i, n, model)} after
+each model is fitted (e.g. to drive a shiny progress bar).}
 }
 \value{
 list of ergm models. The removed vertices are stored in

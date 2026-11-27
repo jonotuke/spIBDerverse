@@ -140,8 +140,6 @@ ergmServer <- function(id, r) {
             input$preds,
             pred_type_vec(),
             refs = nodemix_levels(),
-            # one persistent shiny bar, updated once per model,
-            # instead of purrr/cli's console bar
             progress = function(i, n, model) {
               shiny::incProgress(
                 1 / n,
