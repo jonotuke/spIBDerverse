@@ -9,7 +9,7 @@ comparable.
 ## Usage
 
 ``` r
-fit_ergms(network, preds = NULL, types = NULL, refs = NULL)
+fit_ergms(network, preds = NULL, types = NULL, refs = NULL, progress = TRUE)
 ```
 
 ## Arguments
@@ -31,6 +31,12 @@ fit_ergms(network, preds = NULL, types = NULL, refs = NULL)
   named list (names = predictors) of the one or two levels whose nodemix
   cell should be the reference. `NULL` entries, or missing predictors,
   use ergm's default (first cell dropped).
+
+- progress:
+
+  `TRUE` (default) for a cli progress bar in the console, `FALSE` for
+  none, or a function called as `progress(i, n, model)` after each model
+  is fitted (e.g. to drive a shiny progress bar).
 
 ## Value
 

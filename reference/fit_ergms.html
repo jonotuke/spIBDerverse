@@ -53,7 +53,7 @@ network so they remain comparable.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">fit_ergms</span><span class="op">(</span><span class="va">network</span>, preds <span class="op">=</span> <span class="cn">NULL</span>, types <span class="op">=</span> <span class="cn">NULL</span>, refs <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">fit_ergms</span><span class="op">(</span><span class="va">network</span>, preds <span class="op">=</span> <span class="cn">NULL</span>, types <span class="op">=</span> <span class="cn">NULL</span>, refs <span class="op">=</span> <span class="cn">NULL</span>, progress <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -76,6 +76,12 @@ network so they remain comparable.</p>
 <dd><p>named list (names = predictors) of the one or two levels whose
 nodemix cell should be the reference. <code>NULL</code> entries, or missing
 predictors, use ergm's default (first cell dropped).</p></dd>
+
+
+<dt id="arg-progress">progress<a class="anchor" aria-label="anchor" href="#arg-progress"></a></dt>
+<dd><p><code>TRUE</code> (default) for a cli progress bar in the console,
+<code>FALSE</code> for none, or a function called as <code>progress(i, n, model)</code> after
+each model is fitted (e.g. to drive a shiny progress bar).</p></dd>
 
 </dl></div>
     <div class="section level2">
