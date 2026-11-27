@@ -133,22 +133,32 @@ ergmOutput <- function(id) {
 ergmServer <- function(id, r) {
   shiny::moduleServer(id, function(input, output, session) {
     ergm <- shiny::reactive({
-      withCallingHandlers(
-        fit_ergms(
-          r$network(),
-          input$preds,
-          pred_type_vec(),
-          refs = nodemix_levels()
-        ),
-        ergm_missing_nodes_warning = function(w) {
-          shiny::showNotification(
-            conditionMessage(w),
-            type = "warning",
-            duration = 10
-          )
-          invokeRestart("muffleWarning")
-        }
-      )
+      shiny::withProgress(message = "Fitting models", value = 0, {
+        withCallingHandlers(
+          fit_ergms(
+            r$network(),
+            input$preds,
+            pred_type_vec(),
+            refs = nodemix_levels(),
+            # one persistent shiny bar, updated once per model,
+            # instead of purrr/cli's console bar
+            progress = function(i, n, model) {
+              shiny::incProgress(
+                1 / n,
+                detail = sprintf("%d of %d", i, n)
+              )
+            }
+          ),
+          ergm_missing_nodes_warning = function(w) {
+            shiny::showNotification(
+              conditionMessage(w),
+              type = "warning",
+              duration = 10
+            )
+            invokeRestart("muffleWarning")
+          }
+        )
+      })
     }) |>
       shiny::bindEvent(input$fit_models)
     r$ergm <- shiny::reactive({
@@ -391,5 +401,5 @@ ergmApp <- function(network_input) {
 }
 
 if (sys.nframe() == 5) {
-  ergmApp(example_network) |> print()
+  ergmApp(example_network_8) |> print()
 }

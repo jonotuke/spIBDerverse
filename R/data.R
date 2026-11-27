@@ -157,3 +157,9 @@
 #' \item{BIC}{BIC}
 #' }
 "example_spatial_ergms"
+
+
+#' example igraph object
+#'
+#'
+"example_network_8"

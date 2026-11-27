@@ -11,7 +11,7 @@ loadexampleInput <- function(id) {
         "example_network_5",
         "example_network_6",
         "example_network_7",
-        "bob"
+        "example_network_8"
       )
     )
   )

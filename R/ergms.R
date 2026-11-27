@@ -246,6 +246,9 @@ drop_missing_nodes <- function(network, preds) {
 #' @param refs named list (names = predictors) of the one or two levels whose
 #'   nodemix cell should be the reference. `NULL` entries, or missing
 #'   predictors, use ergm's default (first cell dropped).
+#' @param progress `TRUE` (default) for a cli progress bar in the console,
+#'   `FALSE` for none, or a function called as `progress(i, n, model)` after
+#'   each model is fitted (e.g. to drive a shiny progress bar).
 #'
 #' @return list of ergm models. The removed vertices are stored in
 #'   `attr(result, "removed_nodes")`.
@@ -253,7 +256,13 @@ drop_missing_nodes <- function(network, preds) {
 #'
 #' @examples
 #' fit_ergms(example_network, c("site", "genetic_sex"), c("nodematch", "nodemix"))
-fit_ergms <- function(network, preds = NULL, types = NULL, refs = NULL) {
+fit_ergms <- function(
+  network,
+  preds = NULL,
+  types = NULL,
+  refs = NULL,
+  progress = TRUE
+) {
   removed_nodes <- character(0)
   if (is.null(preds)) {
     models <- list()
@@ -274,13 +283,29 @@ fit_ergms <- function(network, preds = NULL, types = NULL, refs = NULL) {
   }
   # network <- intergraph::asNetwork(network)
   network <- convert_to_network(network)
-  fits <- models |>
-    purrr::set_names() |>
-    purrr::map(\(x) {
-      suppressMessages(
-        ergm::ergm(stats::as.formula(x))
-      )
-    })
+  models <- purrr::set_names(models)
+  fit_one <- function(x) {
+    # ergm shows its own short-lived cli progress bars (e.g. "change stats")
+    # for every model; in shiny each one pops up and closes a progress
+    # dialog, which causes the flicker. Hide just those inner bars.
+    old <- options(cli.progress_show_after = Inf)
+    on.exit(options(old), add = TRUE)
+    suppressMessages(
+      ergm::ergm(stats::as.formula(x))
+    )
+  }
+  if (is.function(progress)) {
+    # caller-supplied progress (e.g. shiny), called after each model
+    n <- length(models)
+    fits <- vector("list", n)
+    names(fits) <- names(models)
+    for (i in seq_len(n)) {
+      fits[[i]] <- fit_one(models[[i]])
+      progress(i, n, names(models)[i])
+    }
+  } else {
+    fits <- purrr::map(models, fit_one, .progress = isTRUE(progress))
+  }
   attr(fits, "removed_nodes") <- removed_nodes
   fits
 }
@@ -759,7 +784,9 @@ get_nodemix_ref <- function(g, var, refs = NULL) {
   idx <- which(cells == cell)
   if (length(idx) == 0) {
     stop(
-      "nodemix cell ", cell, " not found. Available: ",
+      "nodemix cell ",
+      cell,
+      " not found. Available: ",
       paste(cells, collapse = ", ")
     )
   }
@@ -769,10 +796,11 @@ get_nodemix_ref <- function(g, var, refs = NULL) {
 if (sys.nframe() == 5) {
   library(ergm)
 
+  options(cli.progress_show_after = 0)
   fit_ergms(
-    example_network,
-    preds = c("genetic_sex", "site"),
-    types = c("nodematch", "nodematch|nodemix")
+    example_network_8,
+    preds = c("site", "genetic_sex", "age_group", "household"),
+    types = rep("nodematch|nodemix", 4)
   ) |>
     print()
 }
